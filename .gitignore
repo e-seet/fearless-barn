@@ -1,0 +1,16 @@
+*.parquet
+*.txt
+*.pt
+*.log
+*.ubj
+*.pkl
+*.bin
+*.joblib
+artifacts/features/
+prc-2026-datasets/
+prc-2026-datasets.zip
+credentials.json
+
+# Python bytecode caches -- regenerated on any run, never a result
+__pycache__/
+*.pyc
