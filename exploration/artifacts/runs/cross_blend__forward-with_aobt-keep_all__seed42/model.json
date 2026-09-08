@@ -1,0 +1,98 @@
+{
+  "arm": "cross_blend",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "base_arms": {
+    "a": "per_airport_stack",
+    "a_tag": "inner2",
+    "b": "ensemble_antigravity",
+    "b_tag": null
+  },
+  "weight_mode": "per_airport",
+  "weights": {
+    "EDDF": 0.449451013165554,
+    "EDDM": 0.3112489859988038,
+    "EGLL": 0.41046414360239886,
+    "EHAM": 0.3258235728341953,
+    "LEBL": 0.41234853941302624,
+    "LEMD": 0.500955375180266,
+    "LFPG": 0.22180832431450076,
+    "LIRF": 0.0,
+    "LSZH": 0.26899616160426076,
+    "LTFM": 0.2133369662828071
+  },
+  "weight_split": null,
+  "weights_are_val_fitted": true,
+  "weight_note": "w is the weight on arm A. Fitted on the VALIDATION labels: this arm is in config.VAL_FITTED_ARMS and its val RMSE is IN-SAMPLE for these weights, not a held-out estimate. See the module docstring.",
+  "n_weights": 10,
+  "val_rmse_clipped": 251.2380367085803,
+  "w_sweep": [
+    {
+      "w": 0.0,
+      "val_rmse": 253.42510566030293
+    },
+    {
+      "w": 0.1,
+      "val_rmse": 252.82557122123225
+    },
+    {
+      "w": 0.2,
+      "val_rmse": 253.25505230950975
+    },
+    {
+      "w": 0.30000000000000004,
+      "val_rmse": 254.70834369880023
+    },
+    {
+      "w": 0.4,
+      "val_rmse": 257.1680889065035
+    },
+    {
+      "w": 0.5,
+      "val_rmse": 260.60579104541
+    },
+    {
+      "w": 0.6000000000000001,
+      "val_rmse": 264.98339093899455
+    },
+    {
+      "w": 0.7000000000000001,
+      "val_rmse": 270.2552189934462
+    },
+    {
+      "w": 0.8,
+      "val_rmse": 276.3701070763743
+    },
+    {
+      "w": 0.9,
+      "val_rmse": 283.2734642534686
+    },
+    {
+      "w": 1.0,
+      "val_rmse": 290.9091641517317
+    }
+  ],
+  "refit_only": false,
+  "selection": {
+    "what": "cross_blend weights (per_airport)",
+    "selected_on": "val",
+    "value": {
+      "EDDF": 0.449451013165554,
+      "EDDM": 0.3112489859988038,
+      "EGLL": 0.41046414360239886,
+      "EHAM": 0.3258235728341953,
+      "LEBL": 0.41234853941302624,
+      "LEMD": 0.500955375180266,
+      "LFPG": 0.22180832431450076,
+      "LIRF": 0.0,
+      "LSZH": 0.26899616160426076,
+      "LTFM": 0.2133369662828071
+    },
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": "keep_all",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

@@ -1,0 +1,81 @@
+{
+  "arm": "airport_debiased_multimodel",
+  "base_arm": "airport_multiseed_multimodel",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "base_models": [
+    "airport_operator_blend",
+    "mlp_antigravity"
+  ],
+  "ensemble_seeds": [
+    42,
+    43,
+    44,
+    45
+  ],
+  "global_alpha": 0.735,
+  "shrinkage_lambda": 10000.0,
+  "shrunk_alphas": {
+    "EDDF": 0.9417063747585319,
+    "EDDM": 0.7918783676033538,
+    "EGLL": 0.9204419001123639,
+    "EHAM": 0.9519143531119579,
+    "LEBL": 0.8734755928762572,
+    "LEMD": 0.9439852882115454,
+    "LFPG": 0.8652563530570893,
+    "LIRF": 0.2674465207769855,
+    "LSZH": 0.9104905382018327,
+    "LTFM": 0.9521034960650707
+  },
+  "raw_alphas": {
+    "EDDF": 0.99,
+    "EDDM": 0.81,
+    "EGLL": 0.965,
+    "EHAM": 1.0,
+    "LEBL": 0.915,
+    "LEMD": 1.0,
+    "LFPG": 0.895,
+    "LIRF": 0.115,
+    "LSZH": 0.98,
+    "LTFM": 0.995
+  },
+  "threshold_ext_sec": 50000.0,
+  "threshold_mid_sec": 18000.0,
+  "threshold_sec": 50000.0,
+  "lirf_align_coef_ext": [
+    25929.96215379459,
+    -0.5329212664540751,
+    1.1822726747761214
+  ],
+  "lirf_align_coef_mid": [
+    0.0,
+    0.0,
+    1.0
+  ],
+  "lirf_align_coef": [
+    25929.96215379459,
+    -0.5329212664540751,
+    1.1822726747761214
+  ],
+  "seasonal_slopes": {
+    "EDDF": 10.456726815221158,
+    "EDDM": 43.471100116981376,
+    "EGLL": -28.377119733939157,
+    "EHAM": 49.61125174111036,
+    "LEBL": -47.551331385003614,
+    "LEMD": -19.912993379016193,
+    "LFPG": 68.14802642960109,
+    "LIRF": -77.56291493155483,
+    "LSZH": 18.744560936761566,
+    "LTFM": 22.781710364947568
+  },
+  "seasonal_gamma_pos": 0.5,
+  "seasonal_gamma_neg": 0.1,
+  "seasonal_gamma": 0.5,
+  "weights_are_val_fitted": false,
+  "val_rmse": 238.4521354427271,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

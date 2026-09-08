@@ -1,0 +1,1021 @@
+{
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "bands": [
+    {
+      "name": "in_band",
+      "lo": 0.0,
+      "hi": 7200.0
+    },
+    {
+      "name": "mid_tail",
+      "lo": 7200.0,
+      "hi": 80000.0
+    },
+    {
+      "name": "artifact",
+      "lo": 80000.0,
+      "hi": null
+    }
+  ],
+  "parts": {
+    "val": {
+      "n": 369624,
+      "n_artifact": 1,
+      "arms": [
+        {
+          "arm": "naive_offblock",
+          "pooled_rmse": 481.971009308803,
+          "decidable_rmse": 460.5762561657792,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 54815651132.25,
+              "rmse": 385.16709766114326
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 23584595180.5,
+              "rmse": 16011.067904428406
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 7445273796.0,
+              "rmse": 86286.0
+            },
+            "total_sse": 85862196595.0,
+            "decidable_sse": 78400246312.75,
+            "decidable_rmse": 460.5762561657792
+          }
+        },
+        {
+          "arm": "ridge",
+          "pooled_rmse": 389.6008192924424,
+          "decidable_rmse": 371.64687844647125,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 38835846374.57942,
+              "rmse": 324.20020091073104
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 12211752079.31538,
+              "rmse": 11521.129963885156
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 5042126715.81643,
+              "rmse": 71007.93417510772
+            },
+            "total_sse": 56104782817.340775,
+            "decidable_sse": 51047598453.894806,
+            "decidable_rmse": 371.64687844647125
+          }
+        },
+        {
+          "arm": "lightgbm",
+          "pooled_rmse": 297.7786003736069,
+          "decidable_rmse": 277.72157991158065,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 23078885031.499187,
+              "rmse": 249.92189447387116
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 5426938419.9584055,
+              "rmse": 7680.394591849068
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 4254650218.918364,
+              "rmse": 65227.67985233235
+            },
+            "total_sse": 32775334383.31176,
+            "decidable_sse": 28505823451.457592,
+            "decidable_rmse": 277.72157991158065
+          }
+        },
+        {
+          "arm": "xgboost_antigravity",
+          "pooled_rmse": 321.2742438656137,
+          "decidable_rmse": 291.4047737830909,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 24273911068.296936,
+              "rmse": 256.3107200423784
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 7110043091.6193905,
+              "rmse": 8791.079403737602
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 6752660888.778677,
+              "rmse": 82174.57568359375
+            },
+            "total_sse": 38151532070.87202,
+            "decidable_sse": 31383954159.91633,
+            "decidable_rmse": 291.4047737830909
+          }
+        },
+        {
+          "arm": "mlp_antigravity",
+          "pooled_rmse": 253.9894332820504,
+          "decidable_rmse": 245.22200786422752,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 20536945148.58079,
+              "rmse": 235.75711807702305
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 1687617572.8221188,
+              "rmse": 4282.95100016398
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 1604096368.560791,
+              "rmse": 40051.171875
+            },
+            "total_sse": 23844677923.29242,
+            "decidable_sse": 22224562721.40291,
+            "decidable_rmse": 245.22200786422752
+          }
+        },
+        {
+          "arm": "ensemble_antigravity",
+          "pooled_rmse": 253.42510566030293,
+          "decidable_rmse": 243.4554127913574,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 20320462062.716625,
+              "rmse": 234.51125020346976
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 1585039730.447932,
+              "rmse": 4150.746044057638
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 1817534918.8633578,
+              "rmse": 42632.55702938023
+            },
+            "total_sse": 23738836815.35493,
+            "decidable_sse": 21905501793.16456,
+            "decidable_rmse": 243.4554127913574
+          }
+        },
+        {
+          "arm": "delay_twostage_antigravity",
+          "pooled_rmse": 314.95603038336424,
+          "decidable_rmse": 291.05277815196285,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 23612810698.559128,
+              "rmse": 252.79631277387873
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 7695370215.66885,
+              "rmse": 9145.782002168165
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 5338325908.998369,
+              "rmse": 73063.8481671912
+            },
+            "total_sse": 36665703212.48912,
+            "decidable_sse": 31308180914.227978,
+            "decidable_rmse": 291.05277815196285
+          }
+        },
+        {
+          "arm": "per_airport_antigravity",
+          "pooled_rmse": 278.1728827790398,
+          "decidable_rmse": 260.1610618014665,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 20596650656.77758,
+              "rmse": 236.09956878638235
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 4418258464.05677,
+              "rmse": 6929.974640816242
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 3571975568.4001083,
+              "rmse": 59766.006796506896
+            },
+            "total_sse": 28601561566.612213,
+            "decidable_sse": 25014909120.83435,
+            "decidable_rmse": 260.1610618014665
+          }
+        },
+        {
+          "arm": "feature_pruned_antigravity",
+          "pooled_rmse": 295.6371744367874,
+          "decidable_rmse": 275.40982132622696,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 23054223575.67921,
+              "rmse": 249.788328984236
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 4979009220.591737,
+              "rmse": 7356.606924473709
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 4257792725.3297915,
+              "rmse": 65251.764154923745
+            },
+            "total_sse": 32305632492.888187,
+            "decidable_sse": 28033232796.270947,
+            "decidable_rmse": 275.40982132622696
+          }
+        },
+        {
+          "arm": "multimodel_antigravity",
+          "pooled_rmse": 248.8052763108421,
+          "decidable_rmse": 238.91961628603116,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 19366715752.771435,
+              "rmse": 228.94168855863236
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 1730150702.3821776,
+              "rmse": 4336.586894720138
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 1769705578.3915117,
+              "rmse": 42067.868717009085
+            },
+            "total_sse": 22881228313.806793,
+            "decidable_sse": 21096866455.153614,
+            "decidable_rmse": 238.91961628603116
+          }
+        },
+        {
+          "arm": "per_airport",
+          "pooled_rmse": 278.1728827790398,
+          "decidable_rmse": 260.1610618014665,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 20596650656.77758,
+              "rmse": 236.09956878638235
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 4418258464.05677,
+              "rmse": 6929.974640816242
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 3571975568.4001083,
+              "rmse": 59766.006796506896
+            },
+            "total_sse": 28601561566.612213,
+            "decidable_sse": 25014909120.83435,
+            "decidable_rmse": 260.1610618014665
+          }
+        },
+        {
+          "arm": "lightgbm_recency",
+          "pooled_rmse": 297.7786003736069,
+          "decidable_rmse": 277.72157991158065,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 23078885031.499187,
+              "rmse": 249.92189447387116
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 5426938419.9584055,
+              "rmse": 7680.394591849068
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 4254650218.918364,
+              "rmse": 65227.67985233235
+            },
+            "total_sse": 32775334383.31176,
+            "decidable_sse": 28505823451.457592,
+            "decidable_rmse": 277.72157991158065
+          }
+        },
+        {
+          "arm": "per_airport_stack",
+          "pooled_rmse": 279.25120441345376,
+          "decidable_rmse": 260.19004249646673,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 20678422193.12726,
+              "rmse": 236.56777841533574
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 4342060320.009666,
+              "rmse": 6869.956901334391
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 3788665936.293196,
+              "rmse": 61552.1399814271
+            },
+            "total_sse": 28823736067.132328,
+            "decidable_sse": 25020482513.136925,
+            "decidable_rmse": 260.19004249646673
+          }
+        },
+        {
+          "arm": "lightgbm_unsup",
+          "pooled_rmse": 299.76916696920205,
+          "decidable_rmse": 280.24427961284624,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 23279411180.576588,
+              "rmse": 251.0052978657634
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 5746632838.694852,
+              "rmse": 7903.379050798223
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 4173503079.8275228,
+              "rmse": 64602.65536204779
+            },
+            "total_sse": 33214986838.098457,
+            "decidable_sse": 29026044019.27144,
+            "decidable_rmse": 280.24427961284624
+          }
+        },
+        {
+          "arm": "cross_blend",
+          "pooled_rmse": 251.2380367085803,
+          "decidable_rmse": 241.17873189333608,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 19908355738.29189,
+              "rmse": 232.12108325775776
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 1589361747.2510176,
+              "rmse": 4156.401227717547
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 1817534918.8633578,
+              "rmse": 42632.55702938023
+            },
+            "total_sse": 23330870575.787785,
+            "decidable_sse": 21497717485.542908,
+            "decidable_rmse": 241.17873189333608
+          }
+        },
+        {
+          "arm": "lightgbm_arrfeat",
+          "pooled_rmse": 297.2334033670333,
+          "decidable_rmse": 277.1921804162868,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 22893151866.930622,
+              "rmse": 248.91420814680805
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 5504098205.59861,
+              "rmse": 7734.801510619425
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 4243445612.750458,
+              "rmse": 65141.73479997641
+            },
+            "total_sse": 32655428814.820316,
+            "decidable_sse": 28397250072.529232,
+            "decidable_rmse": 277.1921804162868
+          }
+        },
+        {
+          "arm": "per_airport_arrfeat",
+          "pooled_rmse": 278.28788623188404,
+          "decidable_rmse": 261.6443240531304,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 20742817261.964115,
+              "rmse": 236.93584220421627
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 4558141125.238773,
+              "rmse": 7038.821792804264
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 3309175996.3627405,
+              "rmse": 57525.437819826635
+            },
+            "total_sse": 28625215621.155308,
+            "decidable_sse": 25300958387.20289,
+            "decidable_rmse": 261.6443240531304
+          }
+        },
+        {
+          "arm": "per_airport_tuned",
+          "pooled_rmse": 275.4870635110393,
+          "decidable_rmse": 258.05890632845666,
+          "bands": {
+            "in_band": {
+              "n": 369493,
+              "sse": 20393056091.795734,
+              "rmse": 234.9297677320182
+            },
+            "mid_tail": {
+              "n": 92,
+              "sse": 4219234912.6755543,
+              "rmse": 6772.093402399382
+            },
+            "artifact": {
+              "n": 1,
+              "sse": 3425699945.2478437,
+              "rmse": 58529.47928392874
+            },
+            "total_sse": 28051919385.98321,
+            "decidable_sse": 24612291004.47129,
+            "decidable_rmse": 258.05890632845666
+          }
+        }
+      ],
+      "ranking_pooled": [
+        "multimodel_antigravity",
+        "cross_blend",
+        "ensemble_antigravity",
+        "mlp_antigravity",
+        "per_airport_tuned",
+        "per_airport_antigravity",
+        "per_airport",
+        "per_airport_arrfeat",
+        "per_airport_stack",
+        "feature_pruned_antigravity",
+        "lightgbm_arrfeat",
+        "lightgbm",
+        "lightgbm_recency",
+        "lightgbm_unsup",
+        "delay_twostage_antigravity",
+        "xgboost_antigravity",
+        "ridge",
+        "naive_offblock"
+      ],
+      "ranking_decidable": [
+        "multimodel_antigravity",
+        "cross_blend",
+        "ensemble_antigravity",
+        "mlp_antigravity",
+        "per_airport_tuned",
+        "per_airport_antigravity",
+        "per_airport",
+        "per_airport_stack",
+        "per_airport_arrfeat",
+        "feature_pruned_antigravity",
+        "lightgbm_arrfeat",
+        "lightgbm",
+        "lightgbm_recency",
+        "lightgbm_unsup",
+        "delay_twostage_antigravity",
+        "xgboost_antigravity",
+        "ridge",
+        "naive_offblock"
+      ],
+      "orderings_agree": false
+    },
+    "test": {
+      "n": 328009,
+      "n_artifact": 3,
+      "arms": [
+        {
+          "arm": "naive_offblock",
+          "pooled_rmse": 484.7556990129041,
+          "decidable_rmse": 408.4750051343325,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 43619682484.5,
+              "rmse": 364.7253133124259
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 11101877882.25,
+              "rmse": 13835.161279327394
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 22344638645.0,
+              "rmse": 86303.02938869914
+            },
+            "total_sse": 77078207666.75,
+            "decidable_sse": 54721560366.75,
+            "decidable_rmse": 408.4750051343325
+          }
+        },
+        {
+          "arm": "ridge",
+          "pooled_rmse": 393.86792885734576,
+          "decidable_rmse": 340.22764451287975,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 32246810687.29392,
+              "rmse": 313.59421324768283
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 5716728722.729559,
+              "rmse": 9927.954891261516
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 12911134706.65729,
+              "rmse": 65602.67958617059
+            },
+            "total_sse": 50884674272.9275,
+            "decidable_sse": 37963539410.023476,
+            "decidable_rmse": 340.22764451287975
+          }
+        },
+        {
+          "arm": "lightgbm",
+          "pooled_rmse": 315.7850891173384,
+          "decidable_rmse": 244.88982982820602,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 17299693283.120186,
+              "rmse": 229.69093610504416
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 2368705161.951814,
+              "rmse": 6390.598107500033
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 13032421581.468498,
+              "rmse": 65910.09427361007
+            },
+            "total_sse": 32709130464.90385,
+            "decidable_sse": 19668398445.072,
+            "decidable_rmse": 244.88982982820602
+          }
+        },
+        {
+          "arm": "xgboost_antigravity",
+          "pooled_rmse": 346.65397088388096,
+          "decidable_rmse": 267.7881753608638,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 19771419168.373367,
+              "rmse": 245.5520577101542
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 3747117214.983474,
+              "rmse": 8037.752747121113
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 15878139524.434551,
+              "rmse": 72751.03555834458
+            },
+            "total_sse": 39416505494.476295,
+            "decidable_sse": 23518536383.356842,
+            "decidable_rmse": 267.7881753608638
+          }
+        },
+        {
+          "arm": "mlp_antigravity",
+          "pooled_rmse": 259.7094614883714,
+          "decidable_rmse": 242.40819714546816,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 18457812912.875656,
+              "rmse": 237.2546734383957
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 813979192.6405303,
+              "rmse": 3746.214624263221
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 2843407686.1027374,
+              "rmse": 30786.402226214188
+            },
+            "total_sse": 22123880479.837677,
+            "decidable_sse": 19271792105.516186,
+            "decidable_rmse": 242.40819714546816
+          }
+        },
+        {
+          "arm": "ensemble_antigravity",
+          "pooled_rmse": 260.06532713360724,
+          "decidable_rmse": 238.55459325846707,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 17884759831.556767,
+              "rmse": 233.54265457212216
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 779168798.58022,
+              "rmse": 3665.2346177437594
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 3512092761.1246014,
+              "rmse": 34215.45830529724
+            },
+            "total_sse": 22184552301.46153,
+            "decidable_sse": 18663928630.136986,
+            "decidable_rmse": 238.55459325846707
+          }
+        },
+        {
+          "arm": "delay_twostage_antigravity",
+          "pooled_rmse": 348.6366828601269,
+          "decidable_rmse": 277.7813950949857,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 22325201340.41711,
+              "rmse": 260.92899900463306
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 2981399107.142385,
+              "rmse": 7169.61874033517
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 14551050430.22715,
+              "rmse": 69644.45522372222
+            },
+            "total_sse": 39868685944.34349,
+            "decidable_sse": 25306600447.559494,
+            "decidable_rmse": 277.7813950949857
+          }
+        },
+        {
+          "arm": "per_airport_antigravity",
+          "pooled_rmse": 288.1623046242306,
+          "decidable_rmse": 231.16426289760574,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 16185170739.7051,
+              "rmse": 222.16891734266557
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 1340267560.8652983,
+              "rmse": 4807.084500425313
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 9704547135.833881,
+              "rmse": 56875.733360352904
+            },
+            "total_sse": 27237051866.10636,
+            "decidable_sse": 17525438300.570396,
+            "decidable_rmse": 231.16426289760574
+          }
+        },
+        {
+          "arm": "feature_pruned_antigravity",
+          "pooled_rmse": 312.1790163747427,
+          "decidable_rmse": 240.38026476513159,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 16616082742.203154,
+              "rmse": 225.10698910064067
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 2334611178.133712,
+              "rmse": 6344.4398385022405
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 13006920006.382504,
+              "rmse": 65845.57693670473
+            },
+            "total_sse": 31966359252.46659,
+            "decidable_sse": 18950693920.336864,
+            "decidable_rmse": 240.38026476513159
+          }
+        },
+        {
+          "arm": "multimodel_antigravity",
+          "pooled_rmse": 247.45780139762644,
+          "decidable_rmse": 226.07408921933168,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 15928691101.510157,
+              "rmse": 220.40157881108084
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 833434037.9691831,
+              "rmse": 3790.719242937812
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 3316544531.0014963,
+              "rmse": 33249.28335569303
+            },
+            "total_sse": 20085750337.266712,
+            "decidable_sse": 16762125139.47934,
+            "decidable_rmse": 226.07408921933168
+          }
+        },
+        {
+          "arm": "per_airport",
+          "pooled_rmse": 288.1623046242306,
+          "decidable_rmse": 231.16426289760574,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 16185170739.7051,
+              "rmse": 222.16891734266557
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 1340267560.8652983,
+              "rmse": 4807.084500425313
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 9704547135.833881,
+              "rmse": 56875.733360352904
+            },
+            "total_sse": 27237051866.10636,
+            "decidable_sse": 17525438300.570396,
+            "decidable_rmse": 231.16426289760574
+          }
+        },
+        {
+          "arm": "lightgbm_recency",
+          "pooled_rmse": 315.7850891173384,
+          "decidable_rmse": 244.88982982820602,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 17299693283.120186,
+              "rmse": 229.69093610504416
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 2368705161.951814,
+              "rmse": 6390.598107500033
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 13032421581.468498,
+              "rmse": 65910.09427361007
+            },
+            "total_sse": 32709130464.90385,
+            "decidable_sse": 19668398445.072,
+            "decidable_rmse": 244.88982982820602
+          }
+        },
+        {
+          "arm": "per_airport_stack",
+          "pooled_rmse": 293.4993958872719,
+          "decidable_rmse": 231.08457209579987,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 16060822498.288553,
+              "rmse": 221.31382654255395
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 1452534562.0395708,
+              "rmse": 5004.368026585359
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 10734692209.375587,
+              "rmse": 59818.31438998034
+            },
+            "total_sse": 28255316963.729954,
+            "decidable_sse": 17513357060.328125,
+            "decidable_rmse": 231.08457209579987
+          }
+        },
+        {
+          "arm": "lightgbm_unsup",
+          "pooled_rmse": 314.31488165768025,
+          "decidable_rmse": 243.40251266151046,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 17221153135.81437,
+              "rmse": 229.16894760772456
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 2209062176.5139375,
+              "rmse": 6171.489196734668
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 12966707268.187994,
+              "rmse": 65743.71267324858
+            },
+            "total_sse": 32405270249.32943,
+            "decidable_sse": 19430215312.32831,
+            "decidable_rmse": 243.40251266151046
+          }
+        },
+        {
+          "arm": "cross_blend",
+          "pooled_rmse": 251.38175009914116,
+          "decidable_rmse": 229.05658927631603,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 16432573662.9227,
+              "rmse": 223.86048995743482
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 774740112.6539657,
+              "rmse": 3654.803435098296
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 3512092761.1246014,
+              "rmse": 34215.45830529724
+            },
+            "total_sse": 20727801979.852062,
+            "decidable_sse": 17207313775.576668,
+            "decidable_rmse": 229.05658927631603
+          }
+        },
+        {
+          "arm": "lightgbm_arrfeat",
+          "pooled_rmse": 312.89127936968515,
+          "decidable_rmse": 243.608497079836,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 17162746894.549917,
+              "rmse": 228.77999964122958
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 2300368777.5901914,
+              "rmse": 6297.740122306314
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 12641113630.728573,
+              "rmse": 64913.05372246934
+            },
+            "total_sse": 32112393596.010612,
+            "decidable_sse": 19463115672.14011,
+            "decidable_rmse": 243.608497079836
+          }
+        },
+        {
+          "arm": "per_airport_arrfeat",
+          "pooled_rmse": 285.0818217791348,
+          "decidable_rmse": 229.36380470491005,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 16028551375.917717,
+              "rmse": 221.09137103540888
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 1224950962.7180512,
+              "rmse": 4595.633164733015
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 9397280675.960377,
+              "rmse": 55968.088157331156
+            },
+            "total_sse": 26657831040.528587,
+            "decidable_sse": 17253502338.63577,
+            "decidable_rmse": 229.36380470491005
+          }
+        },
+        {
+          "arm": "per_airport_tuned",
+          "pooled_rmse": 285.668159604864,
+          "decidable_rmse": 227.37423180417466,
+          "bands": {
+            "in_band": {
+              "n": 327907,
+              "sse": 15770943640.733305,
+              "rmse": 219.30750593625896
+            },
+            "mid_tail": {
+              "n": 58,
+              "sse": 1184532435.4622421,
+              "rmse": 4519.178357313536
+            },
+            "artifact": {
+              "n": 3,
+              "sse": 9805194170.373695,
+              "rmse": 57169.90516689031
+            },
+            "total_sse": 26767600007.822563,
+            "decidable_sse": 16955476076.195547,
+            "decidable_rmse": 227.37423180417466
+          }
+        }
+      ],
+      "ranking_pooled": [
+        "multimodel_antigravity",
+        "cross_blend",
+        "mlp_antigravity",
+        "ensemble_antigravity",
+        "per_airport_arrfeat",
+        "per_airport_tuned",
+        "per_airport_antigravity",
+        "per_airport",
+        "per_airport_stack",
+        "feature_pruned_antigravity",
+        "lightgbm_arrfeat",
+        "lightgbm_unsup",
+        "lightgbm",
+        "lightgbm_recency",
+        "xgboost_antigravity",
+        "delay_twostage_antigravity",
+        "ridge",
+        "naive_offblock"
+      ],
+      "ranking_decidable": [
+        "multimodel_antigravity",
+        "per_airport_tuned",
+        "cross_blend",
+        "per_airport_arrfeat",
+        "per_airport_stack",
+        "per_airport_antigravity",
+        "per_airport",
+        "ensemble_antigravity",
+        "feature_pruned_antigravity",
+        "mlp_antigravity",
+        "lightgbm_unsup",
+        "lightgbm_arrfeat",
+        "lightgbm",
+        "lightgbm_recency",
+        "xgboost_antigravity",
+        "delay_twostage_antigravity",
+        "ridge",
+        "naive_offblock"
+      ],
+      "orderings_agree": false
+    }
+  },
+  "headline": "pooled RMSE is the leaderboard metric and stays the headline; the decidable column says how much of any gap between arms is a handful of one-day date errors rather than method",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

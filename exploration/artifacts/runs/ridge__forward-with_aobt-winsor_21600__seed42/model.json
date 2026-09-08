@@ -1,0 +1,46 @@
+{
+  "arm": "ridge",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "alpha": 100.0,
+  "val_rmse": 377.74458550465096,
+  "sweep": [
+    {
+      "alpha": 1.0,
+      "val_rmse": 377.91778235088964
+    },
+    {
+      "alpha": 10.0,
+      "val_rmse": 377.8497020360617
+    },
+    {
+      "alpha": 100.0,
+      "val_rmse": 377.74458550465096
+    },
+    {
+      "alpha": 1000.0,
+      "val_rmse": 377.8956959379229
+    }
+  ],
+  "selection": {
+    "what": "ridge alpha",
+    "selected_on": "val",
+    "value": 100.0,
+    "gate": "selection_set_declared"
+  },
+  "refit_only": false,
+  "n_train": 1387105,
+  "n_features": 131,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": {
+    "policy": "winsor_21600",
+    "mode": "winsorize",
+    "bound": 21600,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 51,
+    "n_out": 1387105
+  }
+}

@@ -1,0 +1,4 @@
+reserved: 2026-09-02T21:49:43
+task: PRC Data Challenge 2026: predict aircraft taxi-out time (seconds) for departures at 10 major European airports; tabular regression, RMSE
+arms: naive_offblock,ridge,lightgbm
+generated_by: tools/new_mode2.py

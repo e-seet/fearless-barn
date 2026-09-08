@@ -1,0 +1,110 @@
+{
+  "arm": "ridge",
+  "part": "val",
+  "split": "forward_inner",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n": 381895,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 491.4232353756809,
+  "mae": 205.11443713893945,
+  "bias_mean_signed_error": -22.715293016338823,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 982.9422584527848,
+      "rmse": 648.6992246670783
+    },
+    "train_median": {
+      "constant": 907.0,
+      "rmse": 656.2365583488106
+    }
+  },
+  "hard_floor_rmse_at_cap": 3.7937521723713608,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 5,
+  "n_in_band": 381701,
+  "rmse_in_band": 340.3900625206371,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 50611.0,
+      "rmse": 350.41485983327834,
+      "mean_true": 1058.3796605481023
+    },
+    "EHAM": {
+      "n": 45110.0,
+      "rmse": 305.0107002981273,
+      "mean_true": 776.5487031700288
+    },
+    "LFPG": {
+      "n": 43793.0,
+      "rmse": 364.58227163420173,
+      "mean_true": 1042.4959240061196
+    },
+    "EDDF": {
+      "n": 42802.0,
+      "rmse": 279.8340011208798,
+      "mean_true": 860.3844913789076
+    },
+    "EGLL": {
+      "n": 41618.0,
+      "rmse": 360.0067706580006,
+      "mean_true": 1398.8872843481186
+    },
+    "LEMD": {
+      "n": 37309.0,
+      "rmse": 251.70883148695685,
+      "mean_true": 1034.1541987188077
+    },
+    "LEBL": {
+      "n": 33348.0,
+      "rmse": 346.4748642560337,
+      "mean_true": 993.4881252249011
+    },
+    "EDDM": {
+      "n": 31387.0,
+      "rmse": 239.29757982574142,
+      "mean_true": 798.5911045974448
+    },
+    "LIRF": {
+      "n": 30670.0,
+      "rmse": 1370.2191864639954,
+      "mean_true": 1333.3687642647537
+    },
+    "LSZH": {
+      "n": 25247.0,
+      "rmse": 243.85508085047945,
+      "mean_true": 738.3746979839188
+    }
+  },
+  "rmse_by_month": {
+    "2025-08": {
+      "n": 191182.0,
+      "rmse": 401.8236300336476,
+      "mean_true": 993.7642612798276
+    },
+    "2025-07": {
+      "n": 190713.0,
+      "rmse": 567.21088079783,
+      "mean_true": 1025.7332431454595
+    }
+  },
+  "leaderboard_weighted_rmse": 437.06063581384973,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.5934979427496775,
+  "sse_share_worst_1pct": 0.7372184190634375,
+  "sse_share_worst_5pct": 0.8409844825577327,
+  "alpha": 10.0,
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

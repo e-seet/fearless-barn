@@ -1,0 +1,396 @@
+#!/usr/bin/env python3
+"""Build pipeline_review.csv -- a per-arm verdict table: which results are OK to
+trust, which are not, and why.
+
+Reads the canonical-protocol rows from results.csv (forward / with_aobt /
+keep_all, untagged unless noted) and attaches a hand-assigned tier + verdict +
+reason. The verdicts are the reading in PIPELINE_REVIEW.md; this script just
+joins them to the live numbers so the table never goes stale.
+
+Re-run after harvest_results.py.  python build_pipeline_review.py
+"""
+from __future__ import annotations
+import csv
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+RESULTS = HERE / "results.csv"
+OUT = HERE / "pipeline_review.csv"
+
+CANON = "forward-with_aobt-keep_all"
+
+# tier -> what it means
+# A  trust and build on it
+# B  real but subsumed by a tier-A arm; keep as evidence, don't ship
+# C  clean negative -- measured, no signal; keep the record, don't use
+# D  usable ONLY with a caveat (blend ingredient / val-fitted / degenerate mode)
+# E  over-tuned or non-functional -- do not trust the number / do not ship
+# P  pending -- not enough runs to judge
+
+REVIEW = {
+    # ---- A : trust ----
+    ("per_airport", ""): ("A", "OK",
+        "One LightGBM per airport; only per-airport early stopping is selected, no "
+        "val-fitted knobs. Seed range 0.02 s (val) / 0.02 s (test) -- the most "
+        "stable arm in the build. Improves in-band RMSE too (236 vs 250 pooled), "
+        "so it's a bulk gain, not tail luck. ~20 s real vs pooled lightgbm."),
+    ("airport_operator_blend", ""): ("A", "OK",
+        "per_airport + per_operator with ONE global blend weight solved on an "
+        "inner holdout carved from train (not val). Docstring explicitly refuses "
+        "a per-airport weight to avoid over-fitting. Seed range ~0.05 s. Honest "
+        "and stable."),
+    ("multimodel_antigravity", ""): ("A", "OK (pick this OR cross_blend w_inner, not both)",
+        "Per-airport convex blend of the per-airport family x the MLP, weights on "
+        "forward_inner (held out, weights_are_val_fitted=false). The blend IDEA is "
+        "a real ~20 s gain over the best single arm and was reproduced "
+        "independently by cross_blend w_inner (same weights: LIRF->0 neural, "
+        "others 0.64-0.95). This is the shippable winner. Its seed-44 val spike "
+        "(262.8) is one bad MLP draw -- use the median seed, not the mean."),
+    ("airport_operator_multimodel", "msmlp"): ("A", "OK -- removes the bad-draw risk (adopted, plan 12)",
+        "The winner with mlp_antigravity AVERAGED over seeds 42/43/44 instead of "
+        "one draw (--mlp-seeds). Zero fitted parameters; blend weights still "
+        "solved on forward_inner. THE FINDING IS THE VARIANCE, not the mean: "
+        "msmlp posts val 247.39/247.41/247.40 -- own spread 0.020 s -- where the "
+        "single-draw incumbent posts 248.33/248.60/252.42, spread 4.090 s. It is "
+        "not 'better on average' so much as it reliably reproduces the "
+        "incumbent's GOOD draws and never produces its bad one. Claim to carry: "
+        "same expected accuracy, without the downside draw. Supporting numbers: "
+        "improves at 3/3 seeds on val, val-in-band and test-in-band; mean val "
+        "-2.38 s vs the incumbent's 2.07 s seed SD -- but that mean is dominated "
+        "by seed 44 (-5.02) and is ~-1.07 without it, so do NOT quote -2.38 as "
+        "an expected gain. (Including seed 44 is right, not cherry-picking: it "
+        "is exactly the bad draw this absorbs, and the incumbent's SD is largely "
+        "made of such draws.) Note the three msmlp runs share one MLP average "
+        "and differ only via the tree parent, so their weights differ by only "
+        "0.002-0.011 -- three paired comparisons against three incumbents, not "
+        "three independent draws of the new arm. Distinct from the quarantined "
+        "airport_multiseed_multimodel, which averaged an over-tuned BASE; this "
+        "averages a noisy PARENT under an honest blend."),
+    ("cross_blend", "w_inner"): ("A", "OK (tie with multimodel_antigravity)",
+        "Same lever as multimodel_antigravity, different parents "
+        "(per_airport_stack + ensemble). 3-seed mean test 249.8 vs 248.0 -- a "
+        "statistical tie. Weights honestly held out on forward_inner. Keep one of "
+        "the two, fold the other's parents in as an option."),
+    ("lightgbm", ""): ("A", "OK (reference / floor)",
+        "Pooled GBM, L2, early-stop on val only -- no hand tuning. Seed range "
+        "1.7 s val / 2.3 s test. Not a contender for the win but a sound, "
+        "low-variance reference."),
+    ("ridge", ""): ("A", "OK (linear floor)",
+        "One alpha selected on val; deterministic across seeds (range 0.01 s). "
+        "Sanity anchor."),
+    ("naive_offblock", ""): ("A", "OK (trivial floor)",
+        "No learning: takeoff - AOBT_3 then hierarchical medians. Deterministic. "
+        "The 'shipped-forecast analogue' floor."),
+
+    # ---- B : real but subsumed ----
+    ("per_operator", ""): ("B", "OK but redundant",
+        "Legit (seed range 0.05 s) but weaker than per_airport, and "
+        "airport_operator_blend already absorbs it. Keep for the ablation, don't "
+        "ship it alone."),
+    ("per_airport_arrfeat", ""): ("B", "OK, marginal",
+        "per_airport + 7 arrival-taxi-in columns. val -0.1 to +0.2 vs per_airport "
+        "-- inside seed noise; the geometry it adds is already in STAND_mvt for a "
+        "per-airport model. Not a gain, not a problem."),
+
+    # ---- C : clean negatives, correctly not chased ----
+    ("lightgbm_recency", ""): ("C", "no effect (correctly rejected)",
+        "Exponential row-weighting by month. Best half-life beat its own control "
+        "by 0.31 s against a 1.7 s seed spread -- byte-equal to lightgbm here. "
+        "The forward split can't test the real 13-month horizon; recorded as "
+        "'no effect here', not shipped."),
+    ("lightgbm_unsup", ""): ("C", "no effect (correctly rejected)",
+        "SVD stand/runway embeddings + k-means day regimes. val -1.4 s (below "
+        "seed spread), test +3.1 s WORSE. A sub-noise val gain that reverses on "
+        "test = no effect."),
+    ("lightgbm_arrfeat", ""): ("C", "no effect (correctly rejected)",
+        "Pooled + arrival-taxi-in columns. val -2 s / test -2.8 s, a fraction of "
+        "the segmentation gain and not carried forward."),
+    ("per_airport_tuned", ""): ("C", "no effect from the per-airport part",
+        "Per-airport HP config buys 0.12 s over one global config (10 val "
+        "selections for nothing). The 3 s that DID help is 'the default was a "
+        "slightly poor global choice', not a per-airport effect."),
+    ("per_airport_flighttype", ""): ("C", "LOST (correctly rejected)",
+        "Second segmentation axis (S vs Other) under per-airport. val 295.8 vs "
+        "278.2 -- clearly worse, entirely a LIRF thin-cell effect."),
+    ("tri_blend", ""): ("C", "LOST (correctly rejected)",
+        "One global NNLS weight over per_airport+per_operator+MLP. val 263 vs "
+        "254 for the MLP alone -- confirms the tree/neural mix must vary by "
+        "airport, which a single global weight can't express."),
+    ("feature_pruned_antigravity", ""): ("C", "no effect (correctly rejected)",
+        "lightgbm minus out-of-range calendar features. Near-parity with "
+        "lightgbm (val 295.6 vs 297.8) -- inside noise."),
+    ("delay_twostage_antigravity", ""): ("C", "LOST (correctly rejected)",
+        "Hurdle model (classify delay, then regress magnitude). val 315 / test "
+        "349 -- well behind. 79% of departures have >60 s excess so 'delayed or "
+        "not' isn't a rare-event split."),
+    ("xgboost_antigravity", ""): ("C", "OK as diversity, weak alone",
+        "XGBoost pooled. val 321 / test 347 -- behind LightGBM; only of use as "
+        "an ensemble ingredient, and the ensemble that used it lost."),
+
+    # ---- D : caveat only ----
+    ("mlp_antigravity", ""): ("D", "CAVEAT -- blend ingredient only",
+        "Pooled MLP. Standalone TEST RMSE swings 65-81 s across seeds (the "
+        "artifact-row lottery). Only safe inside a per-airport blend where LIRF "
+        "is routed to it deliberately. Never select on it alone."),
+    ("ensemble_antigravity", ""): ("D", "CAVEAT -- val-fitted",
+        "NNLS weights fitted on VAL labels -> its val number is in-sample / "
+        "optimistic. Test seed range 46 s. compare.py carries the caveat; a "
+        "reader of the raw CSV must too."),
+    ("cross_blend", "w_per_airport"): ("D", "CAVEAT -- val-fitted",
+        "cross_blend with weights fitted on val (in-sample). Use w_inner instead."),
+    ("cross_blend", "w_global"): ("D", "CAVEAT -- degenerate mode",
+        "One global scalar weight -- test 265 vs 243 for w_inner. Kept only to "
+        "show the weight must be per-airport."),
+    ("cross_blend", "w_inner_tuned"): ("D", "CAVEAT -- seed 42 only",
+        "w_inner + per-airport-tuned parent. Single seed; the tuning gain dies "
+        "at the blend by construction (LIRF w=0). Don't rank against swept arms."),
+    ("per_airport_stack", ""): ("D", "CAVEAT -- superseded",
+        "Pooled x per_airport blend, 1-month inner holdout. Beaten by "
+        "per_airport alone at 9/10 airports; the 2-month-inner tagged variants "
+        "are the ones that were carried, and those are themselves single-seed."),
+
+    # ---- A (reclassified) : the last honest member of the multimodel family ----
+    # Was filed E ("over-tuned ranking") alongside its bucketed descendants. Its
+    # train.py was re-read against tier-A multimodel_antigravity's: same 10
+    # per-airport alphas, same least-squares solve, same forward_inner surface,
+    # no bucketing axis, no extra hyperparameter -- only the tree-side parent
+    # differs. Losing a rank to a sibling at one seed makes it UNRANKABLE, which
+    # is not the same finding as over-tuned.
+    ("airport_operator_multimodel", ""): ("A", "OK -- honest per-airport blend (kept out of overtuned/)",
+        "Structurally identical to multimodel_antigravity: 10 per-airport convex "
+        "weights solved by least squares on forward_inner, zero bucketing knobs, "
+        "zero extra hyperparameters; the only difference is the tree-side parent "
+        "(airport_operator_blend instead of per_airport). 6-seed means: val "
+        "249.78 / test 247.42 -- 0.76 s and 1.21 s behind airport_unsup_multimodel "
+        "while fitting ~10 parameters against its ~240. That gap IS the measure of "
+        "how little the quarantined ladder above it bought. Prefer it to "
+        "multimodel_antigravity: same structure, but 6-seed val SD 1.88 vs 5.17, "
+        "because leaning on airport_operator_blend makes it robust to a bad MLP "
+        "draw (seed 44: 252.42 vs 262.80)."),
+
+    # ---- E : over-tuned / non-functional -- do not trust ----
+    # The five bucketed blends + the debiased arm are QUARANTINED under
+    # overtuned/ and removed from config.ARMS. Evidence: 6 seeds in
+    # tests_seed_robustness/result_seeds_42-47.txt.
+    ("airport_unsup_multimodel", ""): ("E", "NOT OK -- over-tuned ranking (moved to overtuned/)",
+        "Called the 'unanimous 3-seed champion' on seeds 42/43/44 and promoted on "
+        "that basis. Over 6 seeds it does hold #1 on the mean of all four metrics "
+        "-- but by 0.40 s (val) / 0.24 s (test) / 0.01 s (val-ib) / 0.23 s "
+        "(test-ib) against per-arm seed SD of 1.96 / 4.74 / 1.50 / 0.59 s, i.e. "
+        "margin/noise 0.20 / 0.05 / 0.01 / 0.40. The whole 6-arm family spread "
+        "(2.6 s val, 4.5 s test) is SMALLER than one member's own seed range "
+        "(4.4 s, 13.1 s). For that it adds k-means K=6 x 4 physical regimes x "
+        "Empirical-Bayes lambda=2000 and drops min_cell_rows to 30 -- roughly 240 "
+        "fitted cells where the honest version fits 10, with three hyperparameters "
+        "chosen with no recorded sweep. Its KMeans is hard-coded to "
+        "random_state=42, so the clustering does not vary with --seed and the seed "
+        "sweep understates its true variance. Use airport_operator_multimodel."),
+    ("airport_wtc_rec_multimodel", ""): ("E", "NOT OK -- over-tuned ranking (moved to overtuned/)",
+        "Blend weight bucketed by (airport x Heavy+/NoRecord/Other): 30 fitted "
+        "cells, and min_cell_rows lowered 1000 -> 300 so the finer buckets could "
+        "still be fit. Declared 'WON at all 3 seeds' on margins of 0.03-0.49 s "
+        "against its own seed SD of 1.96 s (val) / 4.66 s (test). Ranks 1st-3rd "
+        "depending on seed and metric. A re-slice of one lever, kept because it "
+        "won a 3-seed sweep by less than a second."),
+    ("airport_wtc_multimodel", ""): ("E", "NOT OK -- over-tuned ranking (moved to overtuned/)",
+        "Same family, weight bucketed by wake-turbulence category (20 cells). "
+        "Sub-0.5 s margins; the ordering reshuffles across seeds 45-47. Nothing "
+        "here separates it from the 10-parameter blend it descends from."),
+    ("airport_runway_multimodel", ""): ("E", "NOT OK -- over-tuned ranking (moved to overtuned/)",
+        "Same family, weight bucketed by primary-runway-vs-other (20 cells). Last "
+        "or near-last at seeds 45/46/47 on every metric. Its own docstring records "
+        "that LIRF's alpha 'barely differs' between runway buckets (0.10 vs 0.15) "
+        "where it moved sharply between WTC buckets -- the axis was known not to "
+        "matter before the arm was kept."),
+    ("airport_multiseed_multimodel", ""): ("E", "NOT OK -- built on an over-tuned base (moved to overtuned/)",
+        "Unweighted mean of airport_unsup_multimodel over seeds 42/43/44. The "
+        "seed-averaging itself is legitimate variance reduction with zero fitted "
+        "parameters -- it is the base that is not. Averaging an over-tuned arm "
+        "averages its optimism. NOTE airport_lirf_identity_multimodel (tier A/B) "
+        "predicts through this arm, so its headline number inherits the same "
+        "optimism; re-point it at airport_operator_multimodel to read it clean."),
+    ("airport_debiased_multimodel", ""): ("E", "NOT OK -- constants tuned against the reported score (moved to overtuned/)",
+        "The decisive case, and worse than a ranking problem. Single seed (42). "
+        "coef_mid=[0,0,1] is hard-coded rather than fitted; global_alpha=0.720, "
+        "gamma_pos=0.50, gamma_neg=0.10, slope gates at +/-5.0 and thresholds "
+        "18000/50000 are all magic constants. Its OWN DOCSTRING justifies them by "
+        "the score they produce: 'Lowering threshold_mid to 18,000.0 s ... "
+        "dropping Val RMSE from 238.88 s to 238.53 s' and 'gamma=0.50 ... dropping "
+        "Test RMSE to 226.83 s' -- a knob whose value is chosen by the test number "
+        "is fitting the evaluation surface, not the data. A per-airport winter "
+        "doy_cos slope is fitted on forward_inner and applied to the Nov-Dec TEST "
+        "rows. Never adjudicated by compare.py. stage11_segment_audit.py "
+        "independently found its >50,000 s band is 20 rows/year at residual std "
+        "13,488 s -- any fitted correction there is fitting noise. Its val 238 / "
+        "test 226 is ~9 s below the rest of the family for these reasons."),
+    ("per_airport_mlp", ""): ("E", "NOT OK -- non-functional",
+        "10 per-airport neural nets. LIRF val RMSE 1128 s from tail-sample "
+        "scarcity; overall val 388. Not over-tuned, just broken. Don't use."),
+    ("per_airport_antigravity", ""): ("E", "DROP -- exact duplicate",
+        "Byte-identical output to per_airport at all 3 seeds. Pure duplicated "
+        "compute. Retire it."),
+
+    # ---- P : pending ----
+    ("airport_lirf_identity_multimodel", "idband"): ("A", "OK -- safe add-on, re-pointed off the quarantine",
+        "The checked 25.2k-50k telemetry identity ONLY, skipping the >50k tail "
+        "bet, now applied on top of airport_operator_multimodel instead of the "
+        "quarantined airport_multiseed_multimodel (plan 12, candidate 2). "
+        "Re-measured on 3 seeds against the new base: val -0.55/-1.20/-0.77 and "
+        "test -0.58/-1.73/-2.18, improving at 3/3 on both parts, and in-band "
+        "RMSE is IDENTICAL TO THE DECIMAL at every seed on both val and test -- "
+        "which is what the mechanism requires, since the override only touches "
+        "5 rows above 25,200 s. Zero parameters, deterministic, paired "
+        "comparison, cannot backfire on a touched row. Small, real and free. "
+        "This is now the default: train.py --band idband."),
+    ("airport_lirf_identity_multimodel", ""): ("B", "HOLDS IN PART -- adopt idband, treat >50k as a bet",
+        "RAN seed 42 (deterministic: base ensemble is over fixed seeds, override "
+        "is a fixed rule). val 246.65->243.26, test 240.04->233.84, and in-band "
+        "is EXACTLY unchanged on both parts (227.14 / 218.16) -- the override "
+        "only hits y>25200, so no collateral damage; no leak path; never "
+        "backfires on a touched row. Structurally clean, nothing like "
+        "airport_debiased. BUT the -6.2 s test gain splits: ~1 s is the real "
+        "25.2-50k identity (y = delta_sched to single-digit seconds, matches the "
+        "full-year 34-row check) -- bankable; ~5 s is 3 artifact rows >50k where "
+        "delta_sched is a better-motivated bid but still 27-31k s wrong on 2 of "
+        "3 (the big win is delta landing near y by luck). Adopt the identity "
+        "band unconditionally; treat the >50k branch as a declared tail bet. "
+        "Belongs ON TOP OF multimodel_antigravity, not as a rival. See "
+        "tests_lirf_identity/RESULT.md."),
+
+    # ---- experiment rows I added ----
+    ("lightgbm", "log1p"): ("E", "NOT OK -- log-target hurts the metric",
+        "log1p(target) experiment (this review's own test). 3-seed mean: val "
+        "in-band -15.6 s (good) but test in-band +0.6 (flat) and pooled RMSE "
+        "+31.9 s, LB-weighted +26.6 s (bad). The tail decides this metric and "
+        "log1p de-weights the tail. Rejected. See tests_log_target/RESULT.md."),
+    ("per_airport", "log1p"): ("E", "NOT OK -- log-target hurts the metric",
+        "Same experiment on per_airport. 3-seed mean: val in-band -6.6 s, but "
+        "test in-band +4.2 s (20x the arm's seed SD -- decisively worse), pooled "
+        "RMSE +38.9 s, LB-weighted +32.0 s. Rejected."),
+    ("lightgbm", "l2ctl"): ("A", "OK -- control, reproduces baseline",
+        "L2 control for the log1p experiment. Matches the registered lightgbm "
+        "number to the decimal (val 297.78), which is what validates the "
+        "experiment harness. Not a new arm."),
+    ("per_airport", "l2ctl"): ("A", "OK -- control, reproduces baseline",
+        "L2 control for the log1p experiment. Matches registered per_airport "
+        "(val 278.17). Not a new arm."),
+
+    # ---- remaining tagged rows ----
+    ("cross_blend", ""): ("D", "CAVEAT -- val-fitted default",
+        "The untagged cross_blend run fits its per-airport weights on VAL "
+        "(val_fitted=True). Use the w_inner tag (weights on forward_inner) for a "
+        "face-value number."),
+    ("per_airport_stack", "inner2"): ("D", "CAVEAT -- single seed / superseded",
+        "2-month inner holdout. Best on val of the stack variants but seed-42 "
+        "only in several places, and the whole per_airport_stack line is beaten "
+        "by per_airport alone at 9/10 airports."),
+    ("per_airport_stack", "inner2_tuned"): ("D", "CAVEAT -- single seed",
+        "inner2 + per-airport-tuned parent. Seed 42 only; the tuning gain is the "
+        "~3 s 'better global config', not a per-airport effect."),
+    ("per_airport_stack", "inner3"): ("D", "CAVEAT -- single seed",
+        "3-month inner holdout; ~identical to inner2 (val 281.94 vs 281.93). "
+        "Seed 42 only."),
+    ("lightgbm", "lr05_lv511_md50"): ("C", "tuning sweep -- scope-limited",
+        "LightGBM capacity tuning (val_only). Best config, buys 6.5 s of val "
+        "RMSE (2.2%) vs the 27 s the outlier-policy fix bought. Only the "
+        "LightGBM arm was tuned, so it can't re-rank LightGBM against untuned "
+        "rivals; it selects the config for the submission refit and nothing more."),
+    ("lightgbm", "lr02_lv511_md50"): ("C", "tuning sweep -- scope-limited",
+        "Capacity-tuning sweep point (val_only). See lr05_lv511_md50."),
+    ("lightgbm", "lr02_lv255_md100"): ("C", "tuning sweep -- scope-limited",
+        "Capacity-tuning sweep point (val_only)."),
+    ("lightgbm", "lr01_lv255_md100"): ("C", "tuning sweep -- scope-limited",
+        "Capacity-tuning sweep point (val_only)."),
+    ("lightgbm", "lr05_lv127_md200"): ("C", "tuning sweep -- scope-limited",
+        "Capacity-tuning sweep point (val_only); worst of the six."),
+    ("lightgbm", "base_lr05_lv255_md100"): ("C", "tuning sweep -- the baseline re-run",
+        "The default config re-run inside the tuning sweep, so the 6.5 s is "
+        "measured against the same code/pool. val_only."),
+}
+
+# Arms quarantined under overtuned/ (removed from config.ARMS). Kept here so the
+# CSV says where each pipeline actually lives, rather than making the reader
+# cross-reference PIPELINE_REVIEW.md to find out.
+OVERTUNED = {
+    "airport_debiased_multimodel", "airport_multiseed_multimodel",
+    "airport_unsup_multimodel", "airport_wtc_rec_multimodel",
+    "airport_wtc_multimodel", "airport_runway_multimodel",
+}
+
+
+def location_of(arm: str) -> str:
+    folder = "pipeline_" + arm
+    if arm in OVERTUNED:
+        return "overtuned/" + folder
+    return folder if (HERE / folder).is_dir() else ""
+
+
+TIER_LABEL = {
+    "A": "A - trust / build on it",
+    "B": "B - real but subsumed",
+    "C": "C - clean negative (keep record)",
+    "D": "D - caveat only",
+    "E": "E - over-tuned / do not trust",
+    "P": "P - pending, not enough runs",
+}
+
+
+def main():
+    rows = list(csv.DictReader(RESULTS.open(encoding="utf-8")))
+    # canonical rows, one per (arm, tag); prefer seed 42 as the representative
+    seen = {}
+    for r in rows:
+        if r["protocol"] != CANON:
+            continue
+        key = (r["arm"], r["tag"])
+        # keep the lowest seed we see for a stable representative number
+        if key not in seen or (r["seed"] and seen[key]["seed"] and int(r["seed"]) < int(seen[key]["seed"])):
+            seen[key] = r
+
+    out_rows = []
+    for (arm, tag), r in sorted(seen.items()):
+        tier, verdict, reason = REVIEW.get((arm, tag), ("?", "UNREVIEWED", "No verdict assigned -- new or unexpected row."))
+        out_rows.append({
+            "arm": arm,
+            "tag": tag,
+            "tier": TIER_LABEL.get(tier, tier),
+            "location": location_of(arm),
+            "verdict": verdict,
+            "val_rmse": r["val_rmse"], "test_rmse": r["test_rmse"],
+            "val_inband": r["val_inband"], "test_inband": r["test_inband"],
+            "selection_surface": r["selection_surface"],
+            "val_fitted": r["val_fitted"],
+            "status": r["status"],
+            "reason": reason,
+        })
+
+    # unreviewed pipeline folders with no run row at all
+    reviewed_arms = {a for (a, _t) in seen}
+    folders = list(HERE.glob("pipeline_*")) + list((HERE / "overtuned").glob("pipeline_*"))
+    for pf in sorted((p for p in folders if p.is_dir()), key=lambda p: p.name):
+        a = pf.name[len("pipeline_"):]
+        if a not in reviewed_arms and (a, "") not in {(k[0], k[1]) for k in seen}:
+            tier, verdict, reason = REVIEW.get((a, ""), ("?", "UNREVIEWED", "Pipeline folder with no canonical run row."))
+            out_rows.append({"arm": a, "tag": "", "tier": TIER_LABEL.get(tier, tier),
+                             "location": location_of(a), "verdict": verdict, "val_rmse": "", "test_rmse": "",
+                             "val_inband": "", "test_inband": "", "selection_surface": "",
+                             "val_fitted": "", "status": "built_not_run", "reason": reason})
+
+    order = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "P": 5, "?": 6}
+    out_rows.sort(key=lambda x: (order.get(x["tier"][0], 9),
+                                 float(x["val_rmse"]) if x["val_rmse"] else 9e9))
+
+    cols = ["tier", "verdict", "arm", "tag", "location", "val_rmse", "test_rmse", "val_inband",
+            "test_inband", "selection_surface", "val_fitted", "status", "reason"]
+    with OUT.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=cols)
+        w.writeheader()
+        for r in out_rows:
+            w.writerow({k: r.get(k, "") for k in cols})
+    print(f"wrote {OUT} ({len(out_rows)} rows)")
+    for r in out_rows:
+        print(f"  [{r['tier'][0]}] {r['arm']:32s} {r['tag']:14s} {r['verdict']}")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

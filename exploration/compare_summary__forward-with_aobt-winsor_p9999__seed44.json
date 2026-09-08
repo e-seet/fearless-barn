@@ -1,0 +1,63 @@
+{
+  "selection": {
+    "what": "compare.py winner",
+    "selected_on": "val",
+    "value": [
+      "lightgbm",
+      "xgboost_antigravity"
+    ],
+    "gate": "selection_set_declared"
+  },
+  "selection_valid": true,
+  "selection_invalid_reason": null,
+  "lb_weighting_caveat": "leaderboard_weighted_rmse reweights by AIRPORT only, not by airport|month. It is an approximation on any part whose month mix differs from the scored 71% Jan / 29% Jul.",
+  "pool_check": {
+    "gate": "training_pool_equality",
+    "arms": [
+      "arms_share_pool",
+      "arms_share_pool"
+    ],
+    "n_items": 1387105,
+    "method": "set equality on sample IDs actually consumed by each arm",
+    "note": "a hash of split_report.json is NOT sufficient (MISTAKES.md #56)"
+  },
+  "candidates": [
+    {
+      "arm": "lightgbm",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 44,
+      "outlier_policy": "winsor_p9999",
+      "val_rmse": 329.0272000413707,
+      "val_rmse_in_band": 236.21982216487953,
+      "val_lb_weighted_rmse": 292.64072292381684,
+      "val_trivial_mean_rmse": 502.21530104617847,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\lightgbm__forward-with_aobt-winsor_p9999__seed44\\eval_val.json",
+      "test_rmse": 349.9234341591146,
+      "test_lb_weighted_rmse": 315.1749357119433,
+      "test_trivial_mean_rmse": 523.4035172029998
+    },
+    {
+      "arm": "xgboost_antigravity",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 44,
+      "outlier_policy": "winsor_p9999",
+      "val_rmse": 342.3981782174812,
+      "val_rmse_in_band": 240.4675372565644,
+      "val_lb_weighted_rmse": 303.9270501291831,
+      "val_trivial_mean_rmse": 502.21530104617847,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\xgboost_antigravity__forward-with_aobt-winsor_p9999__seed44\\eval_val.json",
+      "test_rmse": 364.4674617598913,
+      "test_lb_weighted_rmse": 327.8178597912184,
+      "test_trivial_mean_rmse": 523.4035172029998
+    }
+  ],
+  "winner": "lightgbm",
+  "winner_val_rmse": 329.0272000413707,
+  "winner_test_rmse": 349.9234341591146
+}

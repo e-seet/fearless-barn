@@ -1,0 +1,361 @@
+{
+  "arm": "lightgbm",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "outlier_policy": "winsor_21600",
+  "selection": {
+    "what": "prediction cap (upper clip)",
+    "selected_on": "val",
+    "value": 21600,
+    "gate": "selection_set_declared"
+  },
+  "grid": [
+    {
+      "cap_sec": 7200,
+      "val_rmse": 335.80870559362745,
+      "val_rmse_in_band": 236.2491865896581,
+      "n_true_above_cap": 93,
+      "n_pred_clipped": 52,
+      "hard_floor_rmse": 233.88633991934148,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 20610023517.65939,
+          "rmse": 236.17620295410106
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 14601687568.671314,
+          "rmse": 12598.174284857498
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 6454997649.0,
+          "rmse": 80343.0
+        },
+        "total_sse": 41681569523.394066,
+        "decidable_sse": 35211711086.3307,
+        "decidable_rmse": 308.66429612614286
+      }
+    },
+    {
+      "cap_sec": 9000,
+      "val_rmse": 329.21875180418937,
+      "val_rmse_in_band": 237.27520662855065,
+      "n_true_above_cap": 56,
+      "n_pred_clipped": 36,
+      "hard_floor_rmse": 221.81603351880014,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 20789558497.160362,
+          "rmse": 237.20264400777188
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 13088270130.455551,
+          "rmse": 11927.439195645527
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 6169002849.0,
+          "rmse": 78543.0
+        },
+        "total_sse": 40061692264.67927,
+        "decidable_sse": 33877828627.615913,
+        "decidable_rmse": 302.7614768956414
+      }
+    },
+    {
+      "cap_sec": 10712,
+      "val_rmse": 323.67167513823745,
+      "val_rmse_in_band": 238.14407424108938,
+      "n_true_above_cap": 37,
+      "n_pred_clipped": 28,
+      "hard_floor_rmse": 211.90764935428336,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 20942203038.06539,
+          "rmse": 238.0718656668157
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 11862983308.148726,
+          "rmse": 11355.415921081316
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5903002561.0,
+          "rmse": 76831.0
+        },
+        "total_sse": 38723049695.277466,
+        "decidable_sse": 32805186346.21412,
+        "decidable_rmse": 297.92989683742803
+      }
+    },
+    {
+      "cap_sec": 12600,
+      "val_rmse": 318.0976759381235,
+      "val_rmse_in_band": 238.89790771151996,
+      "n_true_above_cap": 22,
+      "n_pred_clipped": 23,
+      "hard_floor_rmse": 202.06398624188543,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 21075090159.610264,
+          "rmse": 238.82600448546862
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 10694418449.683092,
+          "rmse": 10781.63618384998
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5616453249.0,
+          "rmse": 74943.0
+        },
+        "total_sse": 37400822646.356705,
+        "decidable_sse": 31769508609.293358,
+        "decidable_rmse": 293.1892755915026
+      }
+    },
+    {
+      "cap_sec": 14400,
+      "val_rmse": 313.6162692654109,
+      "val_rmse_in_band": 239.6406482630409,
+      "n_true_above_cap": 16,
+      "n_pred_clipped": 17,
+      "hard_floor_rmse": 193.26016179913375,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 21206432559.610264,
+          "rmse": 239.56904425069365
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 9783237470.274786,
+          "rmse": 10312.106366808777
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5349898449.0,
+          "rmse": 73143.0
+        },
+        "total_sse": 36354429266.9484,
+        "decidable_sse": 30989670029.885048,
+        "decidable_rmse": 289.56849417853834
+      }
+    },
+    {
+      "cap_sec": 18000,
+      "val_rmse": 308.3795927670384,
+      "val_rmse_in_band": 240.30344808379232,
+      "n_true_above_cap": 13,
+      "n_pred_clipped": 2,
+      "hard_floor_rmse": 176.68443214508463,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 21323982906.073307,
+          "rmse": 240.23210971783791
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 8528549637.578423,
+          "rmse": 9628.168387363074
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5283099927.359325,
+          "rmse": 72684.93604151637
+        },
+        "total_sse": 35150493259.07442,
+        "decidable_sse": 29852532543.65173,
+        "decidable_rmse": 284.2061175678945
+      }
+    },
+    {
+      "cap_sec": 21600,
+      "val_rmse": 308.22760790032413,
+      "val_rmse_in_band": 240.30344808379232,
+      "n_true_above_cap": 10,
+      "n_pred_clipped": 0,
+      "hard_floor_rmse": 161.19244457492334,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 21323982906.073307,
+          "rmse": 240.23210971783791
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 8493910338.017454,
+          "rmse": 9608.595754310561
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5283099927.359325,
+          "rmse": 72684.93604151637
+        },
+        "total_sse": 35115853959.51345,
+        "decidable_sse": 29817893244.09076,
+        "decidable_rmse": 284.04118083589896
+      }
+    },
+    {
+      "cap_sec": 28800,
+      "val_rmse": 308.22760790032413,
+      "val_rmse_in_band": 240.30344808379232,
+      "n_true_above_cap": 8,
+      "n_pred_clipped": 0,
+      "hard_floor_rmse": 132.41422944058806,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 21323982906.073307,
+          "rmse": 240.23210971783791
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 8493910338.017454,
+          "rmse": 9608.595754310561
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5283099927.359325,
+          "rmse": 72684.93604151637
+        },
+        "total_sse": 35115853959.51345,
+        "decidable_sse": 29817893244.09076,
+        "decidable_rmse": 284.04118083589896
+      }
+    },
+    {
+      "cap_sec": 43200,
+      "val_rmse": 308.22760790032413,
+      "val_rmse_in_band": 240.30344808379232,
+      "n_true_above_cap": 4,
+      "n_pred_clipped": 0,
+      "hard_floor_rmse": 85.08431885145941,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 21323982906.073307,
+          "rmse": 240.23210971783791
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 8493910338.017454,
+          "rmse": 9608.595754310561
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5283099927.359325,
+          "rmse": 72684.93604151637
+        },
+        "total_sse": 35115853959.51345,
+        "decidable_sse": 29817893244.09076,
+        "decidable_rmse": 284.04118083589896
+      }
+    },
+    {
+      "cap_sec": null,
+      "val_rmse": 308.22760790032413,
+      "val_rmse_in_band": 240.30344808379232,
+      "n_true_above_cap": 0,
+      "n_pred_clipped": 0,
+      "hard_floor_rmse": 0.0,
+      "bands": {
+        "in_band": {
+          "n": 369493,
+          "sse": 21323982906.073307,
+          "rmse": 240.23210971783791
+        },
+        "mid_tail": {
+          "n": 92,
+          "sse": 8493910338.017454,
+          "rmse": 9608.595754310561
+        },
+        "artifact": {
+          "n": 1,
+          "sse": 5283099927.359325,
+          "rmse": 72684.93604151637
+        },
+        "total_sse": 35115853959.51345,
+        "decidable_sse": 29817893244.09076,
+        "decidable_rmse": 284.04118083589896
+      }
+    }
+  ],
+  "best": {
+    "cap_sec": 21600,
+    "val_rmse": 308.22760790032413,
+    "val_rmse_in_band": 240.30344808379232,
+    "n_true_above_cap": 10,
+    "n_pred_clipped": 0,
+    "hard_floor_rmse": 161.19244457492334,
+    "bands": {
+      "in_band": {
+        "n": 369493,
+        "sse": 21323982906.073307,
+        "rmse": 240.23210971783791
+      },
+      "mid_tail": {
+        "n": 92,
+        "sse": 8493910338.017454,
+        "rmse": 9608.595754310561
+      },
+      "artifact": {
+        "n": 1,
+        "sse": 5283099927.359325,
+        "rmse": 72684.93604151637
+      },
+      "total_sse": 35115853959.51345,
+      "decidable_sse": 29817893244.09076,
+      "decidable_rmse": 284.04118083589896
+    }
+  },
+  "current_cap_sec": 10712,
+  "current_row": {
+    "cap_sec": 10712,
+    "val_rmse": 323.67167513823745,
+    "val_rmse_in_band": 238.14407424108938,
+    "n_true_above_cap": 37,
+    "n_pred_clipped": 28,
+    "hard_floor_rmse": 211.90764935428336,
+    "bands": {
+      "in_band": {
+        "n": 369493,
+        "sse": 20942203038.06539,
+        "rmse": 238.0718656668157
+      },
+      "mid_tail": {
+        "n": 92,
+        "sse": 11862983308.148726,
+        "rmse": 11355.415921081316
+      },
+      "artifact": {
+        "n": 1,
+        "sse": 5903002561.0,
+        "rmse": 76831.0
+      },
+      "total_sse": 38723049695.277466,
+      "decidable_sse": 32805186346.21412,
+      "decidable_rmse": 297.92989683742803
+    }
+  },
+  "gain_vs_current_sec": 15.444067237913316,
+  "decided_by_n_val_rows_above_current_cap": 37,
+  "seed_agreement": {
+    "checked": [],
+    "agrees": true,
+    "per_seed_best": {}
+  },
+  "caveat": "this cap is decided by a few dozen extreme val rows; the in-band column is the part of the metric it cannot touch",
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

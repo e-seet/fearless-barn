@@ -1,0 +1,30 @@
+STOPPED_EARLY
+=== FINAL run.log tail ===
+############################## SEED 45 ##############################
+===== seed 45: base parents (per-airport, tree blend, MLP), both surfaces =====
+[per_airport] train n=1387105 val n=369624 feats=57 cats=15 airports=10
+  EDDF   n= 152452 best_iter=  149 early-stopped
+  EDDM   n= 111332 best_iter=  129 early-stopped
+  EGLL   n= 159328 best_iter=  116 early-stopped
+  EHAM   n= 166010 best_iter=  108 early-stopped
+  LEBL   n= 120089 best_iter=  123 early-stopped
+  LEMD   n= 140275 best_iter=  151 early-stopped
+  LFPG   n= 159581 best_iter=  221 early-stopped
+  LIRF   n= 108499 best_iter=  146 early-stopped
+  LSZH   n=  89518 best_iter=  118 early-stopped
+  LTFM   n= 180021 best_iter=  177 early-stopped
+[per_airport] val RMSE (clipped) = 277.317
+[per_airport] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\per_airport__forward-with_aobt-keep_all__seed45
+[per_airport] train n=1005290 val n=381895 feats=57 cats=15 airports=10
+  EDDF   n= 109650 best_iter=  139 early-stopped
+  EDDM   n=  79945 best_iter=   72 early-stopped
+  EGLL   n= 117710 best_iter=  132 early-stopped
+  EHAM   n= 120900 best_iter=  100 early-stopped
+  LEBL   n=  86742 best_iter=  124 early-stopped
+  LEMD   n= 102966 best_iter=   94 early-stopped
+  LFPG   n= 115804 best_iter=   83 early-stopped
+  LIRF   n=  77829 best_iter=  278 early-stopped
+  LSZH   n=  64334 best_iter=   87 early-stopped
+  LTFM   n= 129410 best_iter=  139 early-stopped
+[per_airport] val RMSE (clipped) = 423.926
+[per_airport] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\per_airport__forward_inner-with_aobt-keep_all__seed45

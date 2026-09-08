@@ -1,0 +1,176 @@
+{
+  "selection": {
+    "what": "compare.py winner",
+    "selected_on": "val",
+    "value": [
+      "naive_offblock",
+      "ridge",
+      "lightgbm",
+      "xgboost_antigravity",
+      "mlp_antigravity",
+      "ensemble_antigravity"
+    ],
+    "gate": "selection_set_declared"
+  },
+  "selection_valid": false,
+  "selection_invalid_reason": "split 'seasonal' is anti-causal: Jan test rows precede the whole training pool and Jul is seasonally interpolated between training months; it is a composition probe, not a selection surface",
+  "lb_weighting_caveat": "leaderboard_weighted_rmse reweights by AIRPORT only, not by airport|month. It is an approximation on any part whose month mix differs from the scored 71% Jan / 29% Jul.",
+  "pool_check": {
+    "gate": "training_pool_equality",
+    "arms": [
+      "reference_pool",
+      "reference_pool"
+    ],
+    "n_items": 1574669,
+    "method": "each arm's own recorded hash of the rows it consumed, vs a reference recomputed here",
+    "note": "a hash of split_report.json is NOT sufficient (MISTAKES.md #56)",
+    "reference_sha": "927cef8495b6bcb3337a09b7aa386236",
+    "arm_shas": {
+      "naive_offblock": "927cef8495b6bcb3337a09b7aa386236",
+      "ridge": "927cef8495b6bcb3337a09b7aa386236",
+      "lightgbm": "927cef8495b6bcb3337a09b7aa386236",
+      "xgboost_antigravity": "927cef8495b6bcb3337a09b7aa386236",
+      "mlp_antigravity": "927cef8495b6bcb3337a09b7aa386236",
+      "ensemble_antigravity": "927cef8495b6bcb3337a09b7aa386236"
+    }
+  },
+  "feature_check": {
+    "gate": "feature_code_agreement",
+    "fingerprints": {
+      "naive_offblock": "47cba1fb5f800c8d",
+      "ridge": "47cba1fb5f800c8d",
+      "lightgbm": "47cba1fb5f800c8d",
+      "xgboost_antigravity": "47cba1fb5f800c8d",
+      "mlp_antigravity": "47cba1fb5f800c8d",
+      "ensemble_antigravity": "47cba1fb5f800c8d"
+    },
+    "distinct": [
+      "47cba1fb5f800c8d"
+    ],
+    "current_code": "47cba1fb5f800c8d",
+    "passed": true,
+    "stale_vs_current_code": false
+  },
+  "val_fitted_arms": [
+    "ensemble_antigravity"
+  ],
+  "val_fitted_caveat": "arm(s) ['ensemble_antigravity'] fit free parameters (blend weights) directly on the val labels, so their val RMSE is in-sample for those parameters and is not comparable at face value against arms that only early-stopped on val. See config.VAL_FITTED_ARMS.",
+  "winner_not_val_fitted": {
+    "arm": "mlp_antigravity",
+    "val_rmse": 251.92012391409762,
+    "test_rmse": 417.0050329355826
+  },
+  "candidates": [
+    {
+      "arm": "naive_offblock",
+      "split": "seasonal",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 477.83048663554814,
+      "val_rmse_in_band": 368.915313754094,
+      "val_lb_weighted_rmse": 434.82592582220144,
+      "val_trivial_mean_rmse": 514.7961047783451,
+      "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1574669,
+      "result_path": "artifacts\\runs\\naive_offblock__seasonal-with_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 516.3584331453403,
+      "test_lb_weighted_rmse": 517.1080556967431,
+      "test_trivial_mean_rmse": 573.8334095436455
+    },
+    {
+      "arm": "ridge",
+      "split": "seasonal",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 395.4345830522395,
+      "val_rmse_in_band": 320.15990641862066,
+      "val_lb_weighted_rmse": 374.1643309045162,
+      "val_trivial_mean_rmse": 514.7961047783451,
+      "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1574669,
+      "result_path": "artifacts\\runs\\ridge__seasonal-with_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 502.60393213205083,
+      "test_lb_weighted_rmse": 503.31103827754595,
+      "test_trivial_mean_rmse": 573.8334095436455
+    },
+    {
+      "arm": "lightgbm",
+      "split": "seasonal",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 291.68596239813775,
+      "val_rmse_in_band": 231.63791750649304,
+      "val_lb_weighted_rmse": 268.5894614922749,
+      "val_trivial_mean_rmse": 514.7961047783451,
+      "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1574669,
+      "result_path": "artifacts\\runs\\lightgbm__seasonal-with_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 360.64077581976665,
+      "test_lb_weighted_rmse": 362.045128808643,
+      "test_trivial_mean_rmse": 573.8334095436455
+    },
+    {
+      "arm": "xgboost_antigravity",
+      "split": "seasonal",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 341.6858545391804,
+      "val_rmse_in_band": 241.244486420666,
+      "val_lb_weighted_rmse": 307.82590256012116,
+      "val_trivial_mean_rmse": 514.7961047783451,
+      "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1574669,
+      "result_path": "artifacts\\runs\\xgboost_antigravity__seasonal-with_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 397.6246255375591,
+      "test_lb_weighted_rmse": 398.49694825812975,
+      "test_trivial_mean_rmse": 573.8334095436455
+    },
+    {
+      "arm": "mlp_antigravity",
+      "split": "seasonal",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 251.92012391409762,
+      "val_rmse_in_band": 240.8750689224152,
+      "val_lb_weighted_rmse": 244.28331449931846,
+      "val_trivial_mean_rmse": 514.7961047783451,
+      "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1574669,
+      "result_path": "artifacts\\runs\\mlp_antigravity__seasonal-with_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 417.0050329355826,
+      "test_lb_weighted_rmse": 418.4298362530739,
+      "test_trivial_mean_rmse": 573.8334095436455
+    },
+    {
+      "arm": "ensemble_antigravity",
+      "split": "seasonal",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 246.04410871067375,
+      "val_rmse_in_band": 231.30939803553116,
+      "val_lb_weighted_rmse": 236.49813461291433,
+      "val_trivial_mean_rmse": 514.7961047783451,
+      "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1574669,
+      "result_path": "artifacts\\runs\\ensemble_antigravity__seasonal-with_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 382.9138224123964,
+      "test_lb_weighted_rmse": 384.38513101342573,
+      "test_trivial_mean_rmse": 573.8334095436455
+    }
+  ],
+  "winner": "ensemble_antigravity",
+  "winner_val_rmse": 246.04410871067375,
+  "winner_test_rmse": 382.9138224123964
+}

@@ -1,0 +1,27 @@
+{
+  "arm": "lightgbm",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "tag": "lr05_lv511_md50",
+  "prediction_cap_sec": 86400,
+  "seed": 42,
+  "team": "fearless_barn",
+  "version": 2,
+  "n_rows": 215876,
+  "pred_median": 979.2140598167284,
+  "pred_mean": 1056.6110283611347,
+  "provenance": {
+    "lightgbm": {
+      "run_dir": "artifacts\\runs\\lightgbm__full-with_aobt-keep_all__seed42__tag=lr05_lv511_md50",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "best_iteration": 230,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 511,
+        "min_data_in_leaf": 50
+      },
+      "weights": null
+    }
+  }
+}

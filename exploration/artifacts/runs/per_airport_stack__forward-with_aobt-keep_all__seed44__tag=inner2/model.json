@@ -1,0 +1,191 @@
+{
+  "arm": "per_airport_stack",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 44,
+  "params": {
+    "objective": "l2",
+    "metric": "rmse",
+    "learning_rate": 0.05,
+    "num_leaves": 255,
+    "min_data_in_leaf": 100,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_cat_threshold": 64,
+    "cat_smooth": 20.0,
+    "verbosity": -1,
+    "num_threads": 0,
+    "seed": 44,
+    "bagging_seed": 44,
+    "feature_fraction_seed": 44,
+    "device_type": "cpu"
+  },
+  "alpha_per_airport": {
+    "EDDF": 0.5847770566222731,
+    "EDDM": 0.39941549505726065,
+    "EGLL": 0.6890600817453292,
+    "EHAM": 0.6427593680154082,
+    "LEBL": 0.6894386453000557,
+    "LEMD": 0.6498069804301135,
+    "LFPG": 0.6787086514192111,
+    "LIRF": 1.0,
+    "LSZH": 0.9754055991287128,
+    "LTFM": 0.6637154462692937
+  },
+  "alpha_note": "1.0 = the per-airport model alone, 0.0 = the pooled model alone; solved per airport by least squares on an inner time-based holdout carved from TRAIN, never on val",
+  "inner_holdout": {
+    "inner_val_months": [
+      "2025-07",
+      "2025-08"
+    ],
+    "n_inner_train": 1005290,
+    "n_inner_val": 381815,
+    "per_airport": [
+      {
+        "airport": "EDDF",
+        "n_inner_val": 42802,
+        "alpha": 0.5847770566222731,
+        "inner_rmse_pooled": 192.50983843028956,
+        "inner_rmse_per_airport": 190.79032075843494,
+        "inner_rmse_blend": 189.025800681993
+      },
+      {
+        "airport": "EDDM",
+        "n_inner_val": 31387,
+        "alpha": 0.39941549505726065,
+        "inner_rmse_pooled": 182.48543309573736,
+        "inner_rmse_per_airport": 184.51435783793698,
+        "inner_rmse_blend": 180.86025678983995
+      },
+      {
+        "airport": "EGLL",
+        "n_inner_val": 41618,
+        "alpha": 0.6890600817453292,
+        "inner_rmse_pooled": 285.8462545105285,
+        "inner_rmse_per_airport": 279.56483706469555,
+        "inner_rmse_blend": 277.9359174845525
+      },
+      {
+        "airport": "EHAM",
+        "n_inner_val": 45110,
+        "alpha": 0.6427593680154082,
+        "inner_rmse_pooled": 170.54659226488855,
+        "inner_rmse_per_airport": 168.30691475138278,
+        "inner_rmse_blend": 167.29613003214334
+      },
+      {
+        "airport": "LEBL",
+        "n_inner_val": 33347,
+        "alpha": 0.6894386453000557,
+        "inner_rmse_pooled": 268.2915516021148,
+        "inner_rmse_per_airport": 264.30448101833736,
+        "inner_rmse_blend": 263.2798766801434
+      },
+      {
+        "airport": "LEMD",
+        "n_inner_val": 37309,
+        "alpha": 0.6498069804301135,
+        "inner_rmse_pooled": 200.3866081178665,
+        "inner_rmse_per_airport": 196.5169505664434,
+        "inner_rmse_blend": 194.91090181034335
+      },
+      {
+        "airport": "LFPG",
+        "n_inner_val": 43777,
+        "alpha": 0.6787086514192111,
+        "inner_rmse_pooled": 288.3074773926766,
+        "inner_rmse_per_airport": 277.8873804356005,
+        "inner_rmse_blend": 274.8043543414278
+      },
+      {
+        "airport": "LIRF",
+        "n_inner_val": 30670,
+        "alpha": 1.0,
+        "inner_rmse_pooled": 1414.1335865201775,
+        "inner_rmse_per_airport": 1307.3537786995876,
+        "inner_rmse_blend": 1307.3537786995876
+      },
+      {
+        "airport": "LSZH",
+        "n_inner_val": 25184,
+        "alpha": 0.9754055991287128,
+        "inner_rmse_pooled": 235.33846737542765,
+        "inner_rmse_per_airport": 198.0094802265592,
+        "inner_rmse_blend": 197.98349217746284
+      },
+      {
+        "airport": "LTFM",
+        "n_inner_val": 50611,
+        "alpha": 0.6637154462692937,
+        "inner_rmse_pooled": 288.6277729551196,
+        "inner_rmse_per_airport": 282.3679117662325,
+        "inner_rmse_blend": 280.17340313915133
+      }
+    ]
+  },
+  "pooled_best_iteration": 195,
+  "best_iteration_per_airport": {
+    "EDDF": 136,
+    "EDDM": 110,
+    "EGLL": 110,
+    "EHAM": 106,
+    "LEBL": 105,
+    "LEMD": 104,
+    "LFPG": 188,
+    "LIRF": 96,
+    "LSZH": 70,
+    "LTFM": 149
+  },
+  "val_rmse_clipped": 281.6986423561572,
+  "refit_only": false,
+  "selection": {
+    "what": "per_airport_stack blend weights",
+    "selected_on": "inner_holdout_from_train",
+    "value": {
+      "EDDF": 0.5847770566222731,
+      "EDDM": 0.39941549505726065,
+      "EGLL": 0.6890600817453292,
+      "EHAM": 0.6427593680154082,
+      "LEBL": 0.6894386453000557,
+      "LEMD": 0.6498069804301135,
+      "LFPG": 0.6787086514192111,
+      "LIRF": 1.0,
+      "LSZH": 0.9754055991287128,
+      "LTFM": 0.6637154462692937
+    },
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "n_features": 57,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "categorical_features": [
+    "ADEP_mvt",
+    "RUNWAY_mvt",
+    "STAND_mvt",
+    "ADES_mvt",
+    "AIRCRAFT_TYPE_mvt",
+    "AIRCRAFT_OPERATOR_flt",
+    "WK_TBL_CAT_flt",
+    "MARKET_SEGMENT_flt",
+    "FLIGHT_TYPE_flt",
+    "FLIGHT_RULE_mvt",
+    "stand_runway",
+    "adep_runway",
+    "adep_stand",
+    "dest_region",
+    "adep_flight_record"
+  ],
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

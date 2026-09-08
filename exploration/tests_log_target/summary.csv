@@ -1,0 +1,13 @@
+arm,seed,variant,val_rmse,val_inband,test_rmse,test_inband,test_lb_weighted,best_iter,hit_cap
+lightgbm,42,l2ctl,297.779,249.989,315.785,229.732,288.369,245,False
+lightgbm,42,log1p,319.928,234.174,347.782,231.403,315.202,289,False
+per_airport,42,l2ctl,278.173,236.172,288.162,222.204,265.915,"{'EDDF': 185, 'EDDM': 149, 'EGLL': 133, 'EHAM': 114, 'LEBL': 138, 'LEMD': 130, 'LFPG': 155, 'LIRF': 164, 'LSZH': 98, 'LTFM': 154}",
+per_airport,42,log1p,301.305,229.775,329.057,226.186,299.504,"{'EDDF': 147, 'EDDM': 152, 'EGLL': 147, 'EHAM': 95, 'LEBL': 94, 'LEMD': 147, 'LFPG': 158, 'LIRF': 134, 'LSZH': 147, 'LTFM': 166}",
+lightgbm,43,l2ctl,295.559,249.718,313.472,228.411,286.094,283,False
+lightgbm,43,log1p,318.293,234.025,344.602,227.84,311.918,260,False
+per_airport,43,l2ctl,277.714,236.595,288.279,221.868,265.932,"{'EDDF': 141, 'EDDM': 168, 'EGLL': 126, 'EHAM': 102, 'LEBL': 108, 'LEMD': 130, 'LFPG': 183, 'LIRF': 169, 'LSZH': 84, 'LTFM': 150}",
+per_airport,43,log1p,298.813,230.407,325.139,225.895,296.387,"{'EDDF': 149, 'EDDM': 166, 'EGLL': 137, 'EHAM': 90, 'LEBL': 101, 'LEMD': 133, 'LFPG': 127, 'LIRF': 142, 'LSZH': 120, 'LTFM': 163}",
+lightgbm,44,l2ctl,296.709,249.879,315.803,229.807,288.393,211,False
+lightgbm,44,log1p,320.918,234.504,348.273,230.521,315.597,266,False
+per_airport,44,l2ctl,277.697,237.504,288.133,221.697,265.808,"{'EDDF': 175, 'EDDM': 108, 'EGLL': 117, 'EHAM': 104, 'LEBL': 124, 'LEMD': 109, 'LFPG': 188, 'LIRF': 107, 'LSZH': 112, 'LTFM': 163}",
+per_airport,44,log1p,300.163,230.363,326.928,226.258,297.841,"{'EDDF': 152, 'EDDM': 175, 'EGLL': 131, 'EHAM': 99, 'LEBL': 113, 'LEMD': 140, 'LFPG': 138, 'LIRF': 127, 'LSZH': 152, 'LTFM': 168}",

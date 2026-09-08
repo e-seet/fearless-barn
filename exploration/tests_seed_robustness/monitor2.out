@@ -1,0 +1,60 @@
+STALE_NO_PROGRESS_40MIN
+=== run.log tail ===
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07'] (1195968 rows), solve weight on ['2025-08'] (191137 rows)
+  alpha (weight on per_airport) = 0.647  inner RMSE airport=298.98 operator=307.43 blend=295.34
+[airport_operator_blend] val RMSE (clipped) = 270.955   [per_airport alone 277.317 | per_operator alone 273.670]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward-with_aobt-keep_all__seed45
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[airport_operator_blend] train n=1005290 months=6 -> ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05'] (822210 rows), solve weight on ['2025-06'] (183080 rows)
+  alpha (weight on per_airport) = 0.522  inner RMSE airport=368.12 operator=369.10 blend=362.84
+[airport_operator_blend] val RMSE (clipped) = 410.334   [per_airport alone 423.926 | per_operator alone 416.764]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward_inner-with_aobt-keep_all__seed45
+[mlp_antigravity] train n=1387105 val n=369624 cat_feats=15 num_feats=42 device=cuda
+  Epoch  1/25 [144.2s] train RMSE=545.844 | val RMSE=465.856
+  Epoch  2/25 [144.2s] train RMSE=497.844 | val RMSE=406.961
+  Epoch  3/25 [144.8s] train RMSE=445.273 | val RMSE=340.571
+  Epoch  4/25 [144.4s] train RMSE=407.133 | val RMSE=308.401
+  Epoch  5/25 [146.3s] train RMSE=386.189 | val RMSE=284.525
+  Epoch  6/25 [148.0s] train RMSE=374.915 | val RMSE=284.438
+  Epoch  7/25 [150.9s] train RMSE=369.127 | val RMSE=279.499
+  Epoch  8/25 [152.4s] train RMSE=362.207 | val RMSE=271.278
+  Epoch  9/25 [151.4s] train RMSE=357.363 | val RMSE=258.320
+  Epoch 10/25 [150.6s] train RMSE=351.075 | val RMSE=257.996
+  Epoch 11/25 [150.9s] train RMSE=346.064 | val RMSE=259.766
+  Epoch 12/25 [149.4s] train RMSE=341.815 | val RMSE=260.334
+  Epoch 13/25 [149.0s] train RMSE=335.605 | val RMSE=258.586
+  Epoch 14/25 [149.1s] train RMSE=332.464 | val RMSE=258.808
+  Epoch 15/25 [149.2s] train RMSE=328.861 | val RMSE=258.650
+  Epoch 16/25 [149.2s] train RMSE=325.675 | val RMSE=258.720
+  Early stopping fired after epoch 16 (best epoch 10)
+[mlp_antigravity] finished -> val RMSE: 257.996
+=== seed45/46/47 eval jsons present ===
+airport_operator_blend__forward-with_aobt-keep_all__seed45
+airport_operator_blend__forward_inner-with_aobt-keep_all__seed45
+airport_unsup_multimodel__forward-with_aobt-keep_all__seed45
+mlp_antigravity__forward-with_aobt-keep_all__seed45
+mlp_antigravity__forward_inner-with_aobt-keep_all__seed45
+per_airport__forward-with_aobt-keep_all__seed45
+per_airport__forward_inner-with_aobt-keep_all__seed45

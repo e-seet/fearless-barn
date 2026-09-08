@@ -1,0 +1,30 @@
+{
+  "forward/val": {
+    "n": 369624,
+    "hard_floor_at_10712": 211.91,
+    "hard_floor_at_7200": 233.89,
+    "n_above_10712": 37,
+    "n_above_7200": 93
+  },
+  "forward/test": {
+    "n": 328009,
+    "hard_floor_at_10712": 258.11,
+    "hard_floor_at_7200": 275.92,
+    "n_above_10712": 20,
+    "n_above_7200": 61
+  },
+  "seasonal/val": {
+    "n": 165677,
+    "hard_floor_at_10712": 232.67,
+    "hard_floor_at_7200": 252.45,
+    "n_above_10712": 13,
+    "n_above_7200": 38
+  },
+  "seasonal/test": {
+    "n": 218319,
+    "hard_floor_at_10712": 284.94,
+    "hard_floor_at_7200": 304.71,
+    "n_above_10712": 12,
+    "n_above_7200": 43
+  }
+}

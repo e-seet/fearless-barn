@@ -1,0 +1,126 @@
+{
+  "arm": "xgboost_antigravity",
+  "part": "test",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 43,
+  "n": 328009,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 349.3630193332564,
+  "mae": 149.82176329100022,
+  "bias_mean_signed_error": -15.293999617575183,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 990.3741699438759,
+      "rmse": 523.3818996794457
+    },
+    "train_median": {
+      "constant": 910.0,
+      "rmse": 530.3687647948359
+    }
+  },
+  "hard_floor_rmse_at_cap": 3.515435378540153,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 3,
+  "n_in_band": 327948,
+  "rmse_in_band": 246.64820889214357,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 44799.0,
+      "rmse": 243.38377308280107,
+      "mean_true": 1035.3952766802831
+    },
+    "EGLL": {
+      "n": 39423.0,
+      "rmse": 240.19076968259895,
+      "mean_true": 1365.1891281739086
+    },
+    "EHAM": {
+      "n": 38690.0,
+      "rmse": 188.01370504338544,
+      "mean_true": 777.1536831222538
+    },
+    "LFPG": {
+      "n": 38424.0,
+      "rmse": 318.192770503439,
+      "mean_true": 1069.401051426192
+    },
+    "EDDF": {
+      "n": 35446.0,
+      "rmse": 200.2433191026568,
+      "mean_true": 892.3375557185578
+    },
+    "LEMD": {
+      "n": 35404.0,
+      "rmse": 178.5472643111082,
+      "mean_true": 998.5948197943735
+    },
+    "LEBL": {
+      "n": 27167.0,
+      "rmse": 186.12626136573832,
+      "mean_true": 920.951043545478
+    },
+    "EDDM": {
+      "n": 24597.0,
+      "rmse": 223.3198715036517,
+      "mean_true": 891.8520144733097
+    },
+    "LIRF": {
+      "n": 23396.0,
+      "rmse": 1023.1012524299974,
+      "mean_true": 1100.2903915199179
+    },
+    "LSZH": {
+      "n": 20663.0,
+      "rmse": 176.22914609130694,
+      "mean_true": 757.2445433867299
+    }
+  },
+  "rmse_by_month": {
+    "2025-12": {
+      "n": 165677.0,
+      "rmse": 347.24606125006807,
+      "mean_true": 995.0367824139742
+    },
+    "2025-11": {
+      "n": 162332.0,
+      "rmse": 351.51045345727306,
+      "mean_true": 996.9587265603824
+    }
+  },
+  "leaderboard_weighted_rmse": 316.75360995630126,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.6113286771928934,
+  "sse_share_worst_1pct": 0.7223997907584166,
+  "sse_share_worst_5pct": 0.8215609545593214,
+  "best_iteration": 268,
+  "convergence": {
+    "best_epoch": 269,
+    "best_value": 323.4345408683587,
+    "stop_epoch": 469,
+    "epochs_run": 469,
+    "patience": 200,
+    "patience_counter": 200,
+    "max_epochs": 5000,
+    "hit_max_epochs": false,
+    "early_stop_fired": true,
+    "converged": true,
+    "mode": "min",
+    "metric_key": "val_rmse",
+    "note": "early stopping fired at epoch 469 after 200 epochs without improvement",
+    "cross_check": "verify this best_epoch against whatever the trainer itself printed or saved -- if the framework selects on a composite fitness, recompute with THAT formula (MISTAKES.md #48)"
+  },
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

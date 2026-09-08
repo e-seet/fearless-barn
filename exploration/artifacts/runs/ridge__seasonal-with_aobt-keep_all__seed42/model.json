@@ -1,0 +1,47 @@
+{
+  "arm": "ridge",
+  "split": "seasonal",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "alpha": 1000.0,
+  "val_rmse": 395.4345830522395,
+  "sweep": [
+    {
+      "alpha": 1.0,
+      "val_rmse": 397.2827174470514
+    },
+    {
+      "alpha": 10.0,
+      "val_rmse": 397.2296834288784
+    },
+    {
+      "alpha": 100.0,
+      "val_rmse": 397.0479263219323
+    },
+    {
+      "alpha": 1000.0,
+      "val_rmse": 395.4345830522395
+    }
+  ],
+  "selection": {
+    "what": "ridge alpha",
+    "selected_on": "val",
+    "value": 1000.0,
+    "gate": "selection_set_declared"
+  },
+  "refit_only": false,
+  "n_train": 1574669,
+  "n_features": 138,
+  "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1574951,
+    "n_impossible_dropped": 282,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1574669
+  },
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

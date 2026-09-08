@@ -1,0 +1,115 @@
+{
+  "arm": "naive_offblock",
+  "part": "test",
+  "split": "seasonal",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n": 218319,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 516.3584331453403,
+  "mae": 240.31622763021085,
+  "bias_mean_signed_error": 47.33822754776268,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 986.3939081800684,
+      "rmse": 573.8334095436455
+    },
+    "train_median": {
+      "constant": 911.0,
+      "rmse": 580.9119000269068
+    }
+  },
+  "hard_floor_rmse_at_cap": 1.6629349159224103,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 1,
+  "n_in_band": 218276,
+  "rmse_in_band": 378.92601305979196,
+  "rmse_by_airport": {
+    "EHAM": {
+      "n": 40949.0,
+      "rmse": 349.24108530861264,
+      "mean_true": 798.0322107987985
+    },
+    "EGLL": {
+      "n": 40210.0,
+      "rmse": 507.0406853771249,
+      "mean_true": 1382.0707286744591
+    },
+    "EDDF": {
+      "n": 36830.0,
+      "rmse": 257.62369971669034,
+      "mean_true": 875.3005701873473
+    },
+    "LTFM": {
+      "n": 21368.0,
+      "rmse": 483.10108846770197,
+      "mean_true": 1041.0607918382627
+    },
+    "LFPG": {
+      "n": 17900.0,
+      "rmse": 848.0665923392452,
+      "mean_true": 1079.7625139664804
+    },
+    "LEMD": {
+      "n": 16510.0,
+      "rmse": 257.3171374426582,
+      "mean_true": 985.7964264082374
+    },
+    "LEBL": {
+      "n": 12234.0,
+      "rmse": 231.90471534697926,
+      "mean_true": 887.3907144024848
+    },
+    "LIRF": {
+      "n": 11317.0,
+      "rmse": 1242.2620286307072,
+      "mean_true": 1096.5428116992136
+    },
+    "EDDM": {
+      "n": 11266.0,
+      "rmse": 467.6793586332067,
+      "mean_true": 870.2126753062312
+    },
+    "LSZH": {
+      "n": 9735.0,
+      "rmse": 302.7352771783946,
+      "mean_true": 775.1167950693374
+    }
+  },
+  "rmse_by_month": {
+    "2025-01": {
+      "n": 153706.0,
+      "rmse": 549.4372107727214,
+      "mean_true": 995.292525991178
+    },
+    "2025-07": {
+      "n": 64613.0,
+      "rmse": 427.5025304158874,
+      "mean_true": 1021.0127683283549
+    }
+  },
+  "leaderboard_weighted_rmse": 517.1080556967431,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.5188818521458155,
+  "sse_share_worst_1pct": 0.6610520799635883,
+  "sse_share_worst_5pct": 0.7886540294276279,
+  "prediction_source_mix": {
+    "aobt_proxy": 0.98753,
+    "stand_runway": 0.01196,
+    "adep_stand": 0.00035,
+    "adep_runway": 0.00016
+  },
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

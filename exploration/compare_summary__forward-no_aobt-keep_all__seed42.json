@@ -1,0 +1,176 @@
+{
+  "selection": {
+    "what": "compare.py winner",
+    "selected_on": "val",
+    "value": [
+      "naive_offblock",
+      "ridge",
+      "lightgbm",
+      "xgboost_antigravity",
+      "mlp_antigravity",
+      "ensemble_antigravity"
+    ],
+    "gate": "selection_set_declared"
+  },
+  "selection_valid": true,
+  "selection_invalid_reason": null,
+  "lb_weighting_caveat": "leaderboard_weighted_rmse reweights by AIRPORT only, not by airport|month. It is an approximation on any part whose month mix differs from the scored 71% Jan / 29% Jul.",
+  "pool_check": {
+    "gate": "training_pool_equality",
+    "arms": [
+      "reference_pool",
+      "reference_pool"
+    ],
+    "n_items": 1387105,
+    "method": "each arm's own recorded hash of the rows it consumed, vs a reference recomputed here",
+    "note": "a hash of split_report.json is NOT sufficient (MISTAKES.md #56)",
+    "reference_sha": "d16701419a0d1c8703890a73c854ce9c",
+    "arm_shas": {
+      "naive_offblock": "d16701419a0d1c8703890a73c854ce9c",
+      "ridge": "d16701419a0d1c8703890a73c854ce9c",
+      "lightgbm": "d16701419a0d1c8703890a73c854ce9c",
+      "xgboost_antigravity": "d16701419a0d1c8703890a73c854ce9c",
+      "mlp_antigravity": "d16701419a0d1c8703890a73c854ce9c",
+      "ensemble_antigravity": "d16701419a0d1c8703890a73c854ce9c"
+    }
+  },
+  "feature_check": {
+    "gate": "feature_code_agreement",
+    "fingerprints": {
+      "naive_offblock": "47cba1fb5f800c8d",
+      "ridge": "47cba1fb5f800c8d",
+      "lightgbm": "47cba1fb5f800c8d",
+      "xgboost_antigravity": "47cba1fb5f800c8d",
+      "mlp_antigravity": "47cba1fb5f800c8d",
+      "ensemble_antigravity": "47cba1fb5f800c8d"
+    },
+    "distinct": [
+      "47cba1fb5f800c8d"
+    ],
+    "current_code": "47cba1fb5f800c8d",
+    "passed": true,
+    "stale_vs_current_code": false
+  },
+  "val_fitted_arms": [
+    "ensemble_antigravity"
+  ],
+  "val_fitted_caveat": "arm(s) ['ensemble_antigravity'] fit free parameters (blend weights) directly on the val labels, so their val RMSE is in-sample for those parameters and is not comparable at face value against arms that only early-stopped on val. See config.VAL_FITTED_ARMS.",
+  "winner_not_val_fitted": {
+    "arm": "mlp_antigravity",
+    "val_rmse": 259.77224935192254,
+    "test_rmse": 280.7165094084413
+  },
+  "candidates": [
+    {
+      "arm": "naive_offblock",
+      "split": "forward",
+      "featureset": "no_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 427.93907903799504,
+      "val_rmse_in_band": 313.58117730882384,
+      "val_lb_weighted_rmse": 387.41805381787174,
+      "val_trivial_mean_rmse": 502.21048775291234,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\naive_offblock__forward-no_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 462.3408172609719,
+      "test_lb_weighted_rmse": 425.09872835977177,
+      "test_trivial_mean_rmse": 523.3818996794457
+    },
+    {
+      "arm": "ridge",
+      "split": "forward",
+      "featureset": "no_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 393.06675096624156,
+      "val_rmse_in_band": 279.7377023314198,
+      "val_lb_weighted_rmse": 352.94363084216286,
+      "val_trivial_mean_rmse": 502.21048775291234,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\ridge__forward-no_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 432.9781348990564,
+      "test_lb_weighted_rmse": 397.97551841757604,
+      "test_trivial_mean_rmse": 523.3818996794457
+    },
+    {
+      "arm": "lightgbm",
+      "split": "forward",
+      "featureset": "no_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 307.8684019337729,
+      "val_rmse_in_band": 259.1720338601425,
+      "val_lb_weighted_rmse": 282.0535760405254,
+      "val_trivial_mean_rmse": 502.21048775291234,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\lightgbm__forward-no_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 329.0122727608524,
+      "test_lb_weighted_rmse": 305.04274442349526,
+      "test_trivial_mean_rmse": 523.3818996794457
+    },
+    {
+      "arm": "xgboost_antigravity",
+      "split": "forward",
+      "featureset": "no_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 324.76222633225746,
+      "val_rmse_in_band": 261.89610749759436,
+      "val_lb_weighted_rmse": 296.629672791484,
+      "val_trivial_mean_rmse": 502.21048775291234,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\xgboost_antigravity__forward-no_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 356.825552225944,
+      "test_lb_weighted_rmse": 328.45933558929846,
+      "test_trivial_mean_rmse": 523.3818996794457
+    },
+    {
+      "arm": "mlp_antigravity",
+      "split": "forward",
+      "featureset": "no_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 259.77224935192254,
+      "val_rmse_in_band": 244.9675999804317,
+      "val_lb_weighted_rmse": 247.30730664843585,
+      "val_trivial_mean_rmse": 502.21048775291234,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\mlp_antigravity__forward-no_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 280.7165094084413,
+      "test_lb_weighted_rmse": 272.1153105568555,
+      "test_trivial_mean_rmse": 523.3818996794457
+    },
+    {
+      "arm": "ensemble_antigravity",
+      "split": "forward",
+      "featureset": "no_aobt",
+      "seed": 42,
+      "outlier_policy": "keep_all",
+      "val_rmse": 258.5551110861999,
+      "val_rmse_in_band": 243.45737102507061,
+      "val_lb_weighted_rmse": 245.99159838756358,
+      "val_trivial_mean_rmse": 502.21048775291234,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "feature_fingerprint": "47cba1fb5f800c8d",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\ensemble_antigravity__forward-no_aobt-keep_all__seed42\\eval_val.json",
+      "test_rmse": 280.3576328151153,
+      "test_lb_weighted_rmse": 270.74230510578326,
+      "test_trivial_mean_rmse": 523.3818996794457
+    }
+  ],
+  "winner": "ensemble_antigravity",
+  "winner_val_rmse": 258.5551110861999,
+  "winner_test_rmse": 280.3576328151153
+}

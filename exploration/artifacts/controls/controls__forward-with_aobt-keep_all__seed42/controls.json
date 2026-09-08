@@ -1,0 +1,54 @@
+{
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "outlier_policy": "keep_all",
+  "target_encoding_leak_probe": {
+    "permuted_train_rmse": 565.7204360481537,
+    "permuted_train_floor": 565.7945448725804,
+    "ratio": 0.9998690181354728,
+    "passed": true
+  },
+  "permutation_upper_bound_ok": true,
+  "no_information_floor_rmse": 502.2102351378472,
+  "honest_arm_rmse": 330.74018149251725,
+  "label_permutation": {
+    "name": "label_permutation__forward-with_aobt-keep_all",
+    "passed": true,
+    "expectation": "mean permuted metric over 5 permutations within 10.0442 of the measured measured_chance (502.2102), and clearly below the real arm",
+    "measured": {
+      "mean_permuted": 516.0425848285904,
+      "std_permuted": 3.0756037825578137,
+      "min_permuted": 513.5977017366048,
+      "max_permuted": 521.1409329139041,
+      "n_permutations": 5.0,
+      "reference_level": 502.2102351378472,
+      "tolerance": 10.044204702756943,
+      "mean_fraction_reassigned": 0.9987986666666666,
+      "measured_chance": 502.2102351378472,
+      "real_arm_score": 330.74018149251725
+    },
+    "detail": "reference is the measured_chance (502.2102); a permuted-label run is judged against the level its own initialisation already reaches, never against an assumed chance (MISTAKES.md #33/#44).",
+    "extra": {
+      "reference_source": "measured_chance",
+      "per_permutation": [
+        513.6423728396419,
+        521.1409329139041,
+        515.7240444881407,
+        516.1078721646606,
+        513.5977017366048
+      ],
+      "weak_evidence": false,
+      "perturbation_level": "item"
+    }
+  },
+  "overfit_one_batch": {
+    "n": 4000,
+    "train_rmse": 1.4620994598381078e-11,
+    "batch_mean_floor": 466.70515426739183,
+    "ratio": 3.132811897338548e-14,
+    "passed": true
+  },
+  "passed": true,
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

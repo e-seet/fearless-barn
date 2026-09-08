@@ -1,0 +1,196 @@
+{
+  "arm": "per_airport_tuned",
+  "part": "test",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n": 328009,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 285.668159604864,
+  "mae": 142.5453260145614,
+  "bias_mean_signed_error": -11.040361275137142,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 990.3741699438759,
+      "rmse": 523.3818996794457
+    },
+    "train_median": {
+      "constant": 910.0,
+      "rmse": 530.3687647948359
+    }
+  },
+  "hard_floor_rmse_at_cap": 3.515435378540153,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 3,
+  "n_in_band": 327948,
+  "rmse_in_band": 219.34197023101206,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 44799.0,
+      "rmse": 223.93118388175435,
+      "mean_true": 1035.3952766802831
+    },
+    "EGLL": {
+      "n": 39423.0,
+      "rmse": 221.95994991009334,
+      "mean_true": 1365.1891281739086
+    },
+    "EHAM": {
+      "n": 38690.0,
+      "rmse": 177.75284060233284,
+      "mean_true": 777.1536831222538
+    },
+    "LFPG": {
+      "n": 38424.0,
+      "rmse": 278.98561626750956,
+      "mean_true": 1069.401051426192
+    },
+    "EDDF": {
+      "n": 35446.0,
+      "rmse": 181.77153249887314,
+      "mean_true": 892.3375557185578
+    },
+    "LEMD": {
+      "n": 35404.0,
+      "rmse": 171.10019686309155,
+      "mean_true": 998.5948197943735
+    },
+    "LEBL": {
+      "n": 27167.0,
+      "rmse": 180.47999256548403,
+      "mean_true": 920.951043545478
+    },
+    "EDDM": {
+      "n": 24597.0,
+      "rmse": 219.38177522390663,
+      "mean_true": 891.8520144733097
+    },
+    "LIRF": {
+      "n": 23396.0,
+      "rmse": 760.8244862829416,
+      "mean_true": 1100.2903915199179
+    },
+    "LSZH": {
+      "n": 20663.0,
+      "rmse": 162.64372966334784,
+      "mean_true": 757.2445433867299
+    }
+  },
+  "rmse_by_month": {
+    "2025-12": {
+      "n": 165677.0,
+      "rmse": 275.8604303970972,
+      "mean_true": 995.0367824139742
+    },
+    "2025-11": {
+      "n": 162332.0,
+      "rmse": 295.3423456953475,
+      "mean_true": 996.9587265603824
+    }
+  },
+  "leaderboard_weighted_rmse": 263.48260560397,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.4910311315097695,
+  "sse_share_worst_1pct": 0.619651824030307,
+  "sse_share_worst_5pct": 0.7504284928889872,
+  "best_iteration_per_airport": {
+    "EDDF": 389,
+    "EDDM": 320,
+    "EGLL": 243,
+    "EHAM": 625,
+    "LEBL": 283,
+    "LEMD": 296,
+    "LFPG": 294,
+    "LIRF": 191,
+    "LSZH": 547,
+    "LTFM": 404
+  },
+  "config_per_airport": {
+    "EDDF": "lr02_lv511_md50",
+    "EDDM": "lr02_lv511_md50",
+    "EGLL": "lr02_lv511_md50",
+    "EHAM": "lr01_lv255_md100",
+    "LEBL": "lr02_lv511_md50",
+    "LEMD": "lr02_lv511_md50",
+    "LFPG": "lr02_lv511_md50",
+    "LIRF": "lr02_lv511_md50",
+    "LSZH": "lr01_lv255_md100",
+    "LTFM": "lr02_lv511_md50"
+  },
+  "best_global_config": "lr02_lv511_md50",
+  "convergence_per_airport": {
+    "EDDF": {
+      "best_iteration": 389,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "EDDM": {
+      "best_iteration": 320,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "EGLL": {
+      "best_iteration": 243,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "EHAM": {
+      "best_iteration": 625,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LEBL": {
+      "best_iteration": 283,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LEMD": {
+      "best_iteration": 296,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LFPG": {
+      "best_iteration": 294,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LIRF": {
+      "best_iteration": 191,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LSZH": {
+      "best_iteration": 547,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LTFM": {
+      "best_iteration": 404,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    }
+  },
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

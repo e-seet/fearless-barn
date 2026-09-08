@@ -1,0 +1,74 @@
+{
+  "arm": "cross_blend",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "base_arms": {
+    "a": "per_airport_stack",
+    "a_tag": "inner2",
+    "b": "ensemble_antigravity",
+    "b_tag": null
+  },
+  "weight_mode": "global",
+  "weights": 0.17400072713621462,
+  "weight_note": "w is the weight on arm A. Fitted on the VALIDATION labels: this arm is in config.VAL_FITTED_ARMS and its val RMSE is IN-SAMPLE for these weights, not a held-out estimate. See the module docstring.",
+  "n_weights": 1,
+  "val_rmse_clipped": 253.05383868860562,
+  "w_sweep": [
+    {
+      "w": 0.0,
+      "val_rmse": 254.4047160629529
+    },
+    {
+      "w": 0.1,
+      "val_rmse": 253.29870743390532
+    },
+    {
+      "w": 0.2,
+      "val_rmse": 253.08407772242873
+    },
+    {
+      "w": 0.30000000000000004,
+      "val_rmse": 253.76308869070593
+    },
+    {
+      "w": 0.4,
+      "val_rmse": 255.32861089856632
+    },
+    {
+      "w": 0.5,
+      "val_rmse": 257.7644922817057
+    },
+    {
+      "w": 0.6000000000000001,
+      "val_rmse": 261.04636943541124
+    },
+    {
+      "w": 0.7000000000000001,
+      "val_rmse": 265.1428295954513
+    },
+    {
+      "w": 0.8,
+      "val_rmse": 270.01680087110407
+    },
+    {
+      "w": 0.9,
+      "val_rmse": 275.62703966729765
+    },
+    {
+      "w": 1.0,
+      "val_rmse": 281.9295954935563
+    }
+  ],
+  "refit_only": false,
+  "selection": {
+    "what": "cross_blend weights (global)",
+    "selected_on": "val",
+    "value": 0.17400072713621462,
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": "keep_all",
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

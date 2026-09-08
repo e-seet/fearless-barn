@@ -1,0 +1,22 @@
+{
+  "arm": "per_airport_mlp",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "airport_rmses": {
+    "EDDF": 190.53856715178532,
+    "EDDM": 201.5101292001547,
+    "EGLL": 287.83795735333524,
+    "EHAM": 171.59341755468574,
+    "LEBL": 269.4054266533972,
+    "LEMD": 207.5258886926279,
+    "LFPG": 269.4721104614848,
+    "LIRF": 1128.9208823047634,
+    "LSZH": 205.46108644213533,
+    "LTFM": 270.0253032839468
+  },
+  "val_rmse": 388.06833291872573,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

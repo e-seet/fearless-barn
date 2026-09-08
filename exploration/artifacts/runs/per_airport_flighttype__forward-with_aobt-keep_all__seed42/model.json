@@ -1,0 +1,358 @@
+{
+  "arm": "per_airport_flighttype",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "params": {
+    "objective": "l2",
+    "metric": "rmse",
+    "learning_rate": 0.05,
+    "num_leaves": 255,
+    "min_data_in_leaf": 100,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_cat_threshold": 64,
+    "cat_smooth": 20.0,
+    "verbosity": -1,
+    "num_threads": 0,
+    "seed": 42,
+    "bagging_seed": 42,
+    "feature_fraction_seed": 42,
+    "device_type": "cpu"
+  },
+  "num_boost_round_cap": 5000,
+  "patience": 200,
+  "min_cell_rows": 1000,
+  "best_iteration_per_cell": {
+    "EDDF|S": 148,
+    "EDDF|Other": 133,
+    "EDDM|S": 155,
+    "EDDM|Other": 84,
+    "EGLL|S": 102,
+    "EGLL|Other": 18,
+    "EHAM|S": 119,
+    "EHAM|Other": 71,
+    "LEBL|S": 125,
+    "LEBL|Other": 185,
+    "LEMD|S": 93,
+    "LEMD|Other": 182,
+    "LFPG|S": 299,
+    "LFPG|Other": 207,
+    "LIRF|S": 197,
+    "LIRF|Other": 229,
+    "LSZH|S": 94,
+    "LSZH|Other": 71,
+    "LTFM|S": 169,
+    "LTFM|Other": 108
+  },
+  "n_train_per_cell": {
+    "EDDF|S": 147451,
+    "EDDF|Other": 5001,
+    "EDDM|S": 104973,
+    "EDDM|Other": 6359,
+    "EGLL|S": 157965,
+    "EGLL|Other": 1363,
+    "EHAM|S": 156294,
+    "EHAM|Other": 9716,
+    "LEBL|S": 113182,
+    "LEBL|Other": 6907,
+    "LEMD|S": 130943,
+    "LEMD|Other": 9332,
+    "LFPG|S": 154367,
+    "LFPG|Other": 5214,
+    "LIRF|S": 105798,
+    "LIRF|Other": 2701,
+    "LSZH|S": 78660,
+    "LSZH|Other": 10858,
+    "LTFM|S": 172501,
+    "LTFM|Other": 7520
+  },
+  "convergence_per_cell": {
+    "EDDF|POOLED": {
+      "best_iteration": 185,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EDDF|S": {
+      "best_iteration": 148,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EDDF|Other": {
+      "best_iteration": 133,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EDDM|POOLED": {
+      "best_iteration": 149,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EDDM|S": {
+      "best_iteration": 155,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EDDM|Other": {
+      "best_iteration": 84,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EGLL|POOLED": {
+      "best_iteration": 133,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EGLL|S": {
+      "best_iteration": 102,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EGLL|Other": {
+      "best_iteration": 18,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EHAM|POOLED": {
+      "best_iteration": 114,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EHAM|S": {
+      "best_iteration": 119,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EHAM|Other": {
+      "best_iteration": 71,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEBL|POOLED": {
+      "best_iteration": 138,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEBL|S": {
+      "best_iteration": 125,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEBL|Other": {
+      "best_iteration": 185,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEMD|POOLED": {
+      "best_iteration": 130,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEMD|S": {
+      "best_iteration": 93,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEMD|Other": {
+      "best_iteration": 182,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LFPG|POOLED": {
+      "best_iteration": 155,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LFPG|S": {
+      "best_iteration": 299,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LFPG|Other": {
+      "best_iteration": 207,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LIRF|POOLED": {
+      "best_iteration": 164,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LIRF|S": {
+      "best_iteration": 197,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LIRF|Other": {
+      "best_iteration": 229,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LSZH|POOLED": {
+      "best_iteration": 98,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LSZH|S": {
+      "best_iteration": 94,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LSZH|Other": {
+      "best_iteration": 71,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LTFM|POOLED": {
+      "best_iteration": 154,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LTFM|S": {
+      "best_iteration": 169,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LTFM|Other": {
+      "best_iteration": 108,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    }
+  },
+  "cells_using_pooled_fallback": [],
+  "any_cell_hit_round_cap": false,
+  "val_rmse_clipped": 295.7731490710379,
+  "refit_only": false,
+  "selection": {
+    "what": "per_airport_flighttype best_iteration (one per airport/bucket cell)",
+    "selected_on": "val",
+    "value": {
+      "EDDF|S": 148,
+      "EDDF|Other": 133,
+      "EDDM|S": 155,
+      "EDDM|Other": 84,
+      "EGLL|S": 102,
+      "EGLL|Other": 18,
+      "EHAM|S": 119,
+      "EHAM|Other": 71,
+      "LEBL|S": 125,
+      "LEBL|Other": 185,
+      "LEMD|S": 93,
+      "LEMD|Other": 182,
+      "LFPG|S": 299,
+      "LFPG|Other": 207,
+      "LIRF|S": 197,
+      "LIRF|Other": 229,
+      "LSZH|S": 94,
+      "LSZH|Other": 71,
+      "LTFM|S": 169,
+      "LTFM|Other": 108,
+      "EDDF|POOLED": 185,
+      "EDDM|POOLED": 149,
+      "EGLL|POOLED": 133,
+      "EHAM|POOLED": 114,
+      "LEBL|POOLED": 138,
+      "LEMD|POOLED": 130,
+      "LFPG|POOLED": 155,
+      "LIRF|POOLED": 164,
+      "LSZH|POOLED": 98,
+      "LTFM|POOLED": 154
+    },
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "n_features": 57,
+  "n_airports": 10,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "pool_fingerprint_note": "hashed over the UNION of rows consumed across all per-airport fits (the pooled-per-airport fallback always sees the full airport, so no row is dropped by bucket routing)",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "categorical_features": [
+    "ADEP_mvt",
+    "RUNWAY_mvt",
+    "STAND_mvt",
+    "ADES_mvt",
+    "AIRCRAFT_TYPE_mvt",
+    "AIRCRAFT_OPERATOR_flt",
+    "WK_TBL_CAT_flt",
+    "MARKET_SEGMENT_flt",
+    "FLIGHT_TYPE_flt",
+    "FLIGHT_RULE_mvt",
+    "stand_runway",
+    "adep_runway",
+    "adep_stand",
+    "dest_region",
+    "adep_flight_record"
+  ],
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

@@ -1,0 +1,31 @@
+{
+  "split": "forward",
+  "featureset": "no_aobt",
+  "seed": 42,
+  "outlier_policy": "keep_all",
+  "absolute_time_cols": [
+    "month_num",
+    "doy",
+    "doy_sin",
+    "doy_cos"
+  ],
+  "results": {
+    "with_absolute_time": {
+      "lightgbm_val_rmse": 314.5660666103551,
+      "ridge_val_rmse": 393.4905173320529,
+      "gap_ridge_minus_gbm": 78.92445072169778,
+      "winner": "lightgbm",
+      "n_features": 52
+    },
+    "without_absolute_time": {
+      "lightgbm_val_rmse": 315.95974895971057,
+      "ridge_val_rmse": 393.08947485780675,
+      "gap_ridge_minus_gbm": 77.12972589809618,
+      "winner": "lightgbm",
+      "n_features": 48
+    }
+  },
+  "ranking_unchanged": true,
+  "passed": true,
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

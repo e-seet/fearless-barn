@@ -1,0 +1,173 @@
+{
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "selection": {
+    "what": "lightgbm hyperparameters",
+    "selected_on": "val",
+    "value": "lr05_lv511_md50",
+    "gate": "selection_set_declared"
+  },
+  "results": [
+    {
+      "config": "lr05_lv511_md50",
+      "flags": [
+        "--num-leaves",
+        "511",
+        "--min-data-in-leaf",
+        "50"
+      ],
+      "val_rmse": 291.8006225425927,
+      "val_rmse_in_band": 249.19008417664574,
+      "val_lb_weighted_rmse": 264.14505463113335,
+      "best_iteration": 153,
+      "early_stop_fired": true,
+      "hit_max_epochs": false,
+      "learning_rate": 0.05,
+      "num_leaves": 511,
+      "min_data_in_leaf": 50,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=lr05_lv511_md50"
+    },
+    {
+      "config": "lr02_lv511_md50",
+      "flags": [
+        "--learning-rate",
+        "0.02",
+        "--num-leaves",
+        "511",
+        "--min-data-in-leaf",
+        "50"
+      ],
+      "val_rmse": 292.9711198767476,
+      "val_rmse_in_band": 248.61060941331343,
+      "val_lb_weighted_rmse": 264.69012697929446,
+      "best_iteration": 430,
+      "early_stop_fired": true,
+      "hit_max_epochs": false,
+      "learning_rate": 0.02,
+      "num_leaves": 511,
+      "min_data_in_leaf": 50,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=lr02_lv511_md50"
+    },
+    {
+      "config": "lr02_lv255_md100",
+      "flags": [
+        "--learning-rate",
+        "0.02"
+      ],
+      "val_rmse": 294.48623328065065,
+      "val_rmse_in_band": 248.02738860702823,
+      "val_lb_weighted_rmse": 266.11059464965155,
+      "best_iteration": 769,
+      "early_stop_fired": true,
+      "hit_max_epochs": false,
+      "learning_rate": 0.02,
+      "num_leaves": 255,
+      "min_data_in_leaf": 100,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=lr02_lv255_md100"
+    },
+    {
+      "config": "lr01_lv255_md100",
+      "flags": [
+        "--learning-rate",
+        "0.01"
+      ],
+      "val_rmse": 295.2033754362383,
+      "val_rmse_in_band": 247.88414907561008,
+      "val_lb_weighted_rmse": 266.52916841000837,
+      "best_iteration": 1518,
+      "early_stop_fired": true,
+      "hit_max_epochs": false,
+      "learning_rate": 0.01,
+      "num_leaves": 255,
+      "min_data_in_leaf": 100,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=lr01_lv255_md100"
+    },
+    {
+      "config": "lr05_lv127_md200",
+      "flags": [
+        "--num-leaves",
+        "127",
+        "--min-data-in-leaf",
+        "200"
+      ],
+      "val_rmse": 297.69511320389336,
+      "val_rmse_in_band": 251.90786517362864,
+      "val_lb_weighted_rmse": 268.9686637389015,
+      "best_iteration": 461,
+      "early_stop_fired": true,
+      "hit_max_epochs": false,
+      "learning_rate": 0.05,
+      "num_leaves": 127,
+      "min_data_in_leaf": 200,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=lr05_lv127_md200"
+    },
+    {
+      "config": "base_lr05_lv255_md100",
+      "flags": [],
+      "val_rmse": 297.7786003736069,
+      "val_rmse_in_band": 249.98949048182868,
+      "val_lb_weighted_rmse": 268.85645571106306,
+      "best_iteration": 245,
+      "early_stop_fired": true,
+      "hit_max_epochs": false,
+      "learning_rate": 0.05,
+      "num_leaves": 255,
+      "min_data_in_leaf": 100,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=base_lr05_lv255_md100"
+    }
+  ],
+  "best": {
+    "config": "lr05_lv511_md50",
+    "flags": [
+      "--num-leaves",
+      "511",
+      "--min-data-in-leaf",
+      "50"
+    ],
+    "val_rmse": 291.8006225425927,
+    "val_rmse_in_band": 249.19008417664574,
+    "val_lb_weighted_rmse": 264.14505463113335,
+    "best_iteration": 153,
+    "early_stop_fired": true,
+    "hit_max_epochs": false,
+    "learning_rate": 0.05,
+    "num_leaves": 511,
+    "min_data_in_leaf": 50,
+    "feature_fingerprint": "aeade7fee3099c1a",
+    "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+    "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=lr05_lv511_md50"
+  },
+  "baseline": {
+    "config": "base_lr05_lv255_md100",
+    "flags": [],
+    "val_rmse": 297.7786003736069,
+    "val_rmse_in_band": 249.98949048182868,
+    "val_lb_weighted_rmse": 268.85645571106306,
+    "best_iteration": 245,
+    "early_stop_fired": true,
+    "hit_max_epochs": false,
+    "learning_rate": 0.05,
+    "num_leaves": 255,
+    "min_data_in_leaf": 100,
+    "feature_fingerprint": "aeade7fee3099c1a",
+    "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+    "run_dir": "artifacts\\runs\\lightgbm__forward-with_aobt-keep_all__seed42__tag=base_lr05_lv255_md100"
+  },
+  "gain_vs_baseline_sec": 5.9779778310141864,
+  "scope_caveat": "only the LightGBM arm was tuned. This result may not be used to re-rank it against an untuned arm; it selects the configuration the submission is refit with.",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

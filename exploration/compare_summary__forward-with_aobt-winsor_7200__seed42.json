@@ -1,0 +1,81 @@
+{
+  "selection": {
+    "what": "compare.py winner",
+    "selected_on": "val",
+    "value": [
+      "naive_offblock",
+      "ridge",
+      "lightgbm"
+    ],
+    "gate": "selection_set_declared"
+  },
+  "selection_valid": true,
+  "selection_invalid_reason": null,
+  "lb_weighting_caveat": "leaderboard_weighted_rmse reweights by AIRPORT only, not by airport|month. It is an approximation on any part whose month mix differs from the scored 71% Jan / 29% Jul.",
+  "pool_check": {
+    "gate": "training_pool_equality",
+    "arms": [
+      "arms_share_pool",
+      "arms_share_pool"
+    ],
+    "n_items": 1387105,
+    "method": "set equality on sample IDs actually consumed by each arm",
+    "note": "a hash of split_report.json is NOT sufficient (MISTAKES.md #56)"
+  },
+  "candidates": [
+    {
+      "arm": "naive_offblock",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "winsor_7200",
+      "val_rmse": 481.98127698219093,
+      "val_rmse_in_band": 385.20587514488096,
+      "val_lb_weighted_rmse": 443.76661705816014,
+      "val_trivial_mean_rmse": 502.2187150880793,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\naive_offblock__forward-with_aobt-winsor_7200__seed42\\eval_val.json",
+      "test_rmse": 484.7556990129041,
+      "test_lb_weighted_rmse": 441.5398008544071,
+      "test_trivial_mean_rmse": 523.4132461844197
+    },
+    {
+      "arm": "ridge",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "winsor_7200",
+      "val_rmse": 385.61465777368204,
+      "val_rmse_in_band": 273.36142553561245,
+      "val_lb_weighted_rmse": 344.6864310058825,
+      "val_trivial_mean_rmse": 502.2187150880793,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\ridge__forward-with_aobt-winsor_7200__seed42\\eval_val.json",
+      "test_rmse": 420.302972667806,
+      "test_lb_weighted_rmse": 383.8356282881539,
+      "test_trivial_mean_rmse": 523.4132461844197
+    },
+    {
+      "arm": "lightgbm",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "winsor_7200",
+      "val_rmse": 342.47691910281003,
+      "val_rmse_in_band": 232.96529889856978,
+      "val_lb_weighted_rmse": 302.5927237579402,
+      "val_trivial_mean_rmse": 502.2187150880793,
+      "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+      "n_train": 1387105,
+      "result_path": "artifacts\\runs\\lightgbm__forward-with_aobt-winsor_7200__seed42\\eval_val.json",
+      "test_rmse": 363.14864423723265,
+      "test_lb_weighted_rmse": 325.585407302567,
+      "test_trivial_mean_rmse": 523.4132461844197
+    }
+  ],
+  "winner": "lightgbm",
+  "winner_val_rmse": 342.47691910281003,
+  "winner_test_rmse": 363.14864423723265
+}

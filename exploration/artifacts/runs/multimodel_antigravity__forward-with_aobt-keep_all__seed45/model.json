@@ -1,0 +1,23 @@
+{
+  "arm": "multimodel_antigravity",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 45,
+  "weights_per_airport": {
+    "EDDF": 0.5746846706106821,
+    "EDDM": 0.644611667820719,
+    "EGLL": 0.7154547746231179,
+    "EHAM": 0.7812692345458558,
+    "LEBL": 0.7717017798559626,
+    "LEMD": 0.7520072954279869,
+    "LFPG": 0.5334288445617046,
+    "LIRF": 0.0,
+    "LSZH": 0.7077093035267095,
+    "LTFM": 0.6173016460746087
+  },
+  "weight_split": "forward_inner",
+  "val_rmse": 252.27354049326962,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

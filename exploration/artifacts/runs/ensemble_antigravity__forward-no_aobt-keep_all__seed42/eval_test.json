@@ -1,0 +1,123 @@
+{
+  "arm": "ensemble_antigravity",
+  "part": "test",
+  "split": "forward",
+  "featureset": "no_aobt",
+  "seed": 42,
+  "n": 328009,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 280.3576328151153,
+  "mae": 167.86961215121008,
+  "bias_mean_signed_error": 14.44318514189617,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 990.3741699438759,
+      "rmse": 523.3818996794457
+    },
+    "train_median": {
+      "constant": 910.0,
+      "rmse": 530.3687647948359
+    }
+  },
+  "hard_floor_rmse_at_cap": 3.515435378540153,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 3,
+  "n_in_band": 327948,
+  "rmse_in_band": 262.0754690682656,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 44799.0,
+      "rmse": 273.86963634295705,
+      "mean_true": 1035.3952766802831
+    },
+    "EGLL": {
+      "n": 39423.0,
+      "rmse": 272.0204972917877,
+      "mean_true": 1365.1891281739086
+    },
+    "EHAM": {
+      "n": 38690.0,
+      "rmse": 223.33287094156958,
+      "mean_true": 777.1536831222538
+    },
+    "LFPG": {
+      "n": 38424.0,
+      "rmse": 336.8796211280683,
+      "mean_true": 1069.401051426192
+    },
+    "EDDF": {
+      "n": 35446.0,
+      "rmse": 232.0490111309097,
+      "mean_true": 892.3375557185578
+    },
+    "LEMD": {
+      "n": 35404.0,
+      "rmse": 196.26390934299855,
+      "mean_true": 998.5948197943735
+    },
+    "LEBL": {
+      "n": 27167.0,
+      "rmse": 205.3993493688865,
+      "mean_true": 920.951043545478
+    },
+    "EDDM": {
+      "n": 24597.0,
+      "rmse": 278.45197194486803,
+      "mean_true": 891.8520144733097
+    },
+    "LIRF": {
+      "n": 23396.0,
+      "rmse": 501.2907650207829,
+      "mean_true": 1100.2903915199179
+    },
+    "LSZH": {
+      "n": 20663.0,
+      "rmse": 220.9840623518553,
+      "mean_true": 757.2445433867299
+    }
+  },
+  "rmse_by_month": {
+    "2025-12": {
+      "n": 165677.0,
+      "rmse": 285.77587187918317,
+      "mean_true": 995.0367824139742
+    },
+    "2025-11": {
+      "n": 162332.0,
+      "rmse": 274.717578706325,
+      "mean_true": 996.9587265603824
+    }
+  },
+  "leaderboard_weighted_rmse": 270.74230510578326,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.2424465905603238,
+  "sse_share_worst_1pct": 0.4395016615994181,
+  "sse_share_worst_5pct": 0.6431921737362023,
+  "weights": {
+    "lightgbm": 0.08021071160454066,
+    "xgboost_antigravity": 0.0,
+    "mlp_antigravity": 0.8740845606206338,
+    "ridge": 0.045704727774825614,
+    "naive_offblock": 0.0
+  },
+  "base_arms": [
+    "lightgbm",
+    "xgboost_antigravity",
+    "mlp_antigravity",
+    "ridge",
+    "naive_offblock"
+  ],
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

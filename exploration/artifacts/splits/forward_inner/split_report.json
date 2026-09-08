@@ -1,0 +1,79 @@
+{
+  "split": "forward_inner",
+  "spec": {
+    "train": [
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06"
+    ],
+    "val": [
+      "2025-07",
+      "2025-08"
+    ],
+    "test": [],
+    "airport_filter": null
+  },
+  "sizes": {
+    "train": 1005519,
+    "val": 381895,
+    "test": 0
+  },
+  "months": {
+    "train": [
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06"
+    ],
+    "val": [
+      "2025-07",
+      "2025-08"
+    ],
+    "test": []
+  },
+  "airports": {
+    "train": [
+      "EDDF",
+      "EDDM",
+      "EGLL",
+      "EHAM",
+      "LEBL",
+      "LEMD",
+      "LFPG",
+      "LIRF",
+      "LSZH",
+      "LTFM"
+    ],
+    "val": [
+      "EDDF",
+      "EDDM",
+      "EGLL",
+      "EHAM",
+      "LEBL",
+      "LEMD",
+      "LFPG",
+      "LIRF",
+      "LSZH",
+      "LTFM"
+    ],
+    "test": []
+  },
+  "disjointness": {
+    "gate": "split_disjointness",
+    "splits": {
+      "train": 1005519,
+      "val": 381895
+    },
+    "pairs_checked": [
+      "train/val"
+    ],
+    "group_level_checked": false
+  },
+  "gates_failed": [],
+  "passed": true
+}

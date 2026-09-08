@@ -1,0 +1,129 @@
+{
+  "arm": "cross_blend",
+  "part": "val",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n": 369624,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 250.23506363140902,
+  "mae": 148.27008581371317,
+  "bias_mean_signed_error": -3.5955560211182744,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 990.3741699438759,
+      "rmse": 502.21048775291234
+    },
+    "train_median": {
+      "constant": 910.0,
+      "rmse": 508.68253808811323
+    }
+  },
+  "hard_floor_rmse_at_cap": 1.880035929210847,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 1,
+  "n_in_band": 369531,
+  "rmse_in_band": 231.08391013699094,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 48144.0,
+      "rmse": 241.97774367853165,
+      "mean_true": 1034.1419699235626
+    },
+    "EHAM": {
+      "n": 43250.0,
+      "rmse": 161.55608901868712,
+      "mean_true": 727.4227976878612
+    },
+    "EDDF": {
+      "n": 42243.0,
+      "rmse": 170.02123603194082,
+      "mean_true": 868.6958786071065
+    },
+    "LFPG": {
+      "n": 41491.0,
+      "rmse": 238.45208088803707,
+      "mean_true": 1053.2032729989637
+    },
+    "EGLL": {
+      "n": 40795.0,
+      "rmse": 237.73710377531606,
+      "mean_true": 1392.116950606692
+    },
+    "LEMD": {
+      "n": 36563.0,
+      "rmse": 188.56224702519702,
+      "mean_true": 1036.1076224598637
+    },
+    "LEBL": {
+      "n": 32444.0,
+      "rmse": 235.7413441507621,
+      "mean_true": 983.8072679077795
+    },
+    "EDDM": {
+      "n": 31405.0,
+      "rmse": 178.73075355672157,
+      "mean_true": 806.1564718993791
+    },
+    "LIRF": {
+      "n": 28809.0,
+      "rmse": 544.9764363141912,
+      "mean_true": 1213.868652157312
+    },
+    "LSZH": {
+      "n": 24480.0,
+      "rmse": 162.7759855035322,
+      "mean_true": 724.3208741830065
+    }
+  },
+  "rmse_by_month": {
+    "2025-10": {
+      "n": 185674.0,
+      "rmse": 236.31564531146606,
+      "mean_true": 991.9811659144522
+    },
+    "2025-09": {
+      "n": 183950.0,
+      "rmse": 263.54043822042473,
+      "mean_true": 989.7839141070943
+    }
+  },
+  "leaderboard_weighted_rmse": 233.95112651117287,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.29309095845679145,
+  "sse_share_worst_1pct": 0.47221545383275615,
+  "sse_share_worst_5pct": 0.6469460061429239,
+  "weight_mode": "per_airport",
+  "weights": {
+    "EDDF": 0.7995137031827618,
+    "EDDM": 0.7610491437864679,
+    "EGLL": 0.8582719097744635,
+    "EHAM": 0.88577957477591,
+    "LEBL": 0.9503363058744723,
+    "LEMD": 0.7337148140118941,
+    "LFPG": 0.702126562571156,
+    "LIRF": 0.0,
+    "LSZH": 0.5788408448609906,
+    "LTFM": 0.724064420038846
+  },
+  "base_arms": {
+    "a": "per_airport_stack",
+    "a_tag": "inner2_tuned",
+    "b": "ensemble_antigravity",
+    "b_tag": null
+  },
+  "weight_note": "w is the weight on arm A. Fitted on the VALIDATION labels: this arm is in config.VAL_FITTED_ARMS and its val RMSE is IN-SAMPLE for these weights, not a held-out estimate. See the module docstring.",
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

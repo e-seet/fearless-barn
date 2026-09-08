@@ -1,0 +1,44 @@
+{
+  "arm": "per_airport",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 44,
+  "tag": "l2ctl",
+  "target_transform": "identity",
+  "params": {
+    "objective": "l2",
+    "metric": "rmse",
+    "learning_rate": 0.05,
+    "num_leaves": 255,
+    "min_data_in_leaf": 100,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_cat_threshold": 64,
+    "cat_smooth": 20.0,
+    "verbosity": -1,
+    "num_threads": 0,
+    "seed": 44,
+    "bagging_seed": 44,
+    "feature_fraction_seed": 44,
+    "device_type": "cpu"
+  },
+  "convergence": {
+    "best_iteration": {
+      "EDDF": 175,
+      "EDDM": 108,
+      "EGLL": 117,
+      "EHAM": 104,
+      "LEBL": 124,
+      "LEMD": 109,
+      "LFPG": 188,
+      "LIRF": 107,
+      "LSZH": 112,
+      "LTFM": 163
+    },
+    "any_hit_cap": false
+  },
+  "note": "tests_log_target/run_log_target.py -- log-target experiment; L2 control and log1p variant trained by the same script",
+  "early_stopping_on": "val"
+}

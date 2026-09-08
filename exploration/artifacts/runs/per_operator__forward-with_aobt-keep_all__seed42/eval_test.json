@@ -1,0 +1,303 @@
+{
+  "arm": "per_operator",
+  "part": "test",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n": 328009,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 288.5031853856401,
+  "mae": 147.30578569958112,
+  "bias_mean_signed_error": -10.652896257289783,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 990.3741699438759,
+      "rmse": 523.3818996794457
+    },
+    "train_median": {
+      "constant": 910.0,
+      "rmse": 530.3687647948359
+    }
+  },
+  "hard_floor_rmse_at_cap": 3.515435378540153,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 3,
+  "n_in_band": 327948,
+  "rmse_in_band": 229.74474486106394,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 44799.0,
+      "rmse": 228.92440119649288,
+      "mean_true": 1035.3952766802831
+    },
+    "EGLL": {
+      "n": 39423.0,
+      "rmse": 227.98189688211178,
+      "mean_true": 1365.1891281739086
+    },
+    "EHAM": {
+      "n": 38690.0,
+      "rmse": 181.9447278582504,
+      "mean_true": 777.1536831222538
+    },
+    "LFPG": {
+      "n": 38424.0,
+      "rmse": 297.74802993179645,
+      "mean_true": 1069.401051426192
+    },
+    "EDDF": {
+      "n": 35446.0,
+      "rmse": 197.5117127555913,
+      "mean_true": 892.3375557185578
+    },
+    "LEMD": {
+      "n": 35404.0,
+      "rmse": 178.6268760052209,
+      "mean_true": 998.5948197943735
+    },
+    "LEBL": {
+      "n": 27167.0,
+      "rmse": 188.20265058050694,
+      "mean_true": 920.951043545478
+    },
+    "EDDM": {
+      "n": 24597.0,
+      "rmse": 225.28263218132454,
+      "mean_true": 891.8520144733097
+    },
+    "LIRF": {
+      "n": 23396.0,
+      "rmse": 742.1624104673627,
+      "mean_true": 1100.2903915199179
+    },
+    "LSZH": {
+      "n": 20663.0,
+      "rmse": 171.51134029870994,
+      "mean_true": 757.2445433867299
+    }
+  },
+  "rmse_by_month": {
+    "2025-12": {
+      "n": 165677.0,
+      "rmse": 284.0611819512019,
+      "mean_true": 995.0367824139742
+    },
+    "2025-11": {
+      "n": 162332.0,
+      "rmse": 292.96728243026524,
+      "mean_true": 996.9587265603824
+    }
+  },
+  "leaderboard_weighted_rmse": 267.4629309880665,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.46214068891172416,
+  "sse_share_worst_1pct": 0.59970735639369,
+  "sse_share_worst_5pct": 0.7392940887061125,
+  "best_iteration_per_operator": {
+    "11dca3faf5500fdddbb17189b5d18bcdc763244fcc850c62a7f4a597bb9a486f": 123,
+    "15411f3d2b871015c95769cd30aecfb523d203b1f4d1cc0875d24545cb1261ae": 167,
+    "1901074fe2ac2c5bce71167f8b2141b483c06d93b6dacab5a0cbce204d7b6704": 85,
+    "2cf658a7fffbe4bd9af09b8b0e3ded4a207f1321a90981e012e8598908af0927": 85,
+    "2e779833cd63c6740801f421988469d0b68dbf5b2b6ceb66e0aa47efbce564f6": 130,
+    "32d3f74474520aa4774ad9771e0c06c390cd7464b1a85a46f67f39e59e3f1d5d": 106,
+    "3ba01c3b2192b97eabf11a7fb3cc50d55440d2cd6c29069fe278595c2581b41f": 128,
+    "4ac51f35907034e876650c22087170ecdb411f4dbfbe8ccce288f9bd7caf3bdd": 137,
+    "4c1c009e61262f296b0e892f491e2225350d7d88ef02aa3bad4fa6182507762c": 162,
+    "6251e0eec78fc5b8317bec9b1a8d4d06f3cadfc4d147afc3405964d6adb19374": 104,
+    "65b92f7aceccfa29f570209f189d1d2471db6ea69b035e01424f5bacec566c71": 67,
+    "813bafd420ebe84b781f8b5a8e907093746a0c8cf12799884f8ef97def759521": 154,
+    "896f2dd89b8e2807e67ff8fd25ea5a32f3f620fcfcbe2e146b20ab1c0d9898a5": 284,
+    "8e92b7d7ac51748efe185c21ae9d676c546d239f3a23d9240e98cb59ff928eab": 94,
+    "95828822709b52d2167a5400012d395c3cf1c2978c05e5cc41dccf6fcf559188": 159,
+    "Other": 277,
+    "aa14d43dcaf7a26218c748bd3eda94f0dd97825d6cfb8add45b5f11c8cfc9560": 143,
+    "af8b67cf63bb6f7021b7845e4f8207a03dea73c99563cf1dd37e6227df6d570f": 162,
+    "b621f702094339549fba5e392d2bb18a702509bc45610f17108f3fbd8ea624ea": 183,
+    "e57ea73e58ce079e696b2685ccca1b2dd0929a7f532dcd73a414818760aa7d4c": 125,
+    "f3270be89c31fcfa9d66b4bace5a2f9961b82a69918faad16c829c6e07929838": 136
+  },
+  "convergence_per_operator": {
+    "11dca3faf5500fdddbb17189b5d18bcdc763244fcc850c62a7f4a597bb9a486f": {
+      "best_iteration": 123,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "15411f3d2b871015c95769cd30aecfb523d203b1f4d1cc0875d24545cb1261ae": {
+      "best_iteration": 167,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "1901074fe2ac2c5bce71167f8b2141b483c06d93b6dacab5a0cbce204d7b6704": {
+      "best_iteration": 85,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "2cf658a7fffbe4bd9af09b8b0e3ded4a207f1321a90981e012e8598908af0927": {
+      "best_iteration": 85,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "2e779833cd63c6740801f421988469d0b68dbf5b2b6ceb66e0aa47efbce564f6": {
+      "best_iteration": 130,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "32d3f74474520aa4774ad9771e0c06c390cd7464b1a85a46f67f39e59e3f1d5d": {
+      "best_iteration": 106,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "3ba01c3b2192b97eabf11a7fb3cc50d55440d2cd6c29069fe278595c2581b41f": {
+      "best_iteration": 128,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "4ac51f35907034e876650c22087170ecdb411f4dbfbe8ccce288f9bd7caf3bdd": {
+      "best_iteration": 137,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "4c1c009e61262f296b0e892f491e2225350d7d88ef02aa3bad4fa6182507762c": {
+      "best_iteration": 162,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "6251e0eec78fc5b8317bec9b1a8d4d06f3cadfc4d147afc3405964d6adb19374": {
+      "best_iteration": 104,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "65b92f7aceccfa29f570209f189d1d2471db6ea69b035e01424f5bacec566c71": {
+      "best_iteration": 67,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "813bafd420ebe84b781f8b5a8e907093746a0c8cf12799884f8ef97def759521": {
+      "best_iteration": 154,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "896f2dd89b8e2807e67ff8fd25ea5a32f3f620fcfcbe2e146b20ab1c0d9898a5": {
+      "best_iteration": 284,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "8e92b7d7ac51748efe185c21ae9d676c546d239f3a23d9240e98cb59ff928eab": {
+      "best_iteration": 94,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "95828822709b52d2167a5400012d395c3cf1c2978c05e5cc41dccf6fcf559188": {
+      "best_iteration": 159,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "Other": {
+      "best_iteration": 277,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "aa14d43dcaf7a26218c748bd3eda94f0dd97825d6cfb8add45b5f11c8cfc9560": {
+      "best_iteration": 143,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "af8b67cf63bb6f7021b7845e4f8207a03dea73c99563cf1dd37e6227df6d570f": {
+      "best_iteration": 162,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "b621f702094339549fba5e392d2bb18a702509bc45610f17108f3fbd8ea624ea": {
+      "best_iteration": 183,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "e57ea73e58ce079e696b2685ccca1b2dd0929a7f532dcd73a414818760aa7d4c": {
+      "best_iteration": 125,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "f3270be89c31fcfa9d66b4bace5a2f9961b82a69918faad16c829c6e07929838": {
+      "best_iteration": 136,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    }
+  },
+  "vocab": [
+    "11dca3faf5500fdddbb17189b5d18bcdc763244fcc850c62a7f4a597bb9a486f",
+    "95828822709b52d2167a5400012d395c3cf1c2978c05e5cc41dccf6fcf559188",
+    "6251e0eec78fc5b8317bec9b1a8d4d06f3cadfc4d147afc3405964d6adb19374",
+    "aa14d43dcaf7a26218c748bd3eda94f0dd97825d6cfb8add45b5f11c8cfc9560",
+    "8e92b7d7ac51748efe185c21ae9d676c546d239f3a23d9240e98cb59ff928eab",
+    "4c1c009e61262f296b0e892f491e2225350d7d88ef02aa3bad4fa6182507762c",
+    "813bafd420ebe84b781f8b5a8e907093746a0c8cf12799884f8ef97def759521",
+    "3ba01c3b2192b97eabf11a7fb3cc50d55440d2cd6c29069fe278595c2581b41f",
+    "4ac51f35907034e876650c22087170ecdb411f4dbfbe8ccce288f9bd7caf3bdd",
+    "65b92f7aceccfa29f570209f189d1d2471db6ea69b035e01424f5bacec566c71",
+    "1901074fe2ac2c5bce71167f8b2141b483c06d93b6dacab5a0cbce204d7b6704",
+    "32d3f74474520aa4774ad9771e0c06c390cd7464b1a85a46f67f39e59e3f1d5d",
+    "896f2dd89b8e2807e67ff8fd25ea5a32f3f620fcfcbe2e146b20ab1c0d9898a5",
+    "af8b67cf63bb6f7021b7845e4f8207a03dea73c99563cf1dd37e6227df6d570f",
+    "f3270be89c31fcfa9d66b4bace5a2f9961b82a69918faad16c829c6e07929838",
+    "b621f702094339549fba5e392d2bb18a702509bc45610f17108f3fbd8ea624ea",
+    "2e779833cd63c6740801f421988469d0b68dbf5b2b6ceb66e0aa47efbce564f6",
+    "e57ea73e58ce079e696b2685ccca1b2dd0929a7f532dcd73a414818760aa7d4c",
+    "15411f3d2b871015c95769cd30aecfb523d203b1f4d1cc0875d24545cb1261ae",
+    "2cf658a7fffbe4bd9af09b8b0e3ded4a207f1321a90981e012e8598908af0927"
+  ],
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

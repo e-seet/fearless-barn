@@ -1,0 +1,23 @@
+{
+  "arm": "airport_debiased_multimodel",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "tag": null,
+  "prediction_cap_sec": 86400,
+  "seed": 42,
+  "team": "fearless_barn",
+  "version": 12,
+  "n_rows": 215876,
+  "pred_median": 980.0867032189832,
+  "pred_mean": 1055.6058432779166,
+  "provenance": {
+    "airport_debiased_multimodel": {
+      "run_dir": "artifacts\\runs\\airport_debiased_multimodel__forward-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": null,
+      "weights": null
+    }
+  }
+}

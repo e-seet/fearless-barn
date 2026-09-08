@@ -1,0 +1,336 @@
+{
+  "arm": "per_airport_tuned",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "grid": {
+    "base_lr05_lv255_md100": {},
+    "lr02_lv255_md100": {
+      "learning_rate": 0.02
+    },
+    "lr02_lv511_md50": {
+      "learning_rate": 0.02,
+      "num_leaves": 511,
+      "min_data_in_leaf": 50
+    },
+    "lr05_lv511_md50": {
+      "num_leaves": 511,
+      "min_data_in_leaf": 50
+    },
+    "lr05_lv127_md200": {
+      "num_leaves": 127,
+      "min_data_in_leaf": 200
+    },
+    "lr01_lv255_md100": {
+      "learning_rate": 0.01
+    }
+  },
+  "config_per_airport": {
+    "EDDF": "lr02_lv511_md50",
+    "EDDM": "lr02_lv511_md50",
+    "EGLL": "lr02_lv511_md50",
+    "EHAM": "lr01_lv255_md100",
+    "LEBL": "lr02_lv511_md50",
+    "LEMD": "lr02_lv511_md50",
+    "LFPG": "lr02_lv511_md50",
+    "LIRF": "lr02_lv511_md50",
+    "LSZH": "lr01_lv255_md100",
+    "LTFM": "lr02_lv511_md50"
+  },
+  "best_global_config": "lr02_lv511_md50",
+  "best_iteration_per_airport": {
+    "EDDF": 389,
+    "EDDM": 320,
+    "EGLL": 243,
+    "EHAM": 625,
+    "LEBL": 283,
+    "LEMD": 296,
+    "LFPG": 294,
+    "LIRF": 191,
+    "LSZH": 547,
+    "LTFM": 404
+  },
+  "n_train_per_airport": {
+    "EDDF": 152452,
+    "EDDM": 111332,
+    "EGLL": 159328,
+    "EHAM": 166010,
+    "LEBL": 120089,
+    "LEMD": 140275,
+    "LFPG": 159581,
+    "LIRF": 108499,
+    "LSZH": 89518,
+    "LTFM": 180021
+  },
+  "convergence_per_airport": {
+    "EDDF": {
+      "best_iteration": 389,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "EDDM": {
+      "best_iteration": 320,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "EGLL": {
+      "best_iteration": 243,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "EHAM": {
+      "best_iteration": 625,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LEBL": {
+      "best_iteration": 283,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LEMD": {
+      "best_iteration": 296,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LFPG": {
+      "best_iteration": 294,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LIRF": {
+      "best_iteration": 191,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LSZH": {
+      "best_iteration": 547,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    },
+    "LTFM": {
+      "best_iteration": 404,
+      "max_rounds": 5000,
+      "hit_max_rounds": false,
+      "early_stop_fired": true
+    }
+  },
+  "sweep": {
+    "val_sse_by_config_and_airport": {
+      "base_lr05_lv255_md100": {
+        "EDDF": 1153279407.0012126,
+        "EDDM": 977239512.1610429,
+        "EGLL": 2308470547.7410345,
+        "EHAM": 1132914918.565478,
+        "LEBL": 1768605627.8026056,
+        "LEMD": 1273721507.8057637,
+        "LFPG": 2497910763.8931317,
+        "LIRF": 14145088818.701967,
+        "LSZH": 626046306.6620915,
+        "LTFM": 2718284156.27788
+      },
+      "lr02_lv255_md100": {
+        "EDDF": 1143679700.908672,
+        "EDDM": 969062460.0325758,
+        "EGLL": 2293966687.4837484,
+        "EHAM": 1123132078.4805264,
+        "LEBL": 1760267244.2706823,
+        "LEMD": 1266105468.3330004,
+        "LFPG": 2478264724.501227,
+        "LIRF": 13947094955.048735,
+        "LSZH": 618636377.3745422,
+        "LTFM": 2689578624.6694865
+      },
+      "lr02_lv511_md50": {
+        "EDDF": 1138476865.1042416,
+        "EDDM": 961983050.2406769,
+        "EGLL": 2276084641.223611,
+        "EHAM": 1124016596.1266782,
+        "LEBL": 1756769782.6477444,
+        "LEMD": 1261771389.9026542,
+        "LFPG": 2387358560.426229,
+        "LIRF": 13864688723.832836,
+        "LSZH": 621824326.4506814,
+        "LTFM": 2667999399.4246774
+      },
+      "lr05_lv511_md50": {
+        "EDDF": 1152291886.0836337,
+        "EDDM": 970527605.8192022,
+        "EGLL": 2304217449.406431,
+        "EHAM": 1136354396.3871045,
+        "LEBL": 1767299795.415434,
+        "LEMD": 1273842792.2680612,
+        "LFPG": 2413678539.9896483,
+        "LIRF": 13981333726.174278,
+        "LSZH": 623825431.2528954,
+        "LTFM": 2688980027.6124563
+      },
+      "lr05_lv127_md200": {
+        "EDDF": 1161904638.27843,
+        "EDDM": 978188519.5290916,
+        "EGLL": 2347098600.6263165,
+        "EHAM": 1135207900.7876492,
+        "LEBL": 1789025180.489414,
+        "LEMD": 1283778544.6165717,
+        "LFPG": 2571494199.287151,
+        "LIRF": 14390295369.857409,
+        "LSZH": 622390459.6479244,
+        "LTFM": 2775768709.2264566
+      },
+      "lr01_lv255_md100": {
+        "EDDF": 1142017121.2967515,
+        "EDDM": 966498138.353347,
+        "EGLL": 2294013381.2502103,
+        "EHAM": 1119420345.9683735,
+        "LEBL": 1761145277.7288685,
+        "LEMD": 1262554903.3933496,
+        "LFPG": 2474246948.412518,
+        "LIRF": 13982748187.577408,
+        "LSZH": 617366627.2121713,
+        "LTFM": 2686431069.3167415
+      }
+    },
+    "best_iteration_by_config_and_airport": {
+      "base_lr05_lv255_md100": {
+        "EDDF": 185,
+        "EDDM": 149,
+        "EGLL": 133,
+        "EHAM": 114,
+        "LEBL": 138,
+        "LEMD": 130,
+        "LFPG": 155,
+        "LIRF": 164,
+        "LSZH": 98,
+        "LTFM": 154
+      },
+      "lr02_lv255_md100": {
+        "EDDF": 417,
+        "EDDM": 431,
+        "EGLL": 272,
+        "EHAM": 282,
+        "LEBL": 364,
+        "LEMD": 366,
+        "LFPG": 669,
+        "LIRF": 393,
+        "LSZH": 262,
+        "LTFM": 437
+      },
+      "lr02_lv511_md50": {
+        "EDDF": 389,
+        "EDDM": 320,
+        "EGLL": 243,
+        "EHAM": 288,
+        "LEBL": 283,
+        "LEMD": 296,
+        "LFPG": 294,
+        "LIRF": 191,
+        "LSZH": 233,
+        "LTFM": 404
+      },
+      "lr05_lv511_md50": {
+        "EDDF": 140,
+        "EDDM": 140,
+        "EGLL": 92,
+        "EHAM": 122,
+        "LEBL": 121,
+        "LEMD": 93,
+        "LFPG": 131,
+        "LIRF": 86,
+        "LSZH": 71,
+        "LTFM": 131
+      },
+      "lr05_lv127_md200": {
+        "EDDF": 216,
+        "EDDM": 155,
+        "EGLL": 154,
+        "EHAM": 156,
+        "LEBL": 171,
+        "LEMD": 147,
+        "LFPG": 262,
+        "LIRF": 532,
+        "LSZH": 116,
+        "LTFM": 178
+      },
+      "lr01_lv255_md100": {
+        "EDDF": 832,
+        "EDDM": 872,
+        "EGLL": 648,
+        "EHAM": 625,
+        "LEBL": 720,
+        "LEMD": 672,
+        "LFPG": 1438,
+        "LIRF": 772,
+        "LSZH": 547,
+        "LTFM": 938
+      }
+    },
+    "rmse_A_default_everywhere": 278.1728827790398,
+    "rmse_B_best_single_global": 275.5315175940544,
+    "rmse_C_per_airport_config": 275.4870635110393,
+    "C_minus_B": -0.04445408301506859,
+    "B_minus_A": -2.641365184985432
+  },
+  "selection_note": "a config per airport is TEN selections on val, not one. `sweep.C_minus_B` isolates whether that beats a single globally-chosen config; `B_minus_A` is the separate, cheaper question of whether the default was a poor choice.",
+  "val_rmse_clipped": 275.4870635110393,
+  "refit_only": false,
+  "selection": {
+    "what": "per_airport_tuned config + best_iteration (one per airport)",
+    "selected_on": "val",
+    "value": {
+      "config_per_airport": {
+        "EDDF": "lr02_lv511_md50",
+        "EDDM": "lr02_lv511_md50",
+        "EGLL": "lr02_lv511_md50",
+        "EHAM": "lr01_lv255_md100",
+        "LEBL": "lr02_lv511_md50",
+        "LEMD": "lr02_lv511_md50",
+        "LFPG": "lr02_lv511_md50",
+        "LIRF": "lr02_lv511_md50",
+        "LSZH": "lr01_lv255_md100",
+        "LTFM": "lr02_lv511_md50"
+      },
+      "best_global_config": "lr02_lv511_md50"
+    },
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "n_features": 57,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "categorical_features": [
+    "ADEP_mvt",
+    "RUNWAY_mvt",
+    "STAND_mvt",
+    "ADES_mvt",
+    "AIRCRAFT_TYPE_mvt",
+    "AIRCRAFT_OPERATOR_flt",
+    "WK_TBL_CAT_flt",
+    "MARKET_SEGMENT_flt",
+    "FLIGHT_TYPE_flt",
+    "FLIGHT_RULE_mvt",
+    "stand_runway",
+    "adep_runway",
+    "adep_stand",
+    "dest_region",
+    "adep_flight_record"
+  ],
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

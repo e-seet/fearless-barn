@@ -1,0 +1,17 @@
+{
+  "arm": "airport_multiseed_multimodel",
+  "base_arm": "airport_unsup_multimodel",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "ensemble_seeds": [
+    42,
+    43,
+    44
+  ],
+  "weights_are_val_fitted": false,
+  "val_rmse": 246.6490406411181,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

@@ -1,0 +1,47 @@
+{
+  "arm": "ensemble_antigravity",
+  "split": "seasonal",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "base_arms": [
+    "lightgbm",
+    "xgboost_antigravity",
+    "mlp_antigravity",
+    "ridge",
+    "naive_offblock"
+  ],
+  "weights": {
+    "lightgbm": 0.2567399610060223,
+    "xgboost_antigravity": 0.0,
+    "mlp_antigravity": 0.7432600389939776,
+    "ridge": 0.0,
+    "naive_offblock": 0.0
+  },
+  "val_rmse_clipped": 246.04410854365568,
+  "refit_only": false,
+  "selection": {
+    "what": "ensemble_antigravity weights",
+    "selected_on": "val",
+    "value": {
+      "lightgbm": 0.2567399610060223,
+      "xgboost_antigravity": 0.0,
+      "mlp_antigravity": 0.7432600389939776,
+      "ridge": 0.0,
+      "naive_offblock": 0.0
+    },
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1574669,
+  "train_pool_ids_sha": "927cef8495b6bcb3337a09b7aa386236",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1574951,
+    "n_impossible_dropped": 282,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1574669
+  },
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

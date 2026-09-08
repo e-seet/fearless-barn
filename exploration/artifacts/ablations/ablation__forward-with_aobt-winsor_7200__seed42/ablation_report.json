@@ -1,0 +1,30 @@
+{
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "outlier_policy": "winsor_7200",
+  "absolute_time_cols": [
+    "month_num",
+    "doy",
+    "doy_sin",
+    "doy_cos"
+  ],
+  "results": {
+    "with_absolute_time": {
+      "lightgbm_val_rmse": 341.51641944722024,
+      "ridge_val_rmse": 385.7417200187679,
+      "gap_ridge_minus_gbm": 44.22530057154768,
+      "winner": "lightgbm",
+      "n_features": 49
+    },
+    "without_absolute_time": {
+      "lightgbm_val_rmse": 341.2418276766092,
+      "ridge_val_rmse": 385.68921224726296,
+      "gap_ridge_minus_gbm": 44.44738457065375,
+      "winner": "lightgbm",
+      "n_features": 45
+    }
+  },
+  "ranking_unchanged": true,
+  "passed": true
+}

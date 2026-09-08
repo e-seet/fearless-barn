@@ -1,0 +1,19 @@
+{
+  "arm": "airport_lirf_identity_multimodel",
+  "base_arm": "airport_operator_multimodel",
+  "band": "idband",
+  "identity_band_hi_sec": 50000.0,
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "condition": "ADEP_mvt == 'LIRF' and has_flight_record == 0 and delta_sched_sec > threshold",
+  "threshold_sec": 25200.0,
+  "n_free_params": 0,
+  "prediction_when_condition_holds": "delta_sched_sec (raw feature, no fitting)",
+  "n_overridden_val": 5,
+  "val_rmse": 247.78434850411887,
+  "weights_are_val_fitted": false,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

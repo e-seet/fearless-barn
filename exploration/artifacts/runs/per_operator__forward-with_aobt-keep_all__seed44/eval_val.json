@@ -1,0 +1,303 @@
+{
+  "arm": "per_operator",
+  "part": "val",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 44,
+  "n": 369624,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 276.44204658403606,
+  "mae": 150.4053189227443,
+  "bias_mean_signed_error": -1.1924140406609955,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 990.3741699438759,
+      "rmse": 502.21048775291234
+    },
+    "train_median": {
+      "constant": 910.0,
+      "rmse": 508.68253808811323
+    }
+  },
+  "hard_floor_rmse_at_cap": 1.880035929210847,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 1,
+  "n_in_band": 369531,
+  "rmse_in_band": 240.3275853297297,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 48144.0,
+      "rmse": 243.24812710196795,
+      "mean_true": 1034.1419699235626
+    },
+    "EHAM": {
+      "n": 43250.0,
+      "rmse": 169.6752314043733,
+      "mean_true": 727.4227976878612
+    },
+    "EDDF": {
+      "n": 42243.0,
+      "rmse": 168.35750456128864,
+      "mean_true": 868.6958786071065
+    },
+    "LFPG": {
+      "n": 41491.0,
+      "rmse": 251.4534798773014,
+      "mean_true": 1053.2032729989637
+    },
+    "EGLL": {
+      "n": 40795.0,
+      "rmse": 244.52473981931607,
+      "mean_true": 1392.116950606692
+    },
+    "LEMD": {
+      "n": 36563.0,
+      "rmse": 194.20293213923145,
+      "mean_true": 1036.1076224598637
+    },
+    "LEBL": {
+      "n": 32444.0,
+      "rmse": 238.69417184092782,
+      "mean_true": 983.8072679077795
+    },
+    "EDDM": {
+      "n": 31405.0,
+      "rmse": 182.26556163735694,
+      "mean_true": 806.1564718993791
+    },
+    "LIRF": {
+      "n": 28809.0,
+      "rmse": 670.6920637502878,
+      "mean_true": 1213.868652157312
+    },
+    "LSZH": {
+      "n": 24480.0,
+      "rmse": 164.5793498774835,
+      "mean_true": 724.3208741830065
+    }
+  },
+  "rmse_by_month": {
+    "2025-10": {
+      "n": 185674.0,
+      "rmse": 252.86770359295141,
+      "mean_true": 991.9811659144522
+    },
+    "2025-09": {
+      "n": 183950.0,
+      "rmse": 298.3542879644256,
+      "mean_true": 989.7839141070943
+    }
+  },
+  "leaderboard_weighted_rmse": 253.94282252812158,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.39106634322204814,
+  "sse_share_worst_1pct": 0.5552997296226716,
+  "sse_share_worst_5pct": 0.7063506915266656,
+  "best_iteration_per_operator": {
+    "11dca3faf5500fdddbb17189b5d18bcdc763244fcc850c62a7f4a597bb9a486f": 119,
+    "15411f3d2b871015c95769cd30aecfb523d203b1f4d1cc0875d24545cb1261ae": 165,
+    "1901074fe2ac2c5bce71167f8b2141b483c06d93b6dacab5a0cbce204d7b6704": 91,
+    "2cf658a7fffbe4bd9af09b8b0e3ded4a207f1321a90981e012e8598908af0927": 80,
+    "2e779833cd63c6740801f421988469d0b68dbf5b2b6ceb66e0aa47efbce564f6": 172,
+    "32d3f74474520aa4774ad9771e0c06c390cd7464b1a85a46f67f39e59e3f1d5d": 177,
+    "3ba01c3b2192b97eabf11a7fb3cc50d55440d2cd6c29069fe278595c2581b41f": 109,
+    "4ac51f35907034e876650c22087170ecdb411f4dbfbe8ccce288f9bd7caf3bdd": 162,
+    "4c1c009e61262f296b0e892f491e2225350d7d88ef02aa3bad4fa6182507762c": 151,
+    "6251e0eec78fc5b8317bec9b1a8d4d06f3cadfc4d147afc3405964d6adb19374": 112,
+    "65b92f7aceccfa29f570209f189d1d2471db6ea69b035e01424f5bacec566c71": 69,
+    "813bafd420ebe84b781f8b5a8e907093746a0c8cf12799884f8ef97def759521": 110,
+    "896f2dd89b8e2807e67ff8fd25ea5a32f3f620fcfcbe2e146b20ab1c0d9898a5": 324,
+    "8e92b7d7ac51748efe185c21ae9d676c546d239f3a23d9240e98cb59ff928eab": 130,
+    "95828822709b52d2167a5400012d395c3cf1c2978c05e5cc41dccf6fcf559188": 113,
+    "Other": 237,
+    "aa14d43dcaf7a26218c748bd3eda94f0dd97825d6cfb8add45b5f11c8cfc9560": 137,
+    "af8b67cf63bb6f7021b7845e4f8207a03dea73c99563cf1dd37e6227df6d570f": 148,
+    "b621f702094339549fba5e392d2bb18a702509bc45610f17108f3fbd8ea624ea": 139,
+    "e57ea73e58ce079e696b2685ccca1b2dd0929a7f532dcd73a414818760aa7d4c": 86,
+    "f3270be89c31fcfa9d66b4bace5a2f9961b82a69918faad16c829c6e07929838": 140
+  },
+  "convergence_per_operator": {
+    "11dca3faf5500fdddbb17189b5d18bcdc763244fcc850c62a7f4a597bb9a486f": {
+      "best_iteration": 119,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "15411f3d2b871015c95769cd30aecfb523d203b1f4d1cc0875d24545cb1261ae": {
+      "best_iteration": 165,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "1901074fe2ac2c5bce71167f8b2141b483c06d93b6dacab5a0cbce204d7b6704": {
+      "best_iteration": 91,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "2cf658a7fffbe4bd9af09b8b0e3ded4a207f1321a90981e012e8598908af0927": {
+      "best_iteration": 80,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "2e779833cd63c6740801f421988469d0b68dbf5b2b6ceb66e0aa47efbce564f6": {
+      "best_iteration": 172,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "32d3f74474520aa4774ad9771e0c06c390cd7464b1a85a46f67f39e59e3f1d5d": {
+      "best_iteration": 177,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "3ba01c3b2192b97eabf11a7fb3cc50d55440d2cd6c29069fe278595c2581b41f": {
+      "best_iteration": 109,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "4ac51f35907034e876650c22087170ecdb411f4dbfbe8ccce288f9bd7caf3bdd": {
+      "best_iteration": 162,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "4c1c009e61262f296b0e892f491e2225350d7d88ef02aa3bad4fa6182507762c": {
+      "best_iteration": 151,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "6251e0eec78fc5b8317bec9b1a8d4d06f3cadfc4d147afc3405964d6adb19374": {
+      "best_iteration": 112,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "65b92f7aceccfa29f570209f189d1d2471db6ea69b035e01424f5bacec566c71": {
+      "best_iteration": 69,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "813bafd420ebe84b781f8b5a8e907093746a0c8cf12799884f8ef97def759521": {
+      "best_iteration": 110,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "896f2dd89b8e2807e67ff8fd25ea5a32f3f620fcfcbe2e146b20ab1c0d9898a5": {
+      "best_iteration": 324,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "8e92b7d7ac51748efe185c21ae9d676c546d239f3a23d9240e98cb59ff928eab": {
+      "best_iteration": 130,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "95828822709b52d2167a5400012d395c3cf1c2978c05e5cc41dccf6fcf559188": {
+      "best_iteration": 113,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "Other": {
+      "best_iteration": 237,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "aa14d43dcaf7a26218c748bd3eda94f0dd97825d6cfb8add45b5f11c8cfc9560": {
+      "best_iteration": 137,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "af8b67cf63bb6f7021b7845e4f8207a03dea73c99563cf1dd37e6227df6d570f": {
+      "best_iteration": 148,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "b621f702094339549fba5e392d2bb18a702509bc45610f17108f3fbd8ea624ea": {
+      "best_iteration": 139,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "e57ea73e58ce079e696b2685ccca1b2dd0929a7f532dcd73a414818760aa7d4c": {
+      "best_iteration": 86,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "f3270be89c31fcfa9d66b4bace5a2f9961b82a69918faad16c829c6e07929838": {
+      "best_iteration": 140,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    }
+  },
+  "vocab": [
+    "11dca3faf5500fdddbb17189b5d18bcdc763244fcc850c62a7f4a597bb9a486f",
+    "95828822709b52d2167a5400012d395c3cf1c2978c05e5cc41dccf6fcf559188",
+    "6251e0eec78fc5b8317bec9b1a8d4d06f3cadfc4d147afc3405964d6adb19374",
+    "aa14d43dcaf7a26218c748bd3eda94f0dd97825d6cfb8add45b5f11c8cfc9560",
+    "8e92b7d7ac51748efe185c21ae9d676c546d239f3a23d9240e98cb59ff928eab",
+    "4c1c009e61262f296b0e892f491e2225350d7d88ef02aa3bad4fa6182507762c",
+    "813bafd420ebe84b781f8b5a8e907093746a0c8cf12799884f8ef97def759521",
+    "3ba01c3b2192b97eabf11a7fb3cc50d55440d2cd6c29069fe278595c2581b41f",
+    "4ac51f35907034e876650c22087170ecdb411f4dbfbe8ccce288f9bd7caf3bdd",
+    "65b92f7aceccfa29f570209f189d1d2471db6ea69b035e01424f5bacec566c71",
+    "1901074fe2ac2c5bce71167f8b2141b483c06d93b6dacab5a0cbce204d7b6704",
+    "32d3f74474520aa4774ad9771e0c06c390cd7464b1a85a46f67f39e59e3f1d5d",
+    "896f2dd89b8e2807e67ff8fd25ea5a32f3f620fcfcbe2e146b20ab1c0d9898a5",
+    "af8b67cf63bb6f7021b7845e4f8207a03dea73c99563cf1dd37e6227df6d570f",
+    "f3270be89c31fcfa9d66b4bace5a2f9961b82a69918faad16c829c6e07929838",
+    "b621f702094339549fba5e392d2bb18a702509bc45610f17108f3fbd8ea624ea",
+    "2e779833cd63c6740801f421988469d0b68dbf5b2b6ceb66e0aa47efbce564f6",
+    "e57ea73e58ce079e696b2685ccca1b2dd0929a7f532dcd73a414818760aa7d4c",
+    "15411f3d2b871015c95769cd30aecfb523d203b1f4d1cc0875d24545cb1261ae",
+    "2cf658a7fffbe4bd9af09b8b0e3ded4a207f1321a90981e012e8598908af0927"
+  ],
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

@@ -1,0 +1,193 @@
+{
+  "arm": "per_airport",
+  "part": "val",
+  "split": "forward_inner",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n": 381895,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 432.9651562957984,
+  "mae": 169.42723387371484,
+  "bias_mean_signed_error": 3.2642763586137065,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 982.9422584527848,
+      "rmse": 648.6992246670783
+    },
+    "train_median": {
+      "constant": 907.0,
+      "rmse": 656.2365583488106
+    }
+  },
+  "hard_floor_rmse_at_cap": 3.7937521723713608,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 5,
+  "n_in_band": 381701,
+  "rmse_in_band": 310.31509283142697,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 50611.0,
+      "rmse": 282.98547408101535,
+      "mean_true": 1058.3796605481023
+    },
+    "EHAM": {
+      "n": 45110.0,
+      "rmse": 168.1720689426866,
+      "mean_true": 776.5487031700288
+    },
+    "LFPG": {
+      "n": 43793.0,
+      "rmse": 277.64385573744573,
+      "mean_true": 1042.4959240061196
+    },
+    "EDDF": {
+      "n": 42802.0,
+      "rmse": 190.550640850713,
+      "mean_true": 860.3844913789076
+    },
+    "EGLL": {
+      "n": 41618.0,
+      "rmse": 279.027213688196,
+      "mean_true": 1398.8872843481186
+    },
+    "LEMD": {
+      "n": 37309.0,
+      "rmse": 196.21256648507386,
+      "mean_true": 1034.1541987188077
+    },
+    "LEBL": {
+      "n": 33348.0,
+      "rmse": 264.5681151294755,
+      "mean_true": 993.4881252249011
+    },
+    "EDDM": {
+      "n": 31387.0,
+      "rmse": 184.6493774879974,
+      "mean_true": 798.5911045974448
+    },
+    "LIRF": {
+      "n": 30670.0,
+      "rmse": 1305.3260155004214,
+      "mean_true": 1333.3687642647537
+    },
+    "LSZH": {
+      "n": 25247.0,
+      "rmse": 198.22316507548723,
+      "mean_true": 738.3746979839188
+    }
+  },
+  "rmse_by_month": {
+    "2025-08": {
+      "n": 191182.0,
+      "rmse": 320.2831387995038,
+      "mean_true": 993.7642612798276
+    },
+    "2025-07": {
+      "n": 190713.0,
+      "rmse": 522.0585162089257,
+      "mean_true": 1025.7332431454595
+    }
+  },
+  "leaderboard_weighted_rmse": 371.5714686993197,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.6600801082096163,
+  "sse_share_worst_1pct": 0.7679367960438722,
+  "sse_share_worst_5pct": 0.857441615042513,
+  "best_iteration_per_airport": {
+    "EDDF": 92,
+    "EDDM": 81,
+    "EGLL": 141,
+    "EHAM": 95,
+    "LEBL": 120,
+    "LEMD": 77,
+    "LFPG": 138,
+    "LIRF": 211,
+    "LSZH": 73,
+    "LTFM": 131
+  },
+  "convergence_per_airport": {
+    "EDDF": {
+      "best_iteration": 92,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EDDM": {
+      "best_iteration": 81,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EGLL": {
+      "best_iteration": 141,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EHAM": {
+      "best_iteration": 95,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEBL": {
+      "best_iteration": 120,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEMD": {
+      "best_iteration": 77,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LFPG": {
+      "best_iteration": 138,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LIRF": {
+      "best_iteration": 211,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LSZH": {
+      "best_iteration": 73,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LTFM": {
+      "best_iteration": 131,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    }
+  },
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

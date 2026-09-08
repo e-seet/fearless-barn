@@ -1,0 +1,81 @@
+{
+  "selection": {
+    "what": "compare.py winner",
+    "selected_on": "val",
+    "value": [
+      "naive_offblock",
+      "ridge",
+      "lightgbm"
+    ],
+    "gate": "selection_set_declared"
+  },
+  "selection_valid": true,
+  "selection_invalid_reason": null,
+  "lb_weighting_caveat": "leaderboard_weighted_rmse reweights by AIRPORT only, not by airport|month. It is an approximation on any part whose month mix differs from the scored 71% Jan / 29% Jul.",
+  "pool_check": {
+    "gate": "training_pool_equality",
+    "arms": [
+      "arms_share_pool",
+      "arms_share_pool"
+    ],
+    "n_items": 1387105,
+    "method": "set equality on sample IDs actually consumed by each arm",
+    "note": "a hash of split_report.json is NOT sufficient (MISTAKES.md #56)"
+  },
+  "candidates": [
+    {
+      "arm": "naive_offblock",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "drop_7200",
+      "val_rmse": 482.0305220591493,
+      "val_rmse_in_band": 385.2559248640792,
+      "val_lb_weighted_rmse": 443.8032731598877,
+      "val_trivial_mean_rmse": 502.23012424523455,
+      "train_pool_ids_sha": "072dd30c0752e34e5dffc315f37348ed",
+      "n_train": 1386134,
+      "result_path": "artifacts\\runs\\naive_offblock__forward-with_aobt-drop_7200__seed42\\eval_val.json",
+      "test_rmse": 484.83765614914546,
+      "test_lb_weighted_rmse": 441.60505264298627,
+      "test_trivial_mean_rmse": 523.4393017691249
+    },
+    {
+      "arm": "ridge",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "drop_7200",
+      "val_rmse": 391.4458286333783,
+      "val_rmse_in_band": 271.41370553788425,
+      "val_lb_weighted_rmse": 348.0207840320527,
+      "val_trivial_mean_rmse": 502.23012424523455,
+      "train_pool_ids_sha": "072dd30c0752e34e5dffc315f37348ed",
+      "n_train": 1386134,
+      "result_path": "artifacts\\runs\\ridge__forward-with_aobt-drop_7200__seed42\\eval_val.json",
+      "test_rmse": 425.16699092803566,
+      "test_lb_weighted_rmse": 386.248373091727,
+      "test_trivial_mean_rmse": 523.4393017691249
+    },
+    {
+      "arm": "lightgbm",
+      "split": "forward",
+      "featureset": "with_aobt",
+      "seed": 42,
+      "outlier_policy": "drop_7200",
+      "val_rmse": 358.2818356845579,
+      "val_rmse_in_band": 231.80225302628932,
+      "val_lb_weighted_rmse": 314.6217531117821,
+      "val_trivial_mean_rmse": 502.23012424523455,
+      "train_pool_ids_sha": "072dd30c0752e34e5dffc315f37348ed",
+      "n_train": 1386134,
+      "result_path": "artifacts\\runs\\lightgbm__forward-with_aobt-drop_7200__seed42\\eval_val.json",
+      "test_rmse": 378.19099479780544,
+      "test_lb_weighted_rmse": 337.5982404600666,
+      "test_trivial_mean_rmse": 523.4393017691249
+    }
+  ],
+  "winner": "lightgbm",
+  "winner_val_rmse": 358.2818356845579,
+  "winner_test_rmse": 378.19099479780544
+}

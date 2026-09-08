@@ -1,0 +1,51 @@
+{
+ "what": "outlier policy (config.OUTLIER_POLICIES) for the forward/with_aobt protocol",
+ "selected_on": "forward/val RMSE",
+ "selected": "winsor_21600",
+ "rule": "lowest val RMSE on the learned arms; test was NOT consulted for this choice",
+ "arms_in_scope": [
+  "naive_offblock",
+  "ridge",
+  "lightgbm"
+ ],
+ "scope_note": "This declaration covers ONLY the three arms of the committed build. A concurrent process added xgboost_antigravity/mlp_antigravity/ensemble_antigravity arms and overwrote compare_summary__forward-with_aobt-winsor_p9999__seed42.json at 02:14; that cell's numbers here are taken from this session's own run log, not from that file.",
+ "ranking_val": [
+  {
+   "policy": "winsor_21600",
+   "lightgbm_val": 324.9230836959375,
+   "ridge_val": 377.74458550465096,
+   "source": "compare_summary__forward-with_aobt-winsor_21600__seed42.json",
+   "mtime": "2026-09-03T00:01:18"
+  },
+  {
+   "policy": "keep_all",
+   "lightgbm_val": 327.8736755532248,
+   "ridge_val": 379.61379174359575,
+   "source": "compare_summary__forward-with_aobt-keep_all__seed42.json",
+   "mtime": "2026-09-02T23:42:01"
+  },
+  {
+   "policy": "winsor_p9999",
+   "lightgbm_val": 330.1955012445104,
+   "ridge_val": 383.27014456308586,
+   "source": "compare_summary__forward-with_aobt-winsor_p9999__seed42.json",
+   "mtime": "2026-09-03T02:14:49"
+  },
+  {
+   "policy": "winsor_7200",
+   "lightgbm_val": 342.47691910281003,
+   "ridge_val": 385.61465777368204,
+   "source": "compare_summary__forward-with_aobt-winsor_7200__seed42.json",
+   "mtime": "2026-09-02T23:50:58"
+  },
+  {
+   "policy": "drop_7200",
+   "lightgbm_val": 358.2818356845579,
+   "ridge_val": 391.4458286333783,
+   "source": "compare_summary__forward-with_aobt-drop_7200__seed42.json",
+   "mtime": "2026-09-03T00:10:40"
+  }
+ ],
+ "declared_at": "2026-09-03T02:23:31",
+ "declared_by": "claude-opus-5 run session"
+}

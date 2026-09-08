@@ -1,0 +1,28 @@
+{
+  "arm": "naive_offblock",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n_train": 1387105,
+  "global_median": 910.0,
+  "table_sizes": {
+    "stand_runway": 6348,
+    "adep_stand": 2157,
+    "adep_runway": 59,
+    "adep": 10
+  },
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "refit_only": false,
+  "note": "no learned parameters; medians counted on the train pool only. Has no hyperparameters, so the 'full' refit protocol needs no --freeze-from -- there is nothing to freeze.",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

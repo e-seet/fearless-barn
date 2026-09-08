@@ -1,0 +1,155 @@
+{
+  "baseline_val_rmse": 297.7786003736069,
+  "results": [
+    {
+      "group": "(baseline)",
+      "dropped": [],
+      "n_features": 57,
+      "val_rmse": 297.7786003736069,
+      "delta_vs_baseline": 0.0,
+      "best_iteration": 245
+    },
+    {
+      "group": "absolute_time",
+      "dropped": [
+        "month_num",
+        "doy",
+        "doy_sin",
+        "doy_cos"
+      ],
+      "n_features": 53,
+      "val_rmse": 297.7954720472581,
+      "delta_vs_baseline": 0.016871673651223773,
+      "best_iteration": 337
+    },
+    {
+      "group": "abs_delta_dupes",
+      "dropped": [
+        "abs_delta_sched_sec",
+        "abs_delta_eobt_sec"
+      ],
+      "n_features": 55,
+      "val_rmse": 297.5886163588907,
+      "delta_vs_baseline": -0.189984014716174,
+      "best_iteration": 275
+    },
+    {
+      "group": "signed_delta_dupes",
+      "dropped": [
+        "delta_sched_sec",
+        "delta_eobt_sec"
+      ],
+      "n_features": 55,
+      "val_rmse": 296.07283793538056,
+      "delta_vs_baseline": -1.7057624382263157,
+      "best_iteration": 316
+    },
+    {
+      "group": "next_windows",
+      "dropped": [
+        "dep_next_15m",
+        "dep_next_30m",
+        "dep_next_60m",
+        "same_rwy_next_15m",
+        "same_rwy_next_30m"
+      ],
+      "n_features": 52,
+      "val_rmse": 299.33473714089155,
+      "delta_vs_baseline": 1.55613676728467,
+      "best_iteration": 230
+    },
+    {
+      "group": "coarse_geo",
+      "dropped": [
+        "dest_region"
+      ],
+      "n_features": 56,
+      "val_rmse": 298.0470273880006,
+      "delta_vs_baseline": 0.2684270143936942,
+      "best_iteration": 286
+    },
+    {
+      "group": "aobt_derived",
+      "dropped": [
+        "aobt_minus_eobt_sec",
+        "aobt_minus_sched_sec",
+        "aobt_minus_lobt_sec"
+      ],
+      "n_features": 54,
+      "val_rmse": 299.01597539080046,
+      "delta_vs_baseline": 1.2373750171935853,
+      "best_iteration": 377
+    },
+    {
+      "group": "combo_all_helpful",
+      "dropped": [
+        "month_num",
+        "doy",
+        "doy_sin",
+        "doy_cos",
+        "abs_delta_sched_sec",
+        "abs_delta_eobt_sec",
+        "delta_sched_sec",
+        "delta_eobt_sec",
+        "dep_next_15m",
+        "dep_next_30m",
+        "dep_next_60m",
+        "same_rwy_next_15m",
+        "same_rwy_next_30m"
+      ],
+      "n_features": 44,
+      "val_rmse": 341.67580353570213,
+      "delta_vs_baseline": 43.89720316209525,
+      "best_iteration": 129
+    },
+    {
+      "group": "combo_deltas_only",
+      "dropped": [
+        "abs_delta_sched_sec",
+        "abs_delta_eobt_sec",
+        "delta_sched_sec",
+        "delta_eobt_sec"
+      ],
+      "n_features": 53,
+      "val_rmse": 337.5380793461933,
+      "delta_vs_baseline": 39.75947897258641,
+      "best_iteration": 233
+    },
+    {
+      "group": "combo_time_and_next",
+      "dropped": [
+        "month_num",
+        "doy",
+        "doy_sin",
+        "doy_cos",
+        "dep_next_15m",
+        "dep_next_30m",
+        "dep_next_60m",
+        "same_rwy_next_15m",
+        "same_rwy_next_30m"
+      ],
+      "n_features": 48,
+      "val_rmse": 299.8999929171751,
+      "delta_vs_baseline": 2.12139254356822,
+      "best_iteration": 270
+    }
+  ],
+  "selection": {
+    "what": "feature-group ablation",
+    "selected_on": "val",
+    "value": [
+      "absolute_time",
+      "abs_delta_dupes",
+      "signed_delta_dupes",
+      "next_windows",
+      "coarse_geo",
+      "aobt_derived",
+      "combo_all_helpful",
+      "combo_deltas_only",
+      "combo_time_and_next"
+    ],
+    "gate": "selection_set_declared"
+  },
+  "seed_spread_reference_sec": 1.67,
+  "caveat": "single seed; a delta smaller than the arm's seed spread is noise. Re-run across seeds before acting on one."
+}

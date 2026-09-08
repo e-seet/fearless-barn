@@ -1,0 +1,176 @@
+{
+  "arm": "per_airport",
+  "split": "forward_inner",
+  "featureset": "with_aobt",
+  "seed": 44,
+  "params": {
+    "objective": "l2",
+    "metric": "rmse",
+    "learning_rate": 0.05,
+    "num_leaves": 255,
+    "min_data_in_leaf": 100,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_cat_threshold": 64,
+    "cat_smooth": 20.0,
+    "verbosity": -1,
+    "num_threads": 0,
+    "seed": 44,
+    "bagging_seed": 44,
+    "feature_fraction_seed": 44,
+    "device_type": "cpu"
+  },
+  "num_boost_round_cap": 5000,
+  "patience": 200,
+  "best_iteration_per_airport": {
+    "EDDF": 104,
+    "EDDM": 71,
+    "EGLL": 123,
+    "EHAM": 98,
+    "LEBL": 117,
+    "LEMD": 71,
+    "LFPG": 108,
+    "LIRF": 234,
+    "LSZH": 61,
+    "LTFM": 131
+  },
+  "n_train_per_airport": {
+    "EDDF": 109650,
+    "EDDM": 79945,
+    "EGLL": 117710,
+    "EHAM": 120900,
+    "LEBL": 86742,
+    "LEMD": 102966,
+    "LFPG": 115804,
+    "LIRF": 77829,
+    "LSZH": 64334,
+    "LTFM": 129410
+  },
+  "convergence_per_airport": {
+    "EDDF": {
+      "best_iteration": 104,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EDDM": {
+      "best_iteration": 71,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EGLL": {
+      "best_iteration": 123,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "EHAM": {
+      "best_iteration": 98,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEBL": {
+      "best_iteration": 117,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LEMD": {
+      "best_iteration": 71,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LFPG": {
+      "best_iteration": 108,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LIRF": {
+      "best_iteration": 234,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LSZH": {
+      "best_iteration": 61,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    },
+    "LTFM": {
+      "best_iteration": 131,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false
+    }
+  },
+  "any_airport_hit_round_cap": false,
+  "val_rmse_clipped": 433.3080926639122,
+  "refit_only": false,
+  "selection": {
+    "what": "per_airport best_iteration (one per airport)",
+    "selected_on": "val",
+    "value": {
+      "EDDF": 104,
+      "EDDM": 71,
+      "EGLL": 123,
+      "EHAM": 98,
+      "LEBL": 117,
+      "LEMD": 71,
+      "LFPG": 108,
+      "LIRF": 234,
+      "LSZH": 61,
+      "LTFM": 131
+    },
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1005290,
+  "n_features": 57,
+  "n_airports": 10,
+  "train_pool_ids_sha": "e947148e1f745e65cc9afcb70c40a422",
+  "pool_fingerprint_note": "hashed over the UNION of rows consumed across all per-airport sub-models, asserted equal to the incoming training index",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1005519,
+    "n_impossible_dropped": 229,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1005290
+  },
+  "categorical_features": [
+    "ADEP_mvt",
+    "RUNWAY_mvt",
+    "STAND_mvt",
+    "ADES_mvt",
+    "AIRCRAFT_TYPE_mvt",
+    "AIRCRAFT_OPERATOR_flt",
+    "WK_TBL_CAT_flt",
+    "MARKET_SEGMENT_flt",
+    "FLIGHT_TYPE_flt",
+    "FLIGHT_RULE_mvt",
+    "stand_runway",
+    "adep_runway",
+    "adep_stand",
+    "dest_region",
+    "adep_flight_record"
+  ],
+  "feature_fingerprint": "47cba1fb5f800c8d"
+}

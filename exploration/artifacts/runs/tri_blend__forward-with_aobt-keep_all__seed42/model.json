@@ -1,0 +1,22 @@
+{
+  "arm": "tri_blend",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "base_arms": [
+    "per_airport",
+    "per_operator",
+    "mlp_antigravity"
+  ],
+  "weights": {
+    "per_airport": 0.13775496104498838,
+    "per_operator": 0.39109997219270387,
+    "mlp_antigravity": 0.4163671981541328
+  },
+  "weight_split": "forward_inner",
+  "inner_rmse_blend": 374.7778629062207,
+  "val_rmse": 263.1347658106701,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

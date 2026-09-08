@@ -1,0 +1,139 @@
+{
+  "arm": "lightgbm_recency",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "params": {
+    "objective": "l2",
+    "metric": "rmse",
+    "learning_rate": 0.05,
+    "num_leaves": 255,
+    "min_data_in_leaf": 100,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_cat_threshold": 64,
+    "cat_smooth": 20.0,
+    "verbosity": -1,
+    "num_threads": 0,
+    "seed": 42,
+    "bagging_seed": 42,
+    "feature_fraction_seed": 42,
+    "device_type": "cpu"
+  },
+  "half_life_months": null,
+  "half_life_is_unweighted_control": true,
+  "sweep": [
+    {
+      "half_life_months": 1.0,
+      "val_rmse": 308.6215082800186,
+      "best_iteration": 201,
+      "early_stop_fired": true,
+      "effective_n": 553367.9948722613,
+      "effective_frac": 0.39893735144222053
+    },
+    {
+      "half_life_months": 2.0,
+      "val_rmse": 303.48475038360056,
+      "best_iteration": 222,
+      "early_stop_fired": true,
+      "effective_n": 920276.5809121509,
+      "effective_frac": 0.6634512750744542
+    },
+    {
+      "half_life_months": 3.0,
+      "val_rmse": 299.4790989354088,
+      "best_iteration": 239,
+      "early_stop_fired": true,
+      "effective_n": 1113913.0358676438,
+      "effective_frac": 0.8030488217313353
+    },
+    {
+      "half_life_months": 6.0,
+      "val_rmse": 300.63173017494137,
+      "best_iteration": 190,
+      "early_stop_fired": true,
+      "effective_n": 1301723.7606199433,
+      "effective_frac": 0.9384464482645101
+    },
+    {
+      "half_life_months": 12.0,
+      "val_rmse": 298.4242092977219,
+      "best_iteration": 238,
+      "early_stop_fired": true,
+      "effective_n": 1364158.1245363418,
+      "effective_frac": 0.9834570018393285
+    },
+    {
+      "half_life_months": null,
+      "val_rmse": 297.7786003736069,
+      "best_iteration": 245,
+      "early_stop_fired": true,
+      "effective_n": 1387105.0,
+      "effective_frac": 1.0
+    }
+  ],
+  "num_boost_round_cap": 5000,
+  "patience": 200,
+  "best_iteration": 245,
+  "val_rmse_clipped": 297.7786003736069,
+  "refit_only": false,
+  "convergence": {
+    "best_epoch": 245,
+    "best_value": 297.81177106999456,
+    "stop_epoch": 445,
+    "epochs_run": 445,
+    "patience": 200,
+    "patience_counter": 200,
+    "max_epochs": 5000,
+    "hit_max_epochs": false,
+    "early_stop_fired": true,
+    "converged": true,
+    "mode": "min",
+    "metric_key": "val_rmse",
+    "note": "early stopping fired at epoch 445 after 200 epochs without improvement",
+    "cross_check": "verify this best_epoch against whatever the trainer itself printed or saved -- if the framework selects on a composite fitness, recompute with THAT formula (MISTAKES.md #48)"
+  },
+  "selection": {
+    "what": "lightgbm_recency half-life + best_iteration",
+    "selected_on": "val",
+    "value": {
+      "half_life_months": null,
+      "best_iteration": 245
+    },
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "n_features": 57,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "weighting_note": "row weights change the LOSS, not the training pool -- every row is still present, so the pool fingerprint is identical to the unweighted arm's and compare.py's equality gate still applies",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "categorical_features": [
+    "ADEP_mvt",
+    "RUNWAY_mvt",
+    "STAND_mvt",
+    "ADES_mvt",
+    "AIRCRAFT_TYPE_mvt",
+    "AIRCRAFT_OPERATOR_flt",
+    "WK_TBL_CAT_flt",
+    "MARKET_SEGMENT_flt",
+    "FLIGHT_TYPE_flt",
+    "FLIGHT_RULE_mvt",
+    "stand_runway",
+    "adep_runway",
+    "adep_stand",
+    "dest_region",
+    "adep_flight_record"
+  ],
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

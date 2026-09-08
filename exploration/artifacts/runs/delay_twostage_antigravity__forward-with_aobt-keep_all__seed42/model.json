@@ -1,0 +1,13 @@
+{
+  "arm": "delay_twostage_antigravity",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "delay_threshold_sec": 180.0,
+  "clf_best_iteration": 238,
+  "reg_best_iteration": 164,
+  "val_rmse": 314.95603038336424,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "feature_fingerprint": "aeade7fee3099c1a"
+}
