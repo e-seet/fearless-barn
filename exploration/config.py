@@ -339,7 +339,21 @@ ARMS = ("naive_offblock", "ridge", "lightgbm",
         # over-tuned, it is non-functional (LIRF val RMSE 1128 s from tail-sample
         # scarcity). Same for per_airport_antigravity, which is byte-identical to
         # per_airport -- duplicated compute, not a tuning problem.
-        "per_airport_mlp")
+        "per_airport_mlp",
+        # TEMPORARILY RE-ENABLED (data-refresh rebuild): the three quarantined
+        # over-tuned arms, added back only so submit.py --arm will accept them
+        # while v4-v12 are regenerated against the refreshed ranking.parquet.
+        # Their code already imports via OVERTUNED_DIR; predict_ranking() has had
+        # branches for all three all along. Revert this line to restore the
+        # quarantine (see overtuned/README.md, PIPELINE_REVIEW.md tier E).
+        "airport_unsup_multimodel", "airport_multiseed_multimodel",
+        "airport_debiased_multimodel",
+        # Zero-parameter LIRF telemetry-identity override, applied ON TOP of a
+        # base arm. It was adopted on measured evidence (plan 12, candidate 2)
+        # but was never in ARMS, had no predict/submit branch and could not sit
+        # on a tagged base -- adoptable but not shippable. Registered here so it
+        # can reach a submission like any other arm.
+        "airport_lirf_identity_multimodel")
 
 DEFAULT_SPLIT = "forward"
 

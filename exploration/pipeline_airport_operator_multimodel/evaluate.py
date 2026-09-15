@@ -44,6 +44,8 @@ def main(argv=None) -> int:
     # file were solved against exactly that average, so evaluating with a
     # different one silently scores a model that was never fitted.
     mlp_seeds = meta_json.get("mlp_seeds") or [args.seed]
+    tree_tag = meta_json.get("tree_tag")
+    mlp_tag = meta_json.get("mlp_tag")
 
     Xtr, ytr, _ = D.load_part(args.split, "train", args.featureset,
                               filter_target=True, outlier_policy=args.outlier_policy)
@@ -51,9 +53,9 @@ def main(argv=None) -> int:
 
     p_ap = predict_arm("airport_operator_blend", args.split, args.part,
                        args.featureset, args.seed, args.outlier_policy,
-                       X=X, meta=meta, Xtr=Xtr)
+                       X=X, meta=meta, Xtr=Xtr, tag=tree_tag)
     p_mlp = mlp_prediction(args.split, args.part, args.featureset, mlp_seeds,
-                           args.outlier_policy, X, meta, Xtr)
+                           args.outlier_policy, X, meta, Xtr, tag=mlp_tag)
 
     ap_arr = meta[AIRPORT_COL].astype("object").to_numpy()
     pred = np.zeros(len(y), dtype="float64")

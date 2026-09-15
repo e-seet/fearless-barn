@@ -29,6 +29,28 @@ from pipeline_per_airport.model import AIRPORT_COL
 ARM = "multimodel_antigravity"
 
 
+def parse_seeds(spec: str, default_seed: int) -> "list[int]":
+    """'' -> [default_seed]; '42,43,44' -> [42, 43, 44]."""
+    if not spec:
+        return [int(default_seed)]
+    return [int(x) for x in str(spec).split(",") if str(x).strip() != ""]
+
+
+def mlp_prediction(split, part, featureset, seeds, outlier_policy, X, meta, Xtr,
+                   tag=None):
+    """mlp_antigravity's prediction, averaged over `seeds`. Single seed = mean of one.
+
+    Same rationale as airport_operator_multimodel.mlp_prediction: the tree side
+    (per_airport) is near-deterministic across seeds; essentially all of this
+    blend's seed variance enters through the MLP, so averaging independent draws
+    of the noisy parent is zero-parameter variance reduction.
+    """
+    preds = [predict_arm("mlp_antigravity", split, part, featureset, s, outlier_policy,
+                         X=X, meta=meta, Xtr=Xtr, tag=tag)
+             for s in seeds]
+    return np.mean(preds, axis=0)
+
+
 def solve_alpha_per_airport(y, pa, pb, ap) -> dict[str, float]:
     """Solve least squares weight alpha in [0, 1] per airport: y ~ a*pa + (1-a)*pb."""
     weights = {}
@@ -56,6 +78,13 @@ def main(argv=None) -> int:
     ap.add_argument("--seed", type=int, default=config.SEED)
     ap.add_argument("--outlier-policy", default=config.DEFAULT_OUTLIER_POLICY,
                     choices=sorted(config.OUTLIER_POLICIES))
+    ap.add_argument("--mlp-seeds", default="",
+                    help="Comma-separated seeds of mlp_antigravity to AVERAGE for "
+                         "the neural side (e.g. 42,43,44). Default empty = use "
+                         "--seed alone, i.e. the original single-draw behaviour.")
+    ap.add_argument("--tag", default=None,
+                    help="Run-dir tag, so an averaged variant never overwrites "
+                         "the single-seed run.")
     ap.add_argument("--weight-split", default="forward_inner", choices=["forward_inner", "val"],
                     help="Surface to solve meta-weights on (forward_inner ensures no validation leakage)")
     ap.add_argument("--force", action="store_true")
@@ -63,7 +92,11 @@ def main(argv=None) -> int:
 
     seed_everything(args.seed)
     proto = config.protocol_key(args.split, args.featureset, args.outlier_policy)
-    out = run_dir(config.ARTIFACTS / "runs", ARM, protocol=proto, seed=args.seed)
+    out = run_dir(config.ARTIFACTS / "runs", ARM, protocol=proto, seed=args.seed,
+                  extra=({"tag": args.tag} if args.tag else None))
+
+    mlp_seeds = parse_seeds(args.mlp_seeds, args.seed)
+    print(f"[{ARM}] MLP seeds averaged: {mlp_seeds}")
 
     print(f"[{ARM}] Loading base model predictions on weight solving split: {args.weight_split}...")
     
@@ -78,8 +111,8 @@ def main(argv=None) -> int:
         yw = np.asarray(yw, dtype="float64")
         pa_w = predict_arm("per_airport", wsplit, "val", args.featureset, args.seed,
                            args.outlier_policy, X=Xw, meta=meta_w, Xtr=Xw_tr)
-        pb_w = predict_arm("mlp_antigravity", wsplit, "val", args.featureset, args.seed,
-                           args.outlier_policy, X=Xw, meta=meta_w, Xtr=Xw_tr)
+        pb_w = mlp_prediction(wsplit, "val", args.featureset, mlp_seeds,
+                              args.outlier_policy, Xw, meta_w, Xw_tr)
         ap_w = meta_w[AIRPORT_COL].astype("object").to_numpy()
         weights_per_airport = solve_alpha_per_airport(yw, pa_w, pb_w, ap_w)
     else:
@@ -87,8 +120,8 @@ def main(argv=None) -> int:
         yva = np.asarray(yva, dtype="float64")
         pa_val = predict_arm("per_airport", args.split, "val", args.featureset, args.seed,
                              args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr)
-        pb_val = predict_arm("mlp_antigravity", args.split, "val", args.featureset, args.seed,
-                             args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr)
+        pb_val = mlp_prediction(args.split, "val", args.featureset, mlp_seeds,
+                                args.outlier_policy, Xva, meta_va, Xtr)
         ap_val = meta_va[AIRPORT_COL].astype("object").to_numpy()
         weights_per_airport = solve_alpha_per_airport(yva, pa_val, pb_val, ap_val)
 
@@ -104,8 +137,8 @@ def main(argv=None) -> int:
         yva = np.asarray(yva, dtype="float64")
         pa_val = predict_arm("per_airport", args.split, "val", args.featureset, args.seed,
                              args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr)
-        pb_val = predict_arm("mlp_antigravity", args.split, "val", args.featureset, args.seed,
-                             args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr)
+        pb_val = mlp_prediction(args.split, "val", args.featureset, mlp_seeds,
+                                args.outlier_policy, Xva, meta_va, Xtr)
         ap_val = meta_va[AIRPORT_COL].astype("object").to_numpy()
         p_val_blend = np.zeros(len(yva), dtype="float64")
         for a in pd.unique(ap_val):
@@ -124,6 +157,7 @@ def main(argv=None) -> int:
         "seed": args.seed,
         "weights_per_airport": weights_per_airport,
         "weight_split": args.weight_split,
+        "mlp_seeds": mlp_seeds,
         "val_rmse": float(val_rmse) if val_rmse is not None else None,
         # compare.py's training-pool gate reads this key from every arm (the
         # blend arms per_airport_stack / ensemble_antigravity write it the same

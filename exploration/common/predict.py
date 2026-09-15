@@ -43,7 +43,8 @@ OWN_ARMS = ("naive_offblock", "ridge", "lightgbm", "per_airport",
             "airport_wtc_multimodel", "airport_runway_multimodel",
             "airport_wtc_rec_multimodel", "airport_unsup_multimodel",
             "airport_multiseed_multimodel", "airport_debiased_multimodel",
-            "per_airport_mlp")
+            "per_airport_mlp", "airport_lirf_identity_multimodel",
+            "catboost_antigravity")
 THIRD_PARTY_ARMS = ("xgboost_antigravity", "mlp_antigravity", "ensemble_antigravity")
 
 
@@ -75,8 +76,10 @@ def predict_arm(arm, split, part, featureset, seed, outlier_policy,
     if arm in THIRD_PARTY_ARMS:
         from pipeline_ensemble_antigravity.train import predict_base_arm
         if arm != "ensemble_antigravity":
+            # `tag` must go through: `d` above was resolved WITH it, so dropping
+            # it here would score the untagged run while reporting the tagged one.
             return _clip(predict_base_arm(arm, split, part, featureset, seed,
-                                          outlier_policy, X, Xtr=Xtr))
+                                          outlier_policy, X, Xtr=Xtr, tag=tag))
         # the blend is not one of its own base arms; rebuild it from its weights
         m = json.loads((d / "model.json").read_text())
         acc = None
@@ -92,6 +95,15 @@ def predict_arm(arm, split, part, featureset, seed, outlier_policy,
     if arm in ("lightgbm", "lightgbm_recency"):
         import lightgbm as lgb
         return _clip(lgb.Booster(model_file=str(d / "model.txt")).predict(Xa))
+
+    if arm == "catboost_antigravity":
+        from catboost import CatBoostRegressor
+        from common import features as F
+        from pipeline_catboost_antigravity.train import _cat_frame
+        cats = [c for c in F.CATEGORICAL if c in Xa.columns]
+        model = CatBoostRegressor()
+        model.load_model(str(d / "model.cbm"))
+        return _clip(model.predict(_cat_frame(Xa, cats)))
 
     if arm == "lightgbm_unsup":
         import lightgbm as lgb
@@ -131,6 +143,14 @@ def predict_arm(arm, split, part, featureset, seed, outlier_policy,
     if arm == "airport_operator_blend":
         with open(d / "model.pkl", "rb") as fh:
             bundle = pickle.load(fh)
+        # The bundle records whether it was trained with the congestion columns.
+        # Predicting without them would feed the boosters a frame missing
+        # features they split on -- LightGBM would not raise, it would just
+        # score a different model.
+        if bundle.get("congest"):
+            from pipeline_per_airport_congest.extra import attach as attach_congest
+            Xa = D.align_columns(attach_congest(Xtr, "train2025", featureset),
+                                 attach_congest(Xa, "train2025", featureset))
         p_a = bundle["per_airport"].predict(Xa, meta)
         p_b = bundle["per_operator"].predict(Xa, Xa)
         return _clip(bundle["alpha"] * p_a + (1 - bundle["alpha"]) * p_b)
@@ -170,15 +190,45 @@ def predict_arm(arm, split, part, featureset, seed, outlier_policy,
         m = json.loads((d / "model.json").read_text())
         weights_per_airport = m["weights_per_airport"]
         p_aob = predict_arm("airport_operator_blend", split, part, featureset, seed, outlier_policy,
-                            X=X, meta=meta, Xtr=Xtr)
-        p_mlp = predict_arm("mlp_antigravity", split, part, featureset, seed, outlier_policy,
-                            X=X, meta=meta, Xtr=Xtr)
+                            X=X, meta=meta, Xtr=Xtr, tag=m.get("tree_tag"))
+        # The MLP seed set comes from the RUN's own model.json. Under --mlp-seeds
+        # the per-airport weights were solved against an AVERAGED MLP, so pairing
+        # them with a single draw returns a model that was never fitted or
+        # validated -- silently, which is the worst way to be wrong. Absent the
+        # key (a pre-msmlp run) this is [seed], the original single-draw path.
+        #
+        # train.py, evaluate.py and submit.py already read this list; this branch
+        # did not, so predict_arm(..., tag="msmlp") disagreed with the arm's own
+        # eval_*.json. Caught when a measured LIRF in-band RMSE came back 434.3
+        # for a blend whose LIRF alpha is exactly 0.0 -- i.e. pure MLP, which
+        # scores 429.3. A convex blend at alpha=0 must equal its parent.
+        mlp_seeds = m.get("mlp_seeds") or [seed]
+        p_mlp = np.mean([predict_arm("mlp_antigravity", split, part, featureset, s,
+                                     outlier_policy, X=X, meta=meta, Xtr=Xtr,
+                                     tag=m.get("mlp_tag"))
+                         for s in mlp_seeds], axis=0)
         ap_arr = meta[AIRPORT_COL].astype("object").to_numpy()
         pred = np.zeros(len(ap_arr), dtype="float64")
         for a in pd.unique(ap_arr):
             sel = (ap_arr == a)
             w = weights_per_airport.get(str(a), 0.5)
             pred[sel] = w * p_aob[sel] + (1.0 - w) * p_mlp[sel]
+        return _clip(pred)
+
+    if arm == "airport_lirf_identity_multimodel":
+        # Zero-parameter override on top of `base_arm`'s prediction. Both the
+        # base arm AND its tag come from this run's own model.json: the override
+        # was validated against one specific base, and silently applying it to a
+        # different one is the "swap a parent under frozen weights" failure.
+        from pipeline_airport_lirf_identity_multimodel.train import apply_lirf_identity_override
+        m = json.loads((d / "model.json").read_text())
+        p_base = predict_arm(m["base_arm"], split, part, featureset, seed,
+                             outlier_policy, X=X, meta=meta, Xtr=Xtr,
+                             tag=m.get("base_tag"))
+        ap_arr = meta["ADEP_mvt"].astype("object").to_numpy()
+        pred, _ = apply_lirf_identity_override(
+            p_base, Xa, ap_arr, m["threshold_sec"],
+            band_hi=m.get("identity_band_hi_sec"))
         return _clip(pred)
 
     if arm == "tri_blend":

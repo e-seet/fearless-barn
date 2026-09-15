@@ -29,9 +29,15 @@ POTENTIAL_BASE_ARMS = ["lightgbm", "xgboost_antigravity", "mlp_antigravity", "ri
 
 def predict_base_arm(arm: str, split: str, part: str, featureset: str, seed: int,
                      outlier_policy: str, X_part: pd.DataFrame,
-                     Xtr: pd.DataFrame = None) -> np.ndarray:
+                     Xtr: pd.DataFrame = None, tag: str = None) -> np.ndarray:
+    # `tag` was missing here while common.predict.predict_arm resolved its own
+    # run dir WITH the tag and then dropped it on the way in -- so
+    # predict_arm(..., tag="congest") for any third-party arm silently loaded
+    # the UNTAGGED run's weights and returned a different model's predictions.
+    # Default None reproduces the previous path exactly for every caller.
     proto = config.protocol_key(split, featureset, outlier_policy)
-    d = run_dir(config.ARTIFACTS / "runs", arm, protocol=proto, seed=seed, create=False)
+    d = run_dir(config.ARTIFACTS / "runs", arm, protocol=proto, seed=seed,
+                extra=({"tag": tag} if tag else None), create=False)
     if not d.exists():
         raise FileNotFoundError("Base arm '{}' run directory does not exist at {}".format(arm, d))
 
@@ -59,13 +65,25 @@ def predict_base_arm(arm: str, split: str, part: str, featureset: str, seed: int
 
         with open(d / "preprocessor.pkl", "rb") as fh:
             prep = pickle.load(fh)
+        if prep.get("congest"):
+            # The bundle records whether the net was fitted with the congestion
+            # columns. encode_data indexes X_part by prep["num_cols"], so
+            # without them this would either KeyError or -- if a caller had
+            # already reindexed the frame -- feed five all-NaN columns through
+            # fillna(medians) and silently score a different model.
+            from pipeline_per_airport_congest.extra import attach as attach_congest
+            X_part = attach_congest(X_part, "train2025", featureset)
         cat_tensors, num_tensor = encode_data(X_part, prep["cat_cols"], prep["num_cols"],
                                               prep["cat_maps"], prep["scaler"], prep["medians"])
         ds = TabularDataset(cat_tensors, num_tensor)
         loader = DataLoader(ds, batch_size=4096, shuffle=False, num_workers=0)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         prior_mean = prep.get("prior_mean", 990.0)
-        model = TabularMLP(prep["cat_cardinalities"], num_features=len(prep["num_cols"]), prior_mean=prior_mean).to(device)
+        model = TabularMLP(prep["cat_cardinalities"], num_features=len(prep["num_cols"]),
+                           hidden_dims=tuple(prep.get("hidden_dims", (256, 128, 64))),
+                           dropout=prep.get("dropout", 0.1),
+                           prior_mean=prior_mean,
+                           residual=prep.get("residual", False)).to(device)
         model.load_state_dict(torch.load(d / "model.pt", map_location=device))
         model.eval()
         mlp_preds = []

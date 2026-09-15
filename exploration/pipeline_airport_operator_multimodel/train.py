@@ -54,7 +54,8 @@ def parse_seeds(spec: str, default_seed: int) -> "list[int]":
     return [int(x) for x in str(spec).split(",") if str(x).strip() != ""]
 
 
-def mlp_prediction(split, part, featureset, seeds, outlier_policy, X, meta, Xtr):
+def mlp_prediction(split, part, featureset, seeds, outlier_policy, X, meta, Xtr,
+                   tag=None):
     """mlp_antigravity's prediction, averaged over `seeds`.
 
     A single seed reproduces the original behaviour exactly (mean of one).
@@ -72,7 +73,7 @@ def mlp_prediction(split, part, featureset, seeds, outlier_policy, X, meta, Xtr)
     the distinction the pipeline review drew explicitly.
     """
     preds = [predict_arm("mlp_antigravity", split, part, featureset, s, outlier_policy,
-                         X=X, meta=meta, Xtr=Xtr)
+                         X=X, meta=meta, Xtr=Xtr, tag=tag)
              for s in seeds]
     return np.mean(preds, axis=0)
 
@@ -104,6 +105,15 @@ def main(argv=None) -> int:
     ap.add_argument("--seed", type=int, default=config.SEED)
     ap.add_argument("--outlier-policy", default=config.DEFAULT_OUTLIER_POLICY,
                     choices=sorted(config.OUTLIER_POLICIES))
+    ap.add_argument("--mlp-tag", default=None,
+                    help="Tag of the mlp_antigravity runs to average (e.g. "
+                         "congest). Applies to every seed in --mlp-seeds. "
+                         "Without this the neural side can only ever be the "
+                         "untagged variant.")
+    ap.add_argument("--tree-tag", default=None,
+                    help="Tag of the airport_operator_blend run to use as the "
+                         "tree-side parent (e.g. congest). Without this the "
+                         "blend can only ever be built on the untagged parent.")
     ap.add_argument("--mlp-seeds", default="",
                     help="Comma-separated seeds of mlp_antigravity to AVERAGE for "
                          "the neural side (e.g. 42,43,44). Default empty = use "
@@ -135,18 +145,22 @@ def main(argv=None) -> int:
         Xw, yw, meta_w = D.load_part(wsplit, "val", args.featureset, filter_target=False)
         yw = np.asarray(yw, dtype="float64")
         pa_w = predict_arm("airport_operator_blend", wsplit, "val", args.featureset, args.seed,
-                           args.outlier_policy, X=Xw, meta=meta_w, Xtr=Xw_tr)
+                           args.outlier_policy, X=Xw, meta=meta_w, Xtr=Xw_tr,
+                           tag=args.tree_tag)
         pb_w = mlp_prediction(wsplit, "val", args.featureset, mlp_seeds,
-                              args.outlier_policy, Xw, meta_w, Xw_tr)
+                              args.outlier_policy, Xw, meta_w, Xw_tr,
+                              tag=args.mlp_tag)
         ap_w = meta_w[AIRPORT_COL].astype("object").to_numpy()
         weights_per_airport = solve_alpha_per_airport(yw, pa_w, pb_w, ap_w)
     else:
         Xva, yva, meta_va = D.load_part(args.split, "val", args.featureset, filter_target=False)
         yva = np.asarray(yva, dtype="float64")
         pa_val = predict_arm("airport_operator_blend", args.split, "val", args.featureset, args.seed,
-                             args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr)
+                             args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr,
+                             tag=args.tree_tag)
         pb_val = mlp_prediction(args.split, "val", args.featureset, mlp_seeds,
-                                args.outlier_policy, Xva, meta_va, Xtr)
+                                args.outlier_policy, Xva, meta_va, Xtr,
+                                tag=args.mlp_tag)
         ap_val = meta_va[AIRPORT_COL].astype("object").to_numpy()
         weights_per_airport = solve_alpha_per_airport(yva, pa_val, pb_val, ap_val)
 
@@ -161,9 +175,11 @@ def main(argv=None) -> int:
         Xva, yva, meta_va = D.load_part(args.split, "val", args.featureset, filter_target=False)
         yva = np.asarray(yva, dtype="float64")
         pa_val = predict_arm("airport_operator_blend", args.split, "val", args.featureset, args.seed,
-                             args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr)
+                             args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr,
+                             tag=args.tree_tag)
         pb_val = mlp_prediction(args.split, "val", args.featureset, mlp_seeds,
-                                args.outlier_policy, Xva, meta_va, Xtr)
+                                args.outlier_policy, Xva, meta_va, Xtr,
+                                tag=args.mlp_tag)
         ap_val = meta_va[AIRPORT_COL].astype("object").to_numpy()
         p_val_blend = np.zeros(len(yva), dtype="float64")
         for a in pd.unique(ap_val):
@@ -183,6 +199,8 @@ def main(argv=None) -> int:
         "weights_per_airport": weights_per_airport,
         "weight_split": args.weight_split,
         "mlp_seeds": mlp_seeds,
+        "tree_tag": args.tree_tag,
+        "mlp_tag": args.mlp_tag,
         "val_rmse": float(val_rmse) if val_rmse is not None else None,
         "train_pool_ids_sha": D.pool_fingerprint(Xtr.index),
     }

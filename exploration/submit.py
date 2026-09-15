@@ -31,6 +31,37 @@ from common.bootstrap import run_dir, seed_everything
 
 SUBMIT_DIR = config.SOLUTION_DIR / "submissions"
 
+# Which arms each blend is built from. Only the arms that do NOT advertise their
+# parents in a `weights` dict need to be here -- the NNLS blends already do, and
+# are walked from their own model.json.
+#
+# This exists so the feature-fingerprint gate in main() can see the whole chain.
+# Without it a per-airport blend reports one arm's provenance and looks clean
+# while a parent is stale, which is how v13 came to blend a current-features tree
+# side with an MLP trained against an older features.py.
+PARENTS = {
+    "airport_lirf_identity_multimodel": ("airport_operator_multimodel",),
+    "airport_operator_multimodel": ("airport_operator_blend", "mlp_antigravity"),
+    "multimodel_antigravity":      ("per_airport", "mlp_antigravity"),
+    "airport_operator_blend":      ("per_airport", "per_operator"),
+    "per_airport_stack":           ("lightgbm", "per_airport"),
+    "cross_blend":                 ("per_airport_stack", "ensemble_antigravity"),
+    "tri_blend":                   ("per_airport", "per_operator", "mlp_antigravity"),
+    "airport_operator_catboost_multimodel": ("catboost_antigravity", "airport_operator_blend", "mlp_antigravity"),
+}
+
+
+def _ancestors(arm: str) -> set:
+    """Every arm `arm` transitively depends on (excluding itself)."""
+    seen, stack = set(), list(PARENTS.get(arm, ()))
+    while stack:
+        a = stack.pop()
+        if a in seen:
+            continue
+        seen.add(a)
+        stack.extend(PARENTS.get(a, ()))
+    return seen
+
 
 def predict_ranking(arm: str, split: str, featureset: str, seed: int,
                     outlier_policy: str = None, tag: str = None):
@@ -106,7 +137,11 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
         loader = DataLoader(ds, batch_size=4096, shuffle=False, num_workers=0)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         prior_mean = prep.get("prior_mean", 990.0)
-        model = TabularMLP(prep["cat_cardinalities"], num_features=len(prep["num_cols"]), prior_mean=prior_mean).to(device)
+        model = TabularMLP(prep["cat_cardinalities"], num_features=len(prep["num_cols"]),
+                           hidden_dims=tuple(prep.get("hidden_dims", (256, 128, 64))),
+                           dropout=prep.get("dropout", 0.1),
+                           prior_mean=prior_mean,
+                           residual=prep.get("residual", False)).to(device)
         model.load_state_dict(torch.load(out / "model.pt", map_location=device))
         model.eval()
         mlp_preds = []
@@ -116,6 +151,14 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
                 x_num = x_num.to(device)
                 mlp_preds.append(model(x_cat, x_num).cpu().numpy())
         pred = np.concatenate(mlp_preds)
+    elif arm == "catboost_antigravity":
+        from catboost import CatBoostRegressor
+        from common import features as F
+        from pipeline_catboost_antigravity.train import _cat_frame
+        cats = [c for c in F.CATEGORICAL if c in Xrk.columns]
+        model = CatBoostRegressor()
+        model.load_model(str(out / "model.cbm"))
+        pred = model.predict(_cat_frame(Xrk, cats))
     elif arm == "ensemble_antigravity":
         meta_json = json.loads((out / "model.json").read_text())
         weights = meta_json["weights"]
@@ -138,7 +181,13 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
         meta_json = json.loads((out / "model.json").read_text())
         weights_per_airport = meta_json["weights_per_airport"]
         p_ap, meta_ap = predict_ranking("per_airport", split, featureset, seed, outlier_policy)
-        p_mlp, _ = predict_ranking("mlp_antigravity", split, featureset, seed, outlier_policy)
+        # Same rule as airport_operator_multimodel: the MLP seed set comes from
+        # the run's own model.json, never from `seed`. Under --mlp-seeds the
+        # weights were solved against an AVERAGED MLP, so pairing them with a
+        # single draw here would ship an unvalidated combination.
+        mlp_seeds = meta_json.get("mlp_seeds") or [seed]
+        p_mlp = np.mean([predict_ranking("mlp_antigravity", split, featureset, s, outlier_policy)[0]
+                         for s in mlp_seeds], axis=0)
         ap_arr = meta_ap[config.ID.replace("MVT_ID_mvt", "ADEP_mvt") if "ADEP_mvt" in meta_ap else "ADEP_mvt"].astype("object").to_numpy()
         pred = np.zeros(len(p_ap), dtype="float64")
         for a in pd.unique(ap_arr):
@@ -200,6 +249,45 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
             m_a = (ap_arr == a)
             w = weights.get(str(a), 0.5)
             pred[m_a] = w * p_aob[m_a] + (1.0 - w) * p_mlp[m_a]
+    elif arm == "airport_operator_catboost_multimodel":
+        # 3-way per-airport blend (catboost_antigravity + airport_operator_blend +
+        # mlp_antigravity), weights solved on forward_inner by
+        # pipeline_airport_operator_catboost_multimodel/train.py. Same seed-set
+        # discipline as airport_operator_multimodel above: cb/mlp seed lists and
+        # the catboost tag all come from the RUN's own model.json, never from
+        # `seed` -- the weights were solved against those exact averaged arms.
+        meta_json = json.loads((out / "model.json").read_text())
+        weights = meta_json["weights_per_airport"]
+        order = meta_json["weight_order"]  # ["catboost", "tree", "mlp"]
+        cb_seeds = meta_json.get("catboost_seeds") or [seed]
+        mlp_seeds = meta_json.get("mlp_seeds") or [seed]
+        cb_preds = [predict_ranking("catboost_antigravity", split, featureset, s,
+                                    outlier_policy, tag=meta_json.get("catboost_tag"))[0]
+                   for s in cb_seeds]
+        p_cb = np.mean(cb_preds, axis=0)
+        p_tree, meta_tree = predict_ranking("airport_operator_blend", split, featureset,
+                                            seed, outlier_policy, tag=meta_json.get("tree_tag"))
+        mlp_preds = [predict_ranking("mlp_antigravity", split, featureset, s,
+                                     outlier_policy, tag=meta_json.get("mlp_tag"))[0]
+                    for s in mlp_seeds]
+        p_mlp = np.mean(mlp_preds, axis=0)
+        arm_pred = {"catboost": p_cb, "tree": p_tree, "mlp": p_mlp}
+        ap_arr = meta_tree["ADEP_mvt"].astype("object").to_numpy()
+        pred = np.zeros(len(p_tree), dtype="float64")
+        for a in pd.unique(ap_arr):
+            m_a = (ap_arr == a)
+            w = weights.get(str(a), [1 / 3, 1 / 3, 1 / 3])
+            pred[m_a] = sum(w[i] * arm_pred[order[i]][m_a] for i in range(len(order)))
+    elif arm == "airport_lirf_identity_multimodel":
+        from pipeline_airport_lirf_identity_multimodel.train import apply_lirf_identity_override
+        meta_json = json.loads((out / "model.json").read_text())
+        p_base, meta_base = predict_ranking(meta_json["base_arm"], split, featureset,
+                                            seed, outlier_policy,
+                                            tag=meta_json.get("base_tag"))
+        ap_arr = meta_base["ADEP_mvt"].astype("object").to_numpy()
+        pred, _ = apply_lirf_identity_override(
+            p_base, Xrk, ap_arr, meta_json["threshold_sec"],
+            band_hi=meta_json.get("identity_band_hi_sec"))
     elif arm == "airport_wtc_multimodel":
         meta_json = json.loads((out / "model.json").read_text())
         cell_alpha = meta_json["cell_alpha"]
@@ -325,6 +413,99 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
     return np.clip(pred, config.PREDICTION_CLIP_MIN_SEC, config.PREDICTION_CLIP_MAX_SEC), meta
 
 
+def provenance_chain(arm, split, featureset, seed, outlier_policy, tag=None) -> dict:
+    """{arm: provenance} for `arm` and everything it depends on."""
+    def one(a, t=None):
+        d = run_dir(config.ARTIFACTS / "runs", a,
+                    protocol=config.protocol_key(split, featureset, outlier_policy),
+                    seed=seed, extra=({"tag": t} if t else None), create=False)
+        m = json.loads((d / "model.json").read_text()) if (d / "model.json").exists() else {}
+        rec = {"run_dir": str(d.relative_to(config.SOLUTION_DIR)),
+               "feature_fingerprint": m.get("feature_fingerprint"),
+               "best_iteration": m.get("best_iteration"),
+               "params": {k: m.get("params", {}).get(k) for k in
+                          ("learning_rate", "num_leaves", "min_data_in_leaf")}
+               if m.get("params") else None,
+               "weights": m.get("weights")}
+        # A blend using --mlp-seeds averages several mlp_antigravity runs, but
+        # `run_dir` names only the one at `seed`. Recording the seed list keeps
+        # the provenance equal to what was actually computed -- the whole reason
+        # this file grew a gate is that a provenance record looked clean while
+        # the thing it described was not.
+        if m.get("mlp_seeds"):
+            rec["mlp_seeds_averaged"] = m["mlp_seeds"]
+        # An override arm sits on a specific TAGGED variant of its base. Without
+        # this the chain records "airport_operator_multimodel" and cannot say
+        # whether the single-draw or the msmlp run was underneath -- two
+        # different models behind one name.
+        if m.get("tree_tag"):
+            rec["tree_tag"] = m["tree_tag"]
+        if m.get("base_arm"):
+            rec["base_arm"] = m["base_arm"]
+            rec["base_tag"] = m.get("base_tag")
+        return rec
+
+    prov = {arm: one(arm, tag)}
+    for b, w in (prov[arm].get("weights") or {}).items():
+        if w > 0:
+            prov[b] = one(b)              # base arms resolve untagged, by design
+    # An arm may name a TAGGED parent, and so may THAT parent. The walk must
+    # therefore read tags from each arm's own model.json as it descends, not
+    # only from the top arm -- v17 (lirf_identity -> multimodel -> blend) has the
+    # tree_tag on the MIDDLE arm, and a top-only lookup recorded the untagged
+    # blend while the prediction used the congest one.
+    #
+    # Same failure as always: the record names a different model than the one
+    # that produced the file, silently.
+    def tags_declared_by(rec):
+        out = {}
+        if rec.get("base_arm"):
+            out[rec["base_arm"]] = rec.get("base_tag")
+        if rec.get("tree_tag"):
+            out["airport_operator_blend"] = rec["tree_tag"]
+        return out
+
+    pending = [(arm, prov[arm])]
+    seen = {arm}
+    while pending:
+        cur, rec = pending.pop()
+        for parent, ptag in tags_declared_by(rec).items():
+            if parent not in prov:
+                prov[parent] = one(parent, ptag)
+            if parent not in seen:
+                seen.add(parent)
+                pending.append((parent, prov[parent]))
+    # anything else in the declared graph resolves untagged
+    for b in sorted(_ancestors(arm)):
+        prov.setdefault(b, one(b))
+    return prov
+
+
+def assert_feature_agreement(prov: dict) -> None:
+    """Refuse to submit a chain spanning two features.py versions.
+
+    compare.py refuses to RANK arms built from different feature code; nothing
+    refused to SUBMIT one. A blend of a current tree model and a stale neural
+    model is not the model that was validated, and the mismatch is invisible in
+    the output. Run dirs are not keyed on the fingerprint (the gap noted in
+    config.py's S6 comment), so a stale artifact sits at exactly the path you
+    expect -- which is why this is checked rather than assumed.
+    """
+    current = config.feature_code_fingerprint()
+    stale = {a: p["feature_fingerprint"] for a, p in prov.items()
+             if p.get("feature_fingerprint") and p["feature_fingerprint"] != current}
+    if stale:
+        raise SystemExit(
+            "HALT: feature-code fingerprint mismatch. features.py is currently "
+            "{}, but these runs were built against a different version:\n{}\n"
+            "Submitting would ship a blend of models trained on different feature "
+            "sets -- not the model that was validated. Re-run the listed arms at "
+            "this code version.".format(
+                current, "\n".join("  {:34s} {}".format(a, f)
+                                   for a, f in sorted(stale.items()))))
+
+
+
 def validate(sub: "pd.DataFrame") -> "list[str]":
     """Every rejection reason the ranking system lists, checked before upload."""
     tmpl = pd.read_parquet(config.SUBMITTING_PARQUET)
@@ -384,6 +565,12 @@ def main(argv=None) -> int:
     if args.split in config.SELECTION_FORBIDDEN_SPLITS and args.split != "full":
         print("  WARNING: submitting from split '{}', which is not a valid "
               "selection surface.".format(args.split))
+    # Gate FIRST: this used to run after the parquet had already been written,
+    # which left an orphan submission file on disk when it fired.
+    prov = provenance_chain(args.arm, args.split, args.featureset, args.seed,
+                            args.outlier_policy, tag=args.tag)
+    assert_feature_agreement(prov)
+
     pred, meta = predict_ranking(args.arm, args.split, args.featureset, args.seed,
                                  args.outlier_policy, tag=args.tag)
 
@@ -421,26 +608,6 @@ def main(argv=None) -> int:
     # submission cannot be tied back to the models on disk, and a later --force
     # refit of a shared run path changes the file's meaning with nothing to show
     # for it -- which is exactly what happened to v1 before this was added.
-    def _provenance(a, tag=None):
-        d = run_dir(config.ARTIFACTS / "runs", a,
-                    protocol=config.protocol_key(args.split, args.featureset,
-                                                 args.outlier_policy),
-                    seed=args.seed, extra=({"tag": tag} if tag else None),
-                    create=False)
-        m = json.loads((d / "model.json").read_text()) if (d / "model.json").exists() else {}
-        return {"run_dir": str(d.relative_to(config.SOLUTION_DIR)),
-                "feature_fingerprint": m.get("feature_fingerprint"),
-                "best_iteration": m.get("best_iteration"),
-                "params": {k: m.get("params", {}).get(k) for k in
-                           ("learning_rate", "num_leaves", "min_data_in_leaf")}
-                if m.get("params") else None,
-                "weights": m.get("weights")}
-
-    prov = {args.arm: _provenance(args.arm, args.tag)}
-    comps = prov[args.arm].get("weights") or {}
-    for b, w in comps.items():
-        if w > 0:
-            prov[b] = _provenance(b)          # base arms resolve untagged, by design
     (SUBMIT_DIR / (name + ".meta.json")).write_text(json.dumps({
         "arm": args.arm, "split": args.split, "featureset": args.featureset,
         "outlier_policy": args.outlier_policy, "tag": args.tag,

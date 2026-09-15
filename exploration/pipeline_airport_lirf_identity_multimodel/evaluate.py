@@ -46,6 +46,7 @@ def main(argv=None) -> int:
     threshold = meta_json["threshold_sec"]
     band_hi = meta_json.get("identity_band_hi_sec")
     base_arm = meta_json.get("base_arm")
+    base_tag = meta_json.get("base_tag")
     if base_arm is None:
         raise SystemExit("model.json has no base_arm; re-run train.py for this run dir")
 
@@ -54,7 +55,7 @@ def main(argv=None) -> int:
     X, y, meta = D.load_part(args.split, args.part, args.featureset, filter_target=False)
 
     p_base = predict_arm(base_arm, args.split, args.part, args.featureset, args.seed,
-                         args.outlier_policy, X=X, meta=meta, Xtr=Xtr)
+                         args.outlier_policy, X=X, meta=meta, Xtr=Xtr, tag=base_tag)
     ap_arr = meta["ADEP_mvt"].astype("object").to_numpy()
     pred, n_overridden = apply_lirf_identity_override(p_base, X, ap_arr, threshold,
                                                       band_hi=band_hi)

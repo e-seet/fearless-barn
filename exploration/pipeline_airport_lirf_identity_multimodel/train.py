@@ -124,6 +124,11 @@ def main(argv=None) -> int:
                     help="Arm whose predictions this overrides. Default is the "
                          "tier-A blend; pass {} to reproduce the pre-review "
                          "configuration.".format(LEGACY_BASE_ARM))
+    ap.add_argument("--base-tag", default=None,
+                    help="Tag of the base arm's run (e.g. msmlp). The override "
+                         "sits ON TOP of whatever the base predicts, so the base "
+                         "must be addressable by tag or this arm can only ever "
+                         "be applied to the untagged variant.")
     ap.add_argument("--band", default="idband", choices=["idband", "full"],
                     help="idband (default): override ONLY the checked "
                          "25.2k-50k identity. full: also override >50k, which "
@@ -153,7 +158,8 @@ def main(argv=None) -> int:
         Xva, yva, meta_va = D.load_part(args.split, "val", args.featureset, filter_target=False)
         yva = np.asarray(yva, dtype="float64")
         pva_base = predict_arm(base_arm, args.split, "val", args.featureset, args.seed,
-                               args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr)
+                               args.outlier_policy, X=Xva, meta=meta_va, Xtr=Xtr,
+                               tag=args.base_tag)
         ap_va = meta_va["ADEP_mvt"].astype("object").to_numpy()
         pred_va, n_overridden_val = apply_lirf_identity_override(
             pva_base, Xva, ap_va, args.threshold, band_hi=band_hi)
@@ -165,6 +171,7 @@ def main(argv=None) -> int:
     meta = {
         "arm": ARM,
         "base_arm": base_arm,
+        "base_tag": args.base_tag,
         "band": args.band,
         "identity_band_hi_sec": band_hi,
         "split": args.split,

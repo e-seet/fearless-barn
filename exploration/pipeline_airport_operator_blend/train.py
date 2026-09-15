@@ -100,6 +100,12 @@ def main(argv=None) -> int:
     ap.add_argument("--device", default="cpu", choices=["cpu", "gpu", "cuda"])
     ap.add_argument("--outlier-policy", default=config.DEFAULT_OUTLIER_POLICY,
                     choices=sorted(config.OUTLIER_POLICIES))
+    ap.add_argument("--congest", action="store_true",
+                    help="attach the realised-taxi congestion columns "
+                         "(pipeline_per_airport_congest/extra.py). Off by "
+                         "default so the tier-A arm's behaviour is unchanged "
+                         "unless asked for. Recorded in model.json so evaluate "
+                         "and predict reproduce the same feature frame.")
     ap.add_argument("--freeze-from", default=None)
     ap.add_argument("--tag", default=None)
     ap.add_argument("--force", action="store_true")
@@ -115,6 +121,9 @@ def main(argv=None) -> int:
     Xtr, ytr, pool_meta = D.load_part(args.split, "train", args.featureset,
                                       filter_target=True,
                                       outlier_policy=args.outlier_policy)
+    if args.congest:
+        from pipeline_per_airport_congest.extra import attach as attach_congest
+        Xtr = attach_congest(Xtr, "train2025", args.featureset)
     cats = [c for c in F.CATEGORICAL if c in Xtr.columns]
     ytr_a = np.asarray(ytr, dtype="float64")
 
@@ -131,6 +140,8 @@ def main(argv=None) -> int:
     else:
         Xva, yva, meta_va = D.load_part(args.split, "val", args.featureset,
                                         filter_target=False)
+        if args.congest:
+            Xva = attach_congest(Xva, "train2025", args.featureset)
         Xva = D.align_columns(Xtr, Xva)
 
     params = dict(PARAMS)
@@ -245,10 +256,12 @@ def main(argv=None) -> int:
         value=alpha)
 
     with open(out / "model.pkl", "wb") as fh:
-        pickle.dump({"per_airport": seg_a, "per_operator": seg_b, "alpha": alpha}, fh)
+        pickle.dump({"per_airport": seg_a, "per_operator": seg_b, "congest": args.congest,
+        "alpha": alpha}, fh)
     write_json_guarded(out / "model.json", {
         "arm": ARM, "split": args.split, "featureset": args.featureset,
         "seed": args.seed, "params": params, "top_n": args.top_n,
+        "congest": args.congest,
         "alpha": alpha,
         "alpha_note": ("1.0 = per_airport alone, 0.0 = per_operator alone; ONE "
                        "global weight (not per-airport -- see module docstring), "
