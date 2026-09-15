@@ -1,0 +1,1323 @@
+{
+  "featureset": "with_aobt",
+  "tol_sec": 60.0,
+  "min_n": 10,
+  "bands": [
+    {
+      "name": "<=7200",
+      "lo": 0.0,
+      "hi": 7200.0
+    },
+    {
+      "name": "7200-25200",
+      "lo": 7200.0,
+      "hi": 25200.0
+    },
+    {
+      "name": "25200-50000",
+      "lo": 25200.0,
+      "hi": 50000.0
+    },
+    {
+      "name": ">50000",
+      "lo": 50000.0,
+      "hi": null
+    }
+  ],
+  "full_year_cells": [
+    {
+      "n": 1414,
+      "resid_mean": -4064.8804809052335,
+      "resid_std": 1481.1449184019204,
+      "resid_median": -4253.0,
+      "resid_p95_abs": 5929.75,
+      "frac_within_tol": 0.009900990099009901,
+      "y_median": 934.5,
+      "airport": "EDDF",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 223244,
+      "resid_mean": -823.6014405762305,
+      "resid_std": 1034.1478147035762,
+      "resid_median": -539.0,
+      "resid_p95_abs": 2927.0,
+      "frac_within_tol": 0.07158982996183548,
+      "y_median": 836.0,
+      "airport": "EDDF",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 495,
+      "resid_mean": -8651.755555555555,
+      "resid_std": 2777.250802328589,
+      "resid_median": -7806.0,
+      "resid_p95_abs": 13945.299999999997,
+      "frac_within_tol": 0.0,
+      "y_median": 1020.0,
+      "airport": "EDDF",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 2669,
+      "resid_mean": -9705.234544773324,
+      "resid_std": 3779.820137579594,
+      "resid_median": -8405.0,
+      "resid_p95_abs": 17789.8,
+      "frac_within_tol": 0.0,
+      "y_median": 991.0,
+      "airport": "EDDF",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 12,
+      "resid_mean": -37413.916666666664,
+      "resid_std": 9332.333644006496,
+      "resid_median": -41286.0,
+      "resid_p95_abs": 48520.95,
+      "frac_within_tol": 0.0,
+      "y_median": 1076.0,
+      "airport": "EDDF",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 259,
+      "resid_mean": -35889.54054054054,
+      "resid_std": 7407.942803010887,
+      "resid_median": -36523.0,
+      "resid_p95_abs": 47407.4,
+      "frac_within_tol": 0.0,
+      "y_median": 968.0,
+      "airport": "EDDF",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 13,
+      "resid_mean": -77032.07692307692,
+      "resid_std": 13191.142858644194,
+      "resid_median": -75867.0,
+      "resid_p95_abs": 93645.99999999999,
+      "frac_within_tol": 0.0,
+      "y_median": 1236.0,
+      "airport": "EDDF",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 283,
+      "resid_mean": -80076.37102473498,
+      "resid_std": 32497.279242464192,
+      "resid_median": -73299.0,
+      "resid_p95_abs": 143293.49999999985,
+      "frac_within_tol": 0.0,
+      "y_median": 1131.0,
+      "airport": "EDDF",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 767,
+      "resid_mean": -4398.105606258148,
+      "resid_std": 1132.0172498846325,
+      "resid_median": -4380.0,
+      "resid_p95_abs": 5936.0,
+      "frac_within_tol": 0.002607561929595828,
+      "y_median": 851.0,
+      "airport": "EDDM",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 163400,
+      "resid_mean": -624.8806364749082,
+      "resid_std": 964.8853019016241,
+      "resid_median": -354.0,
+      "resid_p95_abs": 2582.0,
+      "frac_within_tol": 0.10563647490820073,
+      "y_median": 774.0,
+      "airport": "EDDM",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 223,
+      "resid_mean": -7759.201793721973,
+      "resid_std": 2644.6553005695964,
+      "resid_median": -7144.0,
+      "resid_p95_abs": 11756.3,
+      "frac_within_tol": 0.0,
+      "y_median": 960.0,
+      "airport": "EDDM",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 1279,
+      "resid_mean": -8987.469898358093,
+      "resid_std": 3084.7378816914174,
+      "resid_median": -8039.0,
+      "resid_p95_abs": 15060.2,
+      "frac_within_tol": 0.0,
+      "y_median": 849.0,
+      "airport": "EDDM",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 2,
+      "resid_mean": -37949.0,
+      "resid_std": 9275.0,
+      "resid_median": -37949.0,
+      "resid_p95_abs": 46296.5,
+      "frac_within_tol": 0.0,
+      "y_median": 721.5,
+      "airport": "EDDM",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 37,
+      "resid_mean": -35476.97297297297,
+      "resid_std": 7533.642773034966,
+      "resid_median": -36479.0,
+      "resid_p95_abs": 47073.2,
+      "frac_within_tol": 0.0,
+      "y_median": 890.0,
+      "airport": "EDDM",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 2,
+      "resid_mean": -62517.0,
+      "resid_std": 3182.0,
+      "resid_median": -62517.0,
+      "resid_p95_abs": 65380.8,
+      "frac_within_tol": 0.0,
+      "y_median": 966.0,
+      "airport": "EDDM",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 15,
+      "resid_mean": -67027.73333333334,
+      "resid_std": 9665.562583844887,
+      "resid_median": -62935.0,
+      "resid_p95_abs": 82864.59999999999,
+      "frac_within_tol": 0.0,
+      "y_median": 849.0,
+      "airport": "EDDM",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 899,
+      "resid_mean": -4332.062291434928,
+      "resid_std": 910.7589193883704,
+      "resid_median": -4263.0,
+      "resid_p95_abs": 5521.4,
+      "frac_within_tol": 0.004449388209121246,
+      "y_median": 1371.0,
+      "airport": "EGLL",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 233523,
+      "resid_mean": -479.64652732279046,
+      "resid_std": 1020.332753565384,
+      "resid_median": -179.0,
+      "resid_p95_abs": 2585.0,
+      "frac_within_tol": 0.10071813054816871,
+      "y_median": 1319.0,
+      "airport": "EGLL",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 507,
+      "resid_mean": -8003.236686390533,
+      "resid_std": 3125.1698833815954,
+      "resid_median": -7316.0,
+      "resid_p95_abs": 13722.999999999996,
+      "frac_within_tol": 0.0019723865877712033,
+      "y_median": 1441.0,
+      "airport": "EGLL",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 3479,
+      "resid_mean": -8703.42885886749,
+      "resid_std": 3403.232380778677,
+      "resid_median": -7735.0,
+      "resid_p95_abs": 15776.1,
+      "frac_within_tol": 0.0005748778384593274,
+      "y_median": 1441.0,
+      "airport": "EGLL",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 6,
+      "resid_mean": -26599.5,
+      "resid_std": 2633.943478892438,
+      "resid_median": -26487.5,
+      "resid_p95_abs": 30001.75,
+      "frac_within_tol": 0.0,
+      "y_median": 1263.5,
+      "airport": "EGLL",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 62,
+      "resid_mean": -29920.887096774193,
+      "resid_std": 5087.939528782077,
+      "resid_median": -29549.0,
+      "resid_p95_abs": 38881.49999999999,
+      "frac_within_tol": 0.0,
+      "y_median": 1386.5,
+      "airport": "EGLL",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 0,
+      "airport": "EGLL",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 0,
+      "airport": "EGLL",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 3054,
+      "resid_mean": -2661.153896529142,
+      "resid_std": 2106.0354121102573,
+      "resid_median": -3331.5,
+      "resid_p95_abs": 5851.35,
+      "frac_within_tol": 0.053700065487884745,
+      "y_median": 495.5,
+      "airport": "EHAM",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 236108,
+      "resid_mean": -899.8543717281922,
+      "resid_std": 1134.9149320603397,
+      "resid_median": -560.0,
+      "resid_p95_abs": 3274.0,
+      "frac_within_tol": 0.07190777102004167,
+      "y_median": 745.0,
+      "airport": "EHAM",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 682,
+      "resid_mean": -9221.32697947214,
+      "resid_std": 3374.9978468731215,
+      "resid_median": -8131.5,
+      "resid_p95_abs": 16447.549999999996,
+      "frac_within_tol": 0.0,
+      "y_median": 835.0,
+      "airport": "EHAM",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 4537,
+      "resid_mean": -9574.087061935199,
+      "resid_std": 3446.3888547450942,
+      "resid_median": -8455.0,
+      "resid_p95_abs": 17213.99999999999,
+      "frac_within_tol": 0.0,
+      "y_median": 818.0,
+      "airport": "EHAM",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 11,
+      "resid_mean": -31347.363636363636,
+      "resid_std": 7493.73112884396,
+      "resid_median": -25797.0,
+      "resid_p95_abs": 42989.5,
+      "frac_within_tol": 0.0,
+      "y_median": 780.0,
+      "airport": "EHAM",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 166,
+      "resid_mean": -32254.86746987952,
+      "resid_std": 6904.540974371368,
+      "resid_median": -30381.0,
+      "resid_p95_abs": 47702.0,
+      "frac_within_tol": 0.0,
+      "y_median": 905.5,
+      "airport": "EHAM",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 12,
+      "resid_mean": -84765.41666666667,
+      "resid_std": 27725.430845640414,
+      "resid_median": -80624.0,
+      "resid_p95_abs": 133207.3,
+      "frac_within_tol": 0.0,
+      "y_median": 1090.5,
+      "airport": "EHAM",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 87,
+      "resid_mean": -78495.98850574713,
+      "resid_std": 26264.768536715193,
+      "resid_median": -71975.0,
+      "resid_p95_abs": 126009.20000000006,
+      "frac_within_tol": 0.0,
+      "y_median": 977.0,
+      "airport": "EHAM",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 1279,
+      "resid_mean": -4081.636434714621,
+      "resid_std": 1503.5731052502938,
+      "resid_median": -4260.0,
+      "resid_p95_abs": 5882.299999999999,
+      "frac_within_tol": 0.029710711493354185,
+      "y_median": 1007.0,
+      "airport": "LEBL",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 173450,
+      "resid_mean": -722.1845200345921,
+      "resid_std": 1137.7426580360261,
+      "resid_median": -358.0,
+      "resid_p95_abs": 3178.0,
+      "frac_within_tol": 0.10279619486883829,
+      "y_median": 905.0,
+      "airport": "LEBL",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 573,
+      "resid_mean": -8895.624781849912,
+      "resid_std": 2989.369145052071,
+      "resid_median": -7982.0,
+      "resid_p95_abs": 14640.8,
+      "frac_within_tol": 0.0,
+      "y_median": 1100.0,
+      "airport": "LEBL",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 3468,
+      "resid_mean": -9142.366493656285,
+      "resid_std": 3186.854308719163,
+      "resid_median": -8162.0,
+      "resid_p95_abs": 15939.39999999998,
+      "frac_within_tol": 0.0,
+      "y_median": 1032.0,
+      "airport": "LEBL",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 7,
+      "resid_mean": -30078.14285714286,
+      "resid_std": 6369.938627840065,
+      "resid_median": -26762.0,
+      "resid_p95_abs": 40831.899999999994,
+      "frac_within_tol": 0.0,
+      "y_median": 865.0,
+      "airport": "LEBL",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 55,
+      "resid_mean": -30350.363636363636,
+      "resid_std": 6271.241997805644,
+      "resid_median": -27541.0,
+      "resid_p95_abs": 43166.99999999999,
+      "frac_within_tol": 0.0,
+      "y_median": 989.0,
+      "airport": "LEBL",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 1,
+      "resid_mean": -67860.0,
+      "resid_std": 0.0,
+      "resid_median": -67860.0,
+      "resid_p95_abs": 67860.0,
+      "frac_within_tol": 0.0,
+      "y_median": 911.0,
+      "airport": "LEBL",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 8,
+      "resid_mean": -61100.25,
+      "resid_std": 14379.711086718677,
+      "resid_median": -55320.5,
+      "resid_p95_abs": 85793.99999999999,
+      "frac_within_tol": 0.0,
+      "y_median": 1067.0,
+      "airport": "LEBL",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 660,
+      "resid_mean": -4495.816666666667,
+      "resid_std": 915.9327145598687,
+      "resid_median": -4443.0,
+      "resid_p95_abs": 5884.0,
+      "frac_within_tol": 0.004545454545454545,
+      "y_median": 1066.0,
+      "airport": "LEMD",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 207253,
+      "resid_mean": -764.5099081798575,
+      "resid_std": 1083.754104292993,
+      "resid_median": -424.0,
+      "resid_p95_abs": 3058.0,
+      "frac_within_tol": 0.08813382677210944,
+      "y_median": 983.0,
+      "airport": "LEMD",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 286,
+      "resid_mean": -8310.146853146853,
+      "resid_std": 2404.6539825174327,
+      "resid_median": -7680.0,
+      "resid_p95_abs": 12991.5,
+      "frac_within_tol": 0.0,
+      "y_median": 1149.5,
+      "airport": "LEMD",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 3679,
+      "resid_mean": -9283.299809730905,
+      "resid_std": 3327.705389958159,
+      "resid_median": -8163.0,
+      "resid_p95_abs": 16277.29999999999,
+      "frac_within_tol": 0.0,
+      "y_median": 1081.0,
+      "airport": "LEMD",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 0,
+      "airport": "LEMD",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 105,
+      "resid_mean": -29240.75238095238,
+      "resid_std": 5227.168886429464,
+      "resid_median": -27722.0,
+      "resid_p95_abs": 39528.4,
+      "frac_within_tol": 0.0,
+      "y_median": 959.0,
+      "airport": "LEMD",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 0,
+      "airport": "LEMD",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 3,
+      "resid_mean": -61555.0,
+      "resid_std": 16222.082500920364,
+      "resid_median": -50934.0,
+      "resid_p95_abs": 81121.8,
+      "frac_within_tol": 0.0,
+      "y_median": 813.0,
+      "airport": "LEMD",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 2776,
+      "resid_mean": -3966.5461095100864,
+      "resid_std": 2494.7461761599498,
+      "resid_median": -4257.5,
+      "resid_p95_abs": 5879.0,
+      "frac_within_tol": 0.008645533141210375,
+      "y_median": 1014.0,
+      "airport": "LFPG",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 229673,
+      "resid_mean": -867.9543742625385,
+      "resid_std": 1137.2084329781833,
+      "resid_median": -539.0,
+      "resid_p95_abs": 3238.0,
+      "frac_within_tol": 0.08537355283381155,
+      "y_median": 954.0,
+      "airport": "LFPG",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 966,
+      "resid_mean": -8489.293995859212,
+      "resid_std": 3177.9862636635708,
+      "resid_median": -7562.5,
+      "resid_p95_abs": 15103.5,
+      "frac_within_tol": 0.0,
+      "y_median": 1090.5,
+      "airport": "LFPG",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 4906,
+      "resid_mean": -9247.128210354667,
+      "resid_std": 3474.680061360012,
+      "resid_median": -8223.5,
+      "resid_p95_abs": 16437.75,
+      "frac_within_tol": 0.00020383204239706482,
+      "y_median": 1017.0,
+      "airport": "LFPG",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 15,
+      "resid_mean": -29293.533333333333,
+      "resid_std": 6267.676080405631,
+      "resid_median": -27185.0,
+      "resid_p95_abs": 43402.899999999994,
+      "frac_within_tol": 0.0,
+      "y_median": 890.0,
+      "airport": "LFPG",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 147,
+      "resid_mean": -32424.544217687075,
+      "resid_std": 6341.198136998295,
+      "resid_median": -30302.0,
+      "resid_p95_abs": 46239.0,
+      "frac_within_tol": 0.0,
+      "y_median": 969.0,
+      "airport": "LFPG",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 6,
+      "resid_mean": -85890.0,
+      "resid_std": 3087.136483323448,
+      "resid_median": -86936.5,
+      "resid_p95_abs": 88218.0,
+      "frac_within_tol": 0.0,
+      "y_median": 954.5,
+      "airport": "LFPG",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 17,
+      "resid_mean": -65365.94117647059,
+      "resid_std": 17051.337530668236,
+      "resid_median": -55684.0,
+      "resid_p95_abs": 90910.0,
+      "frac_within_tol": 0.0,
+      "y_median": 1133.0,
+      "airport": "LFPG",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 845,
+      "resid_mean": -2207.0863905325446,
+      "resid_std": 3190.499035124191,
+      "resid_median": -3721.0,
+      "resid_p95_abs": 5996.6,
+      "frac_within_tol": 0.3857988165680473,
+      "y_median": 1369.0,
+      "airport": "LIRF",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 155256,
+      "resid_mean": -617.5056551759675,
+      "resid_std": 1131.2541827557764,
+      "resid_median": -235.0,
+      "resid_p95_abs": 3001.0,
+      "frac_within_tol": 0.20966661513886742,
+      "y_median": 1024.0,
+      "airport": "LIRF",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 573,
+      "resid_mean": -3172.0139616055844,
+      "resid_std": 5657.40331808419,
+      "resid_median": -3.0,
+      "resid_p95_abs": 11749.599999999997,
+      "frac_within_tol": 0.6160558464223386,
+      "y_median": 7976.0,
+      "airport": "LIRF",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "partial"
+    },
+    {
+      "n": 2707,
+      "resid_mean": -9081.451052826007,
+      "resid_std": 3640.087329127369,
+      "resid_median": -7980.0,
+      "resid_p95_abs": 16675.7,
+      "frac_within_tol": 0.011451791651274473,
+      "y_median": 1133.0,
+      "airport": "LIRF",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 34,
+      "resid_mean": -0.029411764705882353,
+      "resid_std": 2.905221406138458,
+      "resid_median": 0.0,
+      "resid_p95_abs": 5.0,
+      "frac_within_tol": 1.0,
+      "y_median": 39721.5,
+      "airport": "LIRF",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "IDENTITY"
+    },
+    {
+      "n": 42,
+      "resid_mean": -29316.0,
+      "resid_std": 4046.651649379839,
+      "resid_median": -28561.5,
+      "resid_p95_abs": 35975.399999999994,
+      "frac_within_tol": 0.0,
+      "y_median": 1148.5,
+      "airport": "LIRF",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 20,
+      "resid_mean": 10311.5,
+      "resid_std": 13488.240239186134,
+      "resid_median": 754.0,
+      "resid_p95_abs": 31260.100000000006,
+      "frac_within_tol": 0.45,
+      "y_median": 87181.5,
+      "airport": "LIRF",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 1,
+      "resid_mean": 1.0,
+      "resid_std": 0.0,
+      "resid_median": 1.0,
+      "resid_p95_abs": 1.0,
+      "frac_within_tol": 1.0,
+      "y_median": 87002.0,
+      "airport": "LIRF",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 1766,
+      "resid_mean": -2276.305209513024,
+      "resid_std": 3082.5765537601274,
+      "resid_median": -1714.5,
+      "resid_p95_abs": 5659.25,
+      "frac_within_tol": 0.045300113250283124,
+      "y_median": 705.0,
+      "airport": "LSZH",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 129654,
+      "resid_mean": -887.6842287935582,
+      "resid_std": 1019.0555689324876,
+      "resid_median": -608.0,
+      "resid_p95_abs": 2966.0,
+      "frac_within_tol": 0.05960479429867185,
+      "y_median": 715.0,
+      "airport": "LSZH",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 231,
+      "resid_mean": -8477.722943722943,
+      "resid_std": 2452.5842332273355,
+      "resid_median": -7773.0,
+      "resid_p95_abs": 12791.5,
+      "frac_within_tol": 0.0,
+      "y_median": 805.0,
+      "airport": "LSZH",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 1091,
+      "resid_mean": -9298.030247479377,
+      "resid_std": 3364.2950348591926,
+      "resid_median": -8131.0,
+      "resid_p95_abs": 16656.5,
+      "frac_within_tol": 0.0,
+      "y_median": 770.0,
+      "airport": "LSZH",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 2,
+      "resid_mean": -35792.0,
+      "resid_std": 6555.0,
+      "resid_median": -35792.0,
+      "resid_p95_abs": 41691.5,
+      "frac_within_tol": 0.0,
+      "y_median": 596.5,
+      "airport": "LSZH",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 19,
+      "resid_mean": -31175.526315789473,
+      "resid_std": 5205.761892450175,
+      "resid_median": -30147.0,
+      "resid_p95_abs": 41617.0,
+      "frac_within_tol": 0.0,
+      "y_median": 764.0,
+      "airport": "LSZH",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 0,
+      "airport": "LSZH",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 2,
+      "resid_mean": -59265.5,
+      "resid_std": 1738.5,
+      "resid_median": -59265.5,
+      "resid_p95_abs": 60830.15,
+      "frac_within_tol": 0.0,
+      "y_median": 695.5,
+      "airport": "LSZH",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 3320,
+      "resid_mean": -752.9596385542169,
+      "resid_std": 1587.3531411618826,
+      "resid_median": -118.0,
+      "resid_p95_abs": 4618.0,
+      "frac_within_tol": 0.10361445783132531,
+      "y_median": 971.0,
+      "airport": "LTFM",
+      "band": "<=7200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 259635,
+      "resid_mean": -459.4637202226202,
+      "resid_std": 1012.2863125831268,
+      "resid_median": -176.0,
+      "resid_p95_abs": 2524.0,
+      "frac_within_tol": 0.10948832014173744,
+      "y_median": 965.0,
+      "airport": "LTFM",
+      "band": "<=7200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 257,
+      "resid_mean": -7528.315175097277,
+      "resid_std": 3979.1319798564136,
+      "resid_median": -7256.0,
+      "resid_p95_abs": 15183.199999999997,
+      "frac_within_tol": 0.0,
+      "y_median": 1268.0,
+      "airport": "LTFM",
+      "band": "7200-25200",
+      "record": "no_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 5441,
+      "resid_mean": -10772.737915824297,
+      "resid_std": 4493.210351893242,
+      "resid_median": -9358.0,
+      "resid_p95_abs": 20165.0,
+      "frac_within_tol": 0.0,
+      "y_median": 964.0,
+      "airport": "LTFM",
+      "band": "7200-25200",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 7,
+      "resid_mean": -27565.14285714286,
+      "resid_std": 2461.417618746878,
+      "resid_median": -25805.0,
+      "resid_p95_abs": 30979.899999999998,
+      "frac_within_tol": 0.0,
+      "y_median": 969.0,
+      "airport": "LTFM",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 281,
+      "resid_mean": -28012.110320284697,
+      "resid_std": 3603.090904998092,
+      "resid_median": -27359.0,
+      "resid_p95_abs": 35940.0,
+      "frac_within_tol": 0.0,
+      "y_median": 901.0,
+      "airport": "LTFM",
+      "band": "25200-50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    },
+    {
+      "n": 1,
+      "resid_mean": -58376.0,
+      "resid_std": 0.0,
+      "resid_median": -58376.0,
+      "resid_p95_abs": 58376.0,
+      "frac_within_tol": 0.0,
+      "y_median": 727.0,
+      "airport": "LTFM",
+      "band": ">50000",
+      "record": "no_record",
+      "verdict": "too few rows to judge"
+    },
+    {
+      "n": 20,
+      "resid_mean": -79068.9,
+      "resid_std": 33085.23623899337,
+      "resid_median": -68403.0,
+      "resid_p95_abs": 125082.75000000004,
+      "frac_within_tol": 0.0,
+      "y_median": 1199.0,
+      "airport": "LTFM",
+      "band": ">50000",
+      "record": "has_record",
+      "verdict": "not an identity"
+    }
+  ],
+  "scored_set": {
+    "n_scored_rows": 215876,
+    "exposure_by_cell": [
+      {
+        "airport": "EDDF",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 309
+      },
+      {
+        "airport": "EDDF",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 106
+      },
+      {
+        "airport": "EDDF",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 2
+      },
+      {
+        "airport": "EDDF",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 3
+      },
+      {
+        "airport": "EDDM",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 65
+      },
+      {
+        "airport": "EDDM",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 54
+      },
+      {
+        "airport": "EDDM",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "EDDM",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "EGLL",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 164
+      },
+      {
+        "airport": "EGLL",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 82
+      },
+      {
+        "airport": "EGLL",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 2
+      },
+      {
+        "airport": "EGLL",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "EHAM",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 604
+      },
+      {
+        "airport": "EHAM",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 536
+      },
+      {
+        "airport": "EHAM",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 16
+      },
+      {
+        "airport": "EHAM",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 8
+      },
+      {
+        "airport": "LEBL",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 51
+      },
+      {
+        "airport": "LEBL",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 25
+      },
+      {
+        "airport": "LEBL",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 1
+      },
+      {
+        "airport": "LEBL",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "LEMD",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 34
+      },
+      {
+        "airport": "LEMD",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 29
+      },
+      {
+        "airport": "LEMD",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "LEMD",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "LFPG",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 195
+      },
+      {
+        "airport": "LFPG",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 129
+      },
+      {
+        "airport": "LFPG",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "LFPG",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 1
+      },
+      {
+        "airport": "LIRF",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 53
+      },
+      {
+        "airport": "LIRF",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 41
+      },
+      {
+        "airport": "LIRF",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 8
+      },
+      {
+        "airport": "LIRF",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 2
+      },
+      {
+        "airport": "LSZH",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 182
+      },
+      {
+        "airport": "LSZH",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 96
+      },
+      {
+        "airport": "LSZH",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "LSZH",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      },
+      {
+        "airport": "LTFM",
+        "band": "<=7200",
+        "record": "no_record",
+        "n_scored_rows": 289
+      },
+      {
+        "airport": "LTFM",
+        "band": "7200-25200",
+        "record": "no_record",
+        "n_scored_rows": 36
+      },
+      {
+        "airport": "LTFM",
+        "band": "25200-50000",
+        "record": "no_record",
+        "n_scored_rows": 1
+      },
+      {
+        "airport": "LTFM",
+        "band": ">50000",
+        "record": "no_record",
+        "n_scored_rows": 0
+      }
+    ],
+    "n_rows_shipped_lirf_rule": 10,
+    "n_rows_all_airport_rule": 44,
+    "pct_scored_shipped_rule": 0.004632288906594527,
+    "pct_scored_all_airport_rule": 0.020382071189015916
+  },
+  "identity_cells": [
+    {
+      "n": 34,
+      "resid_mean": -0.029411764705882353,
+      "resid_std": 2.905221406138458,
+      "resid_median": 0.0,
+      "resid_p95_abs": 5.0,
+      "frac_within_tol": 1.0,
+      "y_median": 39721.5,
+      "airport": "LIRF",
+      "band": "25200-50000",
+      "record": "no_record",
+      "verdict": "IDENTITY"
+    }
+  ],
+  "non_lirf_identity_airports": [],
+  "tail_leverage": {
+    "val": {
+      "n": 369624,
+      "n_tail": 93,
+      "pct_rows_tail": 0.025160703850399323,
+      "pct_sse_tail": 15.415454966165518,
+      "rmse": 248.33436241324605,
+      "rmse_in_band": 228.4214947705165
+    },
+    "test": {
+      "n": 328009,
+      "n_tail": 61,
+      "pct_rows_tail": 0.01859705069068227,
+      "pct_sse_tail": 20.816477513891435,
+      "rmse": 246.89266591118448,
+      "rmse_in_band": 219.7181757883009
+    }
+  },
+  "feature_fingerprint": "aeade7fee3099c1a"
+}
