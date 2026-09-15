@@ -24,15 +24,15 @@
   },
   "num_boost_round_cap": 5000,
   "patience": 200,
-  "best_iteration": 259,
-  "val_rmse_raw": 302.4913428122257,
-  "val_rmse_clipped": 302.44554205892547,
+  "best_iteration": 245,
+  "val_rmse_raw": 297.81177106999456,
+  "val_rmse_clipped": 297.7786003736069,
   "refit_only": false,
   "convergence": {
-    "best_epoch": 259,
-    "best_value": 302.4913428122257,
-    "stop_epoch": 459,
-    "epochs_run": 459,
+    "best_epoch": 245,
+    "best_value": 297.81177106999456,
+    "stop_epoch": 445,
+    "epochs_run": 445,
     "patience": 200,
     "patience_counter": 200,
     "max_epochs": 5000,
@@ -41,13 +41,13 @@
     "converged": true,
     "mode": "min",
     "metric_key": "val_rmse",
-    "note": "early stopping fired at epoch 459 after 200 epochs without improvement",
+    "note": "early stopping fired at epoch 445 after 200 epochs without improvement",
     "cross_check": "verify this best_epoch against whatever the trainer itself printed or saved -- if the framework selects on a composite fitness, recompute with THAT formula (MISTAKES.md #48)"
   },
   "selection": {
     "what": "lightgbm best_iteration",
     "selected_on": "val",
-    "value": 259,
+    "value": 245,
     "gate": "selection_set_declared"
   },
   "n_train": 1387105,
@@ -80,5 +80,5 @@
     "dest_region",
     "adep_flight_record"
   ],
-  "feature_fingerprint": "47cba1fb5f800c8d"
+  "feature_fingerprint": "aeade7fee3099c1a"
 }

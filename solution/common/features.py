@@ -42,6 +42,20 @@ WINDOWS_MIN = (15, 30, 60)
 # --------------------------------------------------------------------------- #
 # congestion
 # --------------------------------------------------------------------------- #
+def _to_ns(series: "pd.Series") -> "np.ndarray":
+    """Nanoseconds since epoch, regardless of the Series' stored datetime64 resolution.
+
+    Bug found by direct measurement: a bare `.astype("int64")` returns whatever unit
+    the Series is actually stored in, not nanoseconds. This data ships as
+    datetime64[us] (pandas/pyarrow default), so the old call site silently returned
+    MICROSECONDS while every window below (`minute = 60 * 1_000_000_000`) assumes
+    nanoseconds -- a 1000x error that turned every "15/30/60-minute" congestion
+    window into a ~10-40 DAY window. Normalising the dtype first makes the int64
+    view correct no matter what resolution the source column is stored at.
+    """
+    return series.dt.tz_localize(None).astype("datetime64[ns]").astype("int64").to_numpy()
+
+
 def _counts_in_window(event_times_ns, query_times_ns, lo_ns, hi_ns):
     """For each query time q, count events in [q+lo, q+hi). Both arrays in ns.
 
@@ -93,7 +107,7 @@ def build_congestion(mov: "pd.DataFrame", featureset: str) -> "pd.DataFrame":
     is_dep = mov["PHASE_mvt"].eq("DEP").to_numpy()
     # The observed airport: ADEP for a departure, ADES for an arrival.
     airport = np.where(is_dep, mov["ADEP_mvt"].to_numpy(), mov["ADES_mvt"].to_numpy())
-    t_ns = mov["MVT_TIME_UTC_mvt"].astype("int64").to_numpy()
+    t_ns = _to_ns(mov["MVT_TIME_UTC_mvt"])
     target = mov[config.TARGET].to_numpy(dtype="float64", na_value=np.nan)
 
     dep_idx = np.flatnonzero(is_dep)
@@ -133,7 +147,7 @@ def build_congestion(mov: "pd.DataFrame", featureset: str) -> "pd.DataFrame":
     else:
         ob_series = None
     if ob_series is not None:
-        aobt_ns = ob_series.astype("int64").to_numpy()
+        aobt_ns = _to_ns(ob_series)
         aobt_ok = ob_series.notna().to_numpy()
         # an estimate that lands after takeoff is not an off-block time
         aobt_ok = aobt_ok & (aobt_ns < t_ns)

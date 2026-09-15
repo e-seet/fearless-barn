@@ -7,9 +7,9 @@
   "n": 369624,
   "metric": "rmse",
   "higher_is_better": false,
-  "rmse": 302.44554205892547,
-  "mae": 153.39784260022694,
-  "bias_mean_signed_error": -1.046027666738437,
+  "rmse": 297.7786003736069,
+  "mae": 150.5401310305121,
+  "bias_mean_signed_error": -1.6925327540179333,
   "trivial_baselines": {
     "train_mean": {
       "constant": 990.3741699438759,
@@ -24,72 +24,72 @@
   "prediction_cap_sec": 86400,
   "n_above_cap": 1,
   "n_in_band": 369531,
-  "rmse_in_band": 252.9029467503037,
+  "rmse_in_band": 249.98949048182868,
   "rmse_by_airport": {
     "LTFM": {
       "n": 48144.0,
-      "rmse": 251.29496658281226,
+      "rmse": 246.72007787660908,
       "mean_true": 1034.1419699235626
     },
     "EHAM": {
       "n": 43250.0,
-      "rmse": 169.5014259667791,
+      "rmse": 166.5259051670578,
       "mean_true": 727.4227976878612
     },
     "EDDF": {
       "n": 42243.0,
-      "rmse": 172.92403041891956,
+      "rmse": 166.388451845071,
       "mean_true": 868.6958786071065
     },
     "LFPG": {
       "n": 41491.0,
-      "rmse": 247.04159032260344,
+      "rmse": 244.86035806226172,
       "mean_true": 1053.2032729989637
     },
     "EGLL": {
       "n": 40795.0,
-      "rmse": 244.7531452674341,
+      "rmse": 242.72259050273138,
       "mean_true": 1392.116950606692
     },
     "LEMD": {
       "n": 36563.0,
-      "rmse": 195.2985238545388,
+      "rmse": 194.4505946649747,
       "mean_true": 1036.1076224598637
     },
     "LEBL": {
       "n": 32444.0,
-      "rmse": 237.27733592346962,
+      "rmse": 233.18789229281097,
       "mean_true": 983.8072679077795
     },
     "EDDM": {
       "n": 31405.0,
-      "rmse": 181.87356943517426,
+      "rmse": 178.6631206732021,
       "mean_true": 806.1564718993791
     },
     "LIRF": {
       "n": 28809.0,
-      "rmse": 798.1184423581892,
+      "rmse": 785.5099093382041,
       "mean_true": 1213.868652157312
     },
     "LSZH": {
       "n": 24480.0,
-      "rmse": 166.37186907144195,
+      "rmse": 164.17280359008154,
       "mean_true": 724.3208741830065
     }
   },
   "rmse_by_month": {
     "2025-10": {
       "n": 185674.0,
-      "rmse": 257.2810751270306,
+      "rmse": 251.68122525917983,
       "mean_true": 991.9811659144522
     },
     "2025-09": {
       "n": 183950.0,
-      "rmse": 342.0379874989743,
+      "rmse": 337.99132167941184,
       "mean_true": 989.7839141070943
     }
   },
-  "leaderboard_weighted_rmse": 273.1167889768787,
+  "leaderboard_weighted_rmse": 268.85645571106306,
   "leaderboard_weights_used": {
     "EGLL": 0.18455,
     "EHAM": 0.17687,
@@ -102,15 +102,15 @@
     "EDDM": 0.050737,
     "LSZH": 0.0463
   },
-  "sse_share_worst_0.1pct": 0.480547074171526,
-  "sse_share_worst_1pct": 0.6148729376643496,
-  "sse_share_worst_5pct": 0.7442052480683597,
-  "best_iteration": 259,
+  "sse_share_worst_0.1pct": 0.4791745323870394,
+  "sse_share_worst_1pct": 0.6184477557438406,
+  "sse_share_worst_5pct": 0.7469063667443971,
+  "best_iteration": 245,
   "convergence": {
-    "best_epoch": 259,
-    "best_value": 302.4913428122257,
-    "stop_epoch": 459,
-    "epochs_run": 459,
+    "best_epoch": 245,
+    "best_value": 297.81177106999456,
+    "stop_epoch": 445,
+    "epochs_run": 445,
     "patience": 200,
     "patience_counter": 200,
     "max_epochs": 5000,
@@ -119,8 +119,8 @@
     "converged": true,
     "mode": "min",
     "metric_key": "val_rmse",
-    "note": "early stopping fired at epoch 459 after 200 epochs without improvement",
+    "note": "early stopping fired at epoch 445 after 200 epochs without improvement",
     "cross_check": "verify this best_epoch against whatever the trainer itself printed or saved -- if the framework selects on a composite fitness, recompute with THAT formula (MISTAKES.md #48)"
   },
-  "feature_fingerprint": "47cba1fb5f800c8d"
+  "feature_fingerprint": "aeade7fee3099c1a"
 }
