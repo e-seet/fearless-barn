@@ -1,5 +1,12 @@
 # RETROSPECTIVE — PRC Data Challenge 2026: taxi-out time prediction
 
+> **SUPERSEDED — early-round snapshot.** The build finished at **v25, RMSE
+> 295.21 on the live leaderboard**. For the current state read
+> [`PIPELINE_REVIEW.md`](PIPELINE_REVIEW.md) and
+> [`plans/13_live_board_next_steps.md`](plans/13_live_board_next_steps.md).
+> Kept as the historical record of the early rounds, per this file's own
+> stated policy below of correcting in place rather than overwriting.
+
 **STATUS: in progress.** Training has now happened. All six arms have been run
 end-to-end on the real data at `forward / with_aobt / keep_all`, seed 42, with
 every gate passing — but the build is **not registerable yet**: the `no_aobt`

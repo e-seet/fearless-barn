@@ -3,6 +3,17 @@
 Predict how long a departing aircraft spends between leaving the stand and
 lifting off, at ten large European airports.
 
+> **SUPERSEDED — this file is a mid-build snapshot, not the current state.**
+> The build finished at **v25, RMSE 295.21 on the live leaderboard**. For the
+> current, trustworthy picture read **[`PIPELINE_REVIEW.md`](PIPELINE_REVIEW.md)**
+> (which arms to trust, which are quarantined) and
+> **[`plans/13_live_board_next_steps.md`](plans/13_live_board_next_steps.md)**
+> (the real submission history). In particular, §7 below names
+> `airport_unsup_multimodel` as "reigning champion" — that arm was later found
+> to be over-tuned (ranking inside its own seed noise) and is now quarantined
+> in `overtuned/`; it was never the shipped model. This file is kept for its
+> still-accurate glossary (§2) and build layout (§3), not for §4/§7's numbers.
+
 **Status: `STATUS: in progress`** — not registered in `INDEX_MODE2.md`. See
 [§9 Open items](#9-open-items) for exactly what is and is not settled.
 

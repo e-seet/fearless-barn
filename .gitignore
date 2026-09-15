@@ -9,8 +9,18 @@
 artifacts/features/
 prc-2026-datasets/
 prc-2026-datasets.zip
+prc-2026-datasets-fresh/
+prc-2026-datasets-wx/
 credentials.json
+
+# CatBoost writes this training-log scratch dir wherever it runs from
+catboost_info/
+# mc (MinIO client) local cache
+exploration/dc26/
 
 # Python bytecode caches -- regenerated on any run, never a result
 __pycache__/
 *.pyc
+# S3 credentials (any variant) - never commit
+credentials*.json
+**/credentials*.json

@@ -1,5 +1,13 @@
 # SUBMISSION — which model to upload
 
+> **SUPERSEDED — this records only v1-v3 from the first round.** The build
+> went on to submit through **v27**; the final, shipped submission is **v25
+> (RMSE 295.21)** — a per-airport blend of `per_airport` + `airport_operator_blend`
+> (LightGBM) with an 18-seed-averaged MLP, refit on the full 12-month period.
+> See [`PIPELINE_REVIEW.md`](PIPELINE_REVIEW.md) §"Bottom line — what to ship"
+> and [`plans/13_live_board_next_steps.md`](plans/13_live_board_next_steps.md)
+> for the real submission-by-submission history and board scores.
+
 Status of the build: **`STATUS: in progress`** (see [RETROSPECTIVE.md](RETROSPECTIVE.md)).
 This file is the decision record for the leaderboard upload only. Nothing here is
 written back to `INDEX_MODE2.md`, `CASES.md` or `methodology/`.
