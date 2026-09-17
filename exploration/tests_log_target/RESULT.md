@@ -54,12 +54,28 @@ per_airport val 278.17), so the harness is sound.
 
 **Not adopted.** Do not ship a log-target tree arm. The idea that the tail should
 not dominate the in-band fit is not wrong, but log1p pays for it on the metric
-that counts. If pursued, the next forms to try keep the tail *in* the objective
-instead of compressing it out:
+that counts.
 
-- Huber / quantile loss with a tuned δ (seed-swept, in-band + pooled reported).
-- A two-model split: L2 in-band model + an explicit tail/`has_flight_record`
-  model, routed — not a global transform.
+**UPDATE (2026-09-16): both follow-ups below are now closed elsewhere, and the
+whole objective-function axis is closed.** Huber/quantile loss was tested
+(`TAXI_OUT_DRIVERS.md`, +82.2s, catastrophic) and the routed tail/floor+delta
+split was tested three independent ways (§2q, all failed to beat plain MLP
+out-of-sample on the AOBT-unmatched population). A fourth point on this axis,
+LightGBM's built-in `poisson` objective, was also tested
+(`tests_poisson_objective/RESULT.md`) on the hypothesis that its uniform
+score-space gradient (unlike Gamma/Tweedie) might sidestep the tail-de-weighting
+failure seen here — it does not (LightGBM's Newton-step Hessian scaling
+de-weights the tail regardless), and it reproduced this same in-band-improves/
+pooled-worsens signature, just milder (+3.4 to +15.5s vs. log1p's +22 to +39s).
+Gamma and Tweedie are closed by inference from that result. **Do not propose
+anything on this axis again** — L2 remains the shipped choice.
+
+~~If pursued, the next forms to try keep the tail *in* the objective instead of
+compressing it out:~~
+
+~~- Huber / quantile loss with a tuned δ (seed-swept, in-band + pooled reported).~~
+~~- A two-model split: L2 in-band model + an explicit tail/`has_flight_record`~~
+~~  model, routed — not a global transform.~~
 
 Bar for either: must beat the current winner on **test in-band** by more than the
 seed spread across ≥3 seeds, with the negative controls passing. log1p fails that

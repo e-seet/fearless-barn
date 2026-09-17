@@ -193,17 +193,21 @@ def main(argv=None) -> int:
                 feature_check["current_code"])))
         feature_check["stale_vs_current_code"] = bool(stale)
 
-    # ---- guard: the 'seasonal' protocol is anti-causal (design-gate S1) ----
-    # Its test months are Jan + Jul 2025 while its training pool runs Feb-Nov, so
-    # the Jan test rows PRECEDE the entire training set -- the model uses the
-    # future to predict the past, and Jul is seasonally interpolated between two
-    # training months. The real task extrapolates 13 months forward. It is a
-    # composition probe, not a selection surface.
-    selection_valid = args.split != "seasonal" or args.allow_seasonal_selection
+    # ---- guard: the 'seasonal'/'seasonal_full' protocols are anti-causal
+    # (design-gate S1) ---- Their test months are Jan + Jul 2025 while the
+    # training pool runs Feb-Nov, so the Jan test rows PRECEDE the entire
+    # training set -- the model uses the future to predict the past, and Jul
+    # is seasonally interpolated between two training months. The real task
+    # extrapolates 13 months forward. Both are composition probes, not
+    # selection surfaces ('seasonal_full' differs from 'seasonal' only in
+    # not restricting Jul's airports, config.py sec.2af -- same anti-causal
+    # shape, same guard).
+    selection_valid = (args.split not in ("seasonal", "seasonal_full")
+                       or args.allow_seasonal_selection)
     if not selection_valid:
-        print("\n  NOTE: split 'seasonal' is anti-causal -- reporting numbers but "
+        print("\n  NOTE: split '{}' is anti-causal -- reporting numbers but "
               "NOT crowning a winner. Use it as a composition probe; select on "
-              "'forward'. (--allow-seasonal-selection overrides.)")
+              "'forward'. (--allow-seasonal-selection overrides.)".format(args.split))
 
     sel = declare_selection_set("compare.py winner", selected_on="val",
                                 value=[c["arm"] for c in cands])

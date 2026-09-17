@@ -170,8 +170,21 @@ TRAIN_TARGET_MAX_SEC = 7200
 # 'forward' is the PRIMARY honest split: strictly time-ordered, so val and test
 # are in the future relative to train, mirroring train-2025 -> score-2026.
 # 'seasonal' is the SECONDARY composition-matched probe: it holds out exactly the
-# months the leaderboard scores (Jan + Jul), with Jul restricted to the three
-# airports the ranking file actually covers in Jul 2026.
+# months the leaderboard scores (Jan + Jul).
+#
+# STALE ASSUMPTION, KEPT FOR ARTIFACT COMPATIBILITY (found 2026-09-17,
+# TAXI_OUT_DRIVERS.md sec.2af): 'seasonal's airport_filter below restricts Jul
+# to three airports on the belief that "Jul 2026 in ranking.parquet covers
+# only these three airports" -- checked directly against the real
+# ranking.parquet on disk and this is FALSE: all 10 target airports have
+# substantial July 2026 row counts (LIRF alone: 15,838 rows). Every
+# comparison already run on 'seasonal' stays a valid A-vs-B comparison (the
+# filter under-weights, doesn't corrupt, 7 airports in July) but the phrase
+# "board-composition-matched" overstates what 'seasonal' actually covers for
+# those 7 airports in July. NOT edited in place: artifacts/splits/seasonal/
+# and everything built against it stay interpretable as originally reported.
+# Use 'seasonal_full' (below) for a check that needs the real July
+# composition, e.g. anything specifically about LIRF's July presence.
 # ---------------------------------------------------------------------------
 SPLITS = {
     "forward": {
@@ -186,8 +199,19 @@ SPLITS = {
                   "2025-08", "2025-09", "2025-10", "2025-11"],
         "val":   ["2025-12"],
         "test":  ["2025-01", "2025-07"],
-        # Jul 2026 in ranking.parquet covers only these three airports.
+        # STALE, see the module-level note above -- kept as originally
+        # written so existing artifacts stay reproducible byte-for-byte.
         "airport_filter": {"2025-07": ["EDDF", "EGLL", "EHAM"]},
+    },
+    # Same as 'seasonal' but WITHOUT the stale July airport restriction --
+    # the actually board-composition-matched version, added 2026-09-17
+    # rather than editing 'seasonal' in place (see note above).
+    "seasonal_full": {
+        "train": ["2025-02", "2025-03", "2025-04", "2025-05", "2025-06",
+                  "2025-08", "2025-09", "2025-10", "2025-11"],
+        "val":   ["2025-12"],
+        "test":  ["2025-01", "2025-07"],
+        "airport_filter": None,
     },
 }
 # The submission model. Design-gate finding B4: the plan said "refit on all 12
@@ -223,7 +247,7 @@ SPLITS["forward_inner"] = {
     "airport_filter": None,
 }
 
-SELECTION_FORBIDDEN_SPLITS = ("full", "seasonal", "forward_inner")
+SELECTION_FORBIDDEN_SPLITS = ("full", "seasonal", "seasonal_full", "forward_inner")
 
 # ---------------------------------------------------------------------------
 # Arms whose FREE PARAMETERS are fitted directly on the validation labels, so

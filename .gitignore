@@ -6,6 +6,7 @@
 *.pkl
 *.bin
 *.joblib
+*.cbm
 artifacts/features/
 prc-2026-datasets/
 prc-2026-datasets.zip
