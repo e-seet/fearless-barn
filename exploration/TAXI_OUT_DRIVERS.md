@@ -477,6 +477,17 @@ regulation archives for slot data; no public source for airline maintenance
 schedules), which is out of scope here. Recorded so this doesn't get
 re-investigated on the assumption a field might have been missed.
 
+**Update (2026-09-18): the ATFM-regulation half of this gap has now been
+tested against a real external source, and closes negative — see §2ah.**
+EUROCONTROL's own public daily Airport Arrival ATFM Delay data (a genuine,
+exogenous, network-wide ground-hold mechanism) was joined at (airport, date)
+granularity with complete coverage including the real scored Jan+Jul 2026
+period. Pooled correlation with the current model's residual is weak
+(rho~0.013), mixed in sign across airports (unlike most confirmed-real
+effects in this document), and the in-sample OLS ceiling is only -0.094s.
+The maintenance-schedule half remains genuinely untestable (no public
+source identified).
+
 ### 2c. Operator effects — confirmed; training-flight identification is untestable
 
 The "training flights" sub-note can't be answered directly: checked
@@ -1836,6 +1847,49 @@ session doesn't re-attempt the same three approaches: the 283-row,
 20.7%-of-SSE concentration is real and worth knowing about when
 interpreting any future local val number, but it is not a lever.
 
+**Follow-up (2026-09-18): is the unmatched population linked to specific
+destinations ("flight path")?** Checked ADES_mvt, RUNWAY_mvt, and
+AIRCRAFT_TYPE_mvt distributions of the full-year 1,488-row unmatched
+population against LIRF's overall departure population (all 160,704 DEP
+rows). Runway distribution is roughly proportional (no concentration).
+Aircraft type confirms the already-known fact (1,487 of 1,488 missing).
+**Destination shows a real, coherent pattern**: the most overrepresented
+destinations (excluding LIRF's own self-loop at 81.8x, n=31 -- almost
+certainly ferry/technical repositioning flights) are dominated by two
+groups -- (a) short regional Italian hops (LIRA/Ciampino 27.1x, LIME/Bergamo
+23.7x, LIRP/Pisa 15.5x, LIRZ/Perugia 10.8x, LIBP/Pescara 38.6x) and (b)
+leisure/charter routes to North Africa and the Middle East (HELX/Luxor
+19.2x, HESX/Sharm-el-Sheikh 7.8x, DTTJ/Djerba 9.8x, DTKA/Tabarka 17.3x,
+HTZA/Zanzibar 7.8x). Plausible mechanism: charter/leisure carriers on
+low-frequency seasonal routes are less consistently represented in NM's
+flight-plan tracking than mainline scheduled carriers, which would explain
+why they lack a matched flight record. **Caveat: most individual
+destinations have small absolute counts (n=3-16), so each ratio alone is
+noisy** -- the finding is the CONSISTENT THEME across many independent
+small-n routes (regional Italian + North-African/Middle-Eastern leisure
+charter), not any single route's number.
+
+**Tested for a residual ceiling (2026-09-18) -- closed, cleanly negative.**
+Runway: main runway 25 carries 88% of the unmatched population at exactly
+the overall rate (ratio 0.98) -- not concentrated. The two reverse-config
+runway ends (16L/34R) show a real but small-sample elevated *incidence*
+(9.4x/5.6x, n=14/21). Destination: restricted to LIRF's `has_issue` rows in
+`forward` val+test (n=423), correlated `ades_overrep_ratio` and
+`is_reverse_runway` against `mlp_antigravity`'s residual -- **both
+correlations are SMALLER in magnitude than their own permutation-shuffled
+controls** (dest: -0.044 real vs. +0.049 shuffled; runway: +0.012 vs.
+-0.011), i.e. indistinguishable from noise, not just weak. Destination
+predicts INCIDENCE (which routes are more likely to produce an unmatched
+flight) but not MAGNITUDE (how bad the error is once a row is already
+flagged) -- a meaningful distinction, not the same question. This is a
+fourth independent angle confirming "the remaining error looks close to
+irreducible from the columns available," joining the blend-weight solver,
+the OpenAir proxy cross-check, and the convex mix. Full writeup
+`tests_lirf_flightpath/RESULT.md`. Data exported:
+`tests_lirf_flightpath/run_lirf_flightpath_export.py` (reproducible),
+CSVs delivered to user rather than committed (raw per-row export, not a
+persisted repo artifact).
+
 ## 2r. Weather (METAR) join — built, single-seed tested, closed negative
 
 A second-opinion review (asked mid-session for a genuinely different
@@ -2844,6 +2898,62 @@ cross-check). **Update (2026-09-17): the three arms are now trained under `seaso
 (`catboost_antigravity` seed42/tag=cb1, `airport_operator_blend` seed42,
 `mlp_antigravity` seeds 42-47) and used for the §2n third-confirmation check
 above — see that section for the result.
+
+## 2ag. WTC sequencing (neighbour wake-turbulence category) — real, permutation-verified, uniform across all 10 airports, but closed on the ceiling
+
+Checked a community post's speculative hypothesis (`conversation.md` sec.5):
+does a NEIGHBOUR's wake-turbulence category (WTC), not just the aircraft's
+own, drive taxi-out — light-behind-heavy needing extra wake-separation time.
+Cheap diagnostic before touching `pipeline_queueattn_antigravity` (sec.2k,
+already closed flat, and expensive to re-retrain): for every DEP row, found
+the immediately preceding same-(airport, runway) departure (whole-period,
+backward-looking only), ordinal-encoded WTC (L<M<H<J), and correlated
+`prev_heavier` (1 if the preceding aircraft outweighs this one) against
+`mlp_antigravity`'s val residual.
+
+**Result: real and uniform, not an artifact — but negligible in aggregate.**
+rho=+0.0299, collapsing to -0.0007 under a permutation control. Raw group
+means: +22.44s mean residual when the preceding aircraft was heavier vs.
++2.47s otherwise (97.7% coverage). **Consistent in sign at all 10 of 10
+airports** (rho +0.009 to +0.058, resid gap +12.9s to +37.8s) — unlike most
+closed levers here, which concentrate in one airport or split sign. But the
+in-sample OLS ceiling on pooled val RMSE is only **-0.134s** — an order of
+magnitude under the ~5s board-visibility floor (sec.2o) — because the
+affected subpopulation is only 6-18% of rows per airport and the model's
+existing features (own WTC, runway identity, congestion counts) already
+absorb most of what it would add. **Closed on the ceiling, not built.**
+Distinct from a typical closure: the physical mechanism is confirmed real,
+just too small to move this metric — joins sec.2h/sec.2p/sec.2z as another
+"real effect, negligible aggregate impact" case rather than "no effect."
+Full writeup `tests_wtc_sequencing/RESULT.md`.
+
+## 2ah. EUROCONTROL AIU ATFM-delay diagnostic — closes §2b's "rejected for lack of data" gap, negative on the ceiling
+
+§2b rejected the ATC-slot/CTOT hypothesis for lack of ANY supporting column
+in the competition data, explicitly noting it would need an external source
+to actually test. Checked EUROCONTROL's own public Aviation Intelligence
+Portal daily Airport Arrival ATFM Delay dataset (real bulk download,
+1.03M rows, 2019-2026) as that source — a genuine, exogenous, network-wide
+ground-hold mechanism (attributed to the departure airport/day by
+EUROCONTROL's own definition), distinct from local traffic density.
+Complete daily coverage confirmed for all 10 airports across 2025 AND the
+real scored Jan+Jul 2026 period, no gaps. Joined by (airport, date) to
+`forward`/val DEP rows: 100% coverage.
+
+**Result: real but small, mixed sign across airports, closed on the
+ceiling.** Pooled rho(DLY_APT_ARR_1, resid)=+0.0136, only modestly above
+the permutation-shuffled control (+0.0025) — a much thinner margin over
+noise than §2ag's WTC-sequencing check (~30x ratio there). In-sample OLS
+ceiling: only **-0.094s**. Per-airport: LEBL (+0.106) and LTFM (+0.071)
+positive, but EDDF/LEMD/LIRF go the WRONG direction — unlike §2ag's uniform
+sign at all 10 airports, this reads as noise with 1-2 coincidental airports,
+not a genuine uncaptured driver. Same shape as the already-closed
+day-regime clustering (`pipeline_lightgbm_unsup`) — a coarse "was today
+disrupted" proxy that doesn't clear the bar. The genuinely useful EUROCONTROL
+signal (per-FLIGHT CTOT/regulation, not a daily airport aggregate) lives in
+NM's own accredited-access systems, already found infeasible this session
+(ADRR/NM-B2B). **Closed, not built.** Full writeup
+`tests_atfm_delay/RESULT.md`.
 
 - **Analyze per-airport, not pooled.** Consistent with why `per_airport` arms
   outperform pooled ones in `PIPELINE_REVIEW.md`. "Visit 1 by 1" — walk each of
