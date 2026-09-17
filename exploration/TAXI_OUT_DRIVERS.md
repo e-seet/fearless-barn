@@ -2971,6 +2971,59 @@ NM's own accredited-access systems, already found infeasible this session
   grounding. Cite what you find inline in the per-airport notes below so it's
   checkable, not just asserted.
 
+## 2ai. Real-board confirmation of the `OUTLIER_POLICIES` sweep — `winsor_7200` submitted, decisively worse
+
+§2l explicitly declined to re-run the broad `winsor_*`/`drop_7200` vs.
+`keep_all` sweep on the real board ("would cost several hours of GPU to
+reconfirm a strictly worse variant of what was just measured — not run
+without asking first"). User asked directly for exact confirmation "for the
+record." Rather than retrain the full production blend, used the cheapest
+controlled test that still gives a real board number on the exact recipe:
+`airport_operator_blend` (`per_airport` + `per_operator`, convex blend), the
+identical architecture already shipped as **v19** (`keep_all`, board
+382.9174) — solved a fresh alpha on `forward` under `--outlier-policy
+winsor_7200` (alpha=0.706 vs. keep_all's 0.676), froze it, refit on `full`,
+submitted as **v27**.
+
+**Local val, same split, only the outlier policy changed:**
+
+| policy | val RMSE |
+|---|---:|
+| keep_all (v19's basis) | 272.9 |
+| winsor_7200 | 333.0 |
+| **gap** | **+60.1s** — already ~12x this project's ~5s board-visibility floor |
+
+**Real board result: v27 scored 496.0944, vs. v19's 382.9174 — +113.2s worse.**
+Larger than the local val gap, same direction, unambiguous. For scale: the
+naive-proxy-alone baseline (`pipeline_naive_offblock`, zero learning) scores
+~482 RMSE locally — a real, *trained* model with its training labels
+winsorized at 7,200s now performs in that same neighbourhood on the actual
+leaderboard.
+
+**Visible mechanism, before the score even came back:** re-predicted the
+identical ranking rows under `keep_all` (v19's already-trained model, no
+retraining needed) for a same-population comparison:
+
+| policy | median | mean | p99 | **max** |
+|---|---:|---:|---:|---:|
+| winsor_7200 (v27) | 958 | 1028.6 | — | **8,148** |
+| keep_all (v19) | 958 | 1033.0 | 2,463 | **40,640** |
+
+The bulk of the distribution is essentially unchanged (median/mean agree to
+within 5s) — only the tail collapses, from 40,640s down to 8,148s, sitting
+almost exactly at the training cap. This is `config.py`'s documented
+mechanism (winsorizing biases the conditional-mean prediction downward
+across the real, learnable 7,200-80,000s tail) made visible on the actual
+submission file, not just argued from the training-time loss.
+
+**Closed, now with direct real-board evidence at three independent scales**:
+the original broad local sweep (~27s), the regime-decomposition mechanism
+(mid-tail RMSE halves under `keep_all`), and now this — a dedicated real
+submission, +113.2s worse, on the exact recipe that would have been
+submitted. **v25 (295.21) stands as the best submission; v27 was a
+deliberate confirmation probe, not a candidate.** No further outlier-policy
+testing planned; this axis is closed at every level this project can test it.
+
 ## 4. Per-airport worksheet
 
 One block per airport once its capacity regime and drivers are checked.
