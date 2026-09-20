@@ -1,0 +1,48 @@
+{
+  "arm": "tabnet_lirf_override_on_v25",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "tag": "lirf_w0.8",
+  "prediction_cap_sec": 86400,
+  "seed": 42,
+  "team": "fearless_barn",
+  "version": 28,
+  "n_rows": 344841,
+  "pred_median": 951.0,
+  "pred_mean": 1020.8961666391177,
+  "provenance": {
+    "base": "fearless_barn_v25.parquet (airport_operator_multimodel msmlp18fi)",
+    "base_sha256": "8c6f96183ea329cd75845cef812507d083d4447268c6a56ad8eef6d112f144a2",
+    "recipe": "pred_LIRF = (1-w)*v25 + w*mean(TabNet final seeds); every non-LIRF row byte-identical to v25",
+    "w": 0.8,
+    "w_source": "registered protocol: gated LIRF-weight solve on forward_inner, healthy inner seeds 43/44/45",
+    "tabnet": {
+      "lr": 0.002,
+      "train": "2025-01..2025-11",
+      "early_stop_val": "2025-12",
+      "seeds_used": [
+        42,
+        43,
+        45,
+        46,
+        48
+      ],
+      "seed_rejected": {
+        "47": "hit the 60-epoch cap (best epoch 50)"
+      },
+      "dec_val_rmse": {
+        "42": 228.45,
+        "43": 229.48,
+        "45": 230.97,
+        "46": 237.33,
+        "47": 234.86,
+        "48": 240.88
+      }
+    },
+    "scripts": "exploration/tests_tabnet/{train_tabnet_pred,blend_variants,build_candidate}.py",
+    "candidate_sha256": "ccf7e92e8b398a0b5c00c09d23a899aa4c24061a7e9a69a9dd2b37663da1213e",
+    "not_reproducible_via_submit_py": true,
+    "validated_with": "submit.validate: PASS"
+  }
+}

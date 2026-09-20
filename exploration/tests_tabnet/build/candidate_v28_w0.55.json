@@ -1,0 +1,124 @@
+{
+  "w": 0.55,
+  "seeds": [
+    42,
+    43,
+    45,
+    46,
+    48
+  ],
+  "rejected_seeds": [
+    47
+  ],
+  "checks": {
+    "enough healthy seeds (>= 5)": {
+      "pass": true,
+      "detail": "accepted [42, 43, 45, 46, 48], rejected [47]"
+    },
+    "v25 ids == ranking-feature ids (same order)": {
+      "pass": true,
+      "detail": "n=344841"
+    },
+    "seed 42: rank_ids match": {
+      "pass": true,
+      "detail": ""
+    },
+    "seed 42: healthy (Dec val <= 260.0, best_epoch >= 10, early-stopped)": {
+      "pass": true,
+      "detail": "best_epoch 25, ran 41, Dec val RMSE 228.45"
+    },
+    "seed 43: rank_ids match": {
+      "pass": true,
+      "detail": ""
+    },
+    "seed 43: healthy (Dec val <= 260.0, best_epoch >= 10, early-stopped)": {
+      "pass": true,
+      "detail": "best_epoch 25, ran 41, Dec val RMSE 229.48"
+    },
+    "seed 45: rank_ids match": {
+      "pass": true,
+      "detail": ""
+    },
+    "seed 45: healthy (Dec val <= 260.0, best_epoch >= 10, early-stopped)": {
+      "pass": true,
+      "detail": "best_epoch 29, ran 45, Dec val RMSE 230.97"
+    },
+    "seed 46: rank_ids match": {
+      "pass": true,
+      "detail": ""
+    },
+    "seed 46: healthy (Dec val <= 260.0, best_epoch >= 10, early-stopped)": {
+      "pass": true,
+      "detail": "best_epoch 15, ran 31, Dec val RMSE 237.33"
+    },
+    "seed 48: rank_ids match": {
+      "pass": true,
+      "detail": ""
+    },
+    "seed 48: healthy (Dec val <= 260.0, best_epoch >= 10, early-stopped)": {
+      "pass": true,
+      "detail": "best_epoch 22, ran 38, Dec val RMSE 240.88"
+    },
+    "LIRF rows present": {
+      "pass": true,
+      "detail": "n_LIRF=26899 of 344841 (7.80%; scored weight 5.1%)"
+    },
+    "no NaN/inf": {
+      "pass": true,
+      "detail": ""
+    },
+    "within clip range": {
+      "pass": true,
+      "detail": "min 60.0 max 81837.4"
+    },
+    "only LIRF rows changed": {
+      "pass": true,
+      "detail": "26899 rows changed, all LIRF: True"
+    },
+    "non-LIRF rows byte-identical to v25": {
+      "pass": true,
+      "detail": ""
+    },
+    "TabNet vs v25 correlated at LIRF (>0.8)": {
+      "pass": true,
+      "detail": ""
+    },
+    "TabNet mean within 25% of v25 mean at LIRF": {
+      "pass": true,
+      "detail": ""
+    },
+    "TabNet seeds agree with each other (min pairwise corr > 0.7)": {
+      "pass": true,
+      "detail": ""
+    },
+    "no runaway tail (new LIRF max <= 1.5x max(v25, tabnet))": {
+      "pass": true,
+      "detail": ""
+    },
+    "dtype/columns/rows identical to v25": {
+      "pass": true,
+      "detail": ""
+    }
+  },
+  "lirf": {
+    "corr_v25_vs_tabnet": 0.9904229092652566,
+    "mean_v25": 1211.6040745009109,
+    "mean_tabnet": 1257.41357421875,
+    "median_v25": 1047.0,
+    "median_tabnet": 1072.7188720703125,
+    "max_v25": 81415.0,
+    "max_tabnet": 82562.546875,
+    "max_new": 81837.35234375,
+    "seed_pairwise_corr_min": 0.9443952750452195,
+    "seed_pairwise_corr_mean": 0.9687715294641022,
+    "mean_abs_change": 38.89548731856045,
+    "p99_abs_change": 393.1625288085941
+  },
+  "overall": {
+    "mean_v25": 1018.0766469184349,
+    "mean_new": 1020.0419815582648,
+    "median_v25": 949.0,
+    "median_new": 950.0
+  },
+  "all_checks_pass": true
+}

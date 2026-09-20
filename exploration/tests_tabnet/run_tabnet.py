@@ -53,10 +53,16 @@ from common import evaluate as E
 from common import features as F
 from common.bootstrap import run_dir, seed_everything
 
-SPLIT, FEATURESET, POLICY = "forward", "with_aobt", "keep_all"
+import os as _os
+SPLIT, FEATURESET, POLICY = _os.environ.get("TABNET_SPLIT", "forward"), "with_aobt", "keep_all"
 SEED = int(sys.argv[1]) if len(sys.argv) > 1 else 42
 CLIP_LO, CLIP_HI = config.PREDICTION_CLIP_MIN_SEC, config.PREDICTION_CLIP_MAX_SEC
-MAX_EPOCHS, PATIENCE, BATCH_SIZE = 100, 12, 4096
+import os
+MAX_EPOCHS = int(os.environ.get("TABNET_MAX_EPOCHS", 100))
+PATIENCE = int(os.environ.get("TABNET_PATIENCE", 12))
+BATCH_SIZE = 4096
+LR = float(os.environ.get("TABNET_LR", 2e-2))
+TAG = os.environ.get("TABNET_TAG", "screen")
 
 
 def clip(p):
@@ -132,10 +138,10 @@ def main() -> int:
     model = TabNetRegressor(
         cat_idxs=cat_idxs, cat_dims=cat_dims, cat_emb_dim=cat_emb_dims,
         n_d=64, n_a=64, n_steps=5, gamma=1.5, lambda_sparse=1e-4,
-        optimizer_fn=torch.optim.AdamW, optimizer_params={"lr": 2e-2},
+        optimizer_fn=torch.optim.AdamW, optimizer_params={"lr": LR},
         scheduler_fn=torch.optim.lr_scheduler.StepLR,
         scheduler_params={"step_size": 10, "gamma": 0.9},
-        seed=SEED, device_name=device, verbose=10,
+        seed=SEED, device_name=device, verbose=1,
     )
     print(f"training on device={device}  [{time.time()-t0:.0f}s]")
     model.fit(
@@ -152,6 +158,7 @@ def main() -> int:
     p_val = clip(model.predict(Xva_comb).reshape(-1))
     p_test = clip(model.predict(Xte_comb).reshape(-1))
 
+    np.savez(HERE / f"preds_seed{SEED}_{TAG}.npz", pv=p_val, pt=p_test, best_epoch=n_epochs_run)
     rv = E.evaluate(yva, p_val, meta_va, ytr, part="val", arm="tabnet",
                     split=SPLIT, featureset=FEATURESET, seed=SEED)
     rt = E.evaluate(yte, p_test, meta_te, ytr, part="test", arm="tabnet",
@@ -159,7 +166,7 @@ def main() -> int:
 
     proto = config.protocol_key(SPLIT, FEATURESET, POLICY)
     d = run_dir(config.ARTIFACTS / "runs", "tabnet", protocol=proto, seed=SEED,
-               extra={"tag": "screen"})
+               extra={"tag": TAG})
     (d / "model.json").write_text(json.dumps({
         "arm": "tabnet", "split": SPLIT, "featureset": FEATURESET, "seed": SEED,
         "n_epochs_run": n_epochs_run, "hit_cap": hit_cap,
@@ -184,7 +191,7 @@ def main() -> int:
         f"epochs run {n_epochs_run}/{MAX_EPOCHS}  hit_cap={hit_cap}",
     ]
     txt = "\n".join(lines)
-    (HERE / f"summary_seed{SEED}.txt").write_text(txt + "\n", encoding="utf-8")
+    (HERE / (f"summary_seed{SEED}" + ("" if TAG == "screen" else "_" + TAG) + ".txt")).write_text(txt + "\n", encoding="utf-8")
     print("\n" + txt)
     print(f"\n[{time.time()-t0:.0f}s] done")
     return 0
