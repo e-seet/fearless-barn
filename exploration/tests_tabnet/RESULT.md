@@ -28,6 +28,8 @@ Everything below this line is the pre-submission analysis (local 2025 surfaces).
   Jul +86.6, Nov +35.9, **Dec -26.1**. TabNet wins on extreme-tail months and loses on a
   moderate-tail month, so the size of any effect depends on how extreme LIRF's scored tail is.
 
+**Extra seeds (2026-09-21, `seed_curve.py`): CLOSED, bar not met.** Six more final seeds (49-54): 4 healthy, 51 hit the epoch cap, 54 poor (Dec val 294); with seed 47 also cap-excluded, 3 of 12 final runs were excluded by the gate, 9 healthy. TabNet-ensemble LIRF RMSE on Dec val (mean of random subsets): k=1 384.2, 3 358.2, 5 351.8, 9 348.2; the original 5 seeds score 347.7 vs 348.2 for all 9 (-0.5 s against the registered >= 6 s bar). No new candidate; v29 stands.
+
 **Open risks (why no build is final)**
 1. Transfer to the scored months: the seasonal_full gain is mostly July 2025; the scored July
    is 2026, ~7 months past the refit cutoff. Not testable locally.
