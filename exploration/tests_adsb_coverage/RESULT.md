@@ -28,9 +28,12 @@ RECOVERY = |first ground observation - true BLOCK_TIME| <= 180 s (BLOCK_TIME is 
 | unmatched, y > 3600 s | 30 | 83% | ADS-B taxi within 30% of y: 3 of 25 (12%) |
 
 Coverage by airport (matched rows): LEBL 84%, LIRF 89%, LEMD 48%, LSZH 24%, EDDM 23%, EGLL 8%,
-EDDF 3%, LFPG 2%, EHAM 2%, LTFM 0%. The forum poster's guess that LIRF surface coverage is poor
-did not hold in adsb.lol; the poster's EDDM ~40% is close to what we see (23% matched / 59%
-unmatched). Recovery is only high at a few airports (EDDM 61%, EHAM 67% of a tiny covered set, LEBL
+EDDF 3%, LFPG 2%, EHAM 2%, LTFM 0%. Careful about what 'coverage' means: we measured ground-flagged
+points within 8 km of the airport in a 4-hour window, NOT stand-level coverage. The forum poster's
+point (surface coverage at the gate is poor at LIRF) is SUPPORTED, not refuted: 89% of LIRF
+departures have ground points somewhere on the airport, but the first sighting lands a median of
+691 s AFTER the recorded block-out, i.e. the aircraft is seen once it is moving on the taxiways, not
+at the stand. The poster's EDDM ~40% is close to what we see (23% matched / 59% unmatched). Recovery is only high at a few airports (EDDM 61%, EHAM 67% of a tiny covered set, LEBL
 36%), and matched rows already carry `AOBT_3_flt`, so the marginal information is confined to the ~1.5%
 unmatched rows outside LIRF, which carry little of the error.
 
