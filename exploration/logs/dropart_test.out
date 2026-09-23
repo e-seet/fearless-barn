@@ -1,0 +1,126 @@
+##### mlp_antigravity forward seed=42 #####
+[mlp_antigravity] train n=1387094 val n=369624 cat_feats=15 num_feats=42 device=cuda
+  Epoch  1/25 [142.7s] train RMSE=490.362 | val RMSE=463.217
+  Epoch  2/25 [142.0s] train RMSE=438.108 | val RMSE=407.369
+  Epoch  3/25 [141.1s] train RMSE=381.225 | val RMSE=356.412
+  Epoch  4/25 [141.3s] train RMSE=340.774 | val RMSE=316.679
+  Epoch  5/25 [144.1s] train RMSE=317.005 | val RMSE=290.256
+  Epoch  6/25 [141.7s] train RMSE=307.700 | val RMSE=277.298
+  Epoch  7/25 [141.1s] train RMSE=300.824 | val RMSE=275.684
+  Epoch  8/25 [141.1s] train RMSE=296.456 | val RMSE=268.100
+  Epoch  9/25 [141.2s] train RMSE=289.953 | val RMSE=262.133
+  Epoch 10/25 [140.9s] train RMSE=287.211 | val RMSE=262.993
+  Epoch 11/25 [140.6s] train RMSE=282.169 | val RMSE=256.344
+  Epoch 12/25 [140.9s] train RMSE=279.003 | val RMSE=254.764
+  Epoch 13/25 [140.8s] train RMSE=274.869 | val RMSE=255.852
+  Epoch 14/25 [140.6s] train RMSE=270.323 | val RMSE=264.965
+  Epoch 15/25 [140.5s] train RMSE=265.438 | val RMSE=252.724
+  Epoch 16/25 [140.9s] train RMSE=262.873 | val RMSE=257.364
+  Epoch 17/25 [140.9s] train RMSE=261.134 | val RMSE=261.375
+  Epoch 18/25 [140.5s] train RMSE=257.451 | val RMSE=254.326
+  Epoch 19/25 [140.3s] train RMSE=255.132 | val RMSE=253.609
+  Epoch 20/25 [140.9s] train RMSE=253.191 | val RMSE=263.581
+  Epoch 21/25 [140.7s] train RMSE=249.332 | val RMSE=255.194
+  Early stopping fired after epoch 21 (best epoch 15)
+[mlp_antigravity] finished -> val RMSE: 252.724
+##### mlp_antigravity forward_inner seed=42 #####
+[mlp_antigravity] train n=1005284 val n=381895 cat_feats=15 num_feats=42 device=cuda
+  Epoch  1/25 [110.5s] train RMSE=471.885 | val RMSE=626.005
+  Epoch  2/25 [111.0s] train RMSE=437.427 | val RMSE=591.298
+  Epoch  3/25 [111.0s] train RMSE=396.488 | val RMSE=547.850
+  Epoch  4/25 [111.1s] train RMSE=360.478 | val RMSE=519.004
+  Epoch  5/25 [111.7s] train RMSE=330.850 | val RMSE=495.463
+  Epoch  6/25 [111.1s] train RMSE=309.901 | val RMSE=468.353
+  Epoch  7/25 [110.9s] train RMSE=295.533 | val RMSE=443.817
+  Epoch  8/25 [111.4s] train RMSE=286.402 | val RMSE=439.658
+  Epoch  9/25 [112.1s] train RMSE=280.027 | val RMSE=411.193
+  Epoch 10/25 [111.0s] train RMSE=277.225 | val RMSE=396.860
+  Epoch 11/25 [111.2s] train RMSE=273.574 | val RMSE=397.313
+  Epoch 12/25 [110.9s] train RMSE=270.833 | val RMSE=390.810
+  Epoch 13/25 [111.5s] train RMSE=269.646 | val RMSE=397.191
+  Epoch 14/25 [110.9s] train RMSE=265.135 | val RMSE=383.636
+  Epoch 15/25 [110.9s] train RMSE=263.607 | val RMSE=397.707
+  Epoch 16/25 [111.1s] train RMSE=262.191 | val RMSE=407.532
+  Epoch 17/25 [111.7s] train RMSE=258.450 | val RMSE=357.979
+  Epoch 18/25 [113.6s] train RMSE=255.406 | val RMSE=363.586
+  Epoch 19/25 [104.9s] train RMSE=254.846 | val RMSE=358.528
+  Epoch 20/25 [104.8s] train RMSE=253.741 | val RMSE=373.356
+  Epoch 21/25 [105.1s] train RMSE=251.696 | val RMSE=350.305
+  Epoch 22/25 [105.2s] train RMSE=251.118 | val RMSE=362.013
+  Epoch 23/25 [105.9s] train RMSE=248.985 | val RMSE=368.197
+  Epoch 24/25 [112.7s] train RMSE=247.137 | val RMSE=361.213
+  Epoch 25/25 [109.8s] train RMSE=245.547 | val RMSE=357.023
+[mlp_antigravity] finished -> val RMSE: 350.305
+##### airport_operator_blend forward seed=42 (congest) #####
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+  [congest] built 5 columns for train2025 -> congest__train2025__with_aobt__82f6080a1dfca5c6.parquet
+[airport_operator_blend] train n=1387094 months=8 -> ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08']
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07'] (1195957 rows), solve weight on ['2025-08'] (191137 rows)
+  alpha (weight on per_airport) = 0.671  inner RMSE airport=288.86 operator=299.50 blend=285.40
+[airport_operator_blend] val RMSE (clipped) = 276.066   [per_airport alone 280.450 | per_operator alone 279.692]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward-with_aobt-drop_date_artifacts__seed42__tag=congest
+##### airport_operator_blend forward_inner seed=42 (congest) #####
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[airport_operator_blend] train n=1005284 months=6 -> ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05'] (822206 rows), solve weight on ['2025-06'] (183078 rows)
+  alpha (weight on per_airport) = 0.536  inner RMSE airport=276.38 operator=278.23 blend=270.73
+[airport_operator_blend] val RMSE (clipped) = 417.084   [per_airport alone 427.489 | per_operator alone 421.834]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward_inner-with_aobt-drop_date_artifacts__seed42__tag=congest
+##### airport_operator_multimodel forward seed=42 #####
+[airport_operator_multimodel] MLP seeds averaged: [42, 43, 44]
+[airport_operator_multimodel] Loading base model predictions on weight solving split: forward_inner...
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\pipeline_airport_operator_multimodel\train.py", line 213, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\pipeline_airport_operator_multimodel\train.py", line 150, in main
+    pb_w = mlp_prediction(wsplit, "val", args.featureset, mlp_seeds,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\pipeline_airport_operator_multimodel\train.py", line 75, in mlp_prediction
+    preds = [predict_arm("mlp_antigravity", split, part, featureset, s, outlier_policy,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\common\predict.py", line 66, in predict_arm
+    raise FileNotFoundError("no trained run at {}".format(d))
+FileNotFoundError: no trained run at C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\mlp_antigravity__forward_inner-with_aobt-drop_date_artifacts__seed43

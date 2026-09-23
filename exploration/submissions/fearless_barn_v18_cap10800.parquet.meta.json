@@ -1,0 +1,25 @@
+{
+  "arm": "airport_operator_multimodel",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "tag": "msmlp",
+  "prediction_cap_sec": 10800,
+  "seed": 42,
+  "team": "fearless_barn",
+  "version": 18,
+  "n_rows": 344841,
+  "pred_median": 957.0,
+  "pred_mean": 1025.0148532222097,
+  "provenance": {
+    "base": "fearless_barn_v14.parquet (airport_operator_multimodel msmlp)",
+    "base_sha256": "e08ff3cd97915edb35fe2ffc7559e942f74acf06e0a73b451bd2042240b5da31",
+    "recipe": "pred = min(v14_pred, 10800); every row at or below the cap byte-identical to v14",
+    "n_rows_clamped": 35,
+    "purpose": "Diagnostic probe, not a modelling change: tests whether the gap to the board is over-prediction into the tail. Built by hand (post-processing v14's parquet), never through submit.py.",
+    "board_result": "cap7200 scored 491.3461 vs v14's 306.3189 (+185). The large predictions are accurate and load-bearing; cap10800 and cap14400 were deliberately NOT uploaded -- same lever, same direction. See plans/13_live_board_next_steps.md sec.3.",
+    "uploaded": false
+  },
+  "not_reproducible_via_submit_py": true,
+  "meta_written_retroactively": "2026-09-21 -- these three files were built by hand in Sept and had no sidecar, so build_submission_index.py could not see them. Fields re-derived from the parquets and the plan-13 record. See CONVERGENCE_AUDIT.md sec.6d."
+}

@@ -1,0 +1,71 @@
+{
+  "arm": "airport_operator_multimodel",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "tag": "msmlp6",
+  "prediction_cap_sec": 86400,
+  "seed": 42,
+  "team": "fearless_barn",
+  "version": 20,
+  "n_rows": 344841,
+  "pred_median": 954.9935864985964,
+  "pred_mean": 1026.0889377359686,
+  "provenance": {
+    "airport_operator_multimodel": {
+      "run_dir": "artifacts\\runs\\airport_operator_multimodel__full-with_aobt-keep_all__seed42__tag=msmlp6",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": null,
+      "weights": null,
+      "mlp_seeds_averaged": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ]
+    },
+    "airport_operator_blend": {
+      "run_dir": "artifacts\\runs\\airport_operator_blend__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 255,
+        "min_data_in_leaf": 100
+      },
+      "weights": null
+    },
+    "mlp_antigravity": {
+      "run_dir": "artifacts\\runs\\mlp_antigravity__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": 10,
+      "params": null,
+      "weights": null
+    },
+    "per_airport": {
+      "run_dir": "artifacts\\runs\\per_airport__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 255,
+        "min_data_in_leaf": 100
+      },
+      "weights": null
+    },
+    "per_operator": {
+      "run_dir": "artifacts\\runs\\per_operator__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 255,
+        "min_data_in_leaf": 100
+      },
+      "weights": null
+    }
+  }
+}

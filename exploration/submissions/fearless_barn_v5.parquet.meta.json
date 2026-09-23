@@ -8,9 +8,9 @@
   "seed": 44,
   "team": "fearless_barn",
   "version": 5,
-  "n_rows": 215876,
-  "pred_median": 974.2707778786801,
-  "pred_mean": 1049.5735221849384,
+  "n_rows": 344841,
+  "pred_median": 957.3153708421979,
+  "pred_mean": 1031.4126479187862,
   "provenance": {
     "airport_unsup_multimodel": {
       "run_dir": "artifacts\\runs\\airport_unsup_multimodel__forward-with_aobt-keep_all__seed44",

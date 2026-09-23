@@ -28,19 +28,66 @@ HERE = Path(__file__).resolve().parent
 SUBS = HERE / "submissions"
 OUT = SUBS / "submissions.csv"
 
-VERSION_RE = re.compile(r"_v(?P<version>\d+)\.parquet\.meta\.json$")
+# The optional `variant` group matters: v18 shipped as three hand-built files
+# (`..._v18_cap7200`, `_cap10800`, `_cap14400`) and a version-only pattern matched
+# none of them, so v18 -- the probe that established the tail predictions are
+# load-bearing -- was missing from the generated index entirely.
+VERSION_RE = re.compile(r"_v(?P<version>\d+)(?P<variant>_[A-Za-z0-9]+)?\.parquet\.meta\.json$")
+
+BOARD = SUBS / "board_scores.csv"
+
+
+def board_scores() -> dict:
+    """version -> {board_name, score, date, status, note} from board_scores.csv.
+
+    Board scores are the only evidence in this build that cannot be regenerated
+    from anything on disk -- they come from the scorer. They used to live in
+    hand-added columns INSIDE submissions.csv (`actual `, `Date of submission`,
+    `personal notes`), which this script would silently delete on the next run,
+    because it writes only its own fixed column list. Keeping them in a separate
+    hand-maintained file the generator only ever READS makes that impossible.
+    """
+    if not BOARD.exists():
+        return {}
+    out = {}
+    with BOARD.open(encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            try:
+                out[int(r["version"])] = r
+            except (KeyError, ValueError):
+                continue
+    return out
 
 
 def tier_map() -> dict:
-    p = HERE / "pipeline_catalog.csv"
-    if not p.exists():
-        return {}
-    with p.open(encoding="utf-8") as fh:
-        return {r["pipeline"]: r.get("review_tier", "") for r in csv.DictReader(fh)}
+    """(pipeline, tag) -> tier, falling back to (pipeline, "").
+
+    Tiers differ BY TAG, not just by pipeline: `airport_lirf_identity_multimodel`
+    is tier B untagged (it includes the >50k tail bet) and tier A as `idband`
+    (the verified identity band only). Keying on the pipeline alone labelled v15
+    -- which ships the idband variant -- with the weaker variant's tier.
+    pipeline_review.csv is the per-tag source; the catalog is the fallback for
+    pipelines with no reviewed tag.
+    """
+    tiers = {}
+    cat = HERE / "pipeline_catalog.csv"
+    if cat.exists():
+        with cat.open(encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                tiers[(r["pipeline"], "")] = r.get("review_tier", "")
+    rev = HERE / "pipeline_review.csv"
+    if rev.exists():
+        with rev.open(encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                t = (r.get("tier") or "")[:1]
+                if t:
+                    tiers[(r["arm"], r.get("tag") or "")] = t
+    return tiers
 
 
 def main() -> int:
     tiers = tier_map()
+    board = board_scores()
     live_arms = set(config.ARMS)
     rows = []
 
@@ -62,40 +109,77 @@ def main() -> int:
         split = j.get("split", "")
         trained_on = "full training period" if split == "full" else f"{split} split only"
 
+        # A submission built by ad-hoc scripts can name a REGISTERED arm that
+        # rebuilds it (`rebuild_arm`/`rebuild_tag` in its meta). v28/v29 were
+        # assembled outside submit.py, so their `arm` is a descriptive label that
+        # was never in config.ARMS; the recipe is now registered under a real arm
+        # and the meta points at it. Without this the index keeps flagging the
+        # best board score as NOT REBUILDABLE after it has been fixed.
+        rebuild_arm = j.get("rebuild_arm") or arm
+        # A file can name a live arm and still not be rebuildable: v18's caps are
+        # post-processing applied to another submission's parquet by hand, and
+        # their `arm` field names the arm they were DERIVED from. Honour the
+        # meta's own declaration unless a registered rebuild path is given.
+        hand_built = bool(j.get("not_reproducible_via_submit_py")) and not j.get("rebuild_arm")
+        rebuildable = (rebuild_arm in live_arms) and not hand_built
+
         notes = []
-        if arm not in live_arms:
-            notes.append("arm quarantined under overtuned/ -- not in config.ARMS, "
-                         "so submit.py can no longer rebuild this")
+        if hand_built:
+            notes.append("built by hand outside submit.py (meta declares "
+                         "not_reproducible_via_submit_py) -- the `arm` field names "
+                         "what it was derived from, not a rebuild path")
+        elif not rebuildable:
+            notes.append("arm not in config.ARMS (quarantined under overtuned/, or "
+                         "never registered) -- submit.py cannot rebuild this")
+        elif rebuild_arm != arm:
+            notes.append(f"rebuild via --arm {rebuild_arm}"
+                         + (f" --tag {j['rebuild_tag']}" if j.get("rebuild_tag") else ""))
         if split != "full":
             notes.append("shipped WITHOUT the full-period refit (trained on the "
                          f"{split} split's train months only)")
 
+        version = int(j.get("version", m.group("version")))
+        variant = (m.group("variant") or "").lstrip("_")
+        # Only the file actually uploaded carries the board score; its siblings
+        # were built and deliberately not sent, and must not inherit the number.
+        uploaded = j.get("provenance", {}).get("uploaded")
+        b = board.get(version, {}) if (not variant or uploaded) else {}
+
         rows.append({
-            "version": int(j.get("version", m.group("version"))),
+            "version": version,
+            "variant": variant,
             "file": parquet.name,
             "arm": arm,
-            "review_tier": tiers.get(arm, ""),
+            "review_tier": tiers.get((arm, j.get("tag") or ""),
+                                     tiers.get((arm, ""), "")),
             "split": split,
             "trained_on": trained_on,
             "featureset": j.get("featureset", ""),
             "outlier_policy": j.get("outlier_policy", ""),
             "seed": j.get("seed", ""),
             "tag": j.get("tag") or "",
-            "reproducible": "yes" if arm in live_arms else "NO",
+            "reproducible": "yes" if rebuildable else "NO",
+            "rebuild_arm": rebuild_arm if rebuild_arm != arm else "",
             "n_rows": j.get("n_rows", ""),
             "pred_mean": round(j["pred_mean"], 2) if j.get("pred_mean") is not None else "",
             "pred_median": round(j["pred_median"], 2) if j.get("pred_median") is not None else "",
             "prediction_cap_sec": j.get("prediction_cap_sec", ""),
             "feature_fingerprint": prov.get("feature_fingerprint", ""),
             "team": j.get("team", ""),
+            "board_name": b.get("board_name", ""),
+            "board_score": b.get("score", ""),
+            "board_date": b.get("date", ""),
+            "board_status": b.get("status", ""),
+            "board_note": b.get("note", ""),
             "notes": "; ".join(notes),
         })
 
-    rows.sort(key=lambda r: r["version"])
-    cols = ["version", "file", "arm", "review_tier", "split", "trained_on",
+    rows.sort(key=lambda r: (r["version"], r["variant"]))
+    cols = ["version", "variant", "file", "arm", "review_tier", "split", "trained_on",
             "featureset", "outlier_policy", "seed", "tag", "reproducible",
             "n_rows", "pred_mean", "pred_median", "prediction_cap_sec",
-            "feature_fingerprint", "team", "notes"]
+            "rebuild_arm", "feature_fingerprint", "team", "board_name", "board_score",
+            "board_date", "board_status", "board_note", "notes"]
 
     tmp = OUT.with_suffix(".csv.tmp")
     with tmp.open("w", newline="", encoding="utf-8") as fh:
@@ -107,14 +191,31 @@ def main() -> int:
     print(f"wrote {OUT} ({len(rows)} submissions)")
     for r in rows:
         flag = "" if r["reproducible"] == "yes" else "   <-- NOT REBUILDABLE"
-        print(f"  v{r['version']:<3} [{r['review_tier'] or '?'}] {r['arm']:32s} "
+        label = f"v{r['version']}" + (f"_{r['variant']}" if r["variant"] else "")
+        print(f"  {label:<14} [{r['review_tier'] or '?'}] {r['arm']:32s} "
               f"{r['split']:8s} seed{r['seed']}{flag}")
+
+    scored = [r for r in rows if r["board_score"]]
+    if scored:
+        best = min(scored, key=lambda r: float(r["board_score"]))
+        print("")
+        print(f"  best board score: v{best['version']} = {best['board_score']} "
+              f"({best['arm']}{' ' + best['tag'] if best['tag'] else ''})")
+    missing = sorted({r["version"] for r in rows if not r["board_score"] and not r["variant"]
+                      and board.get(r["version"], {}).get("status") != "not submitted"})
+    if missing:
+        print(f"  [WARN] no board score recorded for {missing} -- add them to "
+              f"{BOARD.name} (this script only reads it, never writes it).")
 
     n_bad = sum(1 for r in rows if r["reproducible"] != "yes")
     n_noref = sum(1 for r in rows if r["split"] != "full")
     if n_bad:
-        print(f"\n  [WARN] {n_bad}/{len(rows)} submissions were built from arms now "
-              f"quarantined as over-tuned (see overtuned/README.md).")
+        n_quar = sum(1 for r in rows if r["reproducible"] != "yes"
+                     and "quarantined" in r["notes"])
+        print(f"\n  [WARN] {n_bad}/{len(rows)} submissions cannot be rebuilt by the "
+              f"current code: {n_quar} from arms quarantined under overtuned/ "
+              f"(see overtuned/README.md), {n_bad - n_quar} built by hand outside "
+              f"submit.py.")
     if n_noref:
         print(f"  [WARN] {n_noref}/{len(rows)} submissions skipped the full-period "
               f"refit and shipped a model trained on the forward split only.")

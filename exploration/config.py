@@ -364,20 +364,47 @@ ARMS = ("naive_offblock", "ridge", "lightgbm",
         # scarcity). Same for per_airport_antigravity, which is byte-identical to
         # per_airport -- duplicated compute, not a tuning problem.
         "per_airport_mlp",
-        # TEMPORARILY RE-ENABLED (data-refresh rebuild): the three quarantined
-        # over-tuned arms, added back only so submit.py --arm will accept them
-        # while v4-v12 are regenerated against the refreshed ranking.parquet.
-        # Their code already imports via OVERTUNED_DIR; predict_ranking() has had
-        # branches for all three all along. Revert this line to restore the
-        # quarantine (see overtuned/README.md, PIPELINE_REVIEW.md tier E).
-        "airport_unsup_multimodel", "airport_multiseed_multimodel",
-        "airport_debiased_multimodel",
+        # QUARANTINE RESTORED 2026-09-21. The three over-tuned arms
+        # (airport_unsup_multimodel, airport_multiseed_multimodel,
+        # airport_debiased_multimodel) were TEMPORARILY re-enabled here on
+        # 2026-09-09 so submit.py --arm would accept them while v4-v12 were
+        # regenerated against the refreshed ranking.parquet. That rebuild
+        # finished 2026-09-10 and the line was never reverted, so for eleven
+        # days submit.py would still accept airport_debiased_multimodel -- the
+        # arm whose own docstring justifies its constants by the test score they
+        # produce (PIPELINE_REVIEW.md tier E). Reverted now; see
+        # CONVERGENCE_AUDIT.md sec.6b.
+        #
+        # The rebuilt v4-v12 .parquet files stay valid: only submit.py --arm
+        # reads this list. Their code stays importable via OVERTUNED_DIR and
+        # predict_ranking() keeps its branches, so re-enabling for another
+        # refresh is a one-line change -- deliberately one that has to be made
+        # on purpose.
         # Zero-parameter LIRF telemetry-identity override, applied ON TOP of a
         # base arm. It was adopted on measured evidence (plan 12, candidate 2)
         # but was never in ARMS, had no predict/submit branch and could not sit
         # on a tagged base -- adoptable but not shippable. Registered here so it
         # can reach a submission like any other arm.
-        "airport_lirf_identity_multimodel")
+        "airport_lirf_identity_multimodel",
+        # Same wall, found 2026-09-21: this arm has a full pipeline, a
+        # predict_ranking() branch AND a PARENTS entry in submit.py, but was
+        # never in ARMS -- so `submit.py --arm` rejected it even though v26
+        # (295.4767) was built from it, and build_submission_index.py has been
+        # reporting v26 as NOT REBUILDABLE. Registered now.
+        "airport_operator_catboost_multimodel",
+        # The TabNet-at-LIRF override behind v29 (293.6685, best board score).
+        # Same shape of gap as airport_lirf_identity_multimodel had: it was
+        # adopted on measured evidence but built by ad-hoc scripts against a
+        # submission parquet, with "not_reproducible_via_submit_py": true in its
+        # own meta. Registered so the best score is rebuildable through the
+        # normal path and the feature-fingerprint gate can see its chain.
+        "tabnet_lirf_override",
+        # 3-member per-airport blend adding an FT-Transformer (column attention)
+        # to the tree+MLP pair. Confirmed on three independent periods against a
+        # bar fixed in advance; honest effect ~1.5s in-band. Registered BEFORE
+        # its first submission rather than retrofitted, which is the lesson from
+        # v26/v28/v29 (CONVERGENCE_AUDIT.md sec.6a).
+        "ftt_multimodel")
 
 DEFAULT_SPLIT = "forward"
 

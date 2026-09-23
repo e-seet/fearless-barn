@@ -23,3 +23,8 @@ artifacts/features/
 !pipelines_overview.csv
 !pipeline_catalog.csv
 !README.md
+
+# Saved prediction arrays (tests_*/ and tests_tabnet/build/): regenerable from
+# the recorded seeds, and up to 176 MB each. Their sha256 is pinned in the
+# model.json of any arm that replays them.
+*.npz

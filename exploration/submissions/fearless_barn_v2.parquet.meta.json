@@ -8,13 +8,13 @@
   "seed": 42,
   "team": "fearless_barn",
   "version": 2,
-  "n_rows": 215876,
-  "pred_median": 979.2140598167284,
-  "pred_mean": 1056.6110283611347,
+  "n_rows": 344841,
+  "pred_median": 955.5962897277296,
+  "pred_mean": 1031.2636000943762,
   "provenance": {
     "lightgbm": {
       "run_dir": "artifacts\\runs\\lightgbm__full-with_aobt-keep_all__seed42__tag=lr05_lv511_md50",
-      "feature_fingerprint": "47cba1fb5f800c8d",
+      "feature_fingerprint": "aeade7fee3099c1a",
       "best_iteration": 230,
       "params": {
         "learning_rate": 0.05,

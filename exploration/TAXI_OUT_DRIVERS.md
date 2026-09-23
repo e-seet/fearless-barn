@@ -3024,6 +3024,217 @@ submitted. **v25 (295.21) stands as the best submission; v27 was a
 deliberate confirmation probe, not a candidate.** No further outlier-policy
 testing planned; this axis is closed at every level this project can test it.
 
+## 2aj. Micro-effects ledger — sorting "closed, no real effect" from "closed, real but small," and a joint-overlap check
+
+User asked to stop treating every sub-5s finding as automatically settled
+just because it's under the board-visibility floor — a fair correction to
+this document's own habit this session of writing "closed on the ceiling"
+for two genuinely different outcomes. Splitting them out:
+
+**Category A — permutation control PASSED (real, non-random effect), closed
+only because the ceiling is small.** These are the actual stacking
+candidates:
+
+| finding | rho vs. permutation | in-sample ceiling | sign pattern |
+|---|---|---:|---|
+| §2ag WTC sequencing | +0.0299 vs. +0.0009 | −0.134s | uniform, 10/10 airports |
+| §2ah ATFM daily delay | +0.0136 vs. +0.0025 | −0.094s | mixed, 2 of 10 airports |
+| §2p 5/10-min congestion windows | rho 0.017-0.067, "clearly not noise" | +0.24s pooled | consistent sign, not permutation-tested per-column |
+
+**Category B — permutation control FAILED, or correlation ~0 outright (not
+a stacking candidate, genuinely nothing there):**
+
+| finding | result |
+|---|---|
+| §2q follow-up / `tests_lirf_flightpath` (destination, reverse-runway) | real correlations SMALLER than their own shuffled controls |
+| Stand-level congestion aggregates (2026-09-15) | rho −0.036/+0.002, indistinguishable from zero even where covered |
+| §2h OSM taxi-distance, well-observed pairs | essentially zero residual correlation (categorical embedding already captures it) |
+| §2r weather (METAR) | wrong sign entirely (−1.67s val RMSE) |
+
+**Joint-overlap check (2026-09-18), because Category A's ceilings cannot
+just be summed.** Each ceiling above was fitted independently against *the
+same* `mlp_antigravity` forward/val residual — if two features both proxy
+"local traffic/queue pressure" (plausible for WTC-sequencing and ATFM delay,
+both airport-and-time-localized), their combined value is closer to the
+larger effect than to the sum. Fit a single joint OLS of the residual
+against WTC's `prev_heavier` and ATFM's `DLY_APT_ARR_1`/`pct_regulated`
+together, same rows (97.7% joint coverage), plus a permutation control on
+the joint feature set:
+
+| | ceiling |
+|---|---:|
+| WTC alone | −0.134s |
+| ATFM alone | −0.074s |
+| **naively summed** | **−0.208s** |
+| **actual joint fit** | **−0.159s** |
+| overlap (summed − joint) | −0.049s (≈24% of the naive sum was double-counted) |
+| joint fit, permutation-shuffled | −0.049s |
+
+**Result: even correctly combined (not summed), two of the three Category A
+candidates together clear only −0.159s** — about 3x the shuffled-control
+floor, technically still a real, non-random joint effect, but two orders of
+magnitude under the ~5s board-visibility floor. §2p's congestion-window
+features weren't included in this run (their diagnostic script wasn't
+preserved from the session that built it and would need reconstructing),
+but given the overlap already observed between two conceptually-similar
+"local congestion" signals, a three-way joint ceiling is very unlikely to
+clear even 1s, let alone 5s.
+
+**Disposition: the ledger did its job.** This is not "closed, ignore
+forever" — if a fourth or fifth genuinely independent (not
+congestion-flavored) small effect is found later, re-run this same joint-OLS
+check with it added, since the marginal value of one more real predictor on
+top of near-zero existing ones is easier to clear than stacking two
+correlated ones. But do not build any Category A feature into `features.py`
+on today's evidence — the pre-registered bar (a joint ceiling that clears
+~5s) was not met, and the correct move per this project's own discipline is
+to say so rather than average estimates across sub-5s findings.
+
+## 2ak. `lobt_sched_sec` (LOBT − SCHED, explicit) — competitor-review-derived, checked, closed near-zero, joins Category A
+
+A live leaderboard/public-repo pass (2026-09-18) found `saurabhdxt-labs/
+prc-challenge` (team merry-quicksand, rank 7/160 at 257.55, ahead of us).
+Their `reports/MATCHED_MODEL.md` documents their single biggest feature-
+family gain (+8.17s, one fold) coming from handing a GBT **explicit
+pairwise flight-plan clock differences** rather than the raw clock columns
+individually — their stated mechanism: "trees cannot form the difference of
+two inputs; handing the differences over directly is what moved the
+number." Cross-checking `common/features.py` found this project already
+computes nearly all of their differences explicitly (`delta_aobt_sec`,
+`aobt_minus_eobt_sec`, `aobt_minus_lobt_sec`, `aobt_minus_sched_sec`,
+`eobt_minus_iobt_sec`, `lobt_minus_iobt_sec`) — which is why the earlier
+§2x delta-target-reformulation test (testing the same underlying
+information as a *target* transform rather than a *feature*) closed flat:
+we already hand the model these differences directly. One difference was
+missing as its own explicit column: `lobt_sched_sec = LOBT − SCHED`
+(recoverable from two existing features, `delta_sched_sec −
+delta_lobt_sec`, but never materialized on its own). Their own E1b (the
+last four clock differences added to an already-rich set) found only
++0.26s, "not established, family exhausted" — low prior, but cheap and
+concretely falsifiable.
+
+**Checked (`tests_lobt_sched/run_lobt_sched_check.py`), same convention as
+§2p/§2s/§2z/`tests_wtc_sequencing`: correlate the candidate column against
+`mlp_antigravity` seed42's residual on `forward` val AND test, plus a
+permutation control, then an in-sample OLS ceiling on pooled RMSE.**
+
+| part | rho | permutation rho | pooled ceiling |
+|---|---:|---:|---:|
+| val (n=365,246, 98.8% usable) | +0.0180 | −0.0007 | −0.084s |
+| test (n=325,004, 99.1% usable) | +0.0226 | −0.0010 | −0.050s |
+
+**Real but tiny — joins Category A (§2aj) rather than Category B.** Both
+splits show a small, clearly non-random correlation (an order of magnitude
+above the permutation-shuffled control), consistent in sign and magnitude
+between val and test, so this isn't noise — but the pooled ceiling
+(−0.05 to −0.08s) is two orders of magnitude under the ~5s board-visibility
+floor, in the same range as §2ag/§2ah. One per-airport number stood out
+(EDDM: −0.592s on val vs. −7.224s on test, the only airport near the 5s
+bar) but the two splits disagree by 12x on the same feature at the same
+airport — a single-variable in-sample OLS ceiling on ~25-35k rows without a
+per-airport permutation control, read as overfit noise rather than a real
+EDDM-specific effect, not a genuinely inconsistent-but-real signal like
+§2ag's uniform 10/10 pattern. **Not built.** Confirms the earlier read of
+merry-quicksand's repo: their large headline gain was from adding these
+differences at all (which we did long ago via `with_aobt`), not evidence of
+a remaining gap in this project's feature set. v25 (295.21) stands; nothing
+submitted.
+
+## 2al. Pooled matched-vs-unmatched RMSE split, mirroring merry-quicksand's own ledger identity — locally we look BETTER in both lanes, which relocates the mystery to the local-to-board gap itself
+
+Follow-up to §2ak's competitor review. `saurabhdxt-labs/prc-challenge`'s
+`reports/MSE_LEDGER.md` tracks `RMSE^2 = w_matched*matched_RMSE^2 +
+w_unmatched*unmatched_RMSE^2` (matched = `AOBT_3_flt` present, ~98.5% of
+rows) as its central bookkeeping identity and reports, on their own
+held-out fold: matched RMSE 226–237, unmatched ("stratum") RMSE 1868–1946.
+This project has quantified LIRF's unmatched population specifically
+(§2q) but never computed this same pooled, all-10-airport split — the
+natural apples-to-apples comparison for asking whether our own well-known
+local-to-board gap (+47 to +51s, board worse than local) concentrates in
+the matched lane, the unmatched lane, or neither.
+
+**Checked (`tests_matched_unmatched_split/run_matched_unmatched_split.py`),
+`airport_operator_multimodel` tag=msmlp seed42 — the same architecture
+family as the shipped v25 arm — on `forward` val and test:**
+
+| part | matched RMSE | unmatched RMSE | pooled RMSE | unmatched row share | unmatched SSE share |
+|---|---:|---:|---:|---:|---:|
+| val | 217.81 | 1099.75 | 247.39 | 1.18% | 23.4% |
+| test | 211.34 | 1204.09 | 239.87 | 0.92% | 23.1% |
+
+**Both lanes are locally BETTER than merry-quicksand's own reported numbers** —
+our matched RMSE (211–218) beats their 226–237, and our unmatched RMSE
+(1100–1204) beats their 1868–1946 by a wide margin. Yet their board score
+(257.55) is 38s better than ours (295.21). Locally we do not look like the
+weaker model in either lane; the gap has to be coming from somewhere local
+numbers don't see.
+
+**LIRF concentration is even starker in this all-10-airport view than
+previously documented**: LIRF is 87.2% (val) / 76.9% (test) of TOTAL
+unmatched SSE despite being 1 of 10 airports, with unmatched RMSE
+4039–4891 vs. the next-worst airport (LFPG, 397–897) — an order of
+magnitude gap between LIRF and every other airport's unmatched population,
+not just a modest lead.
+
+**A back-of-envelope check on the "our unmatched population is
+proportionally larger on the real board" explanation** (DATA_QUALITY_AUDIT.md:
+join-failure rate 1.078% train vs. 1.534% ranking, ~1.42–1.54x): holding
+our local matched/unmatched RMSEs fixed and solving for the unmatched row
+share that would be needed to reproduce the actual board score (295.21)
+gives ~3.2% — roughly 2.7–3.5x our local estimate (0.92–1.18%), not the
+~1.4–1.5x the training-vs-ranking null-rate comparison supports. **Row-share
+inflation alone is not sized to explain the gap.** The more likely
+explanation is that the unmatched population's error *within* the real
+Jan+Jul 2026 rows is itself worse than what our 2025 `forward`-test sample
+shows — i.e. a quality-of-the-tail effect, not just a quantity-of-the-tail
+effect — consistent with, but not resolved by, the already-flagged open
+caveat that every local surface this project has built lives inside 2025
+and a year-boundary shift in LIRF's worst population remains structurally
+unmeasurable without more of the actual 2026 scored data (§2o's closing
+caveat, §2n's untested horizon extrapolation). **Diagnostic only — not
+something more local computation can settle.** v25 (295.21) stands;
+nothing submitted.
+
+**CORRECTION (2026-09-18, same day): the comparison above used the wrong
+surface.** `forward`'s test set is Nov-Dec 2025, not Jan+Jul -- neither the
+board's season nor merry-quicksand's own Jan+Jul-2025 fold. Re-run on
+`seasonal_full` test (Jan+Jul 2025, n=344,419 -- almost exactly the real
+board's 344,841), single `mlp_antigravity` seed42 (no composite blend arm
+is trained under `seasonal_full` yet):
+
+| surface | matched RMSE | unmatched RMSE | pooled RMSE | unmatched row share |
+|---|---:|---:|---:|---:|
+| forward test (wrong season) | 211 | 1204 | 240 | 0.92% |
+| seasonal_full test (right season) | 249 | 2116 | **362** | 1.56% |
+
+**The "we're locally better than merry-quicksand" read does not survive on
+the correct surface** -- this single-arm number is if anything slightly
+worse than their reported matched/unmatched numbers, not better. The
+apparent local-to-board mystery in the original write-up above was largely
+a wrong-surface artifact, not a genuine unexplained gap: our own local
+diagnostics already show the real difficulty once measured in the right
+season, consistent with merry-quicksand's own documented finding that the
+unmatched stratum is measurably harder in Jan+Jul than in a fold that
+excludes them (`GAP_STRUCTURE.md` sec.6: `sp`>3h share 12.63% real-2026 vs.
+7.20% their-fold). Caveat: this re-check uses a single MLP arm, not the
+full 3-way blend the original comparison used (no `seasonal_full`-trained
+composite exists yet), so it is not a perfect like-for-like either --
+flagged, not yet resolved.
+
+**Two follow-on checks on the correct surface, both re-confirm prior
+conclusions rather than overturn them:** (1) the Category A micro-effects
+(sec.2ag WTC-sequencing, sec.2ak `lobt_sched_sec`) were re-measured on
+`seasonal_full`/test and stayed tiny -- WTC ceiling -0.081s (vs -0.134s on
+`forward`), `lobt_sched_sec` ceiling -0.038s (vs -0.05 to -0.08s) -- so the
+"stack the small real effects" idea (sec.2aj) does not get rescued by
+fixing the season; these are genuinely season-invariant, tiny effects, a
+different shape from LIRF's severity, which IS season-dependent. (2) The
+v28 probe's local effect (sec above) was re-measured on `seasonal_full`:
+val -6.92s (proxy better), test +4.88s (proxy worse) -- still genuinely
+sign-unstable on the correct surface, same conclusion as before (this is a
+real open question, not resolvable by more local computation, worth an
+actual board submission).
+
 ## 4. Per-airport worksheet
 
 One block per airport once its capacity regime and drivers are checked.

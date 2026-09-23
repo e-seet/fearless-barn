@@ -1,0 +1,61 @@
+{
+  "arm": "mlp_antigravity",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 43,
+  "best_epoch": 16,
+  "hidden_dims": [
+    256,
+    128,
+    64
+  ],
+  "dropout": 0.1,
+  "residual": false,
+  "lr_schedule": "none",
+  "loss": "huber",
+  "huber_delta": 150.0,
+  "best_iteration": 16,
+  "congest": false,
+  "exclude_ids_file": null,
+  "exclude_ids_key": null,
+  "n_excluded": 0,
+  "tag": "huber150",
+  "val_rmse_clipped": 334.85388435245085,
+  "refit_only": false,
+  "convergence": {
+    "best_epoch": 16,
+    "best_value": 334.85388435245085,
+    "stop_epoch": 22,
+    "epochs_run": 22,
+    "patience": 6,
+    "patience_counter": 6,
+    "max_epochs": 25,
+    "hit_max_epochs": false,
+    "early_stop_fired": true,
+    "converged": true,
+    "mode": "min",
+    "metric_key": "val_rmse",
+    "note": "early stopping fired at epoch 22 after 6 epochs without improvement",
+    "cross_check": "verify this best_epoch against whatever the trainer itself printed or saved -- if the framework selects on a composite fitness, recompute with THAT formula (MISTAKES.md #48)"
+  },
+  "selection": {
+    "what": "mlp_antigravity best_epoch",
+    "selected_on": "val",
+    "value": 16,
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "n_features": 57,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

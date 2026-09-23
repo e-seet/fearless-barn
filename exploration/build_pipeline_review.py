@@ -46,6 +46,22 @@ REVIEW = {
         "independently by cross_blend w_inner (same weights: LIRF->0 neural, "
         "others 0.64-0.95). This is the shippable winner. Its seed-44 val spike "
         "(262.8) is one bad MLP draw -- use the median seed, not the mean."),
+    ("airport_operator_multimodel", "congest_msmlp"): ("A", "OK -- congest tree parent + seed-averaged MLP (shipped, v16)",
+        "The msmlp blend with the realised-taxi congestion columns in its TREE "
+        "parent (airport_operator_blend --congest). Adopted under plans/12 "
+        "candidate 8: corrected val improves 3/3 (-0.55/-0.58/-0.68), val "
+        "in-band 3/3 (mean -0.38), corrected TEST 3/3 (mean -2.68, reported as "
+        "outcome not selector). CAVEAT ON THE THRESHOLD: criterion 1 asked the "
+        "margin to beat the incumbent's own corrected-val seed SD, and that SD "
+        "is 0.006 s because msmlp is near-deterministic -- so the threshold did "
+        "no work. What carries is the CONSISTENCY (3/3 on three metrics), not "
+        "that test. Note the gain shrinks from -1.57 s at the per_airport level "
+        "to -0.60 s through the blend: congest's biggest per-airport gain is "
+        "LIRF (-7.49), and the blend routes LIRF almost entirely to the MLP, "
+        "which does not have the columns. Giving the MLP them is the obvious "
+        "follow-up and is deliberately a SEPARATE experiment. The inner-holdout "
+        "alpha also moved 0.676 -> 0.450/0.476 on its own -- the existing "
+        "least-squares solver responding to a changed parent, no knob retuned."),
     ("airport_operator_multimodel", "msmlp"): ("A", "OK -- removes the bad-draw risk (adopted, plan 12)",
         "The winner with mlp_antigravity AVERAGED over seeds 42/43/44 instead of "
         "one draw (--mlp-seeds). Zero fitted parameters; blend weights still "
@@ -231,6 +247,30 @@ REVIEW = {
         "compute. Retire it."),
 
     # ---- P : pending ----
+    ("airport_lirf_identity_multimodel", "idband_congest"): ("A", "OK -- the full stack (shipped, v17)",
+        "The verified idband override on the congest+msmlp base: full-period "
+        "refit + realised-taxi congestion in the tree parent + seed-averaged "
+        "MLP + the zero-parameter LIRF identity. Adopted on the same criterion "
+        "as candidate 6: in-band RMSE IDENTICAL TO THE DECIMAL at every seed on "
+        "val and test, corrected val -0.52 at 3/3, corrected test -0.94 at 3/3. "
+        "Unusually uniform (-0.52 at every seed) because both the override and "
+        "its base are deterministic. This is the end of the adopted chain: "
+        "v13 (full refit) -> v14 (seed-averaged MLP) -> v16 (congest tree) -> "
+        "v17 (+ idband)."),
+    ("airport_lirf_identity_multimodel", "idband_msmlp"): ("A", "OK -- shipped (v15); the idband override on the msmlp base",
+        "Same zero-parameter override as the idband tag, re-measured on the "
+        "SEED-AVERAGED base (airport_operator_multimodel --tag msmlp), which is a "
+        "combination neither had been evaluated in. Adopted under the "
+        "pre-registered criterion in plans/12 candidate 6, all three met: in-band "
+        "RMSE IDENTICAL TO THE DECIMAL on val and test at every seed "
+        "(227.74/227.81/227.79 and 219.03/218.70/218.89, unchanged); pooled val "
+        "improves 3/3 (-0.73/-0.73/-0.74) and test 3/3 (-1.23/-1.24/-1.24); and "
+        "ONLY LIRF moves (538.34 -> 534.00, every other airport bit-identical). "
+        "Unusually tight across seeds because the override is deterministic and "
+        "the msmlp base is itself near-deterministic (spread 0.020 s). Shipped as "
+        "v15, which differs from v14 on exactly 8 of 215,876 scored rows -- the 8 "
+        "LIRF rows stage12 counted in the 25.2k-50k identity band. The >50k tail "
+        "bet (--band full) remains NOT adopted."),
     ("airport_lirf_identity_multimodel", "idband"): ("A", "OK -- safe add-on, re-pointed off the quarantine",
         "The checked 25.2k-50k telemetry identity ONLY, skipping the >50k tail "
         "bet, now applied on top of airport_operator_multimodel instead of the "

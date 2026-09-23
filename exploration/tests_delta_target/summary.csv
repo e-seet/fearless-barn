@@ -1,0 +1,5 @@
+split,arm,tag,val_rmse,val_inband,test_rmse,test_inband,test_lb_weighted
+forward,per_airport,raw,278.173,236.172,288.162,222.204,265.915
+forward,per_airport,delta_fb,279.115,237.37,287.857,221.969,266.192
+seasonal,per_airport,raw,275.603,218.8,350.578,227.192,352.071
+seasonal,per_airport,delta_fb,276.486,219.954,350.288,227.105,351.859

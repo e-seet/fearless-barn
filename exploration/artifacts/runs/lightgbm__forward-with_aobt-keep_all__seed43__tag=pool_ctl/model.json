@@ -1,0 +1,20 @@
+{
+  "arm": "lightgbm",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 43,
+  "tag": "pool_ctl",
+  "params": {
+    "objective": "l2"
+  },
+  "convergence": {
+    "best_iteration": 283,
+    "max_rounds": 5000,
+    "patience": 200,
+    "early_stop_fired": true,
+    "hit_max_rounds": false,
+    "n_train": 1387105
+  },
+  "selection_surface": "val",
+  "note": "tests_matched_unmatched_router/run_router.py -- pooled-vs-router experiment, diagnostic only, not a registered arm"
+}

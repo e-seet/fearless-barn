@@ -142,6 +142,14 @@ base's optimism**. Re-point it at `airport_operator_multimodel` (or
 `pipeline_catalog.csv` row, so it was silently missing from
 `pipelines_overview.csv`; that row has been added.
 
+**STALE, SUPERSEDED BY A BOARD RESULT (2026-09-16):** `idband` was submitted
+live twice (v15, v17) and **regressed both times** (+0.86s, +0.87s vs. its
+`airport_operator_multimodel` baseline) — annotated "idband is consistently
+harmful, closed" (see `exploration/TAXI_OUT_DRIVERS.md` §2x and
+`submissions/submissions.csv`). v25 (295.21, the current best) ships with no
+LIRF identity override at all. Do not act on the "free add-on" recommendation
+below — it predates that board evidence.
+
 ## Is there headroom left? (the forward-looking read)
 
 The tiers above say whether a result is *trustworthy*. That is a different
@@ -159,6 +167,27 @@ question from whether the arm has anything left to give. Per tier:
 | **D** | `mlp_antigravity` | **Open** — it is the only high-variance component left. Val RMSE SD over the seeds on disk: `per_airport` **0.27**, `airport_operator_blend` **0.80**, `mlp_antigravity` **3.52** — and the blend built on them, `airport_operator_multimodel`, sits at **2.07**. The tree side is nearly deterministic, so essentially all of the winner's seed variance is the MLP. Variance is the target here, not accuracy. |
 | **D** | `ensemble_antigravity`, `cross_blend` (untagged), `per_airport_stack` | **Closed** — val-fitted or beaten by a parent. The honest versions already exist. |
 | **E** | the six in `overtuned/` | **Closed and quarantined.** |
+
+### SUPERSEDED in part: the feature set was not closed
+
+The table above was written when the only lever left looked like recombination,
+and `stage13` had measured LIRF's bulk as irreducible. **That was correct for the
+information then available, and is now superseded.**
+
+A new feature family — the rolling mean of *proxy* taxi-out over recently
+departed aircraft — was added and adopted
+(`tests_congestion_feature/RESULT.md`, plan 12 candidates 7-8). It is worth
+**−1.57 s** corrected val at the `per_airport` level over 6 seeds (margin/noise
+2.5–8.7x), **−0.60 s** through the blend, and it transfers to a plain pooled
+LightGBM, so it is a general signal rather than an artefact of per-airport
+routing.
+
+The gap existed because `_rolling_prev_mean` was used once, for arrivals only —
+departures' *realised* taxi-out is blanked on the scored set, so it was correctly
+avoided. The step nobody took was noticing that the **proxy** (`takeoff − AOBT_3`)
+is not blanked. **The lesson is not "keep trying things"** — every candidate that
+recombined existing information this round failed or was marginal. It is: read
+why an existing restriction exists, and check whether its reason still applies.
 
 ### Should we tune hyperparameters? Almost certainly not.
 
@@ -185,8 +214,11 @@ to freeze a config for the submission refit, which is what tier C's
 ## Bottom line — what to ship
 
 **`airport_operator_multimodel`**, refit on the **full** 12-month period, with
-the MLP seed-averaged (`--mlp-seeds 42,43,44`) and
-`airport_lirf_identity_multimodel --band idband` as a free add-on on top. Same
+the **realised-taxi congestion columns in its tree parent**
+(`--tree-tag congest`), the MLP seed-averaged (`--mlp-seeds 42,43,44`).
+~~`airport_lirf_identity_multimodel --band idband` as a free add-on on top~~ —
+**STALE, do not add this**: submitted live twice (v15/v17), regressed both
+times (+0.86s/+0.87s); v25 ships without it. See §2x note above. Same
 10-parameter per-airport blend as `multimodel_antigravity` and
 `cross_blend w_inner` (all three are the same lever and are a statistical tie),
 but the steadiest of them across seeds.

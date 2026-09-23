@@ -24,23 +24,23 @@
   },
   "num_boost_round_cap": 5000,
   "patience": 200,
-  "best_iteration": 389,
+  "best_iteration": 368,
   "val_rmse_raw": null,
   "val_rmse_clipped": null,
   "refit_only": true,
   "convergence": {
     "refit_only": true,
     "hit_max_epochs": false,
-    "rounds": 389,
+    "rounds": 368,
     "frozen_from": "artifacts/runs/lightgbm__forward-with_aobt-keep_all__seed42/model.json",
-    "frozen_best_iteration": 259,
+    "frozen_best_iteration": 245,
     "pool_ratio": 1.5028847852181342,
     "note": "no early stopping: this protocol has no validation set by design; the round count is frozen, not selected"
   },
   "selection": {
     "what": "lightgbm best_iteration",
     "selected_on": "frozen",
-    "value": 389,
+    "value": 368,
     "gate": "selection_set_declared"
   },
   "n_train": 2084659,
@@ -73,5 +73,5 @@
     "dest_region",
     "adep_flight_record"
   ],
-  "feature_fingerprint": "47cba1fb5f800c8d"
+  "feature_fingerprint": "aeade7fee3099c1a"
 }

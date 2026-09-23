@@ -4,12 +4,27 @@
   "featureset": "with_aobt",
   "seed": 42,
   "best_epoch": 23,
+  "hidden_dims": [
+    256,
+    128,
+    64
+  ],
+  "dropout": 0.1,
+  "residual": false,
+  "lr_schedule": "none",
+  "loss": "mse",
+  "huber_delta": null,
   "best_iteration": 23,
-  "val_rmse_clipped": 330.4463541326081,
+  "congest": false,
+  "exclude_ids_file": null,
+  "exclude_ids_key": null,
+  "n_excluded": 0,
+  "tag": null,
+  "val_rmse_clipped": 326.09273296693317,
   "refit_only": false,
   "convergence": {
     "best_epoch": 23,
-    "best_value": 330.4463541326081,
+    "best_value": 326.09273296693317,
     "stop_epoch": 29,
     "epochs_run": 29,
     "patience": 6,
@@ -40,7 +55,8 @@
     "n_impossible_dropped": 229,
     "n_tail_dropped": 0,
     "n_winsorized": 0,
+    "n_ids_dropped": 0,
     "n_out": 1005290
   },
-  "feature_fingerprint": "47cba1fb5f800c8d"
+  "feature_fingerprint": "aeade7fee3099c1a"
 }

@@ -9,7 +9,7 @@
   "higher_is_better": false,
   "rmse": 297.7786003736069,
   "mae": 150.5401310305121,
-  "bias_mean_signed_error": -1.6925327540179333,
+  "bias_mean_signed_error": -1.6925327540179378,
   "trivial_baselines": {
     "train_mean": {
       "constant": 990.3741699438759,

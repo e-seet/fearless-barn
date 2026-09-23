@@ -1,0 +1,30 @@
+version,board_name,score,date,status,note
+1,,,,not submitted,
+2,fearless-barn_v12,405.7513,,submitted,"uploaded under the board name v12 -- board ""v12"" holds local v2's file"
+3,fearless-barn_v3,386.2186,,submitted,per_airport_stack inner2; no-MLP tree structure
+4,,,,not submitted,
+5,,,,not submitted,
+6,,,,not submitted,
+7,,,,not submitted,
+8,,,,not submitted,
+9,,,,not submitted,
+10,,,,not submitted,
+11,,,,not submitted,
+12,,,,not submitted,
+13,fearless-barn_v13,324.2801,2026-09-09,submitted,single MLP draw (1 seed)
+14,fearless-barn_v14,306.3189,,submitted,3-seed msmlp; stale forward_inner weights
+15,fearless-barn_v15,307.1755,2026-09-10,submitted,v14 + idband LIRF identity override -- regressed
+16,fearless-barn_v16,306.3308,,submitted,v14 + congest tree columns -- no effect
+17,fearless-barn_v17,307.1874,,submitted,v16 + idband -- regressed again; first upload was rejected for staleness
+18,fearless-barn_v18,491.3461,2026-09-09,submitted,v14 with predictions capped at 7200s -- tail predictions are load-bearing
+19,fearless-barn_v19,382.9174,2026-09-09,submitted,"airport_operator_blend, no MLP -- isolates the MLP's ~77 RMSE"
+20,fearless-barn_v20,299.4671,2026-09-10,submitted,6-seed msmlp; first under 300
+21,,,,not submitted,built to isolate the stale-weight fix; superseded by v22
+22,fearless-barn_v22,298.0674,2026-09-10,submitted,6-seed msmlp with clean forward_inner weights
+23,fearless-barn_v23,298.4664,2026-09-11,submitted,per_airport tree parent instead of airport_operator_blend -- tie
+24,fearless-barn_v24,295.7455,2026-09-11,submitted,12-seed msmlp
+25,fearless-barn_v25,295.2054,2026-09-12,submitted,18-seed msmlp; base of v28/v29
+26,fearless-barn_v26,295.4767,2026-09-15,submitted,worse than v25
+27,fearless-barn_v27,496.0944,2026-09-18,submitted,winsor_7200 outlier policy -- confirms keep_all on the real board
+28,fearless-barn_v28,294.4929,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.80
+29,fearless-barn_v29,293.6685,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.55 -- BEST

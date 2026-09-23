@@ -40,6 +40,11 @@ SUBMIT_DIR = config.SOLUTION_DIR / "submissions"
 # while a parent is stale, which is how v13 came to blend a current-features tree
 # side with an MLP trained against an older features.py.
 PARENTS = {
+    "ftt_multimodel":              ("airport_operator_blend", "mlp_antigravity"),
+    # tabnet_lirf_override is deliberately absent: its base is whatever the run's
+    # model.json names in `base_arm` (v29 sits on airport_operator_multimodel,
+    # the TabNet+FTT composite on ftt_multimodel), and main()'s walk reads it
+    # from there. A static entry here recorded the wrong chain for the latter.
     "airport_lirf_identity_multimodel": ("airport_operator_multimodel",),
     "airport_operator_multimodel": ("airport_operator_blend", "mlp_antigravity"),
     "multimodel_antigravity":      ("per_airport", "mlp_antigravity"),
@@ -288,6 +293,79 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
         pred, _ = apply_lirf_identity_override(
             p_base, Xrk, ap_arr, meta_json["threshold_sec"],
             band_hi=meta_json.get("identity_band_hi_sec"))
+    elif arm == "ftt_multimodel":
+        # 3-member per-airport blend (FT-Transformer + airport_operator_blend +
+        # mlp_antigravity). Same discipline as the catboost 3-way below: the seed
+        # lists and the weights come from the RUN's own model.json, never from
+        # `seed`, because the weights were solved against those exact averaged
+        # arms. FTT predictions are replayed from tests_ftt/, not retrained.
+        from pipeline_ftt_multimodel.train import blend_per_airport, ftt_preds_path
+        meta_json = json.loads((out / "model.json").read_text())
+        W = meta_json["weights_per_airport"]
+        p_tree, meta = predict_ranking("airport_operator_blend", split, featureset,
+                                       seed, outlier_policy)
+        p_mlp = np.mean([predict_ranking("mlp_antigravity", split, featureset, s,
+                                         outlier_policy)[0]
+                         for s in meta_json["mlp_seeds"]], axis=0)
+        rank_ids = meta.index.to_numpy()
+        ftt_preds = []
+        for s in meta_json["ftt_seeds"]:
+            fp = ftt_preds_path(int(s), split, meta_json.get("ftt_tag", "lr1e-3"))
+            if not fp.exists():
+                raise FileNotFoundError(
+                    "FTT seed {} predictions missing at {}. This arm records a "
+                    "seed list and applies it; it does not retrain.".format(s, fp))
+            z = np.load(fp, allow_pickle=True)
+            if not np.array_equal(z["rank_ids"], rank_ids):
+                raise SystemExit(
+                    "HALT: FTT seed {} covers {} ranking rows, the scored set has "
+                    "{}. Those predictions predate the current ranking.parquet.".format(
+                        s, len(z["rank_ids"]), len(rank_ids)))
+            ftt_preds.append(z["pr"])
+        p_ftt = np.mean(ftt_preds, axis=0)
+        ap_arr = meta["ADEP_mvt"].astype(str).to_numpy()
+        pred = blend_per_airport(p_ftt, p_tree, p_mlp, ap_arr, W)
+        print("[submit] {}: {} FTT seeds {}, {} MLP seeds, LIRF weights {}".format(
+            arm, len(ftt_preds), meta_json["ftt_seeds"], len(meta_json["mlp_seeds"]),
+            W["LIRF"]))
+    elif arm == "tabnet_lirf_override":
+        # v29 (293.6685, best board score). The override itself is two lines; what
+        # matters is that the seed list is REPLAYED from the run's model.json
+        # rather than re-gated here, so a seed trained after the submission cannot
+        # silently join or leave an ensemble that was already scored.
+        from pipeline_tabnet_lirf_override.train import (apply_override,
+                                                         seed_preds_path)
+        meta_json = json.loads((out / "model.json").read_text())
+        p_base, meta = predict_ranking(meta_json["base_arm"], split, featureset,
+                                       seed, outlier_policy,
+                                       tag=meta_json.get("base_tag"))
+        rank_ids = meta.index.to_numpy()
+        tab_preds = []
+        for s in meta_json["tabnet_seeds"]:
+            p = seed_preds_path(int(s))
+            if not p.exists():
+                raise FileNotFoundError(
+                    "TabNet seed {} predictions missing at {}. This arm records a "
+                    "seed list and applies it; it does not retrain. Re-run "
+                    "`python tests_tabnet/train_tabnet_pred.py final {}`.".format(s, p, s))
+            z = np.load(p, allow_pickle=True)
+            # Staleness gate. The saved predictions are keyed on the ranking ids
+            # that existed when the seed was trained; a refreshed ranking.parquet
+            # must fail HERE, not at upload (v17 was rejected by the scorer for
+            # exactly this, having looked fine locally).
+            if not np.array_equal(z["rank_ids"], rank_ids):
+                raise SystemExit(
+                    "HALT: TabNet seed {} covers {} ranking rows, the current scored "
+                    "set has {} (and/or a different order). Those predictions predate "
+                    "the current ranking.parquet -- retrain every recorded seed "
+                    "before rebuilding this arm.".format(s, len(z["rank_ids"]), len(rank_ids)))
+            tab_preds.append(z["pr"])
+        ap_arr = meta["ADEP_mvt"].astype(str).to_numpy()
+        pred, n_over = apply_override(p_base, np.mean(tab_preds, axis=0), ap_arr,
+                                      float(meta_json["w"]))
+        print("[submit] {} override: w={} on {} {} rows, {} TabNet seeds {}".format(
+            arm, meta_json["w"], n_over, meta_json.get("override_airport", "LIRF"),
+            len(tab_preds), meta_json["tabnet_seeds"]))
     elif arm == "airport_wtc_multimodel":
         meta_json = json.loads((out / "model.json").read_text())
         cell_alpha = meta_json["cell_alpha"]
@@ -475,8 +553,9 @@ def provenance_chain(arm, split, featureset, seed, outlier_policy, tag=None) -> 
             if parent not in seen:
                 seen.add(parent)
                 pending.append((parent, prov[parent]))
-    # anything else in the declared graph resolves untagged
-    for b in sorted(_ancestors(arm)):
+    # anything else in the declared graph resolves untagged -- including the
+    # static parents of every arm reached through a model.json `base_arm`
+    for b in sorted(set().union(*(_ancestors(a) for a in seen))):
         prov.setdefault(b, one(b))
     return prov
 

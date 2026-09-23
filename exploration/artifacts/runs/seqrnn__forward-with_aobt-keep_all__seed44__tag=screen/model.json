@@ -1,0 +1,10 @@
+{
+  "arm": "seqrnn",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 44,
+  "best_epoch": 12,
+  "k": 24,
+  "gru_hidden": 32,
+  "note": "tests_seqrnn/run_seqrnn.py -- diagnostic only"
+}

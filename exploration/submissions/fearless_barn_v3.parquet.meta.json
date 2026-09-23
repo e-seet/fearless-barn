@@ -8,13 +8,35 @@
   "seed": 42,
   "team": "fearless_barn",
   "version": 3,
-  "n_rows": 215876,
-  "pred_median": 980.7046532954791,
-  "pred_mean": 1056.2149667490955,
+  "n_rows": 344841,
+  "pred_median": 957.0479399258286,
+  "pred_mean": 1032.9595906744576,
   "provenance": {
     "per_airport_stack": {
       "run_dir": "artifacts\\runs\\per_airport_stack__full-with_aobt-keep_all__seed42__tag=inner2",
-      "feature_fingerprint": "47cba1fb5f800c8d",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 255,
+        "min_data_in_leaf": 100
+      },
+      "weights": null
+    },
+    "lightgbm": {
+      "run_dir": "artifacts\\runs\\lightgbm__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": 368,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 255,
+        "min_data_in_leaf": 100
+      },
+      "weights": null
+    },
+    "per_airport": {
+      "run_dir": "artifacts\\runs\\per_airport__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
       "best_iteration": null,
       "params": {
         "learning_rate": 0.05,

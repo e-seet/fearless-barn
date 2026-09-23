@@ -1,0 +1,104 @@
+{
+  "arm": "ftt_multimodel",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "weights_per_airport": {
+    "EDDF": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "EDDM": [
+      0.0892785827035793,
+      0.44503524405029027,
+      0.4656861732461305
+    ],
+    "EGLL": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "EHAM": [
+      0.505392379321354,
+      0.4491493623951968,
+      0.04545825828344924
+    ],
+    "LEBL": [
+      0.17133702405323853,
+      0.6137287146219206,
+      0.21493426132484092
+    ],
+    "LEMD": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "LFPG": [
+      0.26897373649086637,
+      0.3748569271751836,
+      0.3561693363339501
+    ],
+    "LIRF": [
+      9.71445146547012e-17,
+      0.0,
+      1.0
+    ],
+    "LSZH": [
+      0.4665646727759304,
+      0.20856119500694809,
+      0.3248741322171215
+    ],
+    "LTFM": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ]
+  },
+  "weight_order": [
+    "ftt",
+    "tree",
+    "mlp"
+  ],
+  "weight_split": "forward_inner",
+  "solver": "per-airport simplex (w>=0, sum=1), pipeline_airport_operator_catboost_multimodel.solve_weights_per_airport_simplex",
+  "mlp_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ],
+  "ftt_seeds": [
+    42,
+    43,
+    44
+  ],
+  "ftt_tag": "lr1e-3",
+  "ftt_pred_dir": "tests_ftt",
+  "ftt_pred_sha256": {
+    "42": "ed69fce3606dd6f4de382c4a1b5489119d817f274e180f450f52b817bd3fddc0",
+    "43": "88dcc7be0abf662738bc42eef2d5edb4977d5214bbc8618c9eaf4d8425655974",
+    "44": "94e803ff347492af0d5c28f18f79eff2251b05d3b499b0ad1940bf8d672b69a1"
+  },
+  "ftt_freeze_epochs": 112,
+  "ftt_freeze_rationale": "median best epoch of the three forward seeds (102/112/117); full has no val so the count is frozen, and the median is used for every member rather than one seed's (CONVERGENCE_AUDIT.md sec.2)",
+  "n_ranking_rows": 344841,
+  "feature_fingerprint": "aeade7fee3099c1a",
+  "evidence": "tests_ftt/RESULT.md -- confirmed on 3 independent periods; honest effect ~1.5s in-band",
+  "note": "prediction-only arm: it does not train FTT."
+}

@@ -44,5 +44,8 @@
     "candidate_sha256": "e1133d7edc34d1d704c5238bda0076fc43032a3164170fe2b88beefae30b355a",
     "not_reproducible_via_submit_py": true,
     "validated_with": "submit.validate: PASS"
-  }
+  },
+  "rebuild_arm": "tabnet_lirf_override",
+  "rebuild_tag": "lirf_w0.55",
+  "rebuild_note": "Rebuildable since 2026-09-21 via the registered `tabnet_lirf_override` arm. Verified: rint(rebuilt base) reproduces v25 byte-for-byte on all 344,841 rows, and the rebuilt override differs from THIS file only on LIRF rows, only by +1s on 13,525 of 26,899 (mean +0.503) -- submit.py rounds with np.rint where build_candidate.py truncated. See CONVERGENCE_AUDIT.md sec.6a."
 }

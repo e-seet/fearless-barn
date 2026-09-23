@@ -1,0 +1,36 @@
+{
+  "arm": "mlp_antigravity",
+  "split": "full",
+  "featureset": "with_aobt",
+  "seed": 47,
+  "best_epoch": 10,
+  "best_iteration": 10,
+  "congest": false,
+  "tag": null,
+  "val_rmse_clipped": null,
+  "refit_only": true,
+  "convergence": {
+    "refit_only": true,
+    "epochs": 10
+  },
+  "selection": {
+    "what": "mlp_antigravity best_epoch",
+    "selected_on": "frozen",
+    "value": 10,
+    "gate": "selection_set_declared"
+  },
+  "n_train": 2084659,
+  "n_features": 57,
+  "train_pool_ids_sha": "db8c00db13c5e842fd06301111d38d3d",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 2085047,
+    "n_impossible_dropped": 388,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 2084659
+  },
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

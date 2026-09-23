@@ -11,9 +11,9 @@
     "naive_offblock"
   ],
   "weights": {
-    "lightgbm": 0.11434877499208622,
+    "lightgbm": 0.10253150106060713,
     "xgboost_antigravity": 0.0,
-    "mlp_antigravity": 0.8856512250079137,
+    "mlp_antigravity": 0.897468498939393,
     "ridge": 0.0,
     "naive_offblock": 0.0
   },
@@ -23,9 +23,9 @@
     "what": "ensemble_antigravity weights",
     "selected_on": "frozen",
     "value": {
-      "lightgbm": 0.11434877499208622,
+      "lightgbm": 0.10253150106060713,
       "xgboost_antigravity": 0.0,
-      "mlp_antigravity": 0.8856512250079137,
+      "mlp_antigravity": 0.897468498939393,
       "ridge": 0.0,
       "naive_offblock": 0.0
     },
@@ -43,5 +43,5 @@
     "n_winsorized": 0,
     "n_out": 2084659
   },
-  "feature_fingerprint": "47cba1fb5f800c8d"
+  "feature_fingerprint": "aeade7fee3099c1a"
 }

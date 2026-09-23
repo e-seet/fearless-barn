@@ -3,18 +3,18 @@
   "split": "full",
   "featureset": "with_aobt",
   "seed": 42,
-  "best_epoch": 16,
-  "best_iteration": 16,
+  "best_epoch": 10,
+  "best_iteration": 10,
   "val_rmse_clipped": null,
   "refit_only": true,
   "convergence": {
     "refit_only": true,
-    "epochs": 16
+    "epochs": 10
   },
   "selection": {
     "what": "mlp_antigravity best_epoch",
     "selected_on": "frozen",
-    "value": 16,
+    "value": 10,
     "gate": "selection_set_declared"
   },
   "n_train": 2084659,
@@ -30,5 +30,5 @@
     "n_winsorized": 0,
     "n_out": 2084659
   },
-  "feature_fingerprint": "47cba1fb5f800c8d"
+  "feature_fingerprint": "aeade7fee3099c1a"
 }

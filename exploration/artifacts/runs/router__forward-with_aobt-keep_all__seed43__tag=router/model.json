@@ -1,0 +1,30 @@
+{
+  "arm": "router",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 43,
+  "tag": "router",
+  "params": {
+    "objective": "l2"
+  },
+  "convergence": {
+    "matched": {
+      "best_iteration": 318,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false,
+      "n_train": 1372219
+    },
+    "unmatched": {
+      "best_iteration": 110,
+      "max_rounds": 5000,
+      "patience": 200,
+      "early_stop_fired": true,
+      "hit_max_rounds": false,
+      "n_train": 14886
+    }
+  },
+  "selection_surface": "val",
+  "note": "tests_matched_unmatched_router/run_router.py -- pooled-vs-router experiment, diagnostic only, not a registered arm"
+}

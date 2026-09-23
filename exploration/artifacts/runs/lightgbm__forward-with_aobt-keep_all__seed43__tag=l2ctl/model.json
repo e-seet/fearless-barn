@@ -4,10 +4,8 @@
   "featureset": "with_aobt",
   "seed": 43,
   "tag": "l2ctl",
-  "target_transform": "identity",
+  "objective": "l2",
   "params": {
-    "objective": "l2",
-    "metric": "rmse",
     "learning_rate": 0.05,
     "num_leaves": 255,
     "min_data_in_leaf": 100,
@@ -19,6 +17,8 @@
     "cat_smooth": 20.0,
     "verbosity": -1,
     "num_threads": 0,
+    "objective": "l2",
+    "metric": "rmse",
     "seed": 43,
     "bagging_seed": 43,
     "feature_fraction_seed": 43,
@@ -31,6 +31,6 @@
     "early_stop_fired": true,
     "hit_max_rounds": false
   },
-  "note": "tests_log_target/run_log_target.py -- log-target experiment; L2 control and log1p variant trained by the same script",
-  "early_stopping_on": "val"
+  "selection_surface": "val",
+  "note": "tests_poisson_objective/run_poisson.py -- poisson-objective experiment; L2 control and poisson variant trained by the same script"
 }

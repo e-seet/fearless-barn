@@ -25,16 +25,16 @@
   "num_boost_round_cap": 5000,
   "patience": 200,
   "best_iteration_per_airport": {
-    "EDDF": 92,
-    "EDDM": 81,
-    "EGLL": 141,
-    "EHAM": 95,
-    "LEBL": 120,
-    "LEMD": 77,
-    "LFPG": 138,
-    "LIRF": 211,
-    "LSZH": 73,
-    "LTFM": 131
+    "EDDF": 132,
+    "EDDM": 86,
+    "EGLL": 148,
+    "EHAM": 100,
+    "LEBL": 103,
+    "LEMD": 118,
+    "LFPG": 171,
+    "LIRF": 286,
+    "LSZH": 81,
+    "LTFM": 149
   },
   "n_train_per_airport": {
     "EDDF": 109650,
@@ -50,70 +50,70 @@
   },
   "convergence_per_airport": {
     "EDDF": {
-      "best_iteration": 92,
+      "best_iteration": 132,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "EDDM": {
-      "best_iteration": 81,
+      "best_iteration": 86,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "EGLL": {
-      "best_iteration": 141,
+      "best_iteration": 148,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "EHAM": {
-      "best_iteration": 95,
+      "best_iteration": 100,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "LEBL": {
-      "best_iteration": 120,
+      "best_iteration": 103,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "LEMD": {
-      "best_iteration": 77,
+      "best_iteration": 118,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "LFPG": {
-      "best_iteration": 138,
+      "best_iteration": 171,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "LIRF": {
-      "best_iteration": 211,
+      "best_iteration": 286,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "LSZH": {
-      "best_iteration": 73,
+      "best_iteration": 81,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
       "hit_max_rounds": false
     },
     "LTFM": {
-      "best_iteration": 131,
+      "best_iteration": 149,
       "max_rounds": 5000,
       "patience": 200,
       "early_stop_fired": true,
@@ -121,22 +121,22 @@
     }
   },
   "any_airport_hit_round_cap": false,
-  "val_rmse_clipped": 432.9651562957984,
+  "val_rmse_clipped": 424.6321531550109,
   "refit_only": false,
   "selection": {
     "what": "per_airport best_iteration (one per airport)",
     "selected_on": "val",
     "value": {
-      "EDDF": 92,
-      "EDDM": 81,
-      "EGLL": 141,
-      "EHAM": 95,
-      "LEBL": 120,
-      "LEMD": 77,
-      "LFPG": 138,
-      "LIRF": 211,
-      "LSZH": 73,
-      "LTFM": 131
+      "EDDF": 132,
+      "EDDM": 86,
+      "EGLL": 148,
+      "EHAM": 100,
+      "LEBL": 103,
+      "LEMD": 118,
+      "LFPG": 171,
+      "LIRF": 286,
+      "LSZH": 81,
+      "LTFM": 149
     },
     "gate": "selection_set_declared"
   },
@@ -172,5 +172,5 @@
     "dest_region",
     "adep_flight_record"
   ],
-  "feature_fingerprint": "47cba1fb5f800c8d"
+  "feature_fingerprint": "aeade7fee3099c1a"
 }

@@ -1,0 +1,954 @@
+{
+  "featureset": "with_aobt",
+  "airports": [
+    {
+      "airport": "EDDF",
+      "n_total": 230141,
+      "q1": 649.0,
+      "q3": 1048.0,
+      "iqr": 399.0,
+      "fence_mild": [
+        50.5,
+        1646.5
+      ],
+      "fence_extreme": [
+        -548.0,
+        2245.0
+      ],
+      "mild_outliers": {
+        "n": 4070,
+        "pct_of_airport": 1.7684810616100564,
+        "mean_taxiout": 2034.985995085995,
+        "pct_no_flight_record": 1.6707616707616706,
+        "pct_business_segment": 1.4742014742014742,
+        "pct_vfr": 0.04914004914004914,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 18.20638820638821,
+        "top_hours": {
+          "10": 612,
+          "9": 453,
+          "11": 443
+        },
+        "weekend_pct": 32.40786240786241
+      },
+      "mild_outliers_lower_fast": {
+        "n": 1,
+        "pct_of_airport": 0.00043451623135382225,
+        "mean_taxiout": 2.0,
+        "pct_no_flight_record": 100.0,
+        "pct_business_segment": 0.0,
+        "pct_vfr": 100.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 0.0,
+        "top_hours": {
+          "13": 1
+        },
+        "weekend_pct": 0.0
+      },
+      "mild_outliers_upper_slow": {
+        "n": 4069,
+        "pct_of_airport": 1.7680465453787026,
+        "mean_taxiout": 2035.4856230031949,
+        "pct_no_flight_record": 1.6465962152863112,
+        "pct_business_segment": 1.4745637748832636,
+        "pct_vfr": 0.02457606291472106,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 18.210862619808307,
+        "top_hours": {
+          "10": 612,
+          "9": 453,
+          "11": 443
+        },
+        "weekend_pct": 32.41582698451708
+      },
+      "extreme_outliers": {
+        "n": 842,
+        "pct_of_airport": 0.3658626667999183,
+        "mean_taxiout": 2779.0890736342044,
+        "pct_no_flight_record": 1.66270783847981,
+        "pct_business_segment": 1.187648456057007,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 11.163895486935866,
+        "top_hours": {
+          "10": 134,
+          "9": 97,
+          "11": 87
+        },
+        "weekend_pct": 35.03562945368171
+      },
+      "baseline_non_outliers": {
+        "n": 226071,
+        "pct_of_airport": 98.23151893838994,
+        "mean_taxiout": 842.3872721401683,
+        "pct_no_flight_record": 0.8351358643965834,
+        "pct_business_segment": 1.5021829425269053,
+        "pct_vfr": 0.008404439313313075,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 22.096155632522528,
+        "top_hours": {
+          "11": 18166,
+          "20": 17705,
+          "12": 17650
+        },
+        "weekend_pct": 28.558284786637827
+      }
+    },
+    {
+      "airport": "EDDM",
+      "n_total": 167334,
+      "q1": 612.0,
+      "q3": 911.0,
+      "iqr": 299.0,
+      "fence_mild": [
+        163.5,
+        1359.5
+      ],
+      "fence_extreme": [
+        -285.0,
+        1808.0
+      ],
+      "mild_outliers": {
+        "n": 7533,
+        "pct_of_airport": 4.501774893327118,
+        "mean_taxiout": 1742.896190096907,
+        "pct_no_flight_record": 1.8983140846940132,
+        "pct_business_segment": 1.752289924332935,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 8.841099163679809,
+        "top_hours": {
+          "8": 772,
+          "7": 690,
+          "10": 663
+        },
+        "weekend_pct": 28.474711270410197
+      },
+      "mild_outliers_lower_fast": {
+        "n": 5,
+        "pct_of_airport": 0.0029880359042394255,
+        "mean_taxiout": 63.0,
+        "pct_no_flight_record": 0.0,
+        "pct_business_segment": 100.0,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 40.0,
+        "top_hours": {
+          "14": 1,
+          "9": 1,
+          "8": 1
+        },
+        "weekend_pct": 40.0
+      },
+      "mild_outliers_upper_slow": {
+        "n": 7528,
+        "pct_of_airport": 4.498786857422878,
+        "mean_taxiout": 1744.0119553666314,
+        "pct_no_flight_record": 1.8995749202975558,
+        "pct_business_segment": 1.6870350690754514,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 8.820403825717323,
+        "top_hours": {
+          "8": 771,
+          "7": 690,
+          "10": 663
+        },
+        "weekend_pct": 28.467056323060575
+      },
+      "extreme_outliers": {
+        "n": 2162,
+        "pct_of_airport": 1.2920267249931274,
+        "mean_taxiout": 2274.872340425532,
+        "pct_no_flight_record": 3.6077705827937097,
+        "pct_business_segment": 1.572617946345976,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 3.9777983348751156,
+        "top_hours": {
+          "8": 228,
+          "21": 223,
+          "9": 189
+        },
+        "weekend_pct": 28.769657724329324
+      },
+      "baseline_non_outliers": {
+        "n": 159801,
+        "pct_of_airport": 95.49822510667288,
+        "mean_taxiout": 768.025400341675,
+        "pct_no_flight_record": 0.5425497963091594,
+        "pct_business_segment": 3.7940939042934647,
+        "pct_vfr": 0.016896014417932304,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 22.701985594583263,
+        "top_hours": {
+          "10": 14686,
+          "14": 13870,
+          "9": 12551
+        },
+        "weekend_pct": 27.868411336599898
+      }
+    },
+    {
+      "airport": "EGLL",
+      "n_total": 239546,
+      "q1": 1088.0,
+      "q3": 1561.0,
+      "iqr": 473.0,
+      "fence_mild": [
+        378.5,
+        2270.5
+      ],
+      "fence_extreme": [
+        -331.0,
+        2980.0
+      ],
+      "mild_outliers": {
+        "n": 5638,
+        "pct_of_airport": 2.3536189291409584,
+        "mean_taxiout": 2899.0466477474283,
+        "pct_no_flight_record": 1.5785739623980135,
+        "pct_business_segment": 0.0,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 37.54877616175949,
+        "top_hours": {
+          "9": 569,
+          "14": 510,
+          "10": 486
+        },
+        "weekend_pct": 32.06810925860234
+      },
+      "mild_outliers_lower_fast": {
+        "n": 21,
+        "pct_of_airport": 0.008766583453699916,
+        "mean_taxiout": 198.33333333333334,
+        "pct_no_flight_record": 14.285714285714285,
+        "pct_business_segment": 0.0,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 38.095238095238095,
+        "top_hours": {
+          "10": 6,
+          "9": 5,
+          "8": 2
+        },
+        "weekend_pct": 14.285714285714285
+      },
+      "mild_outliers_upper_slow": {
+        "n": 5617,
+        "pct_of_airport": 2.3448523456872583,
+        "mean_taxiout": 2909.143670998754,
+        "pct_no_flight_record": 1.5310664055545664,
+        "pct_business_segment": 0.0,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 37.54673313156489,
+        "top_hours": {
+          "9": 564,
+          "14": 509,
+          "10": 480
+        },
+        "weekend_pct": 32.134591418906886
+      },
+      "extreme_outliers": {
+        "n": 1615,
+        "pct_of_airport": 0.6741920132250173,
+        "mean_taxiout": 3902.380185758514,
+        "pct_no_flight_record": 3.219814241486068,
+        "pct_business_segment": 0.0,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 38.51393188854489,
+        "top_hours": {
+          "9": 170,
+          "10": 169,
+          "16": 132
+        },
+        "weekend_pct": 33.9938080495356
+      },
+      "baseline_non_outliers": {
+        "n": 233908,
+        "pct_of_airport": 97.64638107085904,
+        "mean_taxiout": 1327.2451006378576,
+        "pct_no_flight_record": 0.566462027805804,
+        "pct_business_segment": 0.0012825555346546505,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 49.91663389024745,
+        "top_hours": {
+          "16": 15552,
+          "17": 15418,
+          "15": 15330
+        },
+        "weekend_pct": 27.966123433144656
+      }
+    },
+    {
+      "airport": "EHAM",
+      "n_total": 247948,
+      "q1": 579.0,
+      "q3": 943.0,
+      "iqr": 364.0,
+      "fence_mild": [
+        33.0,
+        1489.0
+      ],
+      "fence_extreme": [
+        -513.0,
+        2035.0
+      ],
+      "mild_outliers": {
+        "n": 5856,
+        "pct_of_airport": 2.3617855356768356,
+        "mean_taxiout": 1877.5976775956285,
+        "pct_no_flight_record": 2.698087431693989,
+        "pct_business_segment": 0.7172131147540983,
+        "pct_vfr": 0.3244535519125683,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 28.05669398907104,
+        "top_hours": {
+          "9": 653,
+          "8": 597,
+          "10": 511
+        },
+        "weekend_pct": 33.24795081967213
+      },
+      "mild_outliers_lower_fast": {
+        "n": 26,
+        "pct_of_airport": 0.01048606965976737,
+        "mean_taxiout": 20.846153846153847,
+        "pct_no_flight_record": 42.30769230769231,
+        "pct_business_segment": 15.384615384615385,
+        "pct_vfr": 38.46153846153847,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 50.0,
+        "top_hours": {
+          "8": 5,
+          "13": 4,
+          "14": 3
+        },
+        "weekend_pct": 26.923076923076923
+      },
+      "mild_outliers_upper_slow": {
+        "n": 5830,
+        "pct_of_airport": 2.351299466017068,
+        "mean_taxiout": 1885.8782161234992,
+        "pct_no_flight_record": 2.521440823327616,
+        "pct_business_segment": 0.6518010291595198,
+        "pct_vfr": 0.15437392795883362,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 27.958833619210978,
+        "top_hours": {
+          "9": 650,
+          "8": 592,
+          "10": 509
+        },
+        "weekend_pct": 33.27615780445969
+      },
+      "extreme_outliers": {
+        "n": 1413,
+        "pct_of_airport": 0.5698775549712036,
+        "mean_taxiout": 2565.291578202406,
+        "pct_no_flight_record": 4.033970276008493,
+        "pct_business_segment": 0.3538570417551309,
+        "pct_vfr": 0.3538570417551309,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 16.985138004246284,
+        "top_hours": {
+          "7": 238,
+          "9": 182,
+          "6": 173
+        },
+        "weekend_pct": 40.976645435244166
+      },
+      "baseline_non_outliers": {
+        "n": 242092,
+        "pct_of_airport": 97.63821446432317,
+        "mean_taxiout": 758.1298432001057,
+        "pct_no_flight_record": 1.6212844703666376,
+        "pct_business_segment": 2.4143713959982156,
+        "pct_vfr": 0.6604927052525487,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 28.7535317152157,
+        "top_hours": {
+          "8": 18614,
+          "19": 17676,
+          "15": 16937
+        },
+        "weekend_pct": 27.812567123242403
+      }
+    },
+    {
+      "airport": "LEBL",
+      "n_total": 179700,
+      "q1": 714.0,
+      "q3": 1161.0,
+      "iqr": 447.0,
+      "fence_mild": [
+        43.5,
+        1831.5
+      ],
+      "fence_extreme": [
+        -627.0,
+        2502.0
+      ],
+      "mild_outliers": {
+        "n": 2637,
+        "pct_of_airport": 1.4674457429048413,
+        "mean_taxiout": 2193.8919226393627,
+        "pct_no_flight_record": 2.502844141069397,
+        "pct_business_segment": 6.143344709897611,
+        "pct_vfr": 0.41714069017823285,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 26.7349260523322,
+        "top_hours": {
+          "21": 230,
+          "10": 229,
+          "11": 217
+        },
+        "weekend_pct": 23.890784982935152
+      },
+      "mild_outliers_lower_fast": {
+        "n": 42,
+        "pct_of_airport": 0.02337228714524207,
+        "mean_taxiout": 26.023809523809526,
+        "pct_no_flight_record": 23.809523809523807,
+        "pct_business_segment": 9.523809523809524,
+        "pct_vfr": 21.428571428571427,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 19.047619047619047,
+        "top_hours": {
+          "20": 10,
+          "21": 9,
+          "7": 5
+        },
+        "weekend_pct": 11.904761904761903
+      },
+      "mild_outliers_upper_slow": {
+        "n": 2595,
+        "pct_of_airport": 1.4440734557595993,
+        "mean_taxiout": 2228.9788053949906,
+        "pct_no_flight_record": 2.157996146435453,
+        "pct_business_segment": 6.088631984585742,
+        "pct_vfr": 0.07707129094412332,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 26.859344894026975,
+        "top_hours": {
+          "10": 225,
+          "21": 221,
+          "11": 217
+        },
+        "weekend_pct": 24.084778420038536
+      },
+      "extreme_outliers": {
+        "n": 533,
+        "pct_of_airport": 0.29660545353366724,
+        "mean_taxiout": 2879.71669793621,
+        "pct_no_flight_record": 2.0637898686679175,
+        "pct_business_segment": 5.816135084427768,
+        "pct_vfr": 0.18761726078799248,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 21.76360225140713,
+        "top_hours": {
+          "12": 52,
+          "14": 45,
+          "11": 42
+        },
+        "weekend_pct": 28.517823639774857
+      },
+      "baseline_non_outliers": {
+        "n": 177063,
+        "pct_of_airport": 98.53255425709516,
+        "mean_taxiout": 938.1487719060448,
+        "pct_no_flight_record": 1.0143282334536294,
+        "pct_business_segment": 3.1655399490576803,
+        "pct_vfr": 0.07059634141520249,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 24.76237271479643,
+        "top_hours": {
+          "11": 11592,
+          "10": 11532,
+          "9": 11273
+        },
+        "weekend_pct": 28.02335891744746
+      }
+    },
+    {
+      "airport": "LEMD",
+      "n_total": 212242,
+      "q1": 807.0,
+      "q3": 1186.0,
+      "iqr": 379.0,
+      "fence_mild": [
+        238.5,
+        1754.5
+      ],
+      "fence_extreme": [
+        -330.0,
+        2323.0
+      ],
+      "mild_outliers": {
+        "n": 4613,
+        "pct_of_airport": 2.173462368428492,
+        "mean_taxiout": 1973.9369174073272,
+        "pct_no_flight_record": 1.062215477996965,
+        "pct_business_segment": 16.06329937134186,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 27.986126165185343,
+        "top_hours": {
+          "14": 409,
+          "15": 389,
+          "11": 369
+        },
+        "weekend_pct": 27.31411229135053
+      },
+      "mild_outliers_lower_fast": {
+        "n": 126,
+        "pct_of_airport": 0.05936619519228051,
+        "mean_taxiout": 190.44444444444446,
+        "pct_no_flight_record": 0.7936507936507936,
+        "pct_business_segment": 2.380952380952381,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 31.746031746031743,
+        "top_hours": {
+          "9": 17,
+          "15": 16,
+          "12": 11
+        },
+        "weekend_pct": 22.22222222222222
+      },
+      "mild_outliers_upper_slow": {
+        "n": 4487,
+        "pct_of_airport": 2.1140961732362116,
+        "mean_taxiout": 2024.0193893470025,
+        "pct_no_flight_record": 1.0697570759973256,
+        "pct_business_segment": 16.447515043458882,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 27.8805437931803,
+        "top_hours": {
+          "14": 399,
+          "15": 373,
+          "11": 364
+        },
+        "weekend_pct": 27.45709828393136
+      },
+      "extreme_outliers": {
+        "n": 562,
+        "pct_of_airport": 0.26479207696874324,
+        "mean_taxiout": 2682.6156583629895,
+        "pct_no_flight_record": 0.7117437722419928,
+        "pct_business_segment": 9.252669039145907,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 24.733096085409255,
+        "top_hours": {
+          "6": 58,
+          "11": 50,
+          "15": 49
+        },
+        "weekend_pct": 25.088967971530252
+      },
+      "baseline_non_outliers": {
+        "n": 207629,
+        "pct_of_airport": 97.82653763157151,
+        "mean_taxiout": 993.3983451251993,
+        "pct_no_flight_record": 0.4325022034494218,
+        "pct_business_segment": 3.7470680877912046,
+        "pct_vfr": 0.0009632565778383558,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 25.905822404384743,
+        "top_hours": {
+          "14": 17567,
+          "15": 15877,
+          "10": 14551
+        },
+        "weekend_pct": 28.211377023440846
+      }
+    },
+    {
+      "airport": "LFPG",
+      "n_total": 239487,
+      "q1": 777.0,
+      "q3": 1151.0,
+      "iqr": 374.0,
+      "fence_mild": [
+        216.0,
+        1712.0
+      ],
+      "fence_extreme": [
+        -345.0,
+        2273.0
+      ],
+      "mild_outliers": {
+        "n": 11244,
+        "pct_of_airport": 4.695035638677673,
+        "mean_taxiout": 2196.227410174315,
+        "pct_no_flight_record": 3.3795802205620777,
+        "pct_business_segment": 0.15119174670935612,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 26.41408751334045,
+        "top_hours": {
+          "9": 1638,
+          "10": 1414,
+          "12": 1009
+        },
+        "weekend_pct": 30.16720028459623
+      },
+      "mild_outliers_lower_fast": {
+        "n": 165,
+        "pct_of_airport": 0.06889726791015796,
+        "mean_taxiout": 95.32727272727273,
+        "pct_no_flight_record": 8.484848484848486,
+        "pct_business_segment": 2.4242424242424243,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 11.515151515151516,
+        "top_hours": {
+          "0": 14,
+          "10": 12,
+          "11": 12
+        },
+        "weekend_pct": 27.878787878787882
+      },
+      "mild_outliers_upper_slow": {
+        "n": 11079,
+        "pct_of_airport": 4.626138370767515,
+        "mean_taxiout": 2227.516201823269,
+        "pct_no_flight_record": 3.303547251557,
+        "pct_business_segment": 0.11733911002798088,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 26.635977976351654,
+        "top_hours": {
+          "9": 1632,
+          "10": 1402,
+          "12": 1002
+        },
+        "weekend_pct": 30.20128170412492
+      },
+      "extreme_outliers": {
+        "n": 3209,
+        "pct_of_airport": 1.3399474710527084,
+        "mean_taxiout": 2991.38859457775,
+        "pct_no_flight_record": 4.331567466500467,
+        "pct_business_segment": 0.09348706762231225,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 17.48208164537239,
+        "top_hours": {
+          "10": 548,
+          "9": 360,
+          "11": 294
+        },
+        "weekend_pct": 31.2870052976005
+      },
+      "baseline_non_outliers": {
+        "n": 228243,
+        "pct_of_airport": 95.30496436132232,
+        "mean_taxiout": 961.8469175396398,
+        "pct_no_flight_record": 1.4817540954158506,
+        "pct_business_segment": 0.163422317442375,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 18.986343502319897,
+        "top_hours": {
+          "12": 16483,
+          "9": 16390,
+          "11": 15530
+        },
+        "weekend_pct": 27.42953781715102
+      }
+    },
+    {
+      "airport": "LIRF",
+      "n_total": 160704,
+      "q1": 834.0,
+      "q3": 1318.0,
+      "iqr": 484.0,
+      "fence_mild": [
+        108.0,
+        2044.0
+      ],
+      "fence_extreme": [
+        -618.0,
+        2770.0
+      ],
+      "mild_outliers": {
+        "n": 8402,
+        "pct_of_airport": 5.228245718837116,
+        "mean_taxiout": 3662.110925970007,
+        "pct_no_flight_record": 9.223994287074506,
+        "pct_business_segment": 0.21423470602237563,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": 3.034991668650321,
+        "pct_high_util_flag": 31.873363484884553,
+        "top_hours": {
+          "9": 978,
+          "8": 926,
+          "11": 896
+        },
+        "weekend_pct": 28.350392763627706
+      },
+      "mild_outliers_lower_fast": {
+        "n": 65,
+        "pct_of_airport": 0.04044703305455993,
+        "mean_taxiout": 62.30769230769231,
+        "pct_no_flight_record": 4.615384615384616,
+        "pct_business_segment": 0.0,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": 0.0,
+        "pct_high_util_flag": 4.615384615384616,
+        "top_hours": {
+          "20": 13,
+          "21": 12,
+          "5": 5
+        },
+        "weekend_pct": 26.153846153846157
+      },
+      "mild_outliers_upper_slow": {
+        "n": 8337,
+        "pct_of_airport": 5.187798685782557,
+        "mean_taxiout": 3690.1770421014753,
+        "pct_no_flight_record": 9.259925632721602,
+        "pct_business_segment": 0.21590500179920835,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": 3.0586541921554513,
+        "pct_high_util_flag": 32.08588221182679,
+        "top_hours": {
+          "9": 978,
+          "8": 925,
+          "11": 894
+        },
+        "weekend_pct": 28.367518291951544
+      },
+      "extreme_outliers": {
+        "n": 3487,
+        "pct_of_airport": 2.1698277578653924,
+        "mean_taxiout": 5579.685689704617,
+        "pct_no_flight_record": 21.56581588758245,
+        "pct_business_segment": 0.31545741324921134,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": 5.420131918554631,
+        "pct_high_util_flag": 28.391167192429023,
+        "top_hours": {
+          "11": 416,
+          "10": 294,
+          "9": 289
+        },
+        "weekend_pct": 29.88242041869802
+      },
+      "baseline_non_outliers": {
+        "n": 152302,
+        "pct_of_airport": 94.77175428116288,
+        "mean_taxiout": 1058.4834867565758,
+        "pct_no_flight_record": 0.468148809601975,
+        "pct_business_segment": 0.02166747646124148,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": 0.08535672545337554,
+        "pct_high_util_flag": 18.48957991359273,
+        "top_hours": {
+          "8": 11343,
+          "20": 10773,
+          "12": 10264
+        },
+        "weekend_pct": 28.577431681790127
+      }
+    },
+    {
+      "airport": "LSZH",
+      "n_total": 134594,
+      "q1": 570.0,
+      "q3": 879.0,
+      "iqr": 309.0,
+      "fence_mild": [
+        106.5,
+        1342.5
+      ],
+      "fence_extreme": [
+        -357.0,
+        1806.0
+      ],
+      "mild_outliers": {
+        "n": 4911,
+        "pct_of_airport": 3.648751058739617,
+        "mean_taxiout": 1557.9873752799838,
+        "pct_no_flight_record": 6.556709427815109,
+        "pct_business_segment": 5.3756872327428225,
+        "pct_vfr": 5.31459987782529,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 10.242313174506211,
+        "top_hours": {
+          "12": 739,
+          "6": 525,
+          "9": 462
+        },
+        "weekend_pct": 26.471187130930563
+      },
+      "mild_outliers_lower_fast": {
+        "n": 364,
+        "pct_of_airport": 0.2704429617962168,
+        "mean_taxiout": 12.057692307692308,
+        "pct_no_flight_record": 64.28571428571429,
+        "pct_business_segment": 27.197802197802197,
+        "pct_vfr": 62.362637362637365,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 19.78021978021978,
+        "top_hours": {
+          "13": 47,
+          "8": 32,
+          "9": 31
+        },
+        "weekend_pct": 27.747252747252748
+      },
+      "mild_outliers_upper_slow": {
+        "n": 4547,
+        "pct_of_airport": 3.3783080969434,
+        "mean_taxiout": 1681.743347261931,
+        "pct_no_flight_record": 1.9353419837255335,
+        "pct_business_segment": 3.628766219485375,
+        "pct_vfr": 0.7477457664394106,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 9.478777215746646,
+        "top_hours": {
+          "12": 711,
+          "6": 506,
+          "9": 431
+        },
+        "weekend_pct": 26.369034528260393
+      },
+      "extreme_outliers": {
+        "n": 1002,
+        "pct_of_airport": 0.7444611201093659,
+        "mean_taxiout": 2296.6027944111775,
+        "pct_no_flight_record": 2.3952095808383236,
+        "pct_business_segment": 2.7944111776447107,
+        "pct_vfr": 0.5988023952095809,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 6.686626746506986,
+        "top_hours": {
+          "7": 136,
+          "9": 126,
+          "12": 110
+        },
+        "weekend_pct": 23.253493013972058
+      },
+      "baseline_non_outliers": {
+        "n": 129683,
+        "pct_of_airport": 96.35124894126038,
+        "mean_taxiout": 711.3581117031531,
+        "pct_no_flight_record": 1.3355644147652352,
+        "pct_business_segment": 9.033566465920744,
+        "pct_vfr": 0.48657110029842,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 16.928201846039958,
+        "top_hours": {
+          "11": 11707,
+          "16": 10523,
+          "12": 9549
+        },
+        "weekend_pct": 27.932728268161593
+      }
+    },
+    {
+      "airport": "LTFM",
+      "n_total": 272963,
+      "q1": 786.0,
+      "q3": 1201.0,
+      "iqr": 415.0,
+      "fence_mild": [
+        163.5,
+        1823.5
+      ],
+      "fence_extreme": [
+        -459.0,
+        2446.0
+      ],
+      "mild_outliers": {
+        "n": 11595,
+        "pct_of_airport": 4.247828460267509,
+        "mean_taxiout": 2415.0639068564037,
+        "pct_no_flight_record": 3.1134109529969813,
+        "pct_business_segment": 0.21561017680034494,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 19.146183699870633,
+        "top_hours": {
+          "23": 1372,
+          "5": 1122,
+          "6": 957
+        },
+        "weekend_pct": 27.943078913324708
+      },
+      "mild_outliers_lower_fast": {
+        "n": 7,
+        "pct_of_airport": 0.0025644501269402814,
+        "mean_taxiout": 92.57142857142857,
+        "pct_no_flight_record": 71.42857142857143,
+        "pct_business_segment": 28.57142857142857,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 42.857142857142854,
+        "top_hours": {
+          "12": 2,
+          "11": 1,
+          "14": 1
+        },
+        "weekend_pct": 0.0
+      },
+      "mild_outliers_upper_slow": {
+        "n": 11588,
+        "pct_of_airport": 4.245264010140568,
+        "mean_taxiout": 2416.466862271315,
+        "pct_no_flight_record": 3.0721435968243007,
+        "pct_business_segment": 0.1984811874352779,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 19.131860545391785,
+        "top_hours": {
+          "23": 1372,
+          "5": 1122,
+          "6": 957
+        },
+        "weekend_pct": 27.959958577839146
+      },
+      "extreme_outliers": {
+        "n": 3608,
+        "pct_of_airport": 1.3217908654286479,
+        "mean_taxiout": 3213.187915742794,
+        "pct_no_flight_record": 7.039911308203991,
+        "pct_business_segment": 0.11086474501108648,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 11.668514412416851,
+        "top_hours": {
+          "6": 334,
+          "23": 325,
+          "14": 238
+        },
+        "weekend_pct": 33.5920177383592
+      },
+      "baseline_non_outliers": {
+        "n": 261368,
+        "pct_of_airport": 95.75217153973249,
+        "mean_taxiout": 992.5333897034067,
+        "pct_no_flight_record": 1.2557007743870712,
+        "pct_business_segment": 0.8310122126656667,
+        "pct_vfr": 0.0,
+        "pct_slow_lirf_operator": null,
+        "pct_high_util_flag": 18.206896023996816,
+        "top_hours": {
+          "5": 20724,
+          "13": 17084,
+          "11": 16310
+        },
+        "weekend_pct": 28.85624866089192
+      }
+    }
+  ],
+  "feature_fingerprint": "91cec8f576742a89"
+}

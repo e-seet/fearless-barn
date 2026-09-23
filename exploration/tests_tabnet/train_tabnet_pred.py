@@ -26,7 +26,13 @@ from common.bootstrap import seed_everything
 
 MODE, SEED = sys.argv[1], int(sys.argv[2])
 FS, POL = "with_aobt", "keep_all"
-MAX_EPOCHS = int(os.environ.get("TABNET_MAX_EPOCHS", 60)); PATIENCE = 15; LR = 2e-3; BS = 4096
+# Cap raised 60 -> 75 on 2026-09-21. At 60, final seeds 47 and 51 ended AT the
+# cap (best epochs 50 and 47) and the health gate excluded both. Re-run at 75
+# they early-stopped at 66 and 63 with the SAME best epochs and byte-identical
+# predictions: they were already at their optimum, the cap just stopped patience
+# from confirming it. 75 = 1.5x the observed natural best of 50, the rule in
+# tools/ml_common/convergence.py. See ../CONVERGENCE_AUDIT.md sec.3.
+MAX_EPOCHS = int(os.environ.get("TABNET_MAX_EPOCHS", 75)); PATIENCE = 15; LR = 2e-3; BS = 4096
 OUT = HERE / "build"; OUT.mkdir(exist_ok=True)
 CLIP = (config.PREDICTION_CLIP_MIN_SEC, config.PREDICTION_CLIP_MAX_SEC)
 emb = lambda c: min(48, max(4, int(c ** 0.5)))
@@ -86,6 +92,17 @@ def main():
     if Xrk is not None:
         save["pr"] = np.clip(m.predict(enc(Xrk)).reshape(-1), *CLIP); save["rank_ids"] = Xrk.index.to_numpy()
     np.savez(OUT / f"{MODE}_seed{SEED}.npz", **save)
+    # Persist the MODEL, not just its predictions. The saved npz holds predictions
+    # for the ranking rows that existed when it was written, so a refreshed
+    # ranking.parquet strands them -- which is exactly why v29 carried
+    # "not_reproducible_via_submit_py" (CONVERGENCE_AUDIT.md sec.6a). With the
+    # binary on disk the recorded seeds can be re-predicted against a new scored
+    # set instead of retrained. Seeds trained before this line have no binary.
+    try:
+        m.save_model(str(OUT / f"{MODE}_seed{SEED}_model"))
+        print(f"[{MODE} seed {SEED}] saved model -> {MODE}_seed{SEED}_model.zip", flush=True)
+    except Exception as e:                                    # never lose the preds over this
+        print(f"[{MODE} seed {SEED}] WARNING: could not save model ({type(e).__name__}: {e})", flush=True)
     print(f"[{MODE} seed {SEED}] done val_rmse {save['val_rmse']:.2f} best_epoch {m.best_epoch} ran {n_ep}/{MAX_EPOCHS} hit_cap={hit} [{time.time()-t0:.0f}s]", flush=True)
 
 

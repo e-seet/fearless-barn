@@ -4,6 +4,20 @@
 Provides a fundamentally different inductive bias (deep continuous + embedding space)
 to pair against decision trees (LightGBM & XGBoost).
 Runs on NVIDIA CUDA with batch normalization, AdamW, and early stopping on val RMSE.
+
+--epochs default raised 25 -> 45 on 2026-09-21. At 25, early stopping never fired
+for 12 of the 18 `forward_inner` seeds behind v25's blend weights: they ended at
+the cap with best_epoch 19-25, so `best_epoch` was the last epoch paid for rather
+than a selected one. The three seeds that HAD been given 45 found their optimum at
+23/27/25, i.e. past the old cap. 45 follows the repo's cap rule -- set it from an
+observed natural best-epoch with >= 1.5x headroom (tools/ml_common/convergence.py,
+MISTAKES.md #70) -- on an observed best of 27.
+
+This is a correctness fix, not a score lever: ../CONVERGENCE_AUDIT.md sec.1
+measures the truncation as worth ~0 (the per-airport blend alphas re-solved from
+capped vs converged seeds move by a mean of +0.003, sign-mixed), and the seeds
+that already had a longer leash do not beat the rest on val. It changes no
+feature code, so the fingerprint and every existing artifact are unaffected.
 """
 from __future__ import annotations
 
@@ -73,8 +87,9 @@ def main(argv=None) -> int:
     ap.add_argument("--featureset", default=config.DEFAULT_FEATURESET,
                     choices=list(config.FEATURESETS))
     ap.add_argument("--seed", type=int, default=config.SEED)
-    ap.add_argument("--epochs", type=int, default=25,
-                    help="maximum training epochs")
+    ap.add_argument("--epochs", type=int, default=45,
+                    help="maximum training epochs (safety ceiling, not a target -- "
+                         "early stopping at --patience is what should end a run)")
     ap.add_argument("--batch-size", type=int, default=2048)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--patience", type=int, default=6)

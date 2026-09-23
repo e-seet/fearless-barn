@@ -12,6 +12,10 @@ Columns
 owner              claude | antigravity   (assigned by folder-name suffix; see result.md)
 arm, protocol, seed, tag
 val_rmse, val_inband, test_rmse, test_inband   (pooled RMSE + tail-excluded companion)
+val_lb, test_lb                                composition-corrected RMSE: airports
+                                               re-weighted to their SCORED-set share,
+                                               so it estimates the leaderboard rather
+                                               than the local val/test airport mix
 test_trivial_mean                              predict-the-training-mean floor on test
 selection_surface                              where free params were fitted, if the run records it
 val_fitted                                     True if val labels were used to fit params (in-sample val)
@@ -102,6 +106,15 @@ def main() -> int:
             "val_inband": round2(ev.get("rmse_in_band")) if ev else "",
             "test_rmse": round2(et.get("rmse")) if et else "",
             "test_inband": round2(et.get("rmse_in_band")) if et else "",
+            # Composition-corrected RMSE: each airport re-weighted to its share
+            # of the SCORED set. Every eval JSON has computed this since the
+            # audit stage, but nothing harvested it and nothing ranks on it, so
+            # every selection in this build was made on pooled val RMSE -- a
+            # BIASED estimator of the competition score, because val's airport
+            # mix is not the scored set's (EGLL/EHAM/EDDF are ~1.5x under-
+            # represented in val; LIRF ~1.5x over-represented).
+            "val_lb": round2(ev.get("leaderboard_weighted_rmse")) if ev else "",
+            "test_lb": round2(et.get("leaderboard_weighted_rmse")) if et else "",
             "test_trivial_mean": tb,
             "selection_surface": surface,
             "val_fitted": val_fitted,
@@ -115,13 +128,14 @@ def main() -> int:
             rows.append({
                 "owner": owner_of(arm), "arm": arm, "protocol": "", "seed": "",
                 "tag": "", "val_rmse": "", "val_inband": "", "test_rmse": "",
-                "test_inband": "", "test_trivial_mean": "", "selection_surface": "",
+                "test_inband": "", "val_lb": "", "test_lb": "",
+                "test_trivial_mean": "", "selection_surface": "",
                 "val_fitted": "", "status": "built_not_run",
             })
 
     cols = ["owner", "arm", "protocol", "seed", "tag", "val_rmse", "val_inband",
-            "test_rmse", "test_inband", "test_trivial_mean", "selection_surface",
-            "val_fitted", "status"]
+            "test_rmse", "test_inband", "val_lb", "test_lb",
+            "test_trivial_mean", "selection_surface", "val_fitted", "status"]
     with OUT.open("w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=cols)
         w.writeheader()

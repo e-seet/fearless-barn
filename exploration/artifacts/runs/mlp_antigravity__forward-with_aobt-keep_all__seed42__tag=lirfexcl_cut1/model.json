@@ -1,0 +1,59 @@
+{
+  "arm": "mlp_antigravity",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "best_epoch": 23,
+  "hidden_dims": [
+    256,
+    128,
+    64
+  ],
+  "dropout": 0.1,
+  "residual": false,
+  "lr_schedule": "none",
+  "best_iteration": 23,
+  "congest": false,
+  "exclude_ids_file": "artifacts/audit/lirf_artifact_row_ids.json",
+  "exclude_ids_key": "cut1_gt43200",
+  "n_excluded": 22,
+  "tag": "lirfexcl_cut1",
+  "val_rmse_clipped": 254.76616338340565,
+  "refit_only": false,
+  "convergence": {
+    "best_epoch": 23,
+    "best_value": 254.76616338340565,
+    "stop_epoch": 25,
+    "epochs_run": 25,
+    "patience": 6,
+    "patience_counter": 2,
+    "max_epochs": 25,
+    "hit_max_epochs": true,
+    "early_stop_fired": false,
+    "converged": false,
+    "mode": "min",
+    "metric_key": "val_rmse",
+    "note": "HIT max_epochs (25): the run is truncated, not converged. MISTAKES.md #70 -- set the cap from an OBSERVED natural best-epoch with at least 1.5x headroom, never tuned so the first run barely fits. Raise the cap and re-run into a NEW output directory; do not reuse the truncated one.",
+    "cross_check": "verify this best_epoch against whatever the trainer itself printed or saved -- if the framework selects on a composite fitness, recompute with THAT formula (MISTAKES.md #48)"
+  },
+  "selection": {
+    "what": "mlp_antigravity best_epoch",
+    "selected_on": "val",
+    "value": 23,
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387083,
+  "n_features": 57,
+  "train_pool_ids_sha": "cea2265c4032df26bea58599ea700bd3",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

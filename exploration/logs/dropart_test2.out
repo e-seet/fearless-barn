@@ -1,0 +1,401 @@
+##### SKIP (already complete): mlp_antigravity__forward-with_aobt-drop_date_artifacts__seed42 #####
+##### SKIP (already complete): mlp_antigravity__forward_inner-with_aobt-drop_date_artifacts__seed42 #####
+##### RUN: mlp_antigravity__forward-with_aobt-drop_date_artifacts__seed43 #####
+[mlp_antigravity] train n=1387094 val n=369624 cat_feats=15 num_feats=42 device=cuda
+  Epoch  1/25 [141.5s] train RMSE=490.395 | val RMSE=460.918
+  Epoch  2/25 [141.7s] train RMSE=437.550 | val RMSE=399.981
+  Epoch  3/25 [140.8s] train RMSE=380.760 | val RMSE=351.641
+  Epoch  4/25 [141.4s] train RMSE=340.433 | val RMSE=319.936
+  Epoch  5/25 [141.1s] train RMSE=318.130 | val RMSE=309.635
+  Epoch  6/25 [140.9s] train RMSE=308.451 | val RMSE=286.503
+  Epoch  7/25 [140.9s] train RMSE=301.595 | val RMSE=288.852
+  Epoch  8/25 [141.5s] train RMSE=297.548 | val RMSE=281.087
+  Epoch  9/25 [141.5s] train RMSE=290.802 | val RMSE=269.381
+  Epoch 10/25 [141.3s] train RMSE=286.147 | val RMSE=264.021
+  Epoch 11/25 [141.3s] train RMSE=280.479 | val RMSE=268.057
+  Epoch 12/25 [140.9s] train RMSE=277.316 | val RMSE=270.155
+  Epoch 13/25 [141.2s] train RMSE=274.559 | val RMSE=260.204
+  Epoch 14/25 [141.7s] train RMSE=269.427 | val RMSE=262.453
+  Epoch 15/25 [141.1s] train RMSE=270.308 | val RMSE=261.310
+  Epoch 16/25 [141.1s] train RMSE=264.502 | val RMSE=273.872
+  Epoch 17/25 [140.9s] train RMSE=261.085 | val RMSE=260.965
+  Epoch 18/25 [140.9s] train RMSE=257.961 | val RMSE=263.591
+  Epoch 19/25 [141.5s] train RMSE=255.162 | val RMSE=264.632
+  Early stopping fired after epoch 19 (best epoch 13)
+[mlp_antigravity] finished -> val RMSE: 260.204
+##### RUN: mlp_antigravity__forward_inner-with_aobt-drop_date_artifacts__seed43 #####
+[mlp_antigravity] train n=1005284 val n=381895 cat_feats=15 num_feats=42 device=cuda
+  Epoch  1/25 [109.1s] train RMSE=471.492 | val RMSE=625.989
+  Epoch  2/25 [109.8s] train RMSE=436.105 | val RMSE=587.626
+  Epoch  3/25 [109.7s] train RMSE=392.781 | val RMSE=547.674
+  Epoch  4/25 [109.7s] train RMSE=353.863 | val RMSE=511.457
+  Epoch  5/25 [109.8s] train RMSE=323.422 | val RMSE=482.639
+  Epoch  6/25 [109.8s] train RMSE=302.242 | val RMSE=437.854
+  Epoch  7/25 [109.6s] train RMSE=290.465 | val RMSE=413.340
+  Epoch  8/25 [109.8s] train RMSE=283.406 | val RMSE=407.761
+  Epoch  9/25 [109.8s] train RMSE=278.249 | val RMSE=412.282
+  Epoch 10/25 [110.3s] train RMSE=275.428 | val RMSE=403.210
+  Epoch 11/25 [109.7s] train RMSE=273.675 | val RMSE=403.953
+  Epoch 12/25 [109.7s] train RMSE=270.166 | val RMSE=380.609
+  Epoch 13/25 [109.8s] train RMSE=266.939 | val RMSE=403.350
+  Epoch 14/25 [109.9s] train RMSE=265.019 | val RMSE=357.697
+  Epoch 15/25 [110.0s] train RMSE=260.579 | val RMSE=378.080
+  Epoch 16/25 [109.8s] train RMSE=260.451 | val RMSE=368.367
+  Epoch 17/25 [109.9s] train RMSE=257.007 | val RMSE=373.876
+  Epoch 18/25 [109.7s] train RMSE=255.382 | val RMSE=362.133
+  Epoch 19/25 [109.8s] train RMSE=253.617 | val RMSE=359.990
+  Epoch 20/25 [110.0s] train RMSE=251.253 | val RMSE=377.706
+  Early stopping fired after epoch 20 (best epoch 14)
+[mlp_antigravity] finished -> val RMSE: 357.697
+##### RUN: mlp_antigravity__forward-with_aobt-drop_date_artifacts__seed44 #####
+[mlp_antigravity] train n=1387094 val n=369624 cat_feats=15 num_feats=42 device=cuda
+  Epoch  1/25 [141.1s] train RMSE=491.052 | val RMSE=464.408
+  Epoch  2/25 [141.3s] train RMSE=439.701 | val RMSE=409.345
+  Epoch  3/25 [140.9s] train RMSE=386.858 | val RMSE=359.427
+  Epoch  4/25 [140.9s] train RMSE=346.230 | val RMSE=323.680
+  Epoch  5/25 [141.2s] train RMSE=321.763 | val RMSE=301.862
+  Epoch  6/25 [142.9s] train RMSE=309.868 | val RMSE=290.903
+  Epoch  7/25 [141.7s] train RMSE=304.768 | val RMSE=283.571
+  Epoch  8/25 [141.1s] train RMSE=298.869 | val RMSE=266.445
+  Epoch  9/25 [142.0s] train RMSE=293.175 | val RMSE=279.381
+  Epoch 10/25 [140.8s] train RMSE=288.701 | val RMSE=270.130
+  Epoch 11/25 [141.8s] train RMSE=283.580 | val RMSE=260.940
+  Epoch 12/25 [141.1s] train RMSE=281.211 | val RMSE=267.448
+  Epoch 13/25 [141.1s] train RMSE=276.038 | val RMSE=256.119
+  Epoch 14/25 [141.5s] train RMSE=273.445 | val RMSE=272.611
+  Epoch 15/25 [140.7s] train RMSE=269.637 | val RMSE=259.280
+  Epoch 16/25 [138.3s] train RMSE=268.188 | val RMSE=254.624
+  Epoch 17/25 [133.2s] train RMSE=265.638 | val RMSE=263.902
+  Epoch 18/25 [133.6s] train RMSE=259.380 | val RMSE=281.046
+  Epoch 19/25 [136.5s] train RMSE=259.057 | val RMSE=257.488
+  Epoch 20/25 [140.7s] train RMSE=256.006 | val RMSE=271.496
+  Epoch 21/25 [140.6s] train RMSE=252.532 | val RMSE=261.437
+  Epoch 22/25 [144.2s] train RMSE=253.299 | val RMSE=257.811
+  Early stopping fired after epoch 22 (best epoch 16)
+[mlp_antigravity] finished -> val RMSE: 254.624
+##### RUN: mlp_antigravity__forward_inner-with_aobt-drop_date_artifacts__seed44 #####
+[mlp_antigravity] train n=1005284 val n=381895 cat_feats=15 num_feats=42 device=cuda
+  Epoch  1/25 [104.5s] train RMSE=470.980 | val RMSE=623.658
+  Epoch  2/25 [103.9s] train RMSE=434.397 | val RMSE=587.689
+  Epoch  3/25 [103.8s] train RMSE=389.552 | val RMSE=534.234
+  Epoch  4/25 [103.6s] train RMSE=348.580 | val RMSE=511.378
+  Epoch  5/25 [110.9s] train RMSE=318.312 | val RMSE=467.515
+  Epoch  6/25 [110.4s] train RMSE=298.014 | val RMSE=443.386
+  Epoch  7/25 [110.4s] train RMSE=287.462 | val RMSE=412.655
+  Epoch  8/25 [111.3s] train RMSE=280.469 | val RMSE=414.391
+  Epoch  9/25 [110.3s] train RMSE=276.652 | val RMSE=411.401
+  Epoch 10/25 [110.9s] train RMSE=273.556 | val RMSE=398.501
+  Epoch 11/25 [110.3s] train RMSE=271.664 | val RMSE=375.594
+  Epoch 12/25 [110.5s] train RMSE=267.808 | val RMSE=387.315
+  Epoch 13/25 [110.6s] train RMSE=265.746 | val RMSE=382.074
+  Epoch 14/25 [110.5s] train RMSE=263.596 | val RMSE=368.020
+  Epoch 15/25 [110.6s] train RMSE=260.458 | val RMSE=383.371
+  Epoch 16/25 [110.3s] train RMSE=259.221 | val RMSE=371.895
+  Epoch 17/25 [110.3s] train RMSE=255.477 | val RMSE=368.233
+  Epoch 18/25 [110.5s] train RMSE=255.024 | val RMSE=381.297
+  Epoch 19/25 [107.4s] train RMSE=254.203 | val RMSE=349.459
+  Epoch 20/25 [104.1s] train RMSE=249.968 | val RMSE=369.690
+  Epoch 21/25 [104.5s] train RMSE=249.302 | val RMSE=361.407
+  Epoch 22/25 [104.3s] train RMSE=248.597 | val RMSE=383.327
+  Epoch 23/25 [105.2s] train RMSE=244.536 | val RMSE=347.370
+  Epoch 24/25 [104.2s] train RMSE=246.389 | val RMSE=342.153
+  Epoch 25/25 [104.5s] train RMSE=245.029 | val RMSE=387.293
+[mlp_antigravity] finished -> val RMSE: 342.153
+##### SKIP (already complete): airport_operator_blend__forward-with_aobt-drop_date_artifacts__seed42__tag=congest #####
+##### SKIP (already complete): airport_operator_blend__forward_inner-with_aobt-drop_date_artifacts__seed42__tag=congest #####
+##### RUN: airport_operator_blend__forward-with_aobt-drop_date_artifacts__seed43__tag=congest #####
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[airport_operator_blend] train n=1387094 months=8 -> ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08']
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07'] (1195957 rows), solve weight on ['2025-08'] (191137 rows)
+  alpha (weight on per_airport) = 0.664  inner RMSE airport=288.57 operator=298.86 blend=284.94
+[airport_operator_blend] val RMSE (clipped) = 275.833   [per_airport alone 280.203 | per_operator alone 280.000]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward-with_aobt-drop_date_artifacts__seed43__tag=congest
+##### RUN: airport_operator_blend__forward_inner-with_aobt-drop_date_artifacts__seed43__tag=congest #####
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[airport_operator_blend] train n=1005284 months=6 -> ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05'] (822206 rows), solve weight on ['2025-06'] (183078 rows)
+  alpha (weight on per_airport) = 0.559  inner RMSE airport=276.71 operator=279.94 blend=271.27
+[airport_operator_blend] val RMSE (clipped) = 417.545   [per_airport alone 428.689 | per_operator alone 421.684]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward_inner-with_aobt-drop_date_artifacts__seed43__tag=congest
+##### RUN: airport_operator_blend__forward-with_aobt-drop_date_artifacts__seed44__tag=congest #####
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[airport_operator_blend] train n=1387094 months=8 -> ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08']
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07'] (1195957 rows), solve weight on ['2025-08'] (191137 rows)
+  alpha (weight on per_airport) = 0.657  inner RMSE airport=288.94 operator=297.78 blend=285.54
+[airport_operator_blend] val RMSE (clipped) = 277.141   [per_airport alone 281.704 | per_operator alone 280.281]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward-with_aobt-drop_date_artifacts__seed44__tag=congest
+##### RUN: airport_operator_blend__forward_inner-with_aobt-drop_date_artifacts__seed44__tag=congest #####
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[LightGBM] [Warning] Met categorical feature which contains sparse values. Consider renumbering to consecutive integers started from zero
+[airport_operator_blend] train n=1005284 months=6 -> ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+[airport_operator_blend] inner split: fit on ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05'] (822206 rows), solve weight on ['2025-06'] (183078 rows)
+  alpha (weight on per_airport) = 0.542  inner RMSE airport=276.89 operator=278.94 blend=271.64
+[airport_operator_blend] val RMSE (clipped) = 418.486   [per_airport alone 428.065 | per_operator alone 424.181]
+[airport_operator_blend] saved -> C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_blend__forward_inner-with_aobt-drop_date_artifacts__seed44__tag=congest
+##### RUN: airport_operator_multimodel__forward-with_aobt-drop_date_artifacts__seed42__tag=congest_msmlp #####
+[airport_operator_multimodel] MLP seeds averaged: [42, 43, 44]
+[airport_operator_multimodel] Loading base model predictions on weight solving split: forward_inner...
+[airport_operator_multimodel] Solved weights (weight on airport_operator_blend):
+  EDDF: 0.4376 (MLP weight: 0.5624)
+  EDDM: 0.5167 (MLP weight: 0.4833)
+  EGLL: 0.6600 (MLP weight: 0.3400)
+  EHAM: 0.5514 (MLP weight: 0.4486)
+  LEBL: 0.7625 (MLP weight: 0.2375)
+  LEMD: 0.5862 (MLP weight: 0.4138)
+  LFPG: 0.4853 (MLP weight: 0.5147)
+  LIRF: 0.0000 (MLP weight: 1.0000)
+  LSZH: 0.8180 (MLP weight: 0.1820)
+  LTFM: 0.6496 (MLP weight: 0.3504)
+[airport_operator_multimodel] Forward Validation Blend RMSE: 244.7067
+[airport_operator_multimodel] Meta-model metadata saved to C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_multimodel__forward-with_aobt-drop_date_artifacts__seed42__tag=congest_msmlp
+##### eval val/test seed=42 #####
+
+== airport_operator_multimodel / forward / with_aobt / seed 42 -- val ==
+  n            : 369624
+  RMSE         : 244.71 s
+  MAE          : 143.63 s
+  mean signed  : -1.80 s
+  in-band RMSE : 226.82 s  (n=369531, y<=7200s; low-variance companion)
+  hard floor   : 1.88 s  (arithmetic, from the 86400 s prediction cap; 1 rows above it)
+  trivial floors: train_mean 502.21 | train_median 508.68
+  LB-weighted  : 228.59 s  (reweighted to the scored airport mix)
+  SSE share of worst 0.1% / 1% of rows: 30.4% / 48.3%
+  per-airport RMSE (worst first):
+    LIRF   n=  28809 rmse=  536.42 mean_true=  1213.9
+    LFPG   n=  41491 rmse=  234.10 mean_true=  1053.2
+    LTFM   n=  48144 rmse=  233.86 mean_true=  1034.1
+    LEBL   n=  32444 rmse=  230.74 mean_true=   983.8
+    EGLL   n=  40795 rmse=  230.66 mean_true=  1392.1
+    LEMD   n=  36563 rmse=  184.62 mean_true=  1036.1
+    EDDM   n=  31405 rmse=  172.22 mean_true=   806.2
+    EDDF   n=  42243 rmse=  163.13 mean_true=   868.7
+    EHAM   n=  43250 rmse=  161.66 mean_true=   727.4
+    LSZH   n=  24480 rmse=  157.47 mean_true=   724.3
+
+== airport_operator_multimodel / forward / with_aobt / seed 42 -- test ==
+  n            : 328009
+  RMSE         : 242.57 s
+  MAE          : 141.84 s
+  mean signed  : -5.04 s
+  in-band RMSE : 218.78 s  (n=327948, y<=7200s; low-variance companion)
+  hard floor   : 3.52 s  (arithmetic, from the 86400 s prediction cap; 3 rows above it)
+  trivial floors: train_mean 523.39 | train_median 530.37
+  LB-weighted  : 231.61 s  (reweighted to the scored airport mix)
+  SSE share of worst 0.1% / 1% of rows: 31.1% / 47.7%
+  per-airport RMSE (worst first):
+    LIRF   n=  23396 rmse=  507.29 mean_true=  1100.3
+    LFPG   n=  38424 rmse=  273.82 mean_true=  1069.4
+    EDDM   n=  24597 rmse=  220.44 mean_true=   891.9
+    LTFM   n=  44799 rmse=  219.66 mean_true=  1035.4
+    EGLL   n=  39423 rmse=  218.51 mean_true=  1365.2
+    EHAM   n=  38690 rmse=  192.64 mean_true=   777.2
+    EDDF   n=  35446 rmse=  188.54 mean_true=   892.3
+    LEBL   n=  27167 rmse=  178.77 mean_true=   921.0
+    LEMD   n=  35404 rmse=  172.05 mean_true=   998.6
+    LSZH   n=  20663 rmse=  162.66 mean_true=   757.2
+##### RUN: airport_operator_multimodel__forward-with_aobt-drop_date_artifacts__seed43__tag=congest_msmlp #####
+[airport_operator_multimodel] MLP seeds averaged: [42, 43, 44]
+[airport_operator_multimodel] Loading base model predictions on weight solving split: forward_inner...
+[airport_operator_multimodel] Solved weights (weight on airport_operator_blend):
+  EDDF: 0.4379 (MLP weight: 0.5621)
+  EDDM: 0.5287 (MLP weight: 0.4713)
+  EGLL: 0.6738 (MLP weight: 0.3262)
+  EHAM: 0.5561 (MLP weight: 0.4439)
+  LEBL: 0.7598 (MLP weight: 0.2402)
+  LEMD: 0.5847 (MLP weight: 0.4153)
+  LFPG: 0.4818 (MLP weight: 0.5182)
+  LIRF: 0.0000 (MLP weight: 1.0000)
+  LSZH: 0.8470 (MLP weight: 0.1530)
+  LTFM: 0.6564 (MLP weight: 0.3436)
+[airport_operator_multimodel] Forward Validation Blend RMSE: 244.7416
+[airport_operator_multimodel] Meta-model metadata saved to C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_multimodel__forward-with_aobt-drop_date_artifacts__seed43__tag=congest_msmlp
+##### eval val/test seed=43 #####
+
+== airport_operator_multimodel / forward / with_aobt / seed 43 -- val ==
+  n            : 369624
+  RMSE         : 244.74 s
+  MAE          : 143.64 s
+  mean signed  : -1.77 s
+  in-band RMSE : 226.83 s  (n=369531, y<=7200s; low-variance companion)
+  hard floor   : 1.88 s  (arithmetic, from the 86400 s prediction cap; 1 rows above it)
+  trivial floors: train_mean 502.21 | train_median 508.68
+  LB-weighted  : 228.63 s  (reweighted to the scored airport mix)
+  SSE share of worst 0.1% / 1% of rows: 30.4% / 48.3%
+  per-airport RMSE (worst first):
+    LIRF   n=  28809 rmse=  536.42 mean_true=  1213.9
+    LFPG   n=  41491 rmse=  234.16 mean_true=  1053.2
+    LTFM   n=  48144 rmse=  233.79 mean_true=  1034.1
+    LEBL   n=  32444 rmse=  230.98 mean_true=   983.8
+    EGLL   n=  40795 rmse=  230.81 mean_true=  1392.1
+    LEMD   n=  36563 rmse=  184.46 mean_true=  1036.1
+    EDDM   n=  31405 rmse=  172.28 mean_true=   806.2
+    EDDF   n=  42243 rmse=  163.23 mean_true=   868.7
+    EHAM   n=  43250 rmse=  161.66 mean_true=   727.4
+    LSZH   n=  24480 rmse=  157.54 mean_true=   724.3
+
+== airport_operator_multimodel / forward / with_aobt / seed 43 -- test ==
+  n            : 328009
+  RMSE         : 242.54 s
+  MAE          : 141.88 s
+  mean signed  : -5.23 s
+  in-band RMSE : 218.71 s  (n=327948, y<=7200s; low-variance companion)
+  hard floor   : 3.52 s  (arithmetic, from the 86400 s prediction cap; 3 rows above it)
+  trivial floors: train_mean 523.39 | train_median 530.37
+  LB-weighted  : 231.65 s  (reweighted to the scored airport mix)
+  SSE share of worst 0.1% / 1% of rows: 31.0% / 47.6%
+  per-airport RMSE (worst first):
+    LIRF   n=  23396 rmse=  507.29 mean_true=  1100.3
+    LFPG   n=  38424 rmse=  273.49 mean_true=  1069.4
+    EDDM   n=  24597 rmse=  220.36 mean_true=   891.9
+    LTFM   n=  44799 rmse=  219.44 mean_true=  1035.4
+    EGLL   n=  39423 rmse=  218.78 mean_true=  1365.2
+    EHAM   n=  38690 rmse=  193.14 mean_true=   777.2
+    EDDF   n=  35446 rmse=  188.45 mean_true=   892.3
+    LEBL   n=  27167 rmse=  178.75 mean_true=   921.0
+    LEMD   n=  35404 rmse=  172.11 mean_true=   998.6
+    LSZH   n=  20663 rmse=  162.16 mean_true=   757.2
+##### RUN: airport_operator_multimodel__forward-with_aobt-drop_date_artifacts__seed44__tag=congest_msmlp #####
+[airport_operator_multimodel] MLP seeds averaged: [42, 43, 44]
+[airport_operator_multimodel] Loading base model predictions on weight solving split: forward_inner...
+[airport_operator_multimodel] Solved weights (weight on airport_operator_blend):
+  EDDF: 0.4392 (MLP weight: 0.5608)
+  EDDM: 0.5205 (MLP weight: 0.4795)
+  EGLL: 0.6690 (MLP weight: 0.3310)
+  EHAM: 0.5672 (MLP weight: 0.4328)
+  LEBL: 0.7759 (MLP weight: 0.2241)
+  LEMD: 0.5851 (MLP weight: 0.4149)
+  LFPG: 0.5005 (MLP weight: 0.4995)
+  LIRF: 0.0000 (MLP weight: 1.0000)
+  LSZH: 0.8272 (MLP weight: 0.1728)
+  LTFM: 0.6559 (MLP weight: 0.3441)
+[airport_operator_multimodel] Forward Validation Blend RMSE: 244.6557
+[airport_operator_multimodel] Meta-model metadata saved to C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\artifacts\runs\airport_operator_multimodel__forward-with_aobt-drop_date_artifacts__seed44__tag=congest_msmlp
+##### eval val/test seed=44 #####
+
+== airport_operator_multimodel / forward / with_aobt / seed 44 -- val ==
+  n            : 369624
+  RMSE         : 244.66 s
+  MAE          : 143.64 s
+  mean signed  : -1.71 s
+  in-band RMSE : 226.74 s  (n=369531, y<=7200s; low-variance companion)
+  hard floor   : 1.88 s  (arithmetic, from the 86400 s prediction cap; 1 rows above it)
+  trivial floors: train_mean 502.21 | train_median 508.68
+  LB-weighted  : 228.53 s  (reweighted to the scored airport mix)
+  SSE share of worst 0.1% / 1% of rows: 30.4% / 48.3%
+  per-airport RMSE (worst first):
+    LIRF   n=  28809 rmse=  536.42 mean_true=  1213.9
+    LFPG   n=  41491 rmse=  234.01 mean_true=  1053.2
+    LTFM   n=  48144 rmse=  233.79 mean_true=  1034.1
+    LEBL   n=  32444 rmse=  230.68 mean_true=   983.8
+    EGLL   n=  40795 rmse=  230.61 mean_true=  1392.1
+    LEMD   n=  36563 rmse=  184.54 mean_true=  1036.1
+    EDDM   n=  31405 rmse=  172.29 mean_true=   806.2
+    EDDF   n=  42243 rmse=  163.16 mean_true=   868.7
+    EHAM   n=  43250 rmse=  161.37 mean_true=   727.4
+    LSZH   n=  24480 rmse=  157.49 mean_true=   724.3
+
+== airport_operator_multimodel / forward / with_aobt / seed 44 -- test ==
+  n            : 328009
+  RMSE         : 242.52 s
+  MAE          : 141.95 s
+  mean signed  : -5.11 s
+  in-band RMSE : 218.72 s  (n=327948, y<=7200s; low-variance companion)
+  hard floor   : 3.52 s  (arithmetic, from the 86400 s prediction cap; 3 rows above it)
+  trivial floors: train_mean 523.39 | train_median 530.37
+  LB-weighted  : 231.56 s  (reweighted to the scored airport mix)
+  SSE share of worst 0.1% / 1% of rows: 30.9% / 47.6%
+  per-airport RMSE (worst first):
+    LIRF   n=  23396 rmse=  507.29 mean_true=  1100.3
+    LFPG   n=  38424 rmse=  273.37 mean_true=  1069.4
+    EDDM   n=  24597 rmse=  221.12 mean_true=   891.9
+    LTFM   n=  44799 rmse=  219.61 mean_true=  1035.4
+    EGLL   n=  39423 rmse=  218.53 mean_true=  1365.2
+    EHAM   n=  38690 rmse=  192.45 mean_true=   777.2
+    EDDF   n=  35446 rmse=  188.43 mean_true=   892.3
+    LEBL   n=  27167 rmse=  178.84 mean_true=   921.0
+    LEMD   n=  35404 rmse=  172.08 mean_true=   998.6
+    LSZH   n=  20663 rmse=  162.55 mean_true=   757.2
+DROPART TEST DONE

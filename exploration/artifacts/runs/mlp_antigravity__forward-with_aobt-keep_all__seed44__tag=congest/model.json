@@ -1,0 +1,48 @@
+{
+  "arm": "mlp_antigravity",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 44,
+  "best_epoch": 18,
+  "best_iteration": 18,
+  "congest": true,
+  "tag": "congest",
+  "val_rmse_clipped": 257.2639260795864,
+  "refit_only": false,
+  "convergence": {
+    "best_epoch": 18,
+    "best_value": 257.2639260795864,
+    "stop_epoch": 24,
+    "epochs_run": 24,
+    "patience": 6,
+    "patience_counter": 6,
+    "max_epochs": 25,
+    "hit_max_epochs": false,
+    "early_stop_fired": true,
+    "converged": true,
+    "mode": "min",
+    "metric_key": "val_rmse",
+    "note": "early stopping fired at epoch 24 after 6 epochs without improvement",
+    "cross_check": "verify this best_epoch against whatever the trainer itself printed or saved -- if the framework selects on a composite fitness, recompute with THAT formula (MISTAKES.md #48)"
+  },
+  "selection": {
+    "what": "mlp_antigravity best_epoch",
+    "selected_on": "val",
+    "value": 18,
+    "gate": "selection_set_declared"
+  },
+  "n_train": 1387105,
+  "n_features": 62,
+  "train_pool_ids_sha": "d16701419a0d1c8703890a73c854ce9c",
+  "outlier_policy": {
+    "policy": "keep_all",
+    "mode": "keep",
+    "bound": null,
+    "n_in": 1387414,
+    "n_impossible_dropped": 309,
+    "n_tail_dropped": 0,
+    "n_winsorized": 0,
+    "n_out": 1387105
+  },
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

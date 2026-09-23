@@ -1,0 +1,103 @@
+{
+  "arm": "tabnet",
+  "part": "val",
+  "split": "seasonal_full",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n": 165677,
+  "metric": "rmse",
+  "higher_is_better": false,
+  "rmse": 241.4159566252656,
+  "mae": 153.13285542390375,
+  "bias_mean_signed_error": 8.973945000424115,
+  "trivial_baselines": {
+    "train_mean": {
+      "constant": 986.3939081800684,
+      "rmse": 514.7961047783451
+    },
+    "train_median": {
+      "constant": 911.0,
+      "rmse": 521.5385997396812
+    }
+  },
+  "hard_floor_rmse_at_cap": 2.960437766739004,
+  "prediction_cap_sec": 86400,
+  "n_above_cap": 1,
+  "n_in_band": 165639,
+  "rmse_in_band": 233.21572427882583,
+  "rmse_by_airport": {
+    "LTFM": {
+      "n": 22609.0,
+      "rmse": 245.88723606463742,
+      "mean_true": 994.2157547879164
+    },
+    "EGLL": {
+      "n": 20000.0,
+      "rmse": 245.76185114817076,
+      "mean_true": 1375.09245
+    },
+    "LFPG": {
+      "n": 19778.0,
+      "rmse": 271.1501412517957,
+      "mean_true": 1034.9579836181615
+    },
+    "EHAM": {
+      "n": 19458.0,
+      "rmse": 170.64059565233364,
+      "mean_true": 786.1329016342893
+    },
+    "LEMD": {
+      "n": 17985.0,
+      "rmse": 181.3248564070302,
+      "mean_true": 999.6524325827078
+    },
+    "EDDF": {
+      "n": 17324.0,
+      "rmse": 188.7337143144458,
+      "mean_true": 889.2720503347956
+    },
+    "LEBL": {
+      "n": 13835.0,
+      "rmse": 202.81525999965794,
+      "mean_true": 927.6662088904951
+    },
+    "LIRF": {
+      "n": 12068.0,
+      "rmse": 415.5392001117922,
+      "mean_true": 1118.300464037123
+    },
+    "EDDM": {
+      "n": 12035.0,
+      "rmse": 263.65243053856943,
+      "mean_true": 947.1167428334026
+    },
+    "LSZH": {
+      "n": 10585.0,
+      "rmse": 185.03083926899376,
+      "mean_true": 755.3805384978743
+    }
+  },
+  "rmse_by_month": {
+    "2025-12": {
+      "n": 165677.0,
+      "rmse": 241.4159566252656,
+      "mean_true": 995.0367824139742
+    }
+  },
+  "leaderboard_weighted_rmse": 231.4719412865175,
+  "leaderboard_weights_used": {
+    "EGLL": 0.18455,
+    "EHAM": 0.17687,
+    "EDDF": 0.168231,
+    "LTFM": 0.103745,
+    "LFPG": 0.083979,
+    "LEMD": 0.077832,
+    "LEBL": 0.056519,
+    "LIRF": 0.051238,
+    "EDDM": 0.050737,
+    "LSZH": 0.0463
+  },
+  "sse_share_worst_0.1pct": 0.19908000882346422,
+  "sse_share_worst_1pct": 0.3965580401078186,
+  "sse_share_worst_5pct": 0.5937530466609047
+}

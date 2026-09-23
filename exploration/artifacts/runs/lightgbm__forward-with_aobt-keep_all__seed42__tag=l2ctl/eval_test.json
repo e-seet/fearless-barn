@@ -24,7 +24,7 @@
   "prediction_cap_sec": 86400,
   "n_above_cap": 3,
   "n_in_band": 327948,
-  "rmse_in_band": 229.73173716778967,
+  "rmse_in_band": 229.73173716778965,
   "rmse_by_airport": {
     "LTFM": {
       "n": 44799.0,

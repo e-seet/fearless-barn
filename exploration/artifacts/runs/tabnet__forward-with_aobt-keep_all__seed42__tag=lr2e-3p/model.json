@@ -1,0 +1,9 @@
+{
+  "arm": "tabnet",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "n_epochs_run": 45,
+  "hit_cap": false,
+  "note": "tests_tabnet/run_tabnet.py -- diagnostic only"
+}

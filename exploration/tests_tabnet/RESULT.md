@@ -28,6 +28,20 @@ Everything below this line is the pre-submission analysis (local 2025 surfaces).
   Jul +86.6, Nov +35.9, **Dec -26.1**. TabNet wins on extreme-tail months and loses on a
   moderate-tail month, so the size of any effect depends on how extreme LIRF's scored tail is.
 
+**Epoch cap 60 -> 75 (2026-09-21): the two cap-rejected seeds were already at their optimum.**
+Final seeds 47 and 51 had been excluded by the health gate for ending AT the 60-epoch cap
+(best epochs 50 and 47). Re-run at cap 75 (= 1.5x the observed natural best of 50, the rule in
+`tools/ml_common/convergence.py`) they early-stopped at 66 and 63 with the **same best epochs**
+and **byte-identical predictions** -- 0 of 344,841 ranking rows and 0 of 165,677 Dec-val rows
+differ. The cap had only stopped patience-15 from confirming a stop that had already happened.
+So `hit_cap` in the gate means *unresolved*, not *failed*: raise the cap and re-run to resolve
+it rather than discarding the seed. Healthy seeds 9 -> 11; `train_tabnet_pred.py` now defaults
+to cap 75 and saves the model binary, not only predictions. Truncated runs preserved as
+`build/TRUNCATED60_final_seed{47,51}.*`. Re-ran `seed_curve.py` with the recovered seeds
+(`seed_curve_out_cap75.txt`): original 5 seeds LIRF Dec-val 347.7 -> all 11 healthy 345.9,
+**+1.8 s against the >= 6 s bar. Still closed, nothing to submit.** Full write-up:
+`../CONVERGENCE_AUDIT.md` sec.3.
+
 **Extra seeds (2026-09-21, `seed_curve.py`): CLOSED, bar not met.** Six more final seeds (49-54): 4 healthy, 51 hit the epoch cap, 54 poor (Dec val 294); with seed 47 also cap-excluded, 3 of 12 final runs were excluded by the gate, 9 healthy. TabNet-ensemble LIRF RMSE on Dec val (mean of random subsets): k=1 384.2, 3 358.2, 5 351.8, 9 348.2; the original 5 seeds score 347.7 vs 348.2 for all 9 (-0.5 s against the registered >= 6 s bar). No new candidate; v29 stands.
 
 **Open risks (why no build is final)**

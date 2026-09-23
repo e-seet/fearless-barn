@@ -1,0 +1,39 @@
+{
+  "arm": "qladder",
+  "split": "forward",
+  "featureset": "with_aobt",
+  "seed": 42,
+  "quantiles": [
+    0.01,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    0.95,
+    0.99,
+    0.999
+  ],
+  "hit_caps": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "note": "tests_quantile_ladder/run_quantile_ladder.py -- diagnostic only"
+}

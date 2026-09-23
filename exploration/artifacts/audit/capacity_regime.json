@@ -1,0 +1,205 @@
+{
+  "featureset": "with_aobt",
+  "demand_cols": [
+    "dep_prev_60m",
+    "arr_prev_60m"
+  ],
+  "ceiling_pctl": 95.0,
+  "high_util_threshold": 0.9,
+  "l1_max_frac_high_util": 0.05,
+  "l3_min_frac_high_util": 0.15,
+  "l3_max_plateau_ratio": 0.3,
+  "airports": [
+    {
+      "airport": "EGLL",
+      "n": 239546,
+      "mean_taxiout": 1364.2393193791588,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 88.0,
+      "frac_time_high_utilization": 0.4962554164962053,
+      "plateau_ratio_top_bin": -0.8265730208845863,
+      "utilization_bin_means_taxiout": [
+        1283.63748992559,
+        1383.9586517622904,
+        1404.5641194181756,
+        1394.5236466356234,
+        1363.9718114602588
+      ],
+      "regime_label": "L3",
+      "response_slope_rho__same_rwy_prev_15m": 0.1576158851357566,
+      "response_slope_rho__dep_prev_15m": 0.15914328272154402
+    },
+    {
+      "airport": "EHAM",
+      "n": 247948,
+      "mean_taxiout": 784.5692725894139,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 99.0,
+      "frac_time_high_utilization": 0.2873707390259248,
+      "plateau_ratio_top_bin": 4.183355455590248,
+      "utilization_bin_means_taxiout": [
+        768.0078638263985,
+        774.1334393006159,
+        780.9091014492753,
+        787.1737874798267,
+        813.8997445721584
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.1428640280217675,
+      "response_slope_rho__dep_prev_15m": 0.01984545947441651
+    },
+    {
+      "airport": "LEMD",
+      "n": 212242,
+      "mean_taxiout": 1014.7099820016773,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 81.0,
+      "frac_time_high_utilization": 0.2595103702377475,
+      "plateau_ratio_top_bin": 1.006853793448746,
+      "utilization_bin_means_taxiout": [
+        992.0945562075068,
+        994.1900734902546,
+        1015.067508315694,
+        1031.293186931429,
+        1044.4489502788883
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.07930092521154662,
+      "response_slope_rho__dep_prev_15m": 0.013755008680343147
+    },
+    {
+      "airport": "LEBL",
+      "n": 179700,
+      "mean_taxiout": 956.5761213133,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 68.0,
+      "frac_time_high_utilization": 0.24791318864774625,
+      "plateau_ratio_top_bin": 0.5938514687726025,
+      "utilization_bin_means_taxiout": [
+        871.9227559097518,
+        950.5303205042242,
+        968.3766682006443,
+        989.6055111161718,
+        1012.9008701256848
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.12016886677336161,
+      "response_slope_rho__dep_prev_15m": 0.1397964517193237
+    },
+    {
+      "airport": "EDDM",
+      "n": 167334,
+      "mean_taxiout": 811.9118887972558,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 73.0,
+      "frac_time_high_utilization": 0.22077999689244265,
+      "plateau_ratio_top_bin": null,
+      "utilization_bin_means_taxiout": [
+        857.462264944091,
+        792.5586170118212,
+        792.1360507361846,
+        806.1205160386445,
+        807.162869276791
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.10410206892799662,
+      "response_slope_rho__dep_prev_15m": 0.049574530156005076
+    },
+    {
+      "airport": "EDDF",
+      "n": 230141,
+      "mean_taxiout": 863.4781546964687,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 97.0,
+      "frac_time_high_utilization": 0.22027365832250664,
+      "plateau_ratio_top_bin": 6.3190723543807,
+      "utilization_bin_means_taxiout": [
+        849.5127850309849,
+        874.1356390457033,
+        865.067222878967,
+        857.0240265674104,
+        872.8453861473778
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.22164611822390937,
+      "response_slope_rho__dep_prev_15m": 0.10868719479327091
+    },
+    {
+      "airport": "LFPG",
+      "n": 239487,
+      "mean_taxiout": 1019.8015215857229,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 94.0,
+      "frac_time_high_utilization": 0.1933507873078706,
+      "plateau_ratio_top_bin": 5.901267608340118,
+      "utilization_bin_means_taxiout": [
+        987.6092326381859,
+        969.7065633814676,
+        988.3209326052865,
+        1034.759703867709,
+        1127.508886729295
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.13654050682639687,
+      "response_slope_rho__dep_prev_15m": 0.2008287786699305
+    },
+    {
+      "airport": "LIRF",
+      "n": 160704,
+      "mean_taxiout": 1194.6075268817203,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 64.0,
+      "frac_time_high_utilization": 0.1918931700517722,
+      "plateau_ratio_top_bin": 3.9706883779181266,
+      "utilization_bin_means_taxiout": [
+        1137.4896739130436,
+        1117.9412606577346,
+        1146.9681328245297,
+        1229.3360151590457,
+        1350.9004150723133
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.0381792443635027,
+      "response_slope_rho__dep_prev_15m": 0.17767650211037092
+    },
+    {
+      "airport": "LTFM",
+      "n": 272963,
+      "mean_taxiout": 1052.9600458670222,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 97.0,
+      "frac_time_high_utilization": 0.1824679535321637,
+      "plateau_ratio_top_bin": 4.248219108613133,
+      "utilization_bin_means_taxiout": [
+        1022.1460853018133,
+        1059.8882284277634,
+        1033.3052084795731,
+        1054.3505749185085,
+        1099.9544843094345
+      ],
+      "regime_label": "L2",
+      "response_slope_rho__same_rwy_prev_15m": 0.11727652916451416,
+      "response_slope_rho__dep_prev_15m": 0.21542104617928837
+    },
+    {
+      "airport": "LSZH",
+      "n": 134594,
+      "mean_taxiout": 742.2495059215121,
+      "ceiling_pctl": 95.0,
+      "ceiling_value": 59.0,
+      "frac_time_high_utilization": 0.1668425041235122,
+      "plateau_ratio_top_bin": -2.1219067490718873,
+      "utilization_bin_means_taxiout": [
+        712.4240618028037,
+        742.2562019598557,
+        770.7164350376131,
+        764.9616456684134,
+        727.8016944069576
+      ],
+      "regime_label": "L3",
+      "response_slope_rho__same_rwy_prev_15m": -0.004010363135790922,
+      "response_slope_rho__dep_prev_15m": 0.2007413439530767
+    }
+  ],
+  "feature_fingerprint": "aeade7fee3099c1a"
+}

@@ -1,0 +1,49 @@
+{
+  "arm": "multimodel_antigravity",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "tag": "msmlp6",
+  "prediction_cap_sec": 86400,
+  "seed": 42,
+  "team": "fearless_barn",
+  "version": 23,
+  "n_rows": 344841,
+  "pred_median": 950.7791869900703,
+  "pred_mean": 1018.4771581846695,
+  "provenance": {
+    "multimodel_antigravity": {
+      "run_dir": "artifacts\\runs\\multimodel_antigravity__full-with_aobt-keep_all__seed42__tag=msmlp6",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": null,
+      "weights": null,
+      "mlp_seeds_averaged": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ]
+    },
+    "mlp_antigravity": {
+      "run_dir": "artifacts\\runs\\mlp_antigravity__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": 10,
+      "params": null,
+      "weights": null
+    },
+    "per_airport": {
+      "run_dir": "artifacts\\runs\\per_airport__full-with_aobt-keep_all__seed42",
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": null,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 255,
+        "min_data_in_leaf": 100
+      },
+      "weights": null
+    }
+  }
+}

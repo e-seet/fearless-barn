@@ -8,27 +8,27 @@
   "seed": 42,
   "team": "fearless_barn",
   "version": 1,
-  "n_rows": 215876,
-  "pred_median": 951.8766551496462,
-  "pred_mean": 1025.9164548569877,
+  "n_rows": 344841,
+  "pred_median": 944.436408435715,
+  "pred_mean": 991.0644362108834,
   "provenance": {
     "ensemble_antigravity": {
       "run_dir": "artifacts\\runs\\ensemble_antigravity__full-with_aobt-keep_all__seed42",
-      "feature_fingerprint": "47cba1fb5f800c8d",
+      "feature_fingerprint": "aeade7fee3099c1a",
       "best_iteration": null,
       "params": null,
       "weights": {
-        "lightgbm": 0.11434877499208622,
+        "lightgbm": 0.10253150106060713,
         "xgboost_antigravity": 0.0,
-        "mlp_antigravity": 0.8856512250079137,
+        "mlp_antigravity": 0.897468498939393,
         "ridge": 0.0,
         "naive_offblock": 0.0
       }
     },
     "lightgbm": {
       "run_dir": "artifacts\\runs\\lightgbm__full-with_aobt-keep_all__seed42",
-      "feature_fingerprint": "47cba1fb5f800c8d",
-      "best_iteration": 389,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": 368,
       "params": {
         "learning_rate": 0.05,
         "num_leaves": 255,
@@ -38,8 +38,8 @@
     },
     "mlp_antigravity": {
       "run_dir": "artifacts\\runs\\mlp_antigravity__full-with_aobt-keep_all__seed42",
-      "feature_fingerprint": "47cba1fb5f800c8d",
-      "best_iteration": 16,
+      "feature_fingerprint": "aeade7fee3099c1a",
+      "best_iteration": 10,
       "params": null,
       "weights": null
     }

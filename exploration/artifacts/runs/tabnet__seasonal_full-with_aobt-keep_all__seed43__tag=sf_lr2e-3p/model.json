@@ -1,0 +1,9 @@
+{
+  "arm": "tabnet",
+  "split": "seasonal_full",
+  "featureset": "with_aobt",
+  "seed": 43,
+  "n_epochs_run": 43,
+  "hit_cap": false,
+  "note": "tests_tabnet/run_tabnet.py -- diagnostic only"
+}
