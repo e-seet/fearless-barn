@@ -45,6 +45,13 @@ Apply each, frozen, to forward val and test with the matching FTT mean.
 2. **LIRF unchanged:** FTT's LIRF weight solves to 0 in W6, as it has in every
    solve so far. A non-zero LIRF weight halts the build for investigation;
 3. every new seed converged (`hit_cap` false on forward_inner and forward).
+4. **Amendment 1 (2026-09-24, before any 6-seed result existed):** the 6-seed
+   blend's in-band RMSE is also lower than the 3-seed blend's on **seasonal_full
+   test (Jan + Jul)**, with weights solved on forward_inner and frozen, following
+   `confirm_seasonal_full.py`. Reason: on 2026-09-23 two leads passed forward and
+   failed on seasonal_full (`tests_refit_epochs`, `tests_hp_diversity`).
+   Needs seasonal_full seeds 45–47 (cap 200, as seeds 42–44, whose bests were
+   116–123), queued after the `full` seeds; ~5 GPU hours.
 
 **PASS →** re-solve the `full` weights exactly as `solve_final_weights.py` did
 for v30, with 6 FTT seeds. Register a new `ftt_multimodel` tag, then a

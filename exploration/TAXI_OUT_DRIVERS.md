@@ -1084,7 +1084,7 @@ genuinely large taxi-out times (not just noisy ones) approximately right
 matters disproportionately to the score. Huber loss is *designed* to reduce
 sensitivity to exactly those large residuals, on the assumption they're
 outliers/noise to be downweighted. Training epoch logs support this
-directly: huber150 runs needed 22–25 epochs before early stopping (vs.
+directly (**correction 2026-09-24:** seeds 42 and 44 actually hit the 25-epoch cap without early-stopping; see `CONVERGENCE_AUDIT.md` §9. The verdict rests on converged seed 43, +78.7 s): huber150 runs needed 22–25 epochs before early stopping (vs.
 baseline's typical 10–19), and per-epoch train RMSE stayed in the 390–420s
 range even late in training (vs. baseline's ~250s), i.e. the model was
 still failing to fit the tail by design, not by lack of training time. This

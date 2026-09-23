@@ -520,3 +520,38 @@ What not to spend on: more MLP seeds (the 12→18 step bought −0.54 and the
 curve is flattening faster than 1/√n), the B'' patience change (§1),
 hyperparameter tuning (measured at 6.5 s val for a full sweep vs 27 s for
 one correctly-reasoned constant), and the tree side generally (v19).
+
+---
+
+## 9. Addendum (2026-09-24): were the closed OUTLIER verdicts read off unconverged runs?
+
+Asked before any new tail work, because plan 14 §3 records three verdicts that
+were wrong for exactly this reason. Every run behind every closed outlier or
+objective verdict was checked, reading the `model.json` convergence fields.
+**No verdict changes.**
+
+| verdict | model | convergence | stands? |
+|---|---|---|---|
+| outlier policy (`keep_all` over winsor/drop), `artifacts/clip/policy_cap_decision.json` | LightGBM | all early-stopped, best 214–499 of cap 5000 | **yes**, and board-confirmed (v27 = 496) |
+| prediction cap (v18 = 491) | post-hoc on converged preds | n/a | **yes** (board) |
+| log1p target (`tests_log_target`) | LightGBM + per_airport | early stop fired, best 260–289, no cap hit | **yes** |
+| Poisson (`tests_poisson_objective`) | LightGBM + per_airport | early stop fired, best 579–638, no cap hit | **yes** |
+| v27 winsor_7200 blend | per-airport/per-operator LightGBM | best 89–204 / ≤ 284 | **yes** |
+| hurdle, `delay_twostage_antigravity` | LightGBM clf + reg | best 238 / 164 | **yes** |
+| hurdle / clamping / divergence gating (plan 07) | post-hoc on converged preds | n/a | **yes** |
+| date-artifact exclusion (`TAXI_OUT_DRIVERS.md` §2g) | MLP forward, seeds 42–44 | early stop fired at 15/13/16 (cap 25) | **yes** |
+| **Huber150 (§2i)** | MLP forward | **seeds 42 and 44 hit the 25-epoch cap** (44 still improving at 25); seed 43 early-stopped at 16 | **yes**: the converged seed 43 alone is **+78.7 s**, ~22× the seed SD. The mechanism (Huber fits a quantity between median and mean, and the train RMSE stayed at 390–420 s) is a bias that more epochs do not remove |
+
+**Correction to §2i of `TAXI_OUT_DRIVERS.md`:** it says the Huber runs "needed
+22–25 epochs before early stopping". Two of the three **never early-stopped**;
+they ended at the 25-epoch cap. The verdict rests on the converged seed and the
+mechanism, not on those two.
+
+**Weight-solve surface only (no verdict depends on it):** 2 of 3
+`forward_inner` `drop_date_artifacts` MLP seeds hit cap 25. That is the §1 defect class,
+measured there as costing ~0 (mean alpha shift +0.003).
+
+**Not a convergence issue but worth stating:** every outlier verdict predates
+TabNet and FTT. None of them tested the tail behaviour of the current v31
+components. The FTT write-up already found FTT over-predicts the extreme LIRF
+tail (12,430 vs 7,643 on 50 test rows), which is why its LIRF weight solves to 0.
