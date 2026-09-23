@@ -27,4 +27,6 @@ version,board_name,score,date,status,note
 26,fearless-barn_v26,295.4767,2026-09-15,submitted,worse than v25
 27,fearless-barn_v27,496.0944,2026-09-18,submitted,winsor_7200 outlier policy -- confirms keep_all on the real board
 28,fearless-barn_v28,294.4929,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.80
-29,fearless-barn_v29,293.6685,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.55 -- BEST
+29,fearless-barn_v29,293.6685,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.55
+30,fearless-barn_v30,291.3371,2026-09-23,submitted,"FTT 3-member blend off LIRF (ftt3_mlp18) -- -3.87 vs v25, predicted ~-3"
+31,fearless-barn_v31,289.7783,2026-09-23,submitted,"v30 + TabNet LIRF override w=0.55 -- BEST; composition check predicted 289.7797 (diff -0.0014)"

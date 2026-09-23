@@ -232,3 +232,16 @@ composition is wrong somewhere; investigate before trusting either number.**
 Because the prediction is almost exact, uploading the composite alone would also
 reveal FTT's board effect by subtraction. v30 is therefore optional as a
 measurement, but it is useful as the cross-check.
+
+### 7a. Board result (2026-09-23)
+
+| | predicted | board |
+|---|---:|---:|
+| v30 (FTT) | ~290.7 (−3 vs v25) | **291.3371** (−3.87 vs v25) |
+| v31 (v30 + TabNet LIRF) | sqrt(291.3371² − 905.04) = **289.7797** | **289.7783** |
+
+The composition check lands within **0.0014 s**: the two edits add exactly as
+MSE additivity says, so both are confirmed as built. **v31 = 289.7783 is the
+new best.** FTT's board effect (−3.87) matches its local estimate mapped
+through `board ≈ −246 + 2.24 × local` (~−3), the first sub-5 s lever in this
+build whose board result lands where the local evidence said.
