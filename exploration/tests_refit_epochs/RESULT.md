@@ -61,3 +61,39 @@ The fast GPU loop picks different epochs from the CPU pipeline for the same
 seed: B's median is 16.5 against 12.5 for the registered forward runs (seed 42:
 13 vs 10). The rules are compared within one consistent system, but a
 production change must be trained through the production code path.
+
+## Confirmation on seasonal_full — **FAIL. The ensemble-epoch idea is closed.**
+
+Pre-registered in `PREREGISTERED_seasonal.md` before training. Output:
+`analysis_seasonal.txt` / `.json`.
+
+The `ens` rule picked **E = 60** off the Dec curve (Dec in-band 227 at E=15 →
+~216 from E≈41, flat after that). On **Jan + Jul**, which it never saw, the
+12-seed ensemble gave:
+
+| rule | epochs | in-band | LIRF in-band | non-LIRF | pooled | > 7,200 s |
+|---|---|---:|---:|---:|---:|---:|
+| `own` | 11–25 (median 15) | **251.10** | 475.88 | 222.42 | **349.28** | 95 |
+| `ship` | 11 / 16 | 252.27 | 469.56 | 224.95 | 357.51 | 83 |
+| `ens` | 60 | 251.93 | 474.23 | 223.73 | 368.68 | 90 |
+
+- **In-band bar: FAIL.** `ens` is +0.84 vs `own` and −0.33 vs `ship` (needed ≤ −2.0 against both).
+- LIRF guard: pass (−1.65). **Tail guard: FAIL, pooled +19.4 s.**
+
+On Jan + Jul, uniform-E ensemble in-band RMSE is **flat from E = 10 to 60**
+(251.8–254.5, `janjul_uniform_curve.txt`). Pooled is best near E = 20 (338.5)
+and degrades late (372 at E = 50). The long-training gain seen on Sep–Oct and
+Nov–Dec does **not** exist on the board's months. Dec (adjacent to the Nov
+training data) rewards long training, and Jan/Jul do not. It was a property of
+the surfaces, not of ensembles in general.
+
+The descriptive blend agrees: E=15 in-band 248.48, E=60 249.13, with pooled +21.9.
+
+## Disposition of the whole item (plan 14 §4c)
+
+**Closed, no retrain.** On the board's months the in-band result is insensitive
+to the refit epoch count across 10–60. The only measurable effect is on the
+tail, where pooled is noisy but not better late. The pre-registered `median`
+default (13 epochs) would change nothing measurable, so it stays deferred
+indefinitely. It is not worth a retrain of the 18 `full` members plus a
+re-solve of every downstream weight.

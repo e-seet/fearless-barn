@@ -146,6 +146,11 @@ for representation learning.
 
 ### 4c. The `full`-refit epoch count (audit §2)
 
+> **CLOSED (2026-09-23), no retrain.** Measured in `../tests_refit_epochs/`: the
+> "fewer epochs for more data" rule is refuted. A longer-training ensemble effect
+> seen on Sep–Oct/Nov–Dec failed pre-registered confirmation on seasonal_full
+> Jan+Jul: in-band is flat across 10–60 epochs there, and pooled is +19 s worse at 60.
+
 The 18 `full` MLP members train at 10 or 14 epochs, frozen from whichever
 single seed was passed to `--freeze-from`, against per-seed forward optima
 spanning 10–21. Arbitrary and inconsistent. **Direction undetermined** — at a
@@ -157,7 +162,7 @@ version: freeze from the median, same count for every member.
 
 * **NODE** (differentiable oblivious trees) — different bias, but may land close
   to the tree side. Screen on decorrelation before spending epochs.
-* **Hyperparameter-diverse ensembling** instead of seed-diverse: the seed curve
+* ~~**Hyperparameter-diverse ensembling**~~ **CLOSED 2026-09-23** (`../tests_hp_diversity/RESULT.md`: `deep` passed forward, failed seasonal_full and is +9.7 s at LIRF; `wide` decorrelates but is too weak) instead of seed-diverse: the seed curve
   floored at 12–18, but every member is architecturally identical.
 
 ### 4e. Do NOT re-open

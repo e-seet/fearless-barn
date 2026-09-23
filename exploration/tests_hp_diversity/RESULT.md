@@ -39,3 +39,34 @@ All configs were compared under the early-stopped recipe. `tests_refit_epochs/RE
 found that an *ensemble* prefers ~2–3× more epochs than per-seed early stopping
 picks, so the ranking between configs could shift under that recipe. That is not
 tested here.
+
+## Follow-ups (`PREREGISTERED_followups.md`) — both FAIL. **Hyperparameter-diverse MLP ensembling is closed.**
+
+### F1. `deep` on seasonal_full (Dec val / Jan+Jul test): FAIL
+
+| | B1−A | B2−A | mean | resid corr (ref 0.972–0.978) | ens3 standalone (base) |
+|---|---:|---:|---:|---:|---:|
+| Dec val | −1.77 | −1.79 | −1.78 | 0.965 | 217.08 (219.81) |
+| **Jan+Jul test** | −1.09 | **+0.14** | **−0.47** | 0.969 | 254.50 (254.33) |
+
+The test mean misses the −1.0 bar, and one half is worse than A. On the board's
+months `deep` is a standalone tie (254.50 vs 254.33). **LIRF guard: `deep` ens6
+LIRF in-band 491.18 vs `base` 481.50, +9.7 s worse**, at the airport the board
+weights ~2× and where the MLP carries the whole blend. The forward-test PASS was
+a Nov–Dec artefact, the same surface effect that sank the ensemble-epoch idea
+(`tests_refit_epochs/RESULT.md`).
+
+### F2. `wide` at cap 100: converged, FAIL
+
+All 6 seeds early-stopped (best epochs 38–71; none capped). It is the most
+decorrelated MLP variant measured (resid corr 0.927 vs reference 0.975), but
+~18 s worse standalone (ens3 248.6 vs 230.8 val). Swapping it in costs **+6.05 s
+val** and +0.39 s test. That is the FTT lesson again: decorrelation without
+standalone accuracy does not pay.
+
+### Disposition
+
+Closed alongside `tests_arch_diversity` (GRU). Within the MLP family, the
+variants either tie and don't decorrelate (`deep`, `reg`, `bigbatch`) or
+decorrelate and are too weak (`wide`). The members that paid here (TabNet, FTT)
+are different model families.
