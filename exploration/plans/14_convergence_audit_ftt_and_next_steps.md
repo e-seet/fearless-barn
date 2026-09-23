@@ -122,6 +122,19 @@ overlap.
 
 ### 4b. Transductive self-supervised pretraining
 
+> **Correction (2026-09-23, before any run):** the join-failure motivation below
+> does not hold. The gap is 1.53 % vs 1.08 % of rows (0.45 pp). Those rows are
+> hard because their `_flt` columns are *missing*, so pretraining cannot recover
+> them; `DATA_QUALITY_AUDIT.md` says so itself. What remains is the generic
+> covariate-shift hypothesis, which is speculative and cannot be resolved on the
+> board. It is being tested anyway at the user's request, under the bar in
+> `../tests_ftt_pretrain/PREREGISTERED.md`.
+>
+> **CLOSED — FAIL (2026-09-23).** The pre-registered kill fired on seed 42: best
+> val 283.11 against 263.32 for the same seed without pretraining. Both stages
+> stopped on patience, and it fails even with generous extrapolation. See
+> `../tests_ftt_pretrain/RESULT.md`. Do not re-open without a new pre-registration.
+
 The only new-architecture idea that targets a **measured** problem.
 `DATA_QUALITY_AUDIT.md` found the scored set has a **+42 % higher join-failure
 rate** than training (+54 % at LIRF), and those rows are the model's worst
