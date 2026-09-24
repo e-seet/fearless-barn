@@ -30,3 +30,4 @@ version,board_name,score,date,status,note
 29,fearless-barn_v29,293.6685,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.55
 30,fearless-barn_v30,291.3371,2026-09-23,submitted,"FTT 3-member blend off LIRF (ftt3_mlp18) -- -3.87 vs v25, predicted ~-3"
 31,fearless-barn_v31,289.7783,2026-09-23,submitted,"v30 + TabNet LIRF override w=0.55 -- BEST; composition check predicted 289.7797 (diff -0.0014)"
+32,,,,not submitted,"FTT 6 seeds (ftt6_mlp18) + TabNet LIRF override; LIRF identical to v31; expected ~-0.3 to -0.5 vs v31"
