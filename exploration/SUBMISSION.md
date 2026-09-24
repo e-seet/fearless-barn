@@ -1,5 +1,8 @@
 # SUBMISSION — which model to upload
 
+> **Current summary: [`WRITEUP.md`](WRITEUP.md)** — best board score v31 = 289.7783 (2026-09-24).
+
+
 > **SUPERSEDED — this records only v1-v3 from the first round.** The build
 > went on to submit through **v27**; the final, shipped submission is **v25
 > (RMSE 295.21)** — a per-airport blend of `per_airport` + `airport_operator_blend`

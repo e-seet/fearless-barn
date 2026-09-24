@@ -1,5 +1,8 @@
 # PRC Data Challenge 2026 — taxi-out time prediction
 
+> **Current summary: [`WRITEUP.md`](WRITEUP.md)** — best board score v31 = 289.7783 (2026-09-24).
+
+
 Predict how long a departing aircraft spends between leaving the stand and
 lifting off, at ten large European airports.
 

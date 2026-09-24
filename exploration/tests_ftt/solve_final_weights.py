@@ -39,7 +39,8 @@ from pipeline_airport_operator_catboost_multimodel.train import (
 
 FS, POL, WS = "with_aobt", "keep_all", "forward_inner"
 MLP_SEEDS = list(range(42, 60))          # 18, exactly v25's set
-FTT_SEEDS = [42, 43, 44]
+FTT_SEEDS = [int(x) for x in os.environ.get("FTT_SEEDS", "42,43,44").split(",")]
+OUT_NAME = os.environ.get("FTT_WEIGHTS_OUT", "final_weights.json")  # v30 used the default
 SEED = 42
 CACHE = Path(os.environ.get(
     "FTT_CACHE",
@@ -108,8 +109,8 @@ def main() -> int:
            "feature_fingerprint": config.feature_code_fingerprint(),
            "forward_inner_rmse": {"tree": rm(y, tree), "mlp18": rm(y, mlp),
                                   "ftt_ens3": rm(y, ftt), "three_member": rm(y, blend)}}
-    (HERE / "final_weights.json").write_text(json.dumps(out, indent=2))
-    print(f"\nwrote {HERE / 'final_weights.json'}")
+    (HERE / OUT_NAME).write_text(json.dumps(out, indent=2))
+    print(f"\nwrote {HERE / OUT_NAME}")
     return 0
 
 

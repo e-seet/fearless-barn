@@ -66,3 +66,17 @@ expected small change; it cannot be cleanly confirmed.
 forward_inner up to ~2 h/seed (cap 260, ~28 s/epoch; seeds usually stop earlier),
 forward ~1.5 h/seed, full ~1.6 h/seed. **~13–15 GPU hours total**, queued after
 the current HP-diversity jobs.
+
+## Amendment 2 (2026-09-24, before the 6-seed verdict): conditional 6 → 9 seeds
+
+Queued **only if** `check_6seed.json` returns `PASS`. If 6 seeds do not help on
+Jan + Jul, 9 will not either.
+
+- Seeds 48, 49, 50, trained on forward_inner (cap 260), forward (cap 175),
+  seasonal_full (cap 200) and full (fixed 112 + `--predict-ranking`), with the
+  same recipe and tags as seeds 45–47.
+- **Same bar, 9 seeds against 6:** in-band lower on forward val, forward test
+  and seasonal_full Jan + Jul; FTT's LIRF weight stays 0; every seed converged.
+- Expected ~−0.1 s local (the 3 → 6 step gave −0.2 to −0.3, and the seed curve
+  is flattening). This is low-value insurance using otherwise idle GPU, not a lever.
+- ~19 GPU hours. PASS → a v33 candidate is shown to the user before `submit.py`.
