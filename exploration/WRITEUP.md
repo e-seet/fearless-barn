@@ -121,6 +121,7 @@ Rules that paid for themselves:
 | neighbour / sequence models (GRU, queue attention, retrieval) | residual corr 0.98 with the MLP | `tests_seqrnn`, `tests_arch_diversity`, `tests_retrieval_screen` |
 | hyperparameter tuning | 6.5 s for a full sweep vs 27 s for one reasoned constant | `PIPELINE_REVIEW.md` |
 | MLP hyperparameter diversity (wide / deep / reg / big-batch) | fails at equal member count; `deep` passed forward, failed Jan + Jul | `tests_hp_diversity` |
+| MLP backbone: PLE numeric embeddings, TabM (k = 32), TabM+PLE | all fail forward; PLE +17.8 s, TabM +8.8 s val, TabM+PLE +11.9 s at LIRF | `tests_backbone` |
 | transductive masked-feature pretraining for FTT | +19.8 s worse on the same seed | `tests_ftt_pretrain` |
 | more epochs for the ensemble / changing the refit epoch count | flat on Jan + Jul, +19 s pooled | `tests_refit_epochs` |
 | extra TabNet seeds | local −0.5 s (closed); board probe v33 (11 seeds) **+0.91 worse** | `tests_tabnet/RESULT.md`, `tests_tabnet/PROBE_v33.md` |

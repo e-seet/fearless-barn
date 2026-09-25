@@ -19,7 +19,7 @@ item 1 and designate v32.**
 
 ## Queue, in order
 
-### 1. Finish the backbone screen (running; ~17:45)
+### 1. ~~Finish the backbone screen~~ DONE 2026-09-25: all three FAIL (`tests_backbone/RESULT.md`)
 TabM+PLE stage 1, forward, with seeds 43 and 46 rerun at cap 100. Stage 2 runs
 only if stage 1 passes. `tests_backbone/`. A FAIL closes the MLP-family question.
 

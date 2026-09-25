@@ -1,0 +1,42 @@
+{
+  "forward": {
+    "val": {
+      "base": {
+        "in_band": 229.3007523222761,
+        "lirf_in_band": 421.69680086612607,
+        "pooled": 248.0284732672107
+      },
+      "tabm_ple": {
+        "in_band": 232.15447308461114,
+        "lirf_in_band": 431.0652116623098,
+        "pooled": 256.84959842678813,
+        "d_in_band": 2.85372076233503,
+        "d_lirf": 9.368410796183753,
+        "paired_better": 5
+      }
+    },
+    "test": {
+      "base": {
+        "in_band": 241.1059455570475,
+        "lirf_in_band": 336.5149005778778,
+        "pooled": 259.78260136265317
+      },
+      "tabm_ple": {
+        "in_band": 239.21690279466048,
+        "lirf_in_band": 348.3969267683002,
+        "pooled": 265.95192099509364,
+        "d_in_band": -1.889042762387021,
+        "d_lirf": 11.88202619042238,
+        "paired_better": 6
+      }
+    }
+  },
+  "seasonal_full": null,
+  "verdict": {
+    "tabm_ple": {
+      "stage1_forward": false,
+      "stage2_seasonal": null,
+      "CANDIDATE": false
+    }
+  }
+}
