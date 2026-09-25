@@ -1,7 +1,8 @@
 # fearless-barn — PRC Data Challenge 2026, taxi-out time: method write-up
 
 **Status (2026-09-25):** best board score **v32 = 287.9898** (6-seed FT-Transformer;
-v31 = 289.7783 with 3 seeds).
+v31 = 289.7783 with 3 seeds). **v32 is the final model**; the last probe, v33
+(11 TabNet seeds at LIRF), scored 288.9007 and was closed.
 This file is the current summary. `README.md` and `SUBMISSION.md` are
 mid-build snapshots and point here.
 
