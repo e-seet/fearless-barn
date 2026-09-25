@@ -25,10 +25,10 @@ F = ROOT / "tests_ftt"
 SMALL, LARGE = list(range(42, 48)), [42, 43, 44]
 rm = lambda y, p: float(np.sqrt(np.mean((y - p) ** 2)))
 P = {  # (small path fn, large path fn) per surface
-    "fi": (lambda s: F / f"preds_seed{s}_forward_inner_lr1e-3.npz", lambda s: F / f"preds_seed{s}_forward_inner_d192.npz"),
+    "fi": (lambda s: F / f"preds_seed{s}_forward_inner_lr1e-3.npz", lambda s: F / f"preds_seed{s}_forward_inner_d192lr5.npz"),
     "fw": (lambda s: F / (f"preds_seed{s}_lr1e-3_e132.npz" if s <= 44 else f"preds_seed{s}_lr1e-3_e175.npz"),
-           lambda s: F / f"preds_seed{s}_d192.npz"),
-    "sf": (lambda s: F / f"preds_seed{s}_seasonal_full_lr1e-3.npz", lambda s: F / f"preds_seed{s}_seasonal_full_d192.npz"),
+           lambda s: F / f"preds_seed{s}_d192lr5.npz"),
+    "sf": (lambda s: F / f"preds_seed{s}_seasonal_full_lr1e-3.npz", lambda s: F / f"preds_seed{s}_seasonal_full_d192lr5.npz"),
 }
 
 

@@ -48,3 +48,15 @@ surfaces. **PASS →** register the arm and TabNet override (w = 0.459, as v35),
 check in scratch against v35, show the user before `submit.py`. The build's
 board result will be compared with v35; if it is worse, v35 is rebuilt
 byte-identically and uploaded last. **FAIL →** closed.
+
+## Amendment 1 (2026-09-26 01:15): the pre-registered divergence rule fired
+
+At lr 1e-3, forward_inner seeds 42 and 43 ended with best val **460.35 (epoch 41)**
+and **452.82 (epoch 55)**, against 388.5 / 386.5 for the small FTT on the same
+seeds (best epochs 152 / 171). Both exceed the pre-registered best-val-above-400
+rule. The early peak followed by decline is the signature of a learning rate too
+high for the larger model (the paper uses 1e-4 at this size). As pre-registered,
+**every d192 run is redone at lr 5e-4 under tag `d192lr5`.** Nothing else changes.
+The queue was stopped before any forward or seasonal_full d192 result existed. The
+two lr-1e-3 files (`preds_seed{42,43}_forward_inner_d192.npz`) are kept as
+evidence and not used. The bar and candidates are unchanged.
