@@ -1,5 +1,10 @@
 # Plan 15 — the final days (from 2026-09-25)
 
+> **Update 2026-09-26:** the deadline is **2026-10-11**, not ~09-30, and **ranking uses the
+> LAST submission**. v35 = 287.9247 is best and last. The larger-FTT screen
+> (`tests_ftt_large/`) is running. With ~2 weeks, levers needing a full retrain are
+> back in scope; see plan 16 (to be written after the larger-FTT verdict).
+
 **Standing:** v32 = 287.9898 is the best and the designated final. Each item below can
 only add to it: a failure leaves v32 in place. This assumes ranking uses the best
 score. **If the organisers rank a designated or private submission, stop after
