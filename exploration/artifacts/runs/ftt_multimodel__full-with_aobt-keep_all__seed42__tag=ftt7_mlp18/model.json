@@ -1,0 +1,112 @@
+{
+  "arm": "ftt_multimodel",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "weights_per_airport": {
+    "EDDF": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "EDDM": [
+      0.09371470483793583,
+      0.4390931057826943,
+      0.46719218937936996
+    ],
+    "EGLL": [
+      0.4175771114784872,
+      0.43197239261596876,
+      0.1504504959055441
+    ],
+    "EHAM": [
+      0.6712428077744728,
+      0.3013950152488703,
+      0.02736217697665703
+    ],
+    "LEBL": [
+      0.1579752194691286,
+      0.6297909453162422,
+      0.2122338352146291
+    ],
+    "LEMD": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "LFPG": [
+      0.2685594121205205,
+      0.37731197565594343,
+      0.35412861222353603
+    ],
+    "LIRF": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "LSZH": [
+      0.6678328843546748,
+      0.24402300668967383,
+      0.08814410895565142
+    ],
+    "LTFM": [
+      0.45473521203461165,
+      0.3065772149901509,
+      0.2386875729752374
+    ]
+  },
+  "weight_order": [
+    "ftt",
+    "tree",
+    "mlp"
+  ],
+  "weight_split": "forward_inner",
+  "solver": "per-airport simplex (w>=0, sum=1), pipeline_airport_operator_catboost_multimodel.solve_weights_per_airport_simplex",
+  "mlp_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ],
+  "ftt_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48
+  ],
+  "ftt_tag": "lr1e-3",
+  "ftt_pred_dir": "tests_ftt",
+  "ftt_pred_sha256": {
+    "42": "ed69fce3606dd6f4de382c4a1b5489119d817f274e180f450f52b817bd3fddc0",
+    "43": "88dcc7be0abf662738bc42eef2d5edb4977d5214bbc8618c9eaf4d8425655974",
+    "44": "94e803ff347492af0d5c28f18f79eff2251b05d3b499b0ad1940bf8d672b69a1",
+    "45": "0236a727dcc7750be1057637d65108013f3b45467e1d14137f3e106934b82c88",
+    "46": "9720698865a5ba0b9867aaaf1da2dced7b3f346db6624d2b88f2346fa840bb51",
+    "47": "f3f21d4fe9bc3395844827164bdd7480ea9876070296ea3de07793ea7e74efe6",
+    "48": "9e98c3d182a53f2c9792330c103d4d7a36554fe1a9c35d52d901447ca1e2a95b"
+  },
+  "ftt_freeze_epochs": 112,
+  "ftt_freeze_rationale": "median best epoch of the three forward seeds (102/112/117); full has no val so the count is frozen, and the median is used for every member rather than one seed's (CONVERGENCE_AUDIT.md sec.2)",
+  "n_ranking_rows": 344841,
+  "feature_fingerprint": "aeade7fee3099c1a",
+  "evidence": "tests_ftt/RESULT.md -- confirmed on 3 independent periods; honest effect ~1.5s in-band",
+  "note": "prediction-only arm: it does not train FTT."
+}
