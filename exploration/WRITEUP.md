@@ -1,7 +1,7 @@
 # fearless-barn — PRC Data Challenge 2026, taxi-out time: method write-up
 
-**Status (2026-09-24):** best board score **v31 = 289.7783**. A 6-seed FT-Transformer
-successor (v32) passed its pre-registered check and is being built; see §2.
+**Status (2026-09-25):** best board score **v32 = 287.9898** (6-seed FT-Transformer;
+v31 = 289.7783 with 3 seeds).
 This file is the current summary. `README.md` and `SUBMISSION.md` are
 mid-build snapshots and point here.
 
@@ -64,7 +64,8 @@ and `tabnet_lirf_override` (tag `lirf_w0.55_ftt3`, and `lirf_w0.55_ftt6` for v32
 | v25 | 18 MLP seeds | 295.21 | −0.5 |
 | v29 | + TabNet override at LIRF (w = 0.55) | 293.67 | −1.5 |
 | v30 | + FT-Transformer as a third blend member (off LIRF) | 291.34 | −3.9 (vs v25) |
-| **v31** | **v30 + v29's TabNet override** | **289.78** | **−5.4 (vs v25)** |
+| v31 | v30 + v29's TabNet override | 289.78 | −5.4 (vs v25) |
+| **v32** | **FT-Transformer 3 → 6 seeds (LIRF unchanged)** | **287.99** | **−1.79** |
 
 Two board results that settled the tail question (§5): **v18** (v14 with
 predictions capped at 7,200 s) = **491.35**; **v27** (training target winsorized
@@ -73,7 +74,11 @@ at 7,200 s) = **496.09**.
 **The three big levers, in order:** blending a neural model with the trees
 (−62), averaging MLP seeds (−28 over 1 → 18 seeds), and adding architecturally
 different members that are *both* decorrelated *and* competitive standalone
-(TabNet at LIRF, FTT elsewhere: −5.4).
+(TabNet at LIRF, FTT elsewhere: −5.4), then averaging FTT seeds (−1.8).
+
+**The board pays more for seed averaging than the local surfaces predict.**
+MLP 1 → 3 seeds: −0.9 local, −18 board. FTT 3 → 6: −0.13 to −0.30 local
+in-band, −1.79 board. Local checks are underpowered for seed-count questions.
 
 ## 4. Validation protocol
 

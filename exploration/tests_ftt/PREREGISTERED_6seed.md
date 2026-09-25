@@ -92,3 +92,11 @@ Jan + Jul, 9 will not either.
 6 seeds. This is the third lead that improved on the forward months and not on
 Jan + Jul (after the ensemble-epoch and `deep` MLP results). The FTT seed curve
 has flattened on the board's months by 6 seeds. `check_9seed.txt`/`.json`.
+
+**Board (2026-09-25): v32 = 287.9898, −1.79 vs v31**, against a pre-upload
+expectation of −0.3 to −0.5. The board paid ~4× the local estimate for 3 → 6 FTT
+seeds, the same direction as MLP 1 → 3 seeds (−0.9 local, −18 board). The 9-seed
+FAIL above is therefore read as *unresolved by the local instrument* (a true
+effect of ~0.1 s against a strict three-surface bar), not as evidence that more
+seeds hurt. Any 9-seed build from here is a **board probe decided after v32's
+result**, not a pass.
