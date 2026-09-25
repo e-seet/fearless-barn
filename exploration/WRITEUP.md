@@ -66,6 +66,7 @@ and `tabnet_lirf_override` (tag `lirf_w0.55_ftt3`, and `lirf_w0.55_ftt6` for v32
 | v30 | + FT-Transformer as a third blend member (off LIRF) | 291.34 | −3.9 (vs v25) |
 | v31 | v30 + v29's TabNet override | 289.78 | −5.4 (vs v25) |
 | **v32** | **FT-Transformer 3 → 6 seeds (LIRF unchanged)** | **287.99** | **−1.79** |
+| v33 | probe: TabNet 5 → 11 seeds at LIRF | 288.90 | +0.91 (closed) |
 
 Two board results that settled the tail question (§5): **v18** (v14 with
 predictions capped at 7,200 s) = **491.35**; **v27** (training target winsorized
@@ -121,7 +122,7 @@ Rules that paid for themselves:
 | MLP hyperparameter diversity (wide / deep / reg / big-batch) | fails at equal member count; `deep` passed forward, failed Jan + Jul | `tests_hp_diversity` |
 | transductive masked-feature pretraining for FTT | +19.8 s worse on the same seed | `tests_ftt_pretrain` |
 | more epochs for the ensemble / changing the refit epoch count | flat on Jan + Jul, +19 s pooled | `tests_refit_epochs` |
-| extra TabNet seeds | closed | commit 4dd822c |
+| extra TabNet seeds | local −0.5 s (closed); board probe v33 (11 seeds) **+0.91 worse** | `tests_tabnet/RESULT.md`, `tests_tabnet/PROBE_v33.md` |
 
 A convergence audit (`CONVERGENCE_AUDIT.md` §9) re-checked every closed
 outlier verdict for truncated runs; all stand.

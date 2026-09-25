@@ -23,3 +23,11 @@ of the possible change, not its sign.
 averaging as it did FTT's. Worse means the 5-seed mean was a favourable draw on
 2026, and v32 stays the final model. **This is the last probe;** no further seed
 experiments follow it.
+
+## Result (2026-09-25)
+
+**v33 = 288.9007, +0.91 worse than v32 (287.9898).** Averaging 11 TabNet seeds at
+LIRF instead of the shipped 5 hurts on the 2026 scored rows. Unlike FTT, TabNet seed
+averaging does not pay on the board: either the 5 were a favourable draw, or
+some added seeds are weaker at LIRF (the w = 0.55 weight was also solved for the
+5-seed mean). **Closed. v32 is the final model.** No further seed probes.
