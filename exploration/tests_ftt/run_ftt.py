@@ -60,13 +60,21 @@ FS, POL = "with_aobt", "keep_all"
 CLIP = (config.PREDICTION_CLIP_MIN_SEC, config.PREDICTION_CLIP_MAX_SEC)
 
 
+AMP = False  # set from --amp; bf16 autocast for the larger-FTT screen (tests_ftt_large)
+
+
+def _ac():
+    return torch.autocast(device_type="cuda", dtype=torch.bfloat16, enabled=AMP)
+
+
 @torch.no_grad()
 def predict(model, cat, num, bs=4096):
     model.eval()
     out = []
     for i in range(0, len(num), bs):
-        out.append(model({c: cat[c][i:i + bs] for c in cat},
-                         num[i:i + bs]).float().cpu().numpy())
+        with _ac():
+            o = model({c: cat[c][i:i + bs] for c in cat}, num[i:i + bs])
+        out.append(o.float().cpu().numpy())
     return np.clip(np.concatenate(out), *CLIP)
 
 
@@ -82,6 +90,8 @@ def main(argv=None) -> int:
     ap.add_argument("--d-token", type=int, default=64)
     ap.add_argument("--n-blocks", type=int, default=3)
     ap.add_argument("--n-heads", type=int, default=8)
+    ap.add_argument("--amp", action="store_true",
+                    help="bf16 autocast (off by default; seeds 42-50 were trained without it)")
     ap.add_argument("--tag", default="")
     ap.add_argument("--freeze-epochs", type=int, default=None,
                     help="REQUIRED for a split with no val (e.g. `full`): train "
@@ -99,6 +109,8 @@ def main(argv=None) -> int:
                          "per-airport blend weights, so an honest weight needs "
                          "FTT predictions there, not on forward's val.")
     a = ap.parse_args(argv)
+    global AMP
+    AMP = bool(a.amp)
     suffix = f"_{a.tag}" if a.tag else ""
 
     SPLIT = a.split
@@ -195,7 +207,8 @@ def main(argv=None) -> int:
             for i in range(0, n, a.batch_size):
                 b = perm[i:i + a.batch_size]
                 opt.zero_grad()
-                loss = crit(model({c: tr[0][c][b] for c in tr[0]}, tr[1][b]), y_t[b])
+                with _ac():
+                    loss = crit(model({c: tr[0][c][b] for c in tr[0]}, tr[1][b]).float(), y_t[b])
                 loss.backward()
                 nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
                 opt.step()
