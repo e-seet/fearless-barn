@@ -1,8 +1,9 @@
 # fearless-barn — PRC Data Challenge 2026, taxi-out time: method write-up
 
-**Status (2026-09-25):** best board score **v32 = 287.9898** (6-seed FT-Transformer;
-v31 = 289.7783 with 3 seeds). **v32 is the final model**; the last probe, v33
-(11 TabNet seeds at LIRF), scored 288.9007 and was closed.
+**Status (2026-09-25):** best board score **v35 = 287.9247**, which is also the latest
+upload. **Ranking uses the last submission**, so the final upload must be the chosen
+file. v35 = v32 (6-seed FT-Transformer) with TabNet's LIRF weight at its exact
+board optimum, 0.459.
 This file is the current summary. `README.md` and `SUBMISSION.md` are
 mid-build snapshots and point here.
 
@@ -68,6 +69,8 @@ and `tabnet_lirf_override` (tag `lirf_w0.55_ftt3`, and `lirf_w0.55_ftt6` for v32
 | v31 | v30 + v29's TabNet override | 289.78 | −5.4 (vs v25) |
 | **v32** | **FT-Transformer 3 → 6 seeds (LIRF unchanged)** | **287.99** | **−1.79** |
 | v33 | probe: TabNet 5 → 11 seeds at LIRF | 288.90 | +0.91 (closed) |
+| v34 | probe: FTT 6 → 7 seeds | 288.03 | +0.04 (tie) |
+| **v35** | **v32 + TabNet LIRF weight 0.459 (board-optimal)** | **287.9247** | **−0.065 (predicted 287.9248)** |
 
 Two board results that settled the tail question (§5): **v18** (v14 with
 predictions capped at 7,200 s) = **491.35**; **v27** (training target winsorized

@@ -1,6 +1,6 @@
 # SUBMISSION — which model to upload
 
-> **Current summary: [`WRITEUP.md`](WRITEUP.md)** — best board score v32 = 287.9898 (2026-09-25).
+> **Current summary: [`WRITEUP.md`](WRITEUP.md)** — best board score v35 = 287.9247 (2026-09-25); ranking uses the LAST submission.
 
 
 > **SUPERSEDED — this records only v1-v3 from the first round.** The build
