@@ -32,4 +32,4 @@ version,board_name,score,date,status,note
 31,fearless-barn_v31,289.7783,2026-09-23,submitted,"v30 + TabNet LIRF override w=0.55 composition check predicted 289.7797 (diff -0.0014)"
 32,fearless-barn_v32,287.9898,2026-09-25,submitted,"FTT 6 seeds (ftt6_mlp18) + TabNet LIRF override -- BEST; -1.79 vs v31 (expected -0.3 to -0.5); LIRF identical to v31"
 33,fearless-barn_v33,288.9007,2026-09-25,submitted,"board probe: v32 with TabNet over all 11 healthy seeds (was 5) -- +0.91 WORSE; v32 stays best/final"
-34,,,,not submitted,"board probe: FTT 7 seeds (ftt7_mlp18) + TabNet LIRF override; LIRF identical to v32; see tests_ftt/PROBE_v34.md"
+34,fearless-barn_v34,288.03,2026-09-25,submitted,"board probe: FTT 7 seeds -- +0.04 vs v32 (tie); FTT seed averaging saturated; v32 stays best (score as reported by user, 2 dp)"

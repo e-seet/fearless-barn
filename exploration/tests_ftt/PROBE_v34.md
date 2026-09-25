@@ -13,3 +13,7 @@ v32's result**, not a pre-registered pass: the local 6 → 9 check failed on Jan
   which bought −1.79. **Expected board −0.3 to −0.7; a tie is plausible.**
 - Better than 287.9898 → FTT seed averaging still pays on the board. Worse →
   v32 stays final and no more FTT seeds are trained.
+
+## Result (2026-09-25)
+
+**v34 = 288.03**, +0.04 vs v32: a tie. FTT seed averaging has saturated on the board at 6 seeds. No seeds 49/50 on `full`, and no v35.
