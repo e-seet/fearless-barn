@@ -1,0 +1,54 @@
+{
+  "lirf_tree_weight_6": 6.938893903907228e-18,
+  "forward_val": {
+    "in_band": [
+      223.87518684930922,
+      223.78386732074426
+    ],
+    "pooled": [
+      244.33779128282373,
+      244.2879624743748
+    ],
+    "lirf_identical": true
+  },
+  "forward_test": {
+    "in_band": [
+      215.4836387210768,
+      215.30005120075103
+    ],
+    "pooled": [
+      241.77613583530317,
+      241.62143100467887
+    ],
+    "lirf_identical": true
+  },
+  "seasonal_full_val": {
+    "in_band": [
+      211.49488624464914,
+      211.49179355022224
+    ],
+    "pooled": [
+      222.74137093619666,
+      222.74527235295977
+    ],
+    "lirf_identical": true
+  },
+  "seasonal_full_test": {
+    "in_band": [
+      250.97070410044145,
+      251.1336994715397
+    ],
+    "pooled": [
+      347.8806829090725,
+      348.0625778537177
+    ],
+    "lirf_identical": true
+  },
+  "verdict": {
+    "jan_jul_in_band_better": false,
+    "forward_same_sign": true,
+    "jan_jul_pooled_guard": true,
+    "lirf_unchanged": true,
+    "PASS": false
+  }
+}

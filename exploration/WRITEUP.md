@@ -124,6 +124,9 @@ Rules that paid for themselves:
 | MLP backbone: PLE numeric embeddings, TabM (k = 32), TabM+PLE | all fail forward; PLE +17.8 s, TabM +8.8 s val, TabM+PLE +11.9 s at LIRF | `tests_backbone` |
 | transductive masked-feature pretraining for FTT | +19.8 s worse on the same seed | `tests_ftt_pretrain` |
 | more epochs for the ensemble / changing the refit epoch count | flat on Jan + Jul, +19 s pooled | `tests_refit_epochs` |
+| tree-side seed averaging (1 → 6 LightGBM seeds) | forward −0.09 / −0.18, **Jan + Jul +0.16** | `tests_tree_seeds` |
+| FTT at LIRF, downward-only guard | weight solves to 0 | `tests_ftt_lirf_guard` |
+| FTT 6 → 7 / 9 seeds | Jan + Jul +0.06 (9); board probe v34 (7) tied, 288.03 | `tests_ftt/PROBE_v34.md` |
 | extra TabNet seeds | local −0.5 s (closed); board probe v33 (11 seeds) **+0.91 worse** | `tests_tabnet/RESULT.md`, `tests_tabnet/PROBE_v33.md` |
 
 A convergence audit (`CONVERGENCE_AUDIT.md` §9) re-checked every closed
