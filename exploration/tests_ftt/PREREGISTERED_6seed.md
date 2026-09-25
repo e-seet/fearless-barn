@@ -80,3 +80,15 @@ Jan + Jul, 9 will not either.
 - Expected ~−0.1 s local (the 3 → 6 step gave −0.2 to −0.3, and the seed curve
   is flattening). This is low-value insurance using otherwise idle GPU, not a lever.
 - ~19 GPU hours. PASS → a v33 candidate is shown to the user before `submit.py`.
+
+## Results
+
+**6 seeds vs 3 (2026-09-24): PASS.** In-band: forward val −0.215, forward test
+−0.298, seasonal_full Jan+Jul −0.128; LIRF weight 0. Built as **v32**
+(`lirf_w0.55_ftt6`), which is LIRF-identical to v31.
+
+**9 seeds vs 6 (2026-09-25): FAIL.** In-band: forward val −0.173, forward test
+−0.401, but **seasonal_full Jan+Jul +0.062**; LIRF weight 0. No v33; FTT stays at
+6 seeds. This is the third lead that improved on the forward months and not on
+Jan + Jul (after the ensemble-epoch and `deep` MLP results). The FTT seed curve
+has flattened on the board's months by 6 seeds. `check_9seed.txt`/`.json`.
