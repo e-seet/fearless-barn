@@ -35,4 +35,5 @@ version,board_name,score,date,status,note
 34,fearless-barn_v34,288.03,2026-09-25,submitted,"board probe: FTT 7 seeds -- +0.04 vs v32 (tie); FTT seed averaging saturated; v32 stays best (score as reported by user, 2 dp)"
 35,fearless-barn_v35,287.9247,2026-09-25,submitted,"v32 + TabNet LIRF w=0.459 (exact board-MSE quadratic through v25/v29/v28) predicted 287.9248 (diff -0.0001)"
 36,fearless-barn_v36,287.2876,2026-09-27,submitted,"board probe C2: 6 small + 3 d192 FTT, TabNet w=0.459 -- BEST; -0.637 vs v35 despite local Jan+Jul tie (+0.03)"
-37,,,,not submitted,"board probe: season-weighted MLP (tau=3, per-month t01/t07, 18 seeds, 17 ep) in v35 blend; local bar FAILED (Jan+Jul +1.70, LIRF +10.5); RMS vs v35 33.3; expect worse; built by tests_season_weight/build_probe.py"
+37,fearless-barn_v37,289.3555,2026-09-27,submitted,"board probe: season-weighted MLP -- +2.07 WORSE than v36; season weighting closed on the board too"
+38,,,,not submitted,"byte-identical rebuild of v36 (submit.py, tag lirf_w0.459_c2) to re-upload LAST after v37"

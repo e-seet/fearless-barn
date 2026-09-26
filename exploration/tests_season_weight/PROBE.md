@@ -25,3 +25,7 @@ rebuilt byte-identically and uploaded last.
   `submit.py` arm; if it wins it gets registered before any further use.
 - Pre-upload label-free size: RMS(probe − v35), reported against the v31→v32
   (20.4 → −1.79) and v32→v34 (7.5 → tie) yardsticks.
+
+## Result (2026-09-27)
+
+**v37 = 289.3555, +2.07 worse than v36 (287.2876)** and +1.43 worse than v35. The local Jan + Jul FAIL (LIRF +10.5) was right; the forward −6.1 did not transfer. Closed on the board as well.
