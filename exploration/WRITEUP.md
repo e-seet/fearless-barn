@@ -175,3 +175,19 @@ Detailed records: `plans/` (numbered decision history, latest plan 14),
 `PIPELINE_REVIEW.md` (arm tiers), `TAXI_OUT_DRIVERS.md` (feature
 investigations), `tests_*/RESULT.md` (one per experiment),
 `submissions/board_scores.csv` (every board score).
+
+### Predicting new data (`predict_new.py`)
+
+A hidden final stage would bring rows no cached prediction covers. `predict_new.py`
+takes any movements parquet in `ranking.parquet`'s schema and predicts it with the
+shipped recipe **from saved models**: features from the same builder, the tree and the
+18 MLPs through `submit.py`'s own code path, the 9 FT-Transformers from their `.pt`
+checkpoints (bf16 for the d192 members, as trained), then the recorded weights and the
+LIRF override.
+
+**Self-test (2026-09-27): from the raw file it reproduces v36 on all 344,841 rows,
+max |diff| 0.** TabNet was taken from its cached predictions for that run. Its five
+seeds predate model saving and are being retrained with model and encoder files
+(`TABNET_PREFIX=rebuilt_`); once they are, `--tabnet models` makes the pipeline fully
+self-contained.
+
