@@ -13,3 +13,7 @@ board, so **the expectation is a tie with v35 (287.9247).**
   override at w = 0.459 on top, as v35.
 - **Ranking uses the last submission.** If the probe scores worse than v35, v35 is
   rebuilt byte-identically under a new version number and uploaded last.
+
+## Result (2026-09-27)
+
+**v36 = 287.2876, −0.637 vs v35.** A candidate that tied locally on Jan + Jul (+0.03) and helped the forward months (−0.28 / −0.56) *gained* on the board. This is the second time the board has rewarded more FTT diversity beyond what Jan + Jul showed (v32 paid ~4× its local estimate). The 6→7-seed tie (v34) shows it is not automatic.
