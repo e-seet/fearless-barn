@@ -84,6 +84,9 @@ def main(argv=None) -> int:
                     help="solved on forward_inner by tests_ftt/solve_final_weights.py")
     ap.add_argument("--ftt-seeds", default="42,43,44")
     ap.add_argument("--ftt-tag", default="lr1e-3")
+    ap.add_argument("--ftt-members", default="",
+                    help="optional seed:tag list mixing FTT variants, e.g. 42:lr1e-3,42:d192lr5; "
+                         "overrides --ftt-seeds/--ftt-tag (equal weight per member)")
     ap.add_argument("--tag", default=None)
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args(argv)
@@ -93,6 +96,10 @@ def main(argv=None) -> int:
     W = wf["weights_per_airport"]
     mlp_seeds = wf["mlp_seeds"]
     ftt_seeds = [int(x) for x in a.ftt_seeds.split(",") if x.strip()]
+    members = ([(int(m.split(":")[0]), m.split(":")[1]) for m in a.ftt_members.split(",") if m.strip()]
+               if a.ftt_members else [(s, a.ftt_tag) for s in ftt_seeds])
+    if a.ftt_members:
+        ftt_seeds = [s for s, _ in members]
 
     if wf.get("feature_fingerprint") != config.feature_code_fingerprint():
         raise SystemExit(
@@ -113,8 +120,8 @@ def main(argv=None) -> int:
     _, meta = D.load_ranking_features(a.featureset)
     rank_ids = meta.index.to_numpy()
     shas = {}
-    for s in ftt_seeds:
-        p = ftt_preds_path(s, a.split, a.ftt_tag)
+    for s, tg in members:
+        p = ftt_preds_path(s, a.split, tg)
         if not p.exists():
             raise SystemExit(f"missing FTT predictions at {p}. Train with: python "
                              f"tests_ftt/run_ftt.py {s} --split {a.split} --lr 1e-3 "
@@ -128,7 +135,7 @@ def main(argv=None) -> int:
                 f"HALT: FTT seed {s} covers {len(z['rank_ids'])} ranking rows, the "
                 f"current scored set has {len(rank_ids)}. Those predictions predate "
                 f"the current ranking.parquet -- re-predict before building.")
-        shas[str(s)] = sha256_file(p)
+        shas[f"{s}:{tg}" if a.ftt_members else str(s)] = sha256_file(p)
 
     declare_selection_set(f"{ARM} per-airport weights", selected_on="forward_inner",
                           value=W)
@@ -149,6 +156,7 @@ def main(argv=None) -> int:
         "mlp_seeds": mlp_seeds,
         "ftt_seeds": ftt_seeds,
         "ftt_tag": a.ftt_tag,
+        **({"ftt_members": [[s, tg] for s, tg in members]} if a.ftt_members else {}),
         "ftt_pred_dir": str(FTT_DIR.relative_to(config.SOLUTION_DIR)),
         "ftt_pred_sha256": shas,
         "ftt_freeze_epochs": 112,

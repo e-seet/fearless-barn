@@ -309,8 +309,10 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
                          for s in meta_json["mlp_seeds"]], axis=0)
         rank_ids = meta.index.to_numpy()
         ftt_preds = []
-        for s in meta_json["ftt_seeds"]:
-            fp = ftt_preds_path(int(s), split, meta_json.get("ftt_tag", "lr1e-3"))
+        members = meta_json.get("ftt_members") or [[s, meta_json.get("ftt_tag", "lr1e-3")]
+                                                   for s in meta_json["ftt_seeds"]]
+        for s, tg in members:
+            fp = ftt_preds_path(int(s), split, tg)
             if not fp.exists():
                 raise FileNotFoundError(
                     "FTT seed {} predictions missing at {}. This arm records a "

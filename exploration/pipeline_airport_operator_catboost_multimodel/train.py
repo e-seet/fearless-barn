@@ -98,7 +98,8 @@ def solve_weights_per_airport_nnls(y, p_cb, p_tree, p_mlp, airport) -> dict[str,
 
 
 def solve_weights_per_airport_simplex(y, p_cb, p_tree, p_mlp, airport,
-                                      l2_shrinkage: float = 0.0) -> dict[str, list]:
+                                      l2_shrinkage: float = 0.0,
+                                      ftol: float | None = None) -> dict[str, list]:
     """Per-airport constrained least squares: w >= 0, sum(w) = 1 (a true
     convex combination, unlike plain NNLS which can push an individual
     weight past 1 as long as the fit improves -- exactly what broke at
@@ -130,6 +131,13 @@ def solve_weights_per_airport_simplex(y, p_cb, p_tree, p_mlp, airport,
     same problem, unscaled -> false convergence at w0; scaled -> converges to
     [0, 0, 1], the expected all-MLP weight for LIRF.
     """
+    # ftol=None keeps SLSQP's default (1e-6), which every shipped solve used. On the
+    # mean(y^2)-scaled objective that tolerance stops early: 2026-09-26 grid check found
+    # LEMD and EDDF left at the (1/3,1/3,1/3) start and LEMD 0.23 RMSE above its optimum
+    # on the solve surface. Pass ftol (e.g. 1e-12) for a converged solve; the default
+    # stays so that recorded weights of v25-v35 re-solve identically. AND: out of sample the
+    # tight solve was NOT better (forward test +0.14, Jan+Jul +0.03 in-band) -- stopping near
+    # 1/3 acts as shrinkage. Keep the default for shipped solves.
     weights = {}
     n_arms = 3
     w0 = np.full(n_arms, 1.0 / n_arms)
@@ -151,7 +159,8 @@ def solve_weights_per_airport_simplex(y, p_cb, p_tree, p_mlp, airport,
             return (mse + shrink) / scale
 
         res = minimize(objective, w0, method="SLSQP", bounds=bounds,
-                       constraints=constraints, options={"maxiter": 300})
+                       constraints=constraints,
+                       options={"maxiter": 300, **({"ftol": ftol} if ftol else {})})
         if not res.success:
             print("  WARNING: simplex solve did not converge for {} ({}) -- "
                   "falling back to equal weights".format(a, res.message))

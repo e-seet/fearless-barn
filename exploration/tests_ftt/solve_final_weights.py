@@ -71,8 +71,10 @@ def main() -> int:
                                    X=X, meta=meta, Xtr=Xtr) for s in MLP_SEEDS], axis=0)
         np.save(f18, mlp)
 
-    ftt = np.mean([np.load(HERE / f"preds_seed{s}_forward_inner_lr1e-3.npz",
-                           allow_pickle=True)["pv"] for s in FTT_SEEDS], axis=0)
+    members = ([(int(m.split(":")[0]), m.split(":")[1]) for m in os.environ["FTT_MEMBERS"].split(",")]
+               if os.environ.get("FTT_MEMBERS") else [(s, "lr1e-3") for s in FTT_SEEDS])
+    ftt = np.mean([np.load(HERE / f"preds_seed{s}_forward_inner_{tg}.npz",
+                           allow_pickle=True)["pv"] for s, tg in members], axis=0)
     assert len(ftt) == len(y) == len(tree) == len(mlp)
 
     print(f"forward_inner val n={len(y)}")
@@ -102,7 +104,8 @@ def main() -> int:
     print(f"\nin-sample on the solve surface (NOT an estimate of anything): "
           f"3-member {rm(y, blend):.2f}")
 
-    out = {"weights_per_airport": W, "mlp_seeds": MLP_SEEDS, "ftt_seeds": FTT_SEEDS,
+    out = {"weights_per_airport": W, "mlp_seeds": MLP_SEEDS, "ftt_seeds": [s for s, _ in members],
+           **({"ftt_members": [[s, tg] for s, tg in members]} if os.environ.get("FTT_MEMBERS") else {}),
            "weight_split": WS, "featureset": FS, "outlier_policy": POL,
            "solver": "per-airport simplex (w>=0, sum=1), "
                      "pipeline_airport_operator_catboost_multimodel.solve_weights_per_airport_simplex",

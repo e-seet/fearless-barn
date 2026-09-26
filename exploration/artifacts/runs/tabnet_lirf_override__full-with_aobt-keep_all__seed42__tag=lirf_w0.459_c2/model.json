@@ -1,0 +1,50 @@
+{
+  "arm": "tabnet_lirf_override",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "base_arm": "ftt_multimodel",
+  "base_tag": "ftt_c2_mlp18",
+  "override_airport": "LIRF",
+  "w": 0.459,
+  "w_source": "as v35 (board-optimal 0.459); C2 board probe, see tests_ftt_large/PROBE_C2.md",
+  "tabnet_seeds": [
+    42,
+    43,
+    45,
+    46,
+    48
+  ],
+  "tabnet_seeds_rejected": {},
+  "tabnet_pred_dir": "tests_tabnet\\build",
+  "tabnet_pred_sha256": {
+    "42": "faa47ea8486046ef4bef6b255d5f68a4839cfbefb1b6ade81a9e3187f0599796",
+    "43": "efcae0b1669bd89c51c8e172f76dee71793589ec9080bd20b6d105c232517e06",
+    "45": "1eaab4c0bac906a4afde9e7de683dee0efb4590121ccc002b0a1ee5a90daef83",
+    "46": "d5008b42dced64a46a1d1abd07dbc545f233e7991a74fd7fcccfabff10db8630",
+    "48": "6436e46bb31f16c1878d144c5586caef357aea95dba4779279fe342b2606bbb4"
+  },
+  "gate": {
+    "dec_val_rmse_max": 260.0,
+    "best_epoch_min": 10,
+    "must_early_stop": true,
+    "must_have_labels_aligned_marker": true
+  },
+  "n_ranking_rows": 344841,
+  "n_override_rows": 26899,
+  "tabnet_mean_at_override": 1257.41357421875,
+  "feature_fingerprint": "aeade7fee3099c1a",
+  "selection": {
+    "what": "tabnet_lirf_override healthy TabNet seeds",
+    "selected_on": "dec_val_gate",
+    "value": [
+      42,
+      43,
+      45,
+      46,
+      48
+    ]
+  },
+  "note": "Prediction-only arm: it does not train TabNet. predict_ranking replays the recorded seed list against tests_tabnet/build/."
+}
