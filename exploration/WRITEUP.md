@@ -125,6 +125,7 @@ Rules that paid for themselves:
 | hyperparameter tuning | 6.5 s for a full sweep vs 27 s for one reasoned constant | `PIPELINE_REVIEW.md` |
 | MLP hyperparameter diversity (wide / deep / reg / big-batch) | fails at equal member count; `deep` passed forward, failed Jan + Jul | `tests_hp_diversity` |
 | MLP backbone: PLE numeric embeddings, TabM (k = 32), TabM+PLE | all fail forward; PLE +17.8 s, TabM +8.8 s val, TabM+PLE +11.9 s at LIRF | `tests_backbone` |
+| larger FT-Transformer (d_token 192), alone or mixed with the small one | alone worse (Jan + Jul 266.8 vs 257.2); mixed: forward −0.3/−0.6, Jan + Jul +0.03 | `tests_ftt_large` |
 | transductive masked-feature pretraining for FTT | +19.8 s worse on the same seed | `tests_ftt_pretrain` |
 | more epochs for the ensemble / changing the refit epoch count | flat on Jan + Jul, +19 s pooled | `tests_refit_epochs` |
 | tree-side seed averaging (1 → 6 LightGBM seeds) | forward −0.09 / −0.18, **Jan + Jul +0.16** | `tests_tree_seeds` |

@@ -1,0 +1,105 @@
+{
+  "lirf_ftt_weight": {
+    "comparator": 0.0,
+    "C1": 0.0,
+    "C2": 5.551115123125783e-17
+  },
+  "ftt_weight_mean_nonlirf": {
+    "comparator": 0.3741615488975575,
+    "C1": 0.4088722592761137,
+    "C2": 0.45533772048654175
+  },
+  "forward_val": {
+    "comparator": {
+      "in_band": 223.87518684930922,
+      "pooled": 244.33779128282373,
+      "ftt_alone_in_band": 226.43202901955482
+    },
+    "C1": {
+      "in_band": 223.63727310084442,
+      "pooled": 244.20539712474158,
+      "ftt_alone_in_band": 228.97140179532767
+    },
+    "C2": {
+      "in_band": 223.5917352274631,
+      "pooled": 244.07162961239385,
+      "ftt_alone_in_band": 225.2990425718307
+    }
+  },
+  "forward_test": {
+    "comparator": {
+      "in_band": 215.4836387210768,
+      "pooled": 241.77613583530317,
+      "ftt_alone_in_band": 217.62866469121693
+    },
+    "C1": {
+      "in_band": 215.75567367622767,
+      "pooled": 241.97923247891524,
+      "ftt_alone_in_band": 219.64671919808168
+    },
+    "C2": {
+      "in_band": 214.92377798651026,
+      "pooled": 241.2599858552381,
+      "ftt_alone_in_band": 216.00149814574988
+    }
+  },
+  "seasonal_val": {
+    "comparator": {
+      "in_band": 211.49488624464914,
+      "pooled": 222.74137093619666,
+      "ftt_alone_in_band": 214.62029166373944
+    },
+    "C1": {
+      "in_band": 211.30812011054377,
+      "pooled": 222.57650614670243,
+      "ftt_alone_in_band": 217.57761577892188
+    },
+    "C2": {
+      "in_band": 211.06370260717313,
+      "pooled": 222.34649645253936,
+      "ftt_alone_in_band": 212.98158540338738
+    }
+  },
+  "seasonal_test": {
+    "comparator": {
+      "in_band": 250.97070410044145,
+      "pooled": 347.8806829090725,
+      "ftt_alone_in_band": 257.16028353052775
+    },
+    "C1": {
+      "in_band": 252.0608211628005,
+      "pooled": 348.71116313801775,
+      "ftt_alone_in_band": 266.79500770815514
+    },
+    "C2": {
+      "in_band": 251.00116084496136,
+      "pooled": 347.86654922804746,
+      "ftt_alone_in_band": 256.8486088827528
+    }
+  },
+  "verdict": {
+    "C1": {
+      "in_band_deltas": {
+        "forward_val": -0.2379137484647913,
+        "forward_test": 0.27203495515087184,
+        "seasonal_test": 1.0901170623590417
+      },
+      "in_band_all_better": false,
+      "pooled_guard": true,
+      "lirf_zero": true,
+      "PASS": false
+    },
+    "C2": {
+      "in_band_deltas": {
+        "forward_val": -0.28345162184612605,
+        "forward_test": -0.5598607345665414,
+        "seasonal_test": 0.030456744519909762
+      },
+      "in_band_all_better": false,
+      "pooled_guard": true,
+      "lirf_zero": true,
+      "PASS": false
+    }
+  },
+  "pick": null
+}
