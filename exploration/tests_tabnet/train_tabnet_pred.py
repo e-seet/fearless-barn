@@ -34,6 +34,10 @@ FS, POL = "with_aobt", "keep_all"
 # tools/ml_common/convergence.py. See ../CONVERGENCE_AUDIT.md sec.3.
 MAX_EPOCHS = int(os.environ.get("TABNET_MAX_EPOCHS", 75)); PATIENCE = 15; LR = 2e-3; BS = 4096
 OUT = HERE / "build"; OUT.mkdir(exist_ok=True)
+# TABNET_PREFIX (default ""): prefix for every output file. Set "rebuilt_" to retrain a
+# recorded seed WITHOUT overwriting the npz that shipped submissions replay (their sha256
+# is pinned in tabnet_lirf_override model.json).
+PREFIX = os.environ.get("TABNET_PREFIX", "")
 CLIP = (config.PREDICTION_CLIP_MIN_SEC, config.PREDICTION_CLIP_MAX_SEC)
 emb = lambda c: min(48, max(4, int(c ** 0.5)))
 
@@ -91,7 +95,7 @@ def main():
                 val_rmse=float(np.sqrt(np.mean((yva - pv) ** 2))))
     if Xrk is not None:
         save["pr"] = np.clip(m.predict(enc(Xrk)).reshape(-1), *CLIP); save["rank_ids"] = Xrk.index.to_numpy()
-    np.savez(OUT / f"{MODE}_seed{SEED}.npz", **save)
+    np.savez(OUT / f"{PREFIX}{MODE}_seed{SEED}.npz", **save)
     # Persist the MODEL, not just its predictions. The saved npz holds predictions
     # for the ranking rows that existed when it was written, so a refreshed
     # ranking.parquet strands them -- which is exactly why v29 carried
@@ -99,8 +103,11 @@ def main():
     # binary on disk the recorded seeds can be re-predicted against a new scored
     # set instead of retrained. Seeds trained before this line have no binary.
     try:
-        m.save_model(str(OUT / f"{MODE}_seed{SEED}_model"))
-        print(f"[{MODE} seed {SEED}] saved model -> {MODE}_seed{SEED}_model.zip", flush=True)
+        m.save_model(str(OUT / f"{PREFIX}{MODE}_seed{SEED}_model"))
+        import pickle
+        with open(OUT / f"{PREFIX}{MODE}_seed{SEED}_encoders.pkl", "wb") as fh:   # needed to encode NEW rows
+            pickle.dump({"cat_cols": cat_cols, "num_cols": num_cols, "maps": maps, "medians": med, "scaler": sc}, fh)
+        print(f"[{MODE} seed {SEED}] saved model + encoders -> {PREFIX}{MODE}_seed{SEED}_model.zip", flush=True)
     except Exception as e:                                    # never lose the preds over this
         print(f"[{MODE} seed {SEED}] WARNING: could not save model ({type(e).__name__}: {e})", flush=True)
     print(f"[{MODE} seed {SEED}] done val_rmse {save['val_rmse']:.2f} best_epoch {m.best_epoch} ran {n_ep}/{MAX_EPOCHS} hit_cap={hit} [{time.time()-t0:.0f}s]", flush=True)
