@@ -98,6 +98,8 @@ def main(argv=None) -> int:
     ftt_seeds = [int(x) for x in a.ftt_seeds.split(",") if x.strip()]
     members = ([(int(m.split(":")[0]), m.split(":")[1]) for m in a.ftt_members.split(",") if m.strip()]
                if a.ftt_members else [(s, a.ftt_tag) for s in ftt_seeds])
+    member_w = ([float(m.split(":")[2]) if m.count(":") == 2 else 1.0 for m in a.ftt_members.split(",") if m.strip()]
+                if a.ftt_members else None)
     if a.ftt_members:
         ftt_seeds = [s for s, _ in members]
 
@@ -157,6 +159,7 @@ def main(argv=None) -> int:
         "ftt_seeds": ftt_seeds,
         "ftt_tag": a.ftt_tag,
         **({"ftt_members": [[s, tg] for s, tg in members]} if a.ftt_members else {}),
+        **({"ftt_member_weights": member_w} if member_w and any(w != 1.0 for w in member_w) else {}),
         "ftt_pred_dir": str(FTT_DIR.relative_to(config.SOLUTION_DIR)),
         "ftt_pred_sha256": shas,
         "ftt_freeze_epochs": 112,

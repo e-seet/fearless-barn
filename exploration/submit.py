@@ -324,7 +324,8 @@ def predict_ranking(arm: str, split: str, featureset: str, seed: int,
                     "{}. Those predictions predate the current ranking.parquet.".format(
                         s, len(z["rank_ids"]), len(rank_ids)))
             ftt_preds.append(z["pr"])
-        p_ftt = np.mean(ftt_preds, axis=0)
+        mw = meta_json.get("ftt_member_weights")
+        p_ftt = np.average(ftt_preds, axis=0, weights=mw) if mw else np.mean(ftt_preds, axis=0)
         ap_arr = meta["ADEP_mvt"].astype(str).to_numpy()
         pred = blend_per_airport(p_ftt, p_tree, p_mlp, ap_arr, W)
         print("[submit] {}: {} FTT seeds {}, {} MLP seeds, LIRF weights {}".format(

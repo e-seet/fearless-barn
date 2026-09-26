@@ -73,8 +73,10 @@ def main() -> int:
 
     members = ([(int(m.split(":")[0]), m.split(":")[1]) for m in os.environ["FTT_MEMBERS"].split(",")]
                if os.environ.get("FTT_MEMBERS") else [(s, "lr1e-3") for s in FTT_SEEDS])
-    ftt = np.mean([np.load(HERE / f"preds_seed{s}_forward_inner_{tg}.npz",
-                           allow_pickle=True)["pv"] for s, tg in members], axis=0)
+    mw = ([float(m.split(":")[2]) if m.count(":") == 2 else 1.0 for m in os.environ["FTT_MEMBERS"].split(",")]
+          if os.environ.get("FTT_MEMBERS") else None)
+    ftt = np.average([np.load(HERE / f"preds_seed{s}_forward_inner_{tg}.npz",
+                              allow_pickle=True)["pv"] for s, tg in members], axis=0, weights=mw)
     assert len(ftt) == len(y) == len(tree) == len(mlp)
 
     print(f"forward_inner val n={len(y)}")
@@ -106,6 +108,7 @@ def main() -> int:
 
     out = {"weights_per_airport": W, "mlp_seeds": MLP_SEEDS, "ftt_seeds": [s for s, _ in members],
            **({"ftt_members": [[s, tg] for s, tg in members]} if os.environ.get("FTT_MEMBERS") else {}),
+           **({"ftt_member_weights": mw} if mw and any(w != 1.0 for w in mw) else {}),
            "weight_split": WS, "featureset": FS, "outlier_policy": POL,
            "solver": "per-airport simplex (w>=0, sum=1), "
                      "pipeline_airport_operator_catboost_multimodel.solve_weights_per_airport_simplex",
