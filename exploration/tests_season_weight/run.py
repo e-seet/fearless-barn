@@ -54,20 +54,28 @@ def predict(model, cat, num, bs=8192):
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--split", required=True, choices=["forward", "seasonal_full"])
+    ap.add_argument("--split", required=True, choices=["forward", "seasonal_full", "forward_inner", "full"])
     ap.add_argument("--targets", required=True, help="comma-separated target months, e.g. 1,7")
     ap.add_argument("--seeds", default="42,43,44,45,46,47")
     ap.add_argument("--epochs", type=int, default=50)
+    ap.add_argument("--freeze-epochs", type=int, default=None, help="required for a split with no val (full)")
+    ap.add_argument("--predict-ranking", action="store_true")
+    ap.add_argument("--no-base", action="store_true", help="skip the unweighted comparator runs")
     a = ap.parse_args(argv)
     seeds = [int(s) for s in a.seeds.split(",")]
     targets = [int(t) for t in a.targets.split(",")]
     dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     Xtr, ytr, mtr = D.load_part(a.split, "train", FS, filter_target=True, outlier_policy=POL)
-    Xva, yva, mva = D.load_part(a.split, "val", FS, filter_target=False)
-    Xte, yte, mte = D.load_part(a.split, "test", FS, filter_target=False)
-    Xva, Xte = D.align_columns(Xtr, Xva), D.align_columns(Xtr, Xte)
-    yva, yte = np.asarray(yva, float), np.asarray(yte, float)
+    has_val, has_test = bool(config.SPLITS[a.split]["val"]), bool(config.SPLITS[a.split]["test"])
+    if not has_val and not a.freeze_epochs:
+        raise SystemExit("split has no val: pass --freeze-epochs")
+    if has_val:
+        Xva, yva, mva = D.load_part(a.split, "val", FS, filter_target=False)
+        Xva, yva = D.align_columns(Xtr, Xva), np.asarray(yva, float)
+    if has_test:
+        Xte, yte, mte = D.load_part(a.split, "test", FS, filter_target=False)
+        Xte, yte = D.align_columns(Xtr, Xte), np.asarray(yte, float)
     assert len(Xtr) == len(ytr) == len(mtr)
     m_tr = month_of(mtr)
     print(f"{a.split}: train months {sorted(set(m_tr))}, n={len(Xtr)}", flush=True)
@@ -82,16 +90,22 @@ def main(argv=None) -> int:
     sc = StandardScaler().fit(Xtr[num_cols].astype("float64").fillna(med).to_numpy())
     todev = lambda cn: ({c: t.to(dev) for c, t in cn[0].items()}, cn[1].to(dev))
     tr = todev(encode_data(Xtr, cat_cols, num_cols, cat_maps, sc, med))
-    va = todev(encode_data(Xva, cat_cols, num_cols, cat_maps, sc, med))
-    te = todev(encode_data(Xte, cat_cols, num_cols, cat_maps, sc, med))
+    va = todev(encode_data(Xva, cat_cols, num_cols, cat_maps, sc, med)) if has_val else None
+    te = todev(encode_data(Xte, cat_cols, num_cols, cat_maps, sc, med)) if has_test else None
+    if a.predict_ranking:
+        Xrk, mrk = D.load_ranking_features(FS)
+        Xrk = D.align_columns(Xtr, Xrk)
+        rk = todev(encode_data(Xrk, cat_cols, num_cols, cat_maps, sc, med))
     y_t = torch.tensor(np.asarray(ytr, dtype="float32"), device=dev)
     n = len(y_t)
     meta_path = HERE / f"meta_{a.split}.npz"
-    if not meta_path.exists():
+    if not meta_path.exists() and has_test:
         np.savez(meta_path, yva=yva, yte=yte, apte=mte["ADEP_mvt"].astype(str).to_numpy(),
                  mte=month_of(mte))
+    if not meta_path.exists() and has_val and not has_test:
+        np.savez(meta_path, yva=yva, apva=mva["ADEP_mvt"].astype(str).to_numpy(), mva=month_of(mva))
 
-    modes = [("base", None)] + [(f"t{t:02d}", t) for t in targets]
+    modes = ([] if a.no_base else [("base", None)]) + [(f"t{t:02d}", t) for t in targets]
     for mode, t in modes:
         w_np = np.ones(n) if t is None else np.exp(-circ(m_tr, t) / TAU)
         w_t = torch.tensor(w_np.astype("float32"), device=dev)
@@ -113,7 +127,7 @@ def main(argv=None) -> int:
                                dropout=0.1, prior_mean=float(np.average(ytr, weights=w_np))).to(dev)
             opt = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
             best, best_ep, bad, bpv, bpt, hist = 1e18, 0, 0, None, None, []
-            for ep in range(1, a.epochs + 1):
+            for ep in range(1, (a.freeze_epochs or a.epochs) + 1):
                 model.train()
                 perm = torch.randperm(n, device=dev)
                 for i in range(0, n, BATCH):
@@ -124,18 +138,31 @@ def main(argv=None) -> int:
                     loss.backward()
                     nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
                     opt.step()
+                if not has_val:
+                    best_ep = ep
+                    continue
                 pv = predict(model, *va)
                 r = float(np.sqrt(np.mean((yva - pv) ** 2)))
                 hist.append(r)
                 if r < best:
-                    best, best_ep, bad, bpv, bpt = r, ep, 0, pv, predict(model, *te)
+                    best, best_ep, bad, bpv = r, ep, 0, pv
+                    bpt = predict(model, *te) if has_test else None
+                    bpr = predict(model, *rk) if a.predict_ranking else None
                 else:
                     bad += 1
                     if bad >= PATIENCE:
                         break
-            hit_cap = ep >= a.epochs and bad < PATIENCE
-            np.savez(out, pv=bpv, pt=bpt, best_epoch=best_ep, val=best, epochs_run=ep,
-                     hit_cap=hit_cap, history=np.asarray(hist), target_month=-1 if t is None else t, tau=TAU)
+            if not has_val and a.predict_ranking:
+                bpr = predict(model, *rk)
+            hit_cap = has_val and ep >= a.epochs and bad < PATIENCE
+            extra = {}
+            if has_val: extra["pv"] = bpv
+            if has_test: extra["pt"] = bpt
+            if a.predict_ranking:
+                extra.update(pr=bpr, rank_ids=Xrk.index.to_numpy(), rank_month=month_of(mrk))
+            np.savez(out, **extra, best_epoch=best_ep, val=best, epochs_run=ep,
+                     hit_cap=hit_cap, history=np.asarray(hist), target_month=-1 if t is None else t, tau=TAU,
+                     freeze_epochs=a.freeze_epochs or 0)
             print(f"{mode} seed {seed}: best_ep {best_ep} val {best:.2f} ran {ep} [{time.time()-t0:.0f}s]"
                   f"{'  *** HIT CAP ***' if hit_cap else ''}", flush=True)
     return 0
