@@ -25,3 +25,12 @@ approves before `submit.py`.
 
 **Expectation:** tie to about −0.4; a board probe, since the local check cannot judge FTT-slot
 mixes. The fallback is a byte copy of the best file uploaded last.
+
+## Amendment 1 (2026-09-27, before any deep result): fold in the 9 large seeds
+
+User decision: the v40 candidate (6 small + 9 large, RMS move vs v39 only 3.86, expected
+−0.05 to −0.15) is **not uploaded alone**; its 9 large seeds are folded into this probe.
+**v41 FTT slot = 6 small (d64×3) + 9 large (d192×3) + 3 deep (d96×6), each family 1/3**:
+per-model weights small 1, large 2/3, deep 2 (each family totals 6). The comparison base
+stays **v39 = 287.0370** (best and last). One upload tests both changes; if v41 loses, v39
+is re-uploaded as a byte copy.
