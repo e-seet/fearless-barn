@@ -1,7 +1,7 @@
 # fearless-barn — PRC Data Challenge 2026, taxi-out time: method write-up
 
-**Status (2026-09-27):** best board score **v36 = 287.2876** (v35 + three 192-wide
-FT-Transformers mixed into the FTT slot). **Ranking uses the last submission**, so the final upload must be the chosen
+**Status (2026-09-27):** best board score **v39 = 287.0370**, also the last upload (ranking
+uses the last submission). v39 = 6 small + 6 large (d192) FT-Transformers in the FTT slot, with the large share at 1/3. **Ranking uses the last submission**, so the final upload must be the chosen
 file. v35 = v32 (6-seed FT-Transformer) with TabNet's LIRF weight at its exact
 board optimum, 0.459.
 This file is the current summary. `README.md` and `SUBMISSION.md` are
@@ -71,7 +71,9 @@ and `tabnet_lirf_override` (tag `lirf_w0.55_ftt3`, and `lirf_w0.55_ftt6` for v32
 | v33 | probe: TabNet 5 → 11 seeds at LIRF | 288.90 | +0.91 (closed) |
 | v34 | probe: FTT 6 → 7 seeds | 288.03 | +0.04 (tie) |
 | v35 | v32 + TabNet LIRF weight 0.459 (board-optimal) | 287.9247 | −0.065 (predicted 287.9248) |
-| **v36** | **FTT slot = 6 small + 3 large (d192) FT-Transformers** | **287.2876** | **−0.637** |
+| v36 | FTT slot = 6 small + 3 large (d192) FT-Transformers | 287.2876 | −0.637 |
+| v37 | probe: season-weighted MLPs | 289.3555 | +2.07 (closed) |
+| **v39** | **FTT slot = 6 small + 6 large, large share 1/3** | **287.0370** | **−0.251** |
 
 Two board results that settled the tail question (§5): **v18** (v14 with
 predictions capped at 7,200 s) = **491.35**; **v27** (training target winsorized

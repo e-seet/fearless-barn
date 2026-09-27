@@ -21,3 +21,7 @@ as seeds 42–44). No local screen: the local check did not predict v36's gain, 
 
 **Expectation:** between a tie and about −0.5 vs v36. The fallback is v36/v38
 re-uploaded last.
+
+## Result (2026-09-27)
+
+**v39 = 287.0370, −0.251 vs v36.** It sits inside the pre-upload range (tie to −0.5), with an RMS move of 7.07 against v36. Averaging more large-FTT seeds at a fixed 1/3 share still pays; the gain per step is shrinking (0 → 3 large: −0.64; 3 → 6: −0.25).
