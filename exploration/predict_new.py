@@ -45,7 +45,7 @@ from pipeline_mlp_antigravity.train import encode_data
 from pipeline_tabnet_lirf_override.train import apply_override, seed_preds_path
 
 FS, POL, SPLIT, SEED = "with_aobt", "keep_all", "full", 42
-DEFAULT_RECIPE = "lirf_w0.459_c2"          # v36 / v38
+DEFAULT_RECIPE = "lirf_w0.459_c2l6"        # v39 (v36: lirf_w0.459_c2)
 
 
 def build_features(path: Path, ids=None):

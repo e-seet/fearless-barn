@@ -1,0 +1,27 @@
+# Deep-narrow FT-Transformer as a third FTT-slot component — written before training
+
+2026-09-27. Base: **v39 = 287.0370** (FTT slot = 6 small d64×3 + 6 large d192×3, large
+share 1/3), best and last. If 6 → 9 large seeds (queued first) produces a better base,
+this probe is built on that base instead.
+
+**Why.** The board has repeatedly paid for *variety* among attention models in the FTT slot
+even when the added model was worse alone (large FTT: −0.64, then −0.25), and local
+surfaces under-read it (C2 tied locally). Every MLP-family change failed. This adds a
+**deeper, narrower** transformer: 6 blocks, d_token 96, 8 heads. More attention
+rounds change how features combine, not just capacity.
+
+**Training** (`run_ftt.py --d-token 96 --n-blocks 6 --amp --lr 5e-4 --tag d96b6`; 5e-4 as
+the large model needed, bf16 for speed), seeds 42–44:
+- forward_inner (cap 260): the weight solve;
+- forward (cap 200): the median best epoch fixes the `full` count, as for the other FTTs;
+- full: ceil(median forward best epoch), `--predict-ranking`.
+Any capped run is rerun at a higher cap; a run whose val diverges early (best val
+> 400 on forward) is recorded, not silently dropped.
+
+**Build.** FTT slot = small : large : deep at fixed shares **1/3 : 1/3 : 1/3** (per-model
+weights set accordingly), per-airport weights re-solved on forward_inner (default solver),
+TabNet LIRF w = 0.459, FTT's LIRF weight must be 0. Scratch check against the base; the user
+approves before `submit.py`.
+
+**Expectation:** tie to about −0.4; a board probe, since the local check cannot judge FTT-slot
+mixes. The fallback is a byte copy of the best file uploaded last.
