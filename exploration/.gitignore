@@ -28,3 +28,6 @@ artifacts/features/
 # the recorded seeds, and up to 176 MB each. Their sha256 is pinned in the
 # model.json of any arm that replays them.
 *.npz
+
+# TabNet model archives (5 MB each): regenerable, bitwise, with train_tabnet_pred.py (2026-09-27 check); in the backup set.
+*.zip

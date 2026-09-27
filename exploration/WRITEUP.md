@@ -191,3 +191,12 @@ seeds predate model saving and are being retrained with model and encoder files
 (`TABNET_PREFIX=rebuilt_`); once they are, `--tabnet models` makes the pipeline fully
 self-contained.
 
+**Done (2026-09-27).** The five TabNet seeds were retrained with model and encoder files
+saved, and their predictions are **bitwise identical** to the originals (same best epochs,
+same val RMSE, max |diff| 0.0), so TabNet training is deterministic and the saved models are
+the shipped ones. With every member reloaded from its saved model, `predict_new.py`
+reproduces v36 on **344,840 / 344,841 rows**. The one exception is a LIRF row off by 1 s:
+a rounding boundary under float differences between in-process and reloaded TabNet
+inference. **The pipeline can now predict any new movements file end to end without
+cached predictions.**
+
