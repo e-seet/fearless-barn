@@ -34,3 +34,12 @@ User decision: the v40 candidate (6 small + 9 large, RMS move vs v39 only 3.86, 
 per-model weights small 1, large 2/3, deep 2 (each family totals 6). The comparison base
 stays **v39 = 287.0370** (best and last). One upload tests both changes; if v41 loses, v39
 is re-uploaded as a byte copy.
+
+## Amendment 2 (2026-09-28 02:40, user decision, before any forward or full deep run)
+
+To save ~10 GPU hours (the deep model runs ~84 s/epoch, 3.3 h per forward_inner seed), the
+forward stage is **skipped**. The `full` epoch count = **ceil(median forward_inner best
+epoch of the 3 deep seeds)** instead of the forward median. Caveat on record: for the small
+FTT the forward_inner median (~152) ran well above the forward median (112), so this count
+may be longer than the forward rule would have given. For the large FTT the two were closer
+(forward_inner 56–100 vs forward 99). The build and upload rules are unchanged.
