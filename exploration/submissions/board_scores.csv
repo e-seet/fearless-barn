@@ -37,3 +37,4 @@ version,board_name,score,date,status,note
 36,fearless-barn_v36,287.2876,2026-09-27,submitted,"board probe C2: 6 small + 3 d192 FTT, TabNet w=0.459 -- BEST; -0.637 vs v35 despite local Jan+Jul tie (+0.03)"
 37,fearless-barn_v37,289.3555,2026-09-27,submitted,"board probe: season-weighted MLP -- +2.07 WORSE than v36; season weighting closed on the board too"
 38,,,,not submitted,"byte-identical rebuild of v36 (submit.py, tag lirf_w0.459_c2) to re-upload LAST after v37"
+39,,,,not submitted,"board probe: 6 small + 6 d192 FTT (large share 1/3), TabNet w=0.459; LIRF identical to v36; RMS vs v36 7.07; expect tie to -0.3"
