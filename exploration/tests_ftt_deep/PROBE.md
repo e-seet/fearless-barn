@@ -47,3 +47,11 @@ may be longer than the forward rule would have given. For the large FTT the two 
 ## Result (2026-09-29)
 
 **v41 = 286.8032, -0.234 vs v39 (287.0370).** Inside the pre-upload range (−0.6 to +0.3). Adding a third, deeper FT-Transformer family to the FTT slot pays again; the weight solver leaned further into the slot (EHAM 0.79, LSZH 0.82, LTFM 0.60). This includes the folded-in 6 → 9 large seeds (v40, not uploaded alone).
+
+## Next probe (2026-09-29, before training): deep FTT 3 → 6 seeds
+
+Base: **v41 = 286.8032** (best and last). Add deep seeds 45, 46, 47: forward_inner (cap 260,
+lr 5e-4, bf16) for the weight solve, and `full` at the **same fixed 114 epochs** as seeds 42–44.
+FTT slot = 6 small + 9 large + 6 deep, **each family still 1/3** (per-model weights 1, 2/3, 1).
+The same large-FTT step (3 → 6 seeds) gave −0.25; **expectation −0.1 to −0.2**. If it loses,
+v41 is re-uploaded last as a byte copy.
