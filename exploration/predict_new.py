@@ -80,7 +80,9 @@ def ftt_member(seed, tag, X, Xtr):
     m.eval()
     cat, num = encode_data(D.align_columns(Xtr, X), ck["cat_cols"], ck["num_cols"], ck["cat_maps"],
                            ck["scaler"], ck["medians"])
-    amp = "d192" in tag                    # the d192 members were trained and predicted under bf16 autocast
+    # members trained with run_ftt.py --amp were also predicted under bf16 autocast (d192 large, d96b6 deep);
+    # the checkpoint does not record it, so it is keyed on the tag. A new --amp tag must be added here.
+    amp = any(k in tag for k in ("d192", "d96b6"))
     out = []
     with torch.no_grad():
         for i in range(0, len(num), 4096):
