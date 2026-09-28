@@ -43,3 +43,7 @@ epoch of the 3 deep seeds)** instead of the forward median. Caveat on record: fo
 FTT the forward_inner median (~152) ran well above the forward median (112), so this count
 may be longer than the forward rule would have given. For the large FTT the two were closer
 (forward_inner 56–100 vs forward 99). The build and upload rules are unchanged.
+
+## Result (2026-09-29)
+
+**v41 = 286.8032, -0.234 vs v39 (287.0370).** Inside the pre-upload range (−0.6 to +0.3). Adding a third, deeper FT-Transformer family to the FTT slot pays again; the weight solver leaned further into the slot (EHAM 0.79, LSZH 0.82, LTFM 0.60). This includes the folded-in 6 → 9 large seeds (v40, not uploaded alone).
