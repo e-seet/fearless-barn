@@ -67,3 +67,26 @@ PASS requires all of:
   track is allowed as an input). One board probe after that, with v42 as the fallback.
 
 **FAIL →** closed as a *full* test, and the records are updated.
+
+## Addendum (2026-09-30, before the full run): airport-focused variant
+
+Added at the user's request ("focus on the months or airports with a lot of issues"). It was
+written after the 2-day smoke run, which had 5 % of rows covered and is not informative per
+airport, and before the full run.
+
+**Rule:**
+- the airports that get the correction are the ones where the Jan → Jul corrector lowers that
+  airport's RMSE on July;
+- the correction is then applied **only at those airports** and judged on Jul → Jan (months not
+  used to choose the airports);
+- it is also run the other way: choose the airports on Jul → Jan, judge on Jan → Jul.
+
+**PASS (secondary):**
+- the pooled gain from the chosen airports is negative in both directions, beats the best of the
+  5 permutation controls there, and averages at least 0.3 s;
+- a secondary PASS leads to the same next steps as the main PASS.
+
+**Known limits:**
+- LFPG and LTFM have almost no ADS-B, so this cannot help them;
+- LIRF has 0 % coverage on the January 2025 day checked so far, so LIRF cannot be validated across
+  months unless the other January days cover it.

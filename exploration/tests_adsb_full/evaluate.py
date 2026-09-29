@@ -90,4 +90,28 @@ c3 = np.mean(g) <= -0.3
 out["verdict"] = {"both_directions_improve": c1, "beats_best_permutation": c2, "mean_gain_ge_0.3": bool(c3), "PASS": bool(c1 and c2 and c3)}
 print(f"\nPRE-REGISTERED: both directions {c1} | beats permutation {c2} | mean gain {np.mean(g):+.2f} (<= -0.3: {c3}) "
       f"=> {'PASS' if (c1 and c2 and c3) else 'FAIL'}")
+
+# ---- addendum: airport-focused variant (choose airports on one direction, judge on the other) ----
+def focused(sel_dir, judge_dir, a, b):
+    pa = out[sel_dir]["per_airport"]
+    chosen = [x for x, (u, v) in pa.items() if v < u]
+    tr, te = df[df.mon == a].copy(), df[df.mon == b].copy()
+    tr = tr[tr.ap.isin(chosen)]; mask = te.ap.isin(chosen).to_numpy()
+    te_sub = te.copy(); te_sub.loc[~mask, "covered"] = False       # only the chosen airports are corrected
+    b0, b1, _ = run(tr, te_sub)
+    perms = [run(tr, te_sub, s)[1] for s in range(5)]
+    print(f"   focused {judge_dir}: airports chosen on {sel_dir} = {chosen} | pooled {b0:.2f} -> {b1:.2f} ({b1-b0:+.2f}) "
+          f"| permuted best {min(perms):.2f} ({min(perms)-b0:+.2f})")
+    return {"chosen": chosen, "base": b0, "adsb": b1, "gain": b1 - b0, "perm": perms}
+
+print("\nADDENDUM (airport-focused):")
+f1 = focused("jan_to_jul", "jul_to_jan", "07", "01")
+f2 = focused("jul_to_jan", "jan_to_jul", "01", "07")
+fc1 = f1["gain"] < 0 and f2["gain"] < 0
+fc2 = f1["adsb"] < min(f1["perm"]) and f2["adsb"] < min(f2["perm"])
+fc3 = (f1["gain"] + f2["gain"]) / 2 <= -0.3
+out["focused"] = {"judge_jul_to_jan": f1, "judge_jan_to_jul": f2,
+                  "verdict": {"both": fc1, "beats_perm": fc2, "mean_ge_0.3": fc3, "PASS": bool(fc1 and fc2 and fc3)}}
+print(f"ADDENDUM verdict: both {fc1} | beats permutation {fc2} | mean {(f1['gain'] + f2['gain']) / 2:+.2f} "
+      f"=> {'PASS' if (fc1 and fc2 and fc3) else 'FAIL'}")
 (HERE / "evaluate.json").write_text(json.dumps(out, indent=2, default=float))
