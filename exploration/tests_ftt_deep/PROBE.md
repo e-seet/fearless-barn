@@ -55,3 +55,7 @@ lr 5e-4, bf16) for the weight solve, and `full` at the **same fixed 114 epochs**
 FTT slot = 6 small + 9 large + 6 deep, **each family still 1/3** (per-model weights 1, 2/3, 1).
 The same large-FTT step (3 → 6 seeds) gave −0.25; **expectation −0.1 to −0.2**. If it loses,
 v41 is re-uploaded last as a byte copy.
+
+## Result, deep 3 → 6 (2026-09-30)
+
+**v42 = 286.5256, −0.278 vs v41**, the top of the expected range (−0.1 to −0.2). The same step for the large FTT gave −0.25.

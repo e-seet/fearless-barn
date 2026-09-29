@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Final model (current)** | **v41 = 286.8032** on the public board, also the last upload |
+| **Final model (current)** | **v42 = 286.5256** on the public board, also the last upload |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
 | Standing (2026-09-29) | #70 of 164 teams by best score; leader 221.60, #10 237.0, median 292.4 |
 | Reproduce / predict new data | `python predict_new.py --movements <file> --out <pred>` (§3) |
@@ -25,7 +25,7 @@ of the squared error, depending on the period. Under L2 the optimal prediction i
 conditional *mean*, so anything that shrinks the tail (winsorizing, robust losses, prediction
 caps) loses (§6).
 
-## 2. The final model (v41)
+## 2. The final model (v42)
 
 A per-airport blend of three model families, each refit on all twelve 2025 months, plus a
 Rome-specific override:
@@ -37,7 +37,7 @@ per-airport blend ──┼─ MLP:    entity-embedding MLP (256,128,64), mean o
   airport)                        one third each of
                                     small  d_token 64,  3 blocks   6 seeds
                                     large  d_token 192, 3 blocks   9 seeds
-                                    deep   d_token 96,  6 blocks   3 seeds
+                                    deep   d_token 96,  6 blocks   6 seeds
         │
         └─ at LIRF only:  0.541 × blend + 0.459 × TabNet (mean of 5 seeds)
 ```
@@ -53,15 +53,15 @@ per-airport blend ──┼─ MLP:    entity-embedding MLP (256,128,64), mean o
   clipped to [60, 86,400] s.
 - **Refit:** hyperparameters and epoch counts are frozen from time-ordered splits; `full` has
   no holdout, so nothing is selected on it.
-- Registered arms: `ftt_multimodel` tag `ftt_c3_mlp18` and `tabnet_lirf_override` tag
-  `lirf_w0.459_c3`. Rebuild: `python submit.py --arm tabnet_lirf_override --tag
-  lirf_w0.459_c3 --split full --featureset with_aobt --outlier-policy keep_all --seed 42 --version N`.
+- Registered arms: `ftt_multimodel` tag `ftt_c3d6_mlp18` and `tabnet_lirf_override` tag
+  `lirf_w0.459_c3d6`. Rebuild: `python submit.py --arm tabnet_lirf_override --tag
+  lirf_w0.459_c3d6 --split full --featureset with_aobt --outlier-policy keep_all --seed 42 --version N`.
 
 ## 3. Reproducing and predicting new data
 
 **`predict_new.py`** predicts any movements parquet in `ranking.parquet`'s schema with the
 final recipe, **from saved models only**: features from the same builder, the tree and 18
-MLPs through `submit.py`'s code path, all 18 FT-Transformers from `.pt` checkpoints (bf16
+MLPs through `submit.py`'s code path, all 21 FT-Transformers from `.pt` checkpoints (bf16
 for the large and deep members, as trained), TabNet from its saved models and encoders,
 then the recorded weights and the LIRF override.
 
@@ -122,7 +122,8 @@ Rules that paid for themselves:
 | v35 | TabNet LIRF weight → board-optimal 0.459 | 287.92 | −0.065 |
 | v36 | FTT slot + 3 large FTTs | 287.29 | −0.64 |
 | v39 | large FTT 3 → 6 seeds (share 1/3) | 287.04 | −0.25 |
-| **v41** | **+ 3 deep FTTs, large 6 → 9; three FTT families at 1/3 each** | **286.80** | **−0.23** |
+| v41 | + 3 deep FTTs, large 6 → 9; three FTT families at 1/3 each | 286.80 | −0.23 |
+| **v42** | **deep FTT 3 → 6 seeds** | **286.53** | **−0.28** |
 
 Probes that lost and were reverted: v33 (TabNet 11 seeds, +0.91), v34 (small FTT 7 seeds,
 +0.04), v37 (season-weighted MLPs, +2.07). Two early results settled the tail: **v18**
