@@ -154,3 +154,33 @@ The same bar and the same focused rule apply to each.
   2025 January coverage to validate on;
 - expected board effect: well under the local pooled gain. The local base is 338 against 286 on the
   board, and the 2026 coverage mix differs; the expectation is written before any upload.
+
+## Addendum 4 (2026-09-30): the shipped configuration, and confirmation on fresh days
+
+**Shipped configuration** (`ship_config.py`, 18 days; scored after addendum 3 fixed the rule):
+- variant `all_nd`, applied only at EDDF, EHAM and LEBL;
+- Jan → Jul: −2.71 s pooled, 9/9 days better, −2.65 s with the best row removed;
+- Jul → Jan: −4.89 s pooled, 9/9 days better, −4.78 s with the best row removed.
+
+Those three airports were chosen on these same 18 days, and this is the best of several drift-clean
+variants, so the 18-day numbers are biased upward.
+
+**Confirmation** (`confirm.py`, fixed now, before any of these days is fetched):
+- Fresh days: the other 44 days of Jan and Jul 2025 (`fresh_days.txt`).
+- The configuration is frozen. Only the corrector's training rows change, and they are the old
+  days only:
+  - trained on the 9 old January days, scored on the fresh July days;
+  - trained on the 9 old July days, scored on the fresh January days.
+- **PASS requires:**
+  - pooled RMSE over all rows of the fresh days improves in both directions;
+  - it beats the best of 5 permutation controls in both directions;
+  - at least 2/3 of the fresh days improve in each direction.
+
+**PASS →**
+- fetch the remaining Jan and Jul 2026 days;
+- build the final corrector on all 62 Jan + Jul 2025 days;
+- write the board expectation: roughly −0.5 to −1.5 s. The local base is weaker (338 vs 286), and
+  the 2026 coverage mix differs;
+- no upload until the user decides the rules point.
+
+**FAIL →** ADS-B closed, with this full record.
