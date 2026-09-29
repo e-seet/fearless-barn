@@ -54,7 +54,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | Transductive pretraining for FT-Transformer | ❌ +19.8 s worse | `tests_ftt_pretrain` |
 | Sequence / neighbour models (GRU state, queue attention, TabR retrieval) | ❌ same errors as the MLP (corr 0.98) | `tests_seqrnn`, `tests_retrieval_screen`, §2k |
 | Matched / unmatched router | ❌ lost to the blend | `tests_matched_unmatched_router` |
-| Learned stacker, stage-2 residual boosting | ❌ overfit | §2v, plan 04 |
+| Learned stacker, stage-2 residual boosting, month-fold residual corrector (forum idea) | ❌ overfit / Jan + Jul +0.37 | §2v, plan 04, `tests_corrector` |
 | Tree-side seed averaging | ❌ Jan + Jul +0.16 | `tests_tree_seeds` |
 | Finer blend-weight bucketing (by WTC, runway, cluster) | ❌ over-tuned, quarantined | `overtuned/README.md` |
 
@@ -100,6 +100,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | Diagnosis: where the squared error sits | done: ~44 % in ~150 rows, mostly LIRF without a flight record | `tests_tail_diagnosis` |
 | 2025 structure: true value = scheduled delay, or ≈ one day | found, but did **not** transfer to 2026 | `tests_tail_study` |
 | LIRF identity override built on that structure | ❌ board +0.86, twice | `tests_lirf_identity` |
+| Carrier-level echo hedge for LIRF no-record rows (forum idea) | ❌ carrier predicts the echo, but the hedge is far worse than the model (Jan + Jul +60) | `tests_carrier_echo` |
 
 ### 3.6 Training and validation mechanics
 
