@@ -90,3 +90,33 @@ airport, and before the full run.
 - LFPG and LTFM have almost no ADS-B, so this cannot help them;
 - LIRF has 0 % coverage on the January 2025 day checked so far, so LIRF cannot be validated across
   months unless the other January days cover it.
+
+## Addendum 2 (2026-09-30, before the full run): movement features and the 2025 → 2026 drift gate
+
+This follows from re-reading the forum thread the user pasted.
+- GREKI: "adsb.lol's receiver network changed between the years, so features encoding where an
+  aircraft was heard didn't transfer; features describing its movement did."
+- arnavhm13 (2026 coverage): MAD good, CDG thin, IST none, FCO none in July 2026.
+
+Several MAIN features are reception-type (`n_ground`, `e_first`, `liftoff_dt`, and partly `e_disp`
+and `e_move`). A Jan ↔ Jul 2025 test cannot see a 2025 → 2026 shift, so it is fixed now:
+
+1. **Movement features** (`features.MOVE`, all measured from the first displacement from the stand):
+   - `path_km`: taxi path length;
+   - `stop_s` and `n_stops`: time stopped and number of stops (< 2 kt for ≥ 30 s);
+   - `lineup_s`: time from the end of the last stop to liftoff;
+   - `med_gs`: median taxi speed.
+2. **Variants,** each judged by the same bar and permutation control:
+   - `main` (as registered above);
+   - `move` (MOVE only);
+   - `all` (MAIN + MOVE).
+   Reporting all three is fixed now, so no variant can be chosen quietly.
+3. **Drift gate** (`drift.py`):
+   - Jan 2025 days are compared with Jan 2026 days, and Jul 2025 with Jul 2026 (at least 3 days of
+     2026 per month: Jan 15/20/27 and Jul 8/15/22);
+   - a feature is *drifting* if its pooled standardized mean difference exceeds 0.2 in either month;
+   - a variant that passes the Jan ↔ Jul bar may go forward **only if none of its features drift**;
+   - otherwise it is re-run without the drifting features, and that re-run must pass the same bar.
+4. Everything before an upload is unchanged: the full 2026 fetch, and the user's decision on the
+   rules. The moderator said "open data sources can be usable", and the question about a flight's
+   own ground track was asked on the forum but never answered in what we have.

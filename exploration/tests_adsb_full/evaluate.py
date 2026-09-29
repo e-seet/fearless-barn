@@ -11,7 +11,10 @@ from tests_tail_diagnosis.diagnose import CACHE
 
 JAN = ["2025-01-%02d" % d for d in (6, 9, 13, 15, 18, 21, 24, 28, 31)]
 JUL = ["2025-07-%02d" % d for d in (3, 7, 10, 15, 17, 20, 23, 26, 30)]
-ADSB = ["e_first", "e_disp", "e_move", "n_ground", "liftoff_dt"]
+VARIANT = sys.argv[1] if len(sys.argv) > 1 else "main"
+MAIN = ["e_first", "e_disp", "e_move", "n_ground", "liftoff_dt"]
+ADSB = {"main": MAIN, "move": features.MOVE, "all": MAIN + features.MOVE}[VARIANT]
+print(f"variant {VARIANT}: {ADSB}")
 PARAMS = dict(objective="l2", learning_rate=0.03, n_estimators=300, num_leaves=15, min_data_in_leaf=50,
               feature_fraction=0.8, random_state=42, verbose=-1)
 rm = lambda r: float(np.sqrt(np.mean(np.square(r))))
@@ -43,8 +46,8 @@ for d in JAN + JUL:
 e = pd.concat(est).sort_values("liftoff_dt"); e = e[~e.index.duplicated()]
 days = {d for d in JAN + JUL if (HERE / "points" / f"{d}.parquet").exists()}
 print(f"{len(days)} of {len(JAN + JUL)} days fetched")
-df = df[df.day.isin(days) & np.isfinite(df.y)].join(e[ADSB])
-df["covered"] = df.e_first.notna()
+df = df[df.day.isin(days) & np.isfinite(df.y)].join(e[ADSB + ([] if "e_first" in ADSB else ["e_first"])])
+df["covered"] = df.e_first.notna() if VARIANT != "move" else df.path_km.notna()
 df["apc"] = df.ap.astype("category")
 df["r"] = df.y - df.base
 df["mon"] = df.day.str[5:7]
@@ -114,4 +117,4 @@ out["focused"] = {"judge_jul_to_jan": f1, "judge_jan_to_jul": f2,
                   "verdict": {"both": fc1, "beats_perm": fc2, "mean_ge_0.3": fc3, "PASS": bool(fc1 and fc2 and fc3)}}
 print(f"ADDENDUM verdict: both {fc1} | beats permutation {fc2} | mean {(f1['gain'] + f2['gain']) / 2:+.2f} "
       f"=> {'PASS' if (fc1 and fc2 and fc3) else 'FAIL'}")
-(HERE / "evaluate.json").write_text(json.dumps(out, indent=2, default=float))
+(HERE / f"evaluate_{VARIANT}.json").write_text(json.dumps(out, indent=2, default=float))
