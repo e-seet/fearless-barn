@@ -1,0 +1,249 @@
+{
+  "arm": "ftt_multimodel",
+  "split": "full",
+  "featureset": "with_aobt",
+  "outlier_policy": "keep_all",
+  "seed": 42,
+  "weights_per_airport": {
+    "EDDF": [
+      0.5242823907988736,
+      0.20305680402762893,
+      0.2726608051734975
+    ],
+    "EDDM": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "EGLL": [
+      0.6219874717754446,
+      0.37801252822455556,
+      0.0
+    ],
+    "EHAM": [
+      0.8202064247108533,
+      0.1720014707853192,
+      0.007792104503827698
+    ],
+    "LEBL": [
+      0.2933058991645097,
+      0.5862583242278173,
+      0.12043577660767303
+    ],
+    "LEMD": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "LFPG": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "LIRF": [
+      0.0,
+      4.336808689942018e-18,
+      1.0
+    ],
+    "LSZH": [
+      0.824113140867411,
+      0.17588685913258892,
+      0.0
+    ],
+    "LTFM": [
+      0.6437904792641927,
+      0.2197453252672814,
+      0.1364641954685259
+    ]
+  },
+  "weight_order": [
+    "ftt",
+    "tree",
+    "mlp"
+  ],
+  "weight_split": "forward_inner",
+  "solver": "per-airport simplex (w>=0, sum=1), pipeline_airport_operator_catboost_multimodel.solve_weights_per_airport_simplex",
+  "mlp_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ],
+  "ftt_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47
+  ],
+  "ftt_tag": "lr1e-3",
+  "ftt_members": [
+    [
+      42,
+      "lr1e-3"
+    ],
+    [
+      43,
+      "lr1e-3"
+    ],
+    [
+      44,
+      "lr1e-3"
+    ],
+    [
+      45,
+      "lr1e-3"
+    ],
+    [
+      46,
+      "lr1e-3"
+    ],
+    [
+      47,
+      "lr1e-3"
+    ],
+    [
+      42,
+      "d192lr5"
+    ],
+    [
+      43,
+      "d192lr5"
+    ],
+    [
+      44,
+      "d192lr5"
+    ],
+    [
+      45,
+      "d192lr5"
+    ],
+    [
+      46,
+      "d192lr5"
+    ],
+    [
+      47,
+      "d192lr5"
+    ],
+    [
+      48,
+      "d192lr5"
+    ],
+    [
+      49,
+      "d192lr5"
+    ],
+    [
+      50,
+      "d192lr5"
+    ],
+    [
+      42,
+      "d96b6"
+    ],
+    [
+      43,
+      "d96b6"
+    ],
+    [
+      44,
+      "d96b6"
+    ],
+    [
+      45,
+      "d96b6"
+    ],
+    [
+      46,
+      "d96b6"
+    ],
+    [
+      47,
+      "d96b6"
+    ]
+  ],
+  "ftt_member_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.6666666667,
+    0.6666666667,
+    0.6666666667,
+    0.6666666667,
+    0.6666666667,
+    0.6666666667,
+    0.6666666667,
+    0.6666666667,
+    0.6666666667,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "ftt_pred_dir": "tests_ftt",
+  "ftt_pred_sha256": {
+    "42:lr1e-3": "ed69fce3606dd6f4de382c4a1b5489119d817f274e180f450f52b817bd3fddc0",
+    "43:lr1e-3": "88dcc7be0abf662738bc42eef2d5edb4977d5214bbc8618c9eaf4d8425655974",
+    "44:lr1e-3": "94e803ff347492af0d5c28f18f79eff2251b05d3b499b0ad1940bf8d672b69a1",
+    "45:lr1e-3": "0236a727dcc7750be1057637d65108013f3b45467e1d14137f3e106934b82c88",
+    "46:lr1e-3": "9720698865a5ba0b9867aaaf1da2dced7b3f346db6624d2b88f2346fa840bb51",
+    "47:lr1e-3": "f3f21d4fe9bc3395844827164bdd7480ea9876070296ea3de07793ea7e74efe6",
+    "42:d192lr5": "a825cae37ef08a88bc11d41143dc0611dbc991ac0488cb0bcfc7c933905fdb37",
+    "43:d192lr5": "93f92dd80578a6b9f3e1b14cd635b37d59fd27188cccdebf529ecd51bd1c581a",
+    "44:d192lr5": "202e3f46ee72b8c9e5f787f26330d033dab35fc3a18b5f6f453350076837ecd6",
+    "45:d192lr5": "d36617bc4ed5a2e455e3e4f347df6b1b4bcdd6e8b9d8d6841a1d7753c16f023f",
+    "46:d192lr5": "501fd055d5a01642ee2a76359acc6d0eb19f145943c660c481a22b4792ec9859",
+    "47:d192lr5": "636b67b4c99654aa52772408f0ef4197be4bf556092fd76c86befb3e521108b4",
+    "48:d192lr5": "095a18f5940926c7fc642dee209a8f221afae50816781663cb97c1f95fb6b1fd",
+    "49:d192lr5": "c9eacc24e0e522aab464ca4875f47c7dfd6e95876d3699f65190c3e53fe49c55",
+    "50:d192lr5": "964fc80f20717c0c06baf2c8cced4781e13c7ee29d1089bb67100ae959eba1c7",
+    "42:d96b6": "986f59d158db1d902fddc8dda71d51b2d8df5ea54bdaa2db422afb550461df54",
+    "43:d96b6": "5de60b1d6a9e654ac6162e7278441a367fd9d12d383a187d2055d4c990cabd16",
+    "44:d96b6": "317ed8f02cb6e712b6884ed6b9ad22dbaa16e97107915cc19eb643be74238550",
+    "45:d96b6": "89a76d50ec8d2100dd39e014e59fb293cdf78526d84e100e39e659f0281544d7",
+    "46:d96b6": "62371b54527c82225670b54a1336f8e2ace56eb4711d6a6c698a848df2d6df23",
+    "47:d96b6": "7cd0018fdc834e3dba9beccf2609731c6114e11e319833dc7d965965df1ae29e"
+  },
+  "ftt_freeze_epochs": 112,
+  "ftt_freeze_rationale": "median best epoch of the three forward seeds (102/112/117); full has no val so the count is frozen, and the median is used for every member rather than one seed's (CONVERGENCE_AUDIT.md sec.2)",
+  "n_ranking_rows": 344841,
+  "feature_fingerprint": "aeade7fee3099c1a",
+  "evidence": "tests_ftt/RESULT.md -- confirmed on 3 independent periods; honest effect ~1.5s in-band",
+  "note": "prediction-only arm: it does not train FTT."
+}
