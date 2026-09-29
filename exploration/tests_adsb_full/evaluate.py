@@ -13,7 +13,10 @@ JAN = ["2025-01-%02d" % d for d in (6, 9, 13, 15, 18, 21, 24, 28, 31)]
 JUL = ["2025-07-%02d" % d for d in (3, 7, 10, 15, 17, 20, 23, 26, 30)]
 VARIANT = sys.argv[1] if len(sys.argv) > 1 else "main"
 MAIN = ["e_first", "e_disp", "e_move", "n_ground", "liftoff_dt"]
-ADSB = {"main": MAIN, "move": features.MOVE, "all": MAIN + features.MOVE}[VARIANT]
+DRIFT = {"n_ground", "path_km", "n_stops"}   # addendum 3
+nd = lambda fs: [f for f in fs if f not in DRIFT]
+ADSB = {"main": MAIN, "move": features.MOVE, "all": MAIN + features.MOVE,
+        "main_nd": nd(MAIN), "move_nd": nd(features.MOVE), "all_nd": nd(MAIN + features.MOVE)}[VARIANT]
 print(f"variant {VARIANT}: {ADSB}")
 PARAMS = dict(objective="l2", learning_rate=0.03, n_estimators=300, num_leaves=15, min_data_in_leaf=50,
               feature_fraction=0.8, random_state=42, verbose=-1)
@@ -47,7 +50,7 @@ e = pd.concat(est).sort_values("liftoff_dt"); e = e[~e.index.duplicated()]
 days = {d for d in JAN + JUL if (HERE / "points" / f"{d}.parquet").exists()}
 print(f"{len(days)} of {len(JAN + JUL)} days fetched")
 df = df[df.day.isin(days) & np.isfinite(df.y)].join(e[ADSB + ([] if "e_first" in ADSB else ["e_first"])])
-df["covered"] = df.e_first.notna() if VARIANT != "move" else df.path_km.notna()
+df["covered"] = df.e_first.notna() if not VARIANT.startswith("move") else df.stop_s.notna()
 df["apc"] = df.ap.astype("category")
 df["r"] = df.y - df.base
 df["mon"] = df.day.str[5:7]

@@ -1,0 +1,38 @@
+variant move: ['path_km', 'stop_s', 'n_stops', 'lineup_s', 'med_gs']
+base (held out) Jan+Jul RMSE 337.78
+18 of 18 days fetched
+      size      mean
+mon                 
+01   44089  0.456939
+07   55428  0.341073
+
+== jan_to_jul: 55428 rows (34% covered) | pooled 364.76 -> 363.79 (-0.97) | permuted best 364.51 (-0.24), mean 364.80
+   EDDF:  198.2 ->  187.9 (-10.4)
+   EDDM:  163.9 ->  154.3 (-9.6)
+   EGLL:  355.6 ->  354.5 (-1.2)
+   EHAM:  206.7 ->  195.0 (-11.7)
+   LEBL:  244.5 ->  236.3 (-8.2)
+   LEMD:  197.0 ->  192.5 (-4.5)
+   LFPG:  249.2 ->  249.7 (+0.4)
+   LIRF:  973.3 ->  983.0 (+9.8)
+   LSZH:  211.7 ->  197.8 (-13.8)
+   LTFM:  315.4 ->  315.4 (+0.0)
+
+== jul_to_jan: 44089 rows (46% covered) | pooled 219.70 -> 219.22 (-0.48) | permuted best 224.67 (+4.98), mean 226.09
+   EDDF:  184.1 ->  171.8 (-12.3)
+   EDDM:  196.5 ->  185.8 (-10.8)
+   EGLL:  208.2 ->  217.8 (+9.6)
+   EHAM:  246.2 ->  251.0 (+4.9)
+   LEBL:  153.9 ->  140.9 (-13.0)
+   LEMD:  164.0 ->  164.0 (+0.0)
+   LFPG:  268.9 ->  268.9 (+0.0)
+   LIRF:  306.3 ->  306.3 (+0.0)
+   LSZH:  166.8 ->  168.3 (+1.5)
+   LTFM:  231.1 ->  231.1 (+0.0)
+
+PRE-REGISTERED: both directions True | beats permutation True | mean gain -0.72 (<= -0.3: True) => PASS
+
+ADDENDUM (airport-focused):
+   focused jul_to_jan: airports chosen on jan_to_jul = ['EDDF', 'EDDM', 'EGLL', 'EHAM', 'LEBL', 'LEMD', 'LSZH'] | pooled 219.70 -> 217.20 (-2.49) | permuted best 222.80 (+3.11)
+   focused jan_to_jul: airports chosen on jul_to_jan = ['EDDF', 'EDDM', 'LEBL'] | pooled 364.76 -> 363.32 (-1.44) | permuted best 364.84 (+0.08)
+ADDENDUM verdict: both True | beats permutation True | mean -1.96 => PASS

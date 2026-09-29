@@ -120,3 +120,37 @@ and `e_move`). A Jan ↔ Jul 2025 test cannot see a 2025 → 2026 shift, so it i
 4. Everything before an upload is unchanged: the full 2026 fetch, and the user's decision on the
    rules. The moderator said "open data sources can be usable", and the question about a flight's
    own ground track was asked on the forum but never answered in what we have.
+
+## Addendum 3 (2026-09-30, after the first full run and the drift report, before the drift-clean re-run)
+
+**First full run** (18 days): `main`, `move` and `all` all PASS, and all three focused variants
+PASS. Mean pooled gain: −1.09, −0.72 and −1.29 s for the main variants; −2.77, −1.96 and −3.06 s for
+the focused ones.
+
+**Drift report:**
+- `n_ground` drifts in Jan and Jul (|SMD| 0.21 and 0.37);
+- `path_km` and `n_stops` drift in Jul (0.40 and 0.36);
+- every other feature has |SMD| ≤ 0.16.
+
+Coverage also moved a lot between the years:
+- July: EDDM 35 → 96 %, EGLL 11 → 96 %, LIRF 64 → 0 %;
+- January: LEMD 0 → 97 %, LIRF 0 → 52 %.
+
+**The drift rule applies:** each variant is re-run without its drifting features.
+
+| variant | features |
+|---|---|
+| `main_nd` | `e_first`, `e_disp`, `e_move`, `liftoff_dt` |
+| `move_nd` | `stop_s`, `lineup_s`, `med_gs` |
+| `all_nd` | `main_nd` + `move_nd` |
+
+The same bar and the same focused rule apply to each.
+
+**Fixed now, for the build that follows a PASS:**
+- the variant carried forward is the drift-clean variant with the largest mean *focused* gain, if it
+  passes;
+- the correction is applied only at the airports chosen in **both** directions (the intersection);
+- LFPG, LTFM and LIRF are never corrected: LFPG and LTFM have almost no coverage, and LIRF has no
+  2025 January coverage to validate on;
+- expected board effect: well under the local pooled gain. The local base is 338 against 286 on the
+  board, and the 2026 coverage mix differs; the expectation is written before any upload.

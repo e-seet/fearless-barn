@@ -1,0 +1,162 @@
+{
+  "01": {
+    "coverage": {
+      "2025": {
+        "EDDF": 0.81,
+        "EDDM": 0.97,
+        "EGLL": 0.53,
+        "EHAM": 0.97,
+        "LEBL": 0.96,
+        "LEMD": 0.0,
+        "LFPG": 0.0,
+        "LIRF": 0.0,
+        "LSZH": 0.93,
+        "LTFM": 0.0
+      },
+      "2026": {
+        "EDDF": 0.63,
+        "EDDM": 0.97,
+        "EGLL": 0.78,
+        "EHAM": 0.97,
+        "LEBL": 0.95,
+        "LEMD": 0.97,
+        "LFPG": 0.04,
+        "LIRF": 0.52,
+        "LSZH": 0.95,
+        "LTFM": 0.0
+      }
+    },
+    "features": {
+      "e_first": {
+        "smd_pooled": 0.03752068518544902,
+        "smd_within_airport_median": 0.0316760404690027,
+        "drifting": false
+      },
+      "e_disp": {
+        "smd_pooled": 0.04214076050428296,
+        "smd_within_airport_median": 0.03117635007141765,
+        "drifting": false
+      },
+      "e_move": {
+        "smd_pooled": 0.042346747268426674,
+        "smd_within_airport_median": 0.03521995078353216,
+        "drifting": false
+      },
+      "n_ground": {
+        "smd_pooled": 0.20560154343904122,
+        "smd_within_airport_median": 0.2016416372741121,
+        "drifting": true
+      },
+      "liftoff_dt": {
+        "smd_pooled": -0.102618808159203,
+        "smd_within_airport_median": -0.1256110453505316,
+        "drifting": false
+      },
+      "path_km": {
+        "smd_pooled": 0.04454266408980339,
+        "smd_within_airport_median": 0.15126022006024156,
+        "drifting": false
+      },
+      "stop_s": {
+        "smd_pooled": 0.031090088593202992,
+        "smd_within_airport_median": 0.05353411982411926,
+        "drifting": false
+      },
+      "n_stops": {
+        "smd_pooled": 0.10745291471903555,
+        "smd_within_airport_median": 0.17281530293403005,
+        "drifting": false
+      },
+      "lineup_s": {
+        "smd_pooled": -0.00908698655033299,
+        "smd_within_airport_median": -0.08351612646114441,
+        "drifting": false
+      },
+      "med_gs": {
+        "smd_pooled": 0.032409195500846144,
+        "smd_within_airport_median": -0.08151581056559061,
+        "drifting": false
+      }
+    }
+  },
+  "07": {
+    "coverage": {
+      "2025": {
+        "EDDF": 0.6,
+        "EDDM": 0.35,
+        "EGLL": 0.11,
+        "EHAM": 0.69,
+        "LEBL": 0.59,
+        "LEMD": 0.2,
+        "LFPG": 0.02,
+        "LIRF": 0.64,
+        "LSZH": 0.64,
+        "LTFM": 0.0
+      },
+      "2026": {
+        "EDDF": 0.35,
+        "EDDM": 0.96,
+        "EGLL": 0.96,
+        "EHAM": 0.95,
+        "LEBL": 0.96,
+        "LEMD": 0.51,
+        "LFPG": 0.07,
+        "LIRF": 0.0,
+        "LSZH": 0.92,
+        "LTFM": 0.0
+      }
+    },
+    "features": {
+      "e_first": {
+        "smd_pooled": 0.15553024946597427,
+        "smd_within_airport_median": 0.07938623752963866,
+        "drifting": false
+      },
+      "e_disp": {
+        "smd_pooled": 0.15444312701287652,
+        "smd_within_airport_median": 0.09519973685587216,
+        "drifting": false
+      },
+      "e_move": {
+        "smd_pooled": 0.12997941295997262,
+        "smd_within_airport_median": 0.08283854266972668,
+        "drifting": false
+      },
+      "n_ground": {
+        "smd_pooled": 0.37175697598653124,
+        "smd_within_airport_median": 0.27159196689383674,
+        "drifting": true
+      },
+      "liftoff_dt": {
+        "smd_pooled": 0.11442444352301677,
+        "smd_within_airport_median": 0.021009643449284077,
+        "drifting": false
+      },
+      "path_km": {
+        "smd_pooled": 0.3964548728435264,
+        "smd_within_airport_median": 0.4948293332303334,
+        "drifting": true
+      },
+      "stop_s": {
+        "smd_pooled": 0.14738628215884733,
+        "smd_within_airport_median": 0.1200295938589436,
+        "drifting": false
+      },
+      "n_stops": {
+        "smd_pooled": 0.35983309817802966,
+        "smd_within_airport_median": 0.35491217968107225,
+        "drifting": true
+      },
+      "lineup_s": {
+        "smd_pooled": -0.042127534783810754,
+        "smd_within_airport_median": -0.06128469531102003,
+        "drifting": false
+      },
+      "med_gs": {
+        "smd_pooled": -0.08508408932485649,
+        "smd_within_airport_median": 0.1565033464463718,
+        "drifting": false
+      }
+    }
+  }
+}
