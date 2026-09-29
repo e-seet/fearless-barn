@@ -91,7 +91,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | OpenStreetMap stand-to-runway straight-line distance | ➖ real, negligible after the stand×runway ID | §2h |
 | Public holiday calendars | ❌ | `tests_holiday`, §2ab |
 | EUROCONTROL ATFM delay statistics | ❌ negative on the ceiling | `tests_atfm_delay`, §2ah |
-| ADS-B (adsb.lol) ground sightings | ❌ 20 % coverage (0–3 % at the hubs); worse at LIRF | `tests_adsb_coverage`, `tests_tail_study` |
+| ADS-B (adsb.lol) ground tracks | ⏳ first check (3 days, one crude feature) was too weak to close it. **Full test in progress:** strict matching gives 44–62 % coverage (LFPG, LTFM ≈ 0); the pushback estimate lags the recorded off-block by 4–11 min; pre-registered Jan ↔ Jul corrector + 2025 → 2026 drift gate | `tests_adsb_coverage`, `tests_adsb_full/PREREGISTERED.md` |
 
 ### 3.5 The tail (the few very long taxi-outs)
 
