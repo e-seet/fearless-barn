@@ -12,7 +12,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 | Final model | **v42 = 286.53** on the public board (from 405.75 with the first submission) |
 | Standing | #70 of 164 teams by best score; leader 221.60, #10 237.0, median 292.4 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus a TabNet override at Rome (LIRF) |
-| Reproducibility | `predict_new.py` rebuilds v41 from saved models on 344,840 / 344,841 rows and can predict any new movements file |
+| Reproducibility | `predict_new.py` rebuilds v42 from saved models on 344,840 / 344,841 rows and can predict any new movements file |
 
 ## 2. What we built, in the order it paid
 

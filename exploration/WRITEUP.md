@@ -67,10 +67,10 @@ then the recorded weights and the LIRF override.
 
 ```
 python predict_new.py --movements <file.parquet> --out <pred.parquet> [--ids <template.parquet>]
-python predict_new.py --selftest --selftest-version 41     # verify against the uploaded v41
+python predict_new.py --selftest --selftest-version 42     # verify against the uploaded v42
 ```
 
-**Verified (2026-09-29):** from the raw `ranking.parquet` it reproduces v41 on **344,840 /
+**Verified (2026-09-30):** from the raw `ranking.parquet` it reproduces v42 on **344,840 /
 344,841 rows**. The one exception is a LIRF row off by 1 s, a rounding boundary between
 in-process and reloaded TabNet inference.
 
