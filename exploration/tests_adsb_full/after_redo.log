@@ -1,0 +1,21 @@
+[Wed Sep 30 09:19:16 MPST 2026] waiting for re-download and re-confirmation
+== jan_to_jul: pooled 317.20 -> 312.56 (-4.63) | permuted best +0.25 | best row removed -4.61
+== jul_to_jan: pooled 384.21 -> 381.71 (-2.50) | permuted best +0.17 | best row removed -2.47
+CONFIRMATION (addendum 4): PASS
+[Wed Sep 30 11:17:17 MPST 2026] drift (complete set)
+== month 01: 2025 153706 deps, 2026 152719 deps
+   n_ground   SMD pooled +0.26 | within-airport +0.26  DRIFT
+== month 07: 2025 190713 deps, 2026 192122 deps
+   n_ground   SMD pooled +0.21 | within-airport +0.16  DRIFT
+   path_km    SMD pooled +0.24 | within-airport +0.33  DRIFT
+   n_stops    SMD pooled +0.32 | within-airport +0.36  DRIFT
+[Wed Sep 30 11:45:13 MPST 2026] final build
+2025 training: 62 days, 344419 rows, 94576 covered at ['EDDF', 'EHAM', 'LEBL']
+cross-month 01->07 (all days): pooled 389.26 -> 385.46, SE drop per corrected row 10716 s^2 on 52473 rows
+cross-month 07->01 (all days): pooled 358.72 -> 355.39, SE drop per corrected row 8684 s^2 on 42103 rows
+2026: 62 of 62 days fetched; missing []
+2026 corrected rows: 80351 of 344841 (23.3%); by airport {'EDDF': 0.454, 'EHAM': 0.94, 'LEBL': 0.929}
+correction: mean +18.2 s, mean |.| 67.0 s, 1-99 % [-172, 427]
+rows changed vs v42: 79761
+PROJECTION: naive -3.97 s vs v42 (286.5256); written expectation -1.32 to -1.99 s (weaker local base, 2026 coverage mix; GREKI: new inputs 'came in well under the estimate'). Board result above v42 -> re-upload v42 last as a byte copy.
+[Wed Sep 30 11:45:53 MPST 2026] ALL DONE (nothing uploaded)

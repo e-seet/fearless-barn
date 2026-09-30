@@ -1,0 +1,32 @@
+
+== month 01: 2025 153706 deps, 2026 152719 deps
+coverage by airport:
+ ap    EDDF  EDDM  EGLL  EHAM  LEBL  LEMD  LFPG  LIRF  LSZH  LTFM
+2025  0.78  0.97  0.54  0.98  0.98  0.00  0.00  0.00  0.93   0.0
+2026  0.54  0.96  0.74  0.91  0.91  0.94  0.06  0.63  0.92   0.0
+   e_first    SMD pooled +0.08 | within-airport +0.07
+   e_disp     SMD pooled +0.09 | within-airport +0.08
+   e_move     SMD pooled +0.09 | within-airport +0.08
+   n_ground   SMD pooled +0.26 | within-airport +0.26  DRIFT
+   liftoff_dt SMD pooled -0.07 | within-airport -0.10
+   path_km    SMD pooled +0.11 | within-airport +0.15
+   stop_s     SMD pooled +0.07 | within-airport +0.07
+   n_stops    SMD pooled +0.18 | within-airport +0.17
+   lineup_s   SMD pooled -0.01 | within-airport -0.08
+   med_gs     SMD pooled +0.00 | within-airport -0.10
+
+== month 07: 2025 190713 deps, 2026 192122 deps
+coverage by airport:
+ ap    EDDF  EDDM  EGLL  EHAM  LEBL  LEMD  LFPG  LIRF  LSZH  LTFM
+2025  0.79  0.37  0.12  0.94  0.86  0.27  0.03  0.89  0.87   0.0
+2026  0.39  0.97  0.97  0.96  0.95  0.58  0.05  0.00  0.93   0.0
+   e_first    SMD pooled +0.10 | within-airport +0.07
+   e_disp     SMD pooled +0.10 | within-airport +0.09
+   e_move     SMD pooled +0.07 | within-airport +0.08
+   n_ground   SMD pooled +0.21 | within-airport +0.16  DRIFT
+   liftoff_dt SMD pooled +0.08 | within-airport -0.08
+   path_km    SMD pooled +0.24 | within-airport +0.33  DRIFT
+   stop_s     SMD pooled +0.11 | within-airport +0.10
+   n_stops    SMD pooled +0.32 | within-airport +0.36  DRIFT
+   lineup_s   SMD pooled -0.05 | within-airport -0.12
+   med_gs     SMD pooled -0.13 | within-airport +0.09
