@@ -68,6 +68,14 @@ for a, b in (("01", "07"), ("07", "01")):
 
 # final corrector: every covered 2025 row at the shipped airports
 final = lgb.LGBMRegressor(**PARAMS).fit(tr[tr.covered][FEAT], (tr.y - tr.base)[tr.covered])
+MODEL_DIR = HERE / "model"; MODEL_DIR.mkdir(exist_ok=True)
+final.booster_.save_model(str(MODEL_DIR / "adsb_corrector.txt"))
+(MODEL_DIR / "config.json").write_text(json.dumps({"airports": SHIP, "features": FEAT, "adsb_features": FEAT_ADSB,
+    "params": PARAMS, "train_days": days25, "takeoff_tol_s": features.TAKEOFF_TOL, "disp_m": features.DISP_M,
+    "base_file": "submissions/fearless_barn_v42.parquet"}, indent=2))
+cc = tr[tr.covered]
+say(f"bias check: mean(y - base) on covered 2025 rows at {SHIP} = {float((cc.y - cc.base).mean()):+.1f} s; "
+    f"by month {({k: round(float(v), 1) for k, v in (cc.y - cc.base).groupby(cc.mon).mean().items()})}")
 
 # ---------------- 2026: apply on top of v42 ----------------
 v42 = pd.read_parquet(ROOT / "submissions" / "fearless_barn_v42.parquet")

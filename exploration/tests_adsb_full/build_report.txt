@@ -1,6 +1,7 @@
 2025 training: 62 days, 344419 rows, 94576 covered at ['EDDF', 'EHAM', 'LEBL']
 cross-month 01->07 (all days): pooled 389.26 -> 385.46, SE drop per corrected row 10716 s^2 on 52473 rows
 cross-month 07->01 (all days): pooled 358.72 -> 355.39, SE drop per corrected row 8684 s^2 on 42103 rows
+bias check: mean(y - base) on covered 2025 rows at ['EDDF', 'EHAM', 'LEBL'] = +6.5 s; by month {'01': 7.1, '07': 6.1}
 2026: 62 of 62 days fetched; missing []
 2026 corrected rows: 80351 of 344841 (23.3%); by airport {'EDDF': 0.454, 'EHAM': 0.94, 'LEBL': 0.929}
 correction: mean +18.2 s, mean |.| 67.0 s, 1-99 % [-172, 427]

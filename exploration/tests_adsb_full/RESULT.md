@@ -49,3 +49,15 @@ was written before the run.
 The forum question to the moderator mentions "the earlier request to treat post-pushback ADS-B as
 leakage". The only reply ("open data sources can be usable") does not address that. These features
 are post-pushback, so the upload waits for the user's decision after checking with the moderator.
+
+## Reproducibility and a bias check
+
+- **Saved model:** the corrector is saved in `model/adsb_corrector.txt`, with its config in
+  `model/config.json`.
+- **Rebuild:** `predict_adsb.py --check v43_candidate.parquet` rebuilds the candidate from the saved
+  model, v42 and the ADS-B day files. All 344,841 rows and the file bytes are identical.
+- **Bias check:** on covered 2025 rows at the three airports, the held-out base underpredicts by
+  +6.5 s on average (Jan +7.1, Jul +6.1). The 2026 correction on v42 averages +18 s.
+  - Some of that shift may be feature-driven and some a mismatch with v42.
+  - If the extra ~12 s were entirely misplaced, it would cost about 0.1 s of RMSE, which is small
+    against the expected gain.
