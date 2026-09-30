@@ -83,4 +83,11 @@ def estimates(points: pd.DataFrame) -> pd.DataFrame:
 
 
 def load_day(day: str) -> pd.DataFrame:
-    return estimates(pd.read_parquet(HERE / "points" / f"{day}.parquet"))
+    src = HERE / "points" / f"{day}.parquet"
+    cache = HERE / "est_cache" / f"{day}.parquet"
+    if cache.exists() and cache.stat().st_mtime >= max(src.stat().st_mtime, Path(__file__).stat().st_mtime):
+        return pd.read_parquet(cache)
+    e = estimates(pd.read_parquet(src))
+    cache.parent.mkdir(exist_ok=True)
+    e.to_parquet(cache)
+    return e
