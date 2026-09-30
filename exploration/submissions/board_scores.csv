@@ -29,16 +29,16 @@ version,board_name,score,date,status,note
 28,fearless-barn_v28,294.4929,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.80
 29,fearless-barn_v29,293.6685,2026-09-21,submitted,TabNet LIRF override on v25 at w=0.55
 30,fearless-barn_v30,291.3371,2026-09-23,submitted,"FTT 3-member blend off LIRF (ftt3_mlp18) -- -3.87 vs v25, predicted ~-3"
-31,fearless-barn_v31,289.7783,2026-09-23,submitted,"v30 + TabNet LIRF override w=0.55 composition check predicted 289.7797 (diff -0.0014)"
-32,fearless-barn_v32,287.9898,2026-09-25,submitted,"FTT 6 seeds (ftt6_mlp18) + TabNet LIRF override ; -1.79 vs v31 (expected -0.3 to -0.5); LIRF identical to v31"
-33,fearless-barn_v33,288.9007,2026-09-25,submitted,"board probe: v32 with TabNet over all 11 healthy seeds (was 5) -- +0.91 WORSE; v32 stays best/final"
+31,fearless-barn_v31,289.7783,2026-09-23,submitted,v30 + TabNet LIRF override w=0.55 composition check predicted 289.7797 (diff -0.0014)
+32,fearless-barn_v32,287.9898,2026-09-25,submitted,FTT 6 seeds (ftt6_mlp18) + TabNet LIRF override ; -1.79 vs v31 (expected -0.3 to -0.5); LIRF identical to v31
+33,fearless-barn_v33,288.9007,2026-09-25,submitted,board probe: v32 with TabNet over all 11 healthy seeds (was 5) -- +0.91 WORSE; v32 stays best/final
 34,fearless-barn_v34,288.03,2026-09-25,submitted,"board probe: FTT 7 seeds -- +0.04 vs v32 (tie); FTT seed averaging saturated; v32 stays best (score as reported by user, 2 dp)"
-35,fearless-barn_v35,287.9247,2026-09-25,submitted,"v32 + TabNet LIRF w=0.459 (exact board-MSE quadratic through v25/v29/v28) predicted 287.9248 (diff -0.0001)"
+35,fearless-barn_v35,287.9247,2026-09-25,submitted,v32 + TabNet LIRF w=0.459 (exact board-MSE quadratic through v25/v29/v28) predicted 287.9248 (diff -0.0001)
 36,fearless-barn_v36,287.2876,2026-09-27,submitted,"board probe C2: 6 small + 3 d192 FTT, TabNet w=0.459 ; -0.637 vs v35 despite local Jan+Jul tie (+0.03)"
-37,fearless-barn_v37,289.3555,2026-09-27,submitted,"board probe: season-weighted MLP -- +2.07 WORSE than v36; season weighting closed on the board too"
-38,,,,not submitted,"byte-identical rebuild of v36; NOT uploaded (v39 beat v36 and was uploaded last)"
+37,fearless-barn_v37,289.3555,2026-09-27,submitted,board probe: season-weighted MLP -- +2.07 WORSE than v36; season weighting closed on the board too
+38,,,,not submitted,byte-identical rebuild of v36; NOT uploaded (v39 beat v36 and was uploaded last)
 39,fearless-barn_v39,287.037,2026-09-27,submitted,"6 small + 6 d192 FTT (large share 1/3), TabNet w=0.459 ; -0.251 vs v36"
 41,fearless-barn_v41,286.8032,2026-09-29,submitted,"FTT slot 6 small + 9 large + 3 deep (1/3 each), TabNet w=0.459 ; -0.234 vs v39"
-42,fearless-barn_v42,286.5256,2026-09-30,submitted,"FTT slot 6 small + 9 large + 6 deep (1/3 each), TabNet w=0.459 -- BEST and LAST; -0.278 vs v41"
-43,,,,"built, not uploaded","v42 + adsb.lol corrector at EDDF/EHAM/LEBL (79,761 rows changed); EXPECTATION before upload: 284.5-285.2 (-1.3 to -2.0); if above 286.5256 re-upload v42 last"
-44,,,,"built, not uploaded","v43 + EDDM (ADS-B corrector at EDDF/EHAM/LEBL/EDDM; 104,703 rows changed vs v42); EXPECTATION before upload: 283.8-284.7 (-1.8 to -2.7 vs v42); if above 286.5256 re-upload v42 last"
+42,fearless-barn_v42,286.5256,2026-09-30,submitted,"FTT slot 6 small + 9 large + 6 deep (1/3 each), TabNet w=0.459; -0.278 vs v41"
+43,fearless-barn_v43,281.8629,2026-09-30,submitted,"v42 + adsb.lol corrector at EDDF/EHAM/LEBL; -4.663 vs v42 (expected -1.3 to -2.0, naive -3.97): beat the naive projection"
+44,fearless-barn_v44,279.1517,2026-09-30,submitted,"v43 + EDDM (corrector at EDDF/EHAM/LEBL/EDDM) -- BEST and LAST; -2.711 vs v43, -7.374 vs v42 (expected -1.8 to -2.7, naive -5.40)"
