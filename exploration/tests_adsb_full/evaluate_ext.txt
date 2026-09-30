@@ -1,0 +1,14 @@
+Nov-Dec: 61 of 61 days fetched, 328009 rows; covered by airport: {'EDDF': 0.92, 'EDDM': 0.97, 'EGLL': 0.52, 'EHAM': 0.96, 'LEBL': 0.95, 'LEMD': 0.96, 'LFPG': 0.12, 'LIRF': 0.5, 'LSZH': 0.94, 'LTFM': 0.0}
+
+A (frozen v43 corrector on Nov-Dec): pooled 274.75 -> 267.51 (-7.24) | best row removed -7.22 | days better 61/61 | 95797 rows corrected
+   per airport: {'EDDF': '185.6->142.7', 'EHAM': '189.3->146.0', 'LEBL': '178.7->153.7'} => PASS
+
+B EDDM: Jan->Jul 181.9->164.4 (n=5814), Jul->Jan 177.1->165.6 (n=10934) | Nov-Dec 215.1->131.9, days better 61/61, permuted best 210.7, covered 97% => ADD
+
+B LSZH: Jan->Jul 199.3->171.4 (n=10945), Jul->Jan 204.5->206.0 (n=9059) | Nov-Dec 163.0->131.8, days better 56/61, permuted best 162.1, covered 94% => no
+
+B EGLL: Jan->Jul 297.9->296.0 (n=2429), Jul->Jan 238.2->263.4 (n=10547) | Nov-Dec 218.3->205.9, days better 52/61, permuted best 220.0, covered 52% => no
+
+B LEMD: Jan->Jul 189.7->192.2 (n=5004), Jul->Jan 159.7->159.7 (n=2) | Nov-Dec 170.1->149.9, days better 61/61, permuted best 172.3, covered 96% => no
+
+v44 check: union ['EDDF', 'EHAM', 'LEBL', 'EDDM'] refit -> Nov-Dec pooled 263.41 vs frozen v43 267.51 => PASS (build v44)

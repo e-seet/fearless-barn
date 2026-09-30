@@ -17,9 +17,10 @@ ap_ = argparse.ArgumentParser()
 ap_.add_argument("--base", default=str(ROOT / "submissions" / "fearless_barn_v42.parquet"))
 ap_.add_argument("--out", default=str(HERE / "v43_rebuilt.parquet"))
 ap_.add_argument("--check", default=None)
+ap_.add_argument("--model-dir", default=str(HERE / "model"))
 a = ap_.parse_args()
-cfg = json.loads((HERE / "model" / "config.json").read_text())
-booster = lgb.Booster(model_file=str(HERE / "model" / "adsb_corrector.txt"))
+cfg = json.loads((Path(a.model_dir) / "config.json").read_text())
+booster = lgb.Booster(model_file=str(Path(a.model_dir) / "adsb_corrector.txt"))
 SHIP, FEAT, FEAT_ADSB = cfg["airports"], cfg["features"], cfg["adsb_features"]
 
 base = pd.read_parquet(a.base)

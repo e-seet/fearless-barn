@@ -39,17 +39,18 @@ OUT = HERE / "points"; OUT.mkdir(exist_ok=True)
 
 
 def preferred_urls(day: str) -> list[str]:
-    year = day[:4]
-    cache = HERE / f"PREFERRED_RELEASES_{year}.txt"
-    if not cache.exists():
-        u = f"https://raw.githubusercontent.com/adsblol/globe_history_{year}/main/PREFERRED_RELEASES.txt"
-        cache.write_bytes(urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60).read())
     tag = f"v{day.replace('-', '.')}-planes-readsb-"
-    for line in cache.read_text().splitlines():
-        urls = [x.strip() for x in line.split(",") if x.strip()]
-        if urls and f"/{tag}" in urls[0]:
-            return urls
-    raise SystemExit(f"{day}: not in PREFERRED_RELEASES_{year}.txt")
+    # a year's last day can be published in the next year's repository (2025-12-31 is)
+    for year in (day[:4], str(int(day[:4]) + 1)):
+        cache = HERE / f"PREFERRED_RELEASES_{year}.txt"
+        if not cache.exists():
+            u = f"https://raw.githubusercontent.com/adsblol/globe_history_{year}/main/PREFERRED_RELEASES.txt"
+            cache.write_bytes(urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60).read())
+        for line in cache.read_text().splitlines():
+            urls = [x.strip() for x in line.split(",") if x.strip()]
+            if urls and f"/{tag}" in urls[0]:
+                return urls
+    raise SystemExit(f"{day}: not in PREFERRED_RELEASES of {day[:4]} or the next year")
 
 
 class HTTPChain(io.RawIOBase):

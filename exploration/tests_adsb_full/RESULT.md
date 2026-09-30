@@ -61,3 +61,34 @@ are post-pushback, so the upload waits for the user's decision after checking wi
   - Some of that shift may be feature-driven and some a mismatch with v42.
   - If the extra ~12 s were entirely misplaced, it would cost about 0.1 s of RMSE, which is small
     against the expected gain.
+
+## Extension (`PREREGISTERED_extension.md`): a fresh season (Nov–Dec 2025) and more airports
+
+Nov–Dec 2025 is the forward-split test: all 61 days, with a base whose models were trained on
+Jan–Aug only.
+
+**A. The frozen v43 corrector on Nov–Dec: PASS.**
+- Pooled 274.75 → 267.51 (−7.24 s); 61/61 days better; −7.22 s with the best row removed.
+- Per airport: EDDF 185.6 → 142.7, EHAM 189.3 → 146.0, LEBL 178.7 → 153.7.
+
+**B. Per-airport extension** (all three conditions required):
+
+| airport | Jan → Jul | Jul → Jan | Nov–Dec (days better) | verdict |
+|---|---|---|---|---|
+| EDDM | 181.9 → 164.4 | 177.1 → 165.6 | 215.1 → 131.9 (61/61) | **ADD** |
+| LSZH | 199.3 → 171.4 | 204.5 → **206.0** | 163.0 → 131.8 (56/61) | no (fails Jul → Jan) |
+| EGLL | 297.9 → 296.0 | 238.2 → **263.4** | 218.3 → 205.9 (52/61) | no |
+| LEMD | 189.7 → **192.2** | no Jan 2025 coverage (n = 2) | 170.1 → 149.9 (61/61) | no |
+
+**v44 check:** a single corrector refitted on EDDF, EHAM, LEBL and EDDM scores 263.41 on Nov–Dec,
+against the frozen v43 corrector's 267.51, so PASS.
+
+**v44 candidate** (`final_build.py EDDF,EHAM,LEBL,EDDM v44`, saved in `model_v44/`):
+- 104,703 rows differ from v42 (30.6 % corrected);
+- it rebuilds byte-identical;
+- **expectation written before upload: −1.8 to −2.7 s against v42, a board score of 283.8–284.7**
+  (naive −5.40 s).
+
+**Not added under this bar:** LSZH and LEMD improve strongly on Nov–Dec but fail one Jan ↔ Jul
+direction. Adding them now would be chosen after seeing the result, so it would need a new bar on
+data not yet seen. None is left for Jan + Jul 2025.

@@ -1,0 +1,9 @@
+2025 training: 62 days, 344419 rows, 111324 covered at ['EDDF', 'EHAM', 'LEBL', 'EDDM']
+cross-month 01->07 (all days): pooled 389.26 -> 384.72, SE drop per corrected row 11501 s^2 on 58287 rows
+cross-month 07->01 (all days): pooled 358.72 -> 354.58, SE drop per corrected row 8575 s^2 on 53037 rows
+bias check: mean(y - base) on covered 2025 rows at ['EDDF', 'EHAM', 'LEBL', 'EDDM'] = +7.5 s; by month {'01': 7.0, '07': 8.0}
+2026: 62 of 62 days fetched; missing []
+2026 corrected rows: 105350 of 344841 (30.6%); by airport {'EDDF': 0.454, 'EDDM': 0.963, 'EHAM': 0.94, 'LEBL': 0.929}
+correction: mean +18.9 s, mean |.| 70.1 s, 1-99 % [-180, 444]
+rows changed vs v42: 104703
+PROJECTION: naive -5.40 s vs v42 (286.5256); written expectation -1.80 to -2.70 s (weaker local base, 2026 coverage mix; GREKI: new inputs 'came in well under the estimate'). Board result above v42 -> re-upload v42 last as a byte copy.

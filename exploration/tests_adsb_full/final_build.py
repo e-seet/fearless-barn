@@ -16,7 +16,8 @@ from common import dataset as D
 from common import io as cio
 from tests_tail_diagnosis.diagnose import CACHE
 
-SHIP = ["EDDF", "EHAM", "LEBL"]
+SHIP = sys.argv[1].split(",") if len(sys.argv) > 1 else ["EDDF", "EHAM", "LEBL"]
+TAG = sys.argv[2] if len(sys.argv) > 2 else "v43"          # v43 = the original three airports
 FEAT_ADSB = ["e_first", "e_disp", "e_move", "liftoff_dt", "stop_s", "lineup_s", "med_gs"]   # all_nd
 FEAT = FEAT_ADSB + ["base", "apc", "hour"]
 PARAMS = dict(objective="l2", learning_rate=0.03, n_estimators=300, num_leaves=15, min_data_in_leaf=50,
@@ -68,7 +69,7 @@ for a, b in (("01", "07"), ("07", "01")):
 
 # final corrector: every covered 2025 row at the shipped airports
 final = lgb.LGBMRegressor(**PARAMS).fit(tr[tr.covered][FEAT], (tr.y - tr.base)[tr.covered])
-MODEL_DIR = HERE / "model"; MODEL_DIR.mkdir(exist_ok=True)
+MODEL_DIR = HERE / ("model" if TAG == "v43" else f"model_{TAG}"); MODEL_DIR.mkdir(exist_ok=True)
 final.booster_.save_model(str(MODEL_DIR / "adsb_corrector.txt"))
 (MODEL_DIR / "config.json").write_text(json.dumps({"airports": SHIP, "features": FEAT, "adsb_features": FEAT_ADSB,
     "params": PARAMS, "train_days": days25, "takeoff_tol_s": features.TAKEOFF_TOL, "disp_m": features.DISP_M,
@@ -98,7 +99,7 @@ corr = np.zeros(len(te)); corr[c] = final.predict(te.loc[c, FEAT])
 new = np.clip(np.rint(te.base.to_numpy() + corr), 0, 86400).astype("int32")
 out = v42.copy(); out["TAXITIME_SEC_mvt"] = new
 assert len(out) == 344841 and out.MVT_ID_mvt.equals(v42.MVT_ID_mvt)
-out.to_parquet(HERE / "v43_candidate.parquet", index=False)
+out.to_parquet(HERE / f"{TAG}_candidate.parquet", index=False)
 
 cov = te.groupby("ap").covered.mean().round(3).to_dict()
 say(f"2026 corrected rows: {int(c.sum())} of {len(te)} ({c.mean():.1%}); by airport {({k: v for k, v in cov.items() if k in SHIP})}")
@@ -111,7 +112,7 @@ naive = float(np.sqrt(max(BOARD_V42 ** 2 - drop * c.sum() / len(te), 0))) - BOAR
 say(f"PROJECTION: naive {naive:+.2f} s vs v42 ({BOARD_V42}); written expectation {naive/3:+.2f} to {naive/2:+.2f} s "
     f"(weaker local base, 2026 coverage mix; GREKI: new inputs 'came in well under the estimate'). "
     f"Board result above v42 -> re-upload v42 last as a byte copy.")
-(HERE / "build_report.json").write_text(json.dumps({"days25": days25, "days26": days26, "missing26": missing, "cross_month": drops,
+(HERE / f"build_report{'' if TAG == 'v43' else '_' + TAG}.json").write_text(json.dumps({"days25": days25, "days26": days26, "missing26": missing, "cross_month": drops,
     "n_corrected_2026": int(c.sum()), "coverage_2026": cov, "naive_projection": naive,
     "expectation": [naive / 3, naive / 2]}, indent=2, default=float))
-(HERE / "build_report.txt").write_text("\n".join(lines) + "\n")
+(HERE / f"build_report{'' if TAG == 'v43' else '_' + TAG}.txt").write_text("\n".join(lines) + "\n")
