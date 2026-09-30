@@ -1,0 +1,120 @@
+{
+  "arm": "adsb_corrector_on_v42",
+  "split": "full",
+  "featureset": "with_aobt + adsb.lol (all_nd)",
+  "outlier_policy": "keep_all",
+  "tag": "v42+adsb_all_nd_7ap_janjulnovdec",
+  "prediction_cap_sec": 86400,
+  "seed": 42,
+  "team": "fearless_barn",
+  "version": 45,
+  "n_rows": 344841,
+  "pred_median": 952.0,
+  "pred_mean": 1035.4142488857183,
+  "rows_changed_vs_v42": 187717,
+  "rows_changed_vs_v44": 185346,
+  "expectation_written_before_upload": "board 275.0-277.5 (-1.7 to -4.2 vs v44 279.1517). Basis: naive projection -9.15 vs v42; v43/v44 landed at 1.17x/1.36x their naive projections, but EGLL/LEMD 2025->2026 coverage shift is larger than for the v44 airports, so the band is not scaled up. If above 279.1517: re-upload v44 last as a byte copy.",
+  "provenance": {
+    "base": {
+      "file": "submissions/fearless_barn_v42.parquet",
+      "meta": {
+        "arm": "tabnet_lirf_override",
+        "split": "full",
+        "featureset": "with_aobt",
+        "outlier_policy": "keep_all",
+        "tag": "lirf_w0.459_c3d6",
+        "prediction_cap_sec": 86400,
+        "seed": 42,
+        "team": "fearless_barn",
+        "version": 42,
+        "n_rows": 344841,
+        "pred_median": 951.0842194620857,
+        "pred_mean": 1026.9228788326773,
+        "provenance": {
+          "tabnet_lirf_override": {
+            "run_dir": "artifacts\\runs\\tabnet_lirf_override__full-with_aobt-keep_all__seed42__tag=lirf_w0.459_c3d6",
+            "feature_fingerprint": "aeade7fee3099c1a",
+            "best_iteration": null,
+            "params": null,
+            "weights": null,
+            "base_arm": "ftt_multimodel",
+            "base_tag": "ftt_c3d6_mlp18"
+          },
+          "ftt_multimodel": {
+            "run_dir": "artifacts\\runs\\ftt_multimodel__full-with_aobt-keep_all__seed42__tag=ftt_c3d6_mlp18",
+            "feature_fingerprint": "aeade7fee3099c1a",
+            "best_iteration": null,
+            "params": null,
+            "weights": null,
+            "mlp_seeds_averaged": [
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59
+            ]
+          },
+          "airport_operator_blend": {
+            "run_dir": "artifacts\\runs\\airport_operator_blend__full-with_aobt-keep_all__seed42",
+            "feature_fingerprint": "aeade7fee3099c1a",
+            "best_iteration": null,
+            "params": {
+              "learning_rate": 0.05,
+              "num_leaves": 255,
+              "min_data_in_leaf": 100
+            },
+            "weights": null
+          },
+          "mlp_antigravity": {
+            "run_dir": "artifacts\\runs\\mlp_antigravity__full-with_aobt-keep_all__seed42",
+            "feature_fingerprint": "aeade7fee3099c1a",
+            "best_iteration": 10,
+            "params": null,
+            "weights": null
+          },
+          "per_airport": {
+            "run_dir": "artifacts\\runs\\per_airport__full-with_aobt-keep_all__seed42",
+            "feature_fingerprint": "aeade7fee3099c1a",
+            "best_iteration": null,
+            "params": {
+              "learning_rate": 0.05,
+              "num_leaves": 255,
+              "min_data_in_leaf": 100
+            },
+            "weights": null
+          },
+          "per_operator": {
+            "run_dir": "artifacts\\runs\\per_operator__full-with_aobt-keep_all__seed42",
+            "feature_fingerprint": "aeade7fee3099c1a",
+            "best_iteration": null,
+            "params": {
+              "learning_rate": 0.05,
+              "num_leaves": 255,
+              "min_data_in_leaf": 100
+            },
+            "weights": null
+          }
+        }
+      }
+    },
+    "adsb_corrector": {
+      "model": "tests_adsb_full/model_v45/adsb_corrector.txt",
+      "config": "tests_adsb_full/model_v45/config.json",
+      "rebuild": "python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v45 --check submissions/fearless_barn_v45.parquet",
+      "evidence": "tests_adsb_full/PREREGISTERED_v45.md, after_sepoct.log, evaluate_v45.json"
+    }
+  }
+}

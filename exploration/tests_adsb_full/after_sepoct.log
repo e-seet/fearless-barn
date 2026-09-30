@@ -1,0 +1,25 @@
+[Wed Sep 30 19:43:19 MPST 2026] SMOKE (2 days, not the result)
+Sep-Oct: 2 of 61 days, 12461 rows; covered by airport: {'EDDF': 0.84, 'EDDM': 0.96, 'EGLL': 0.21, 'EHAM': 0.91, 'LEBL': 0.81, 'LEMD': 0.16, 'LFPG': 0.04, 'LIRF': 0.3, 'LSZH': 0.88, 'LTFM': 0.0}
+
+Q1: base 238.15 | R44 (saved v44 corrector) 231.24 (-6.92, 2/2 days better than base) | R45 231.16 (wins 1/2 days vs R44) => ADOPT R45
+   per airport base/R44/R45: {'EDDF': (167.6, 143.1, 141.8), 'EHAM': (144.3, 119.6, 118.6), 'LEBL': (308.5, 295.4, 296.9), 'EDDM': (151.4, 109.9, 107.3)}
+Q2 LSZH: Sep-Oct 193.4 -> 171.0, days better 2/2, permuted best 192.8, covered 88%, training rows 39362 => ADD
+Q2 LEMD: Sep-Oct 192.5 -> 189.0, days better 2/2, permuted best 193.5, covered 16%, training rows 38849 => ADD
+Q2 EGLL: Sep-Oct 268.5 -> 265.9, days better 2/2, permuted best 268.2, covered 21%, training rows 33446 => ADD
+
+combined ['EDDF', 'EHAM', 'LEBL', 'EDDM', 'LSZH', 'LEMD', 'EGLL'] (Jan+Jul+Nov+Dec): Sep-Oct 229.78 vs 4-airport 231.16 => PASS
+
+v45 recipe: airports ['EDDF', 'EHAM', 'LEBL', 'EDDM', 'LSZH', 'LEMD', 'EGLL'], training Jan+Jul+Nov+Dec -> BUILD v45
+[Wed Sep 30 23:42:13 MPST 2026] REAL RUN
+Sep-Oct: 61 of 61 days, 369624 rows; covered by airport: {'EDDF': 0.84, 'EDDM': 0.9, 'EGLL': 0.22, 'EHAM': 0.95, 'LEBL': 0.9, 'LEMD': 0.91, 'LFPG': 0.05, 'LIRF': 0.26, 'LSZH': 0.89, 'LTFM': 0.0}
+
+Q1: base 259.32 | R44 (saved v44 corrector) 251.02 (-8.30, 61/61 days better than base) | R45 250.77 (wins 49/61 days vs R44) => ADOPT R45
+   per airport base/R44/R45: {'EDDF': (162.9, 136.6, 135.8), 'EHAM': (159.4, 124.4, 123.9), 'LEBL': (230.0, 197.0, 195.9), 'EDDM': (172.8, 137.1, 135.0)}
+Q2 LSZH: Sep-Oct 157.1 -> 126.2, days better 61/61, permuted best 157.8, covered 89%, training rows 39362 => ADD
+Q2 LEMD: Sep-Oct 184.0 -> 161.3, days better 61/61, permuted best 185.2, covered 91%, training rows 38849 => ADD
+Q2 EGLL: Sep-Oct 232.5 -> 229.6, days better 50/61, permuted best 232.7, covered 22%, training rows 33446 => ADD
+
+combined ['EDDF', 'EHAM', 'LEBL', 'EDDM', 'LSZH', 'LEMD', 'EGLL'] (Jan+Jul+Nov+Dec): Sep-Oct 248.23 vs 4-airport 250.77 => PASS
+
+v45 recipe: airports ['EDDF', 'EHAM', 'LEBL', 'EDDM', 'LSZH', 'LEMD', 'EGLL'], training Jan+Jul+Nov+Dec -> BUILD v45
+[Wed Sep 30 23:46:44 MPST 2026] ALL DONE

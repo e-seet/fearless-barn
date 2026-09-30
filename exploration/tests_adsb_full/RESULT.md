@@ -92,3 +92,42 @@ against the frozen v43 corrector's 267.51, so PASS.
 **Not added under this bar:** LSZH and LEMD improve strongly on Nov–Dec but fail one Jan ↔ Jul
 direction. Adding them now would be chosen after seeing the result, so it would need a new bar on
 data not yet seen. None is left for Jan + Jul 2025.
+
+## Round 3 (`PREREGISTERED_v45.md`): Sep–Oct 2025 fresh surface
+
+Board so far: **v43 = 281.8629 and v44 = 279.1517**; both beat even the naive projection.
+
+**Surface:** Sep–Oct 2025, 61 days. The base is the forward-val predictions (models trained on
+Jan–Aug only), with 369,624 rows.
+
+**Q1, a bigger training set:**
+- base 259.32;
+- the saved v44 corrector: 251.02 (−8.30 s, 61/61 days better than base);
+- the same corrector refitted on Jan + Jul + Nov + Dec: 250.77, winning 49/61 days against the v44
+  corrector, so it is **adopted**.
+
+**Q2, more airports** (all three added):
+
+| airport | Sep–Oct | days better | best permutation control | coverage |
+|---|---|---|---|---|
+| LSZH | 157.1 → 126.2 | 61/61 | 157.8 | 89 % |
+| LEMD | 184.0 → 161.3 | 61/61 | 185.2 | 91 % |
+| EGLL | 232.5 → 229.6 | 50/61 | 232.7 | 22 % |
+
+**Combined** (7 airports, trained on Jan + Jul + Nov + Dec): 248.23 on Sep–Oct against the 4-airport
+corrector's 250.77, so PASS.
+
+**v45 candidate** (`model_v45/`):
+- 187,717 rows differ from v42 (54.7 % corrected);
+- it rebuilds byte-identical, and v44 still rebuilds byte-identical;
+- naive projection −9.15 s against v42.
+
+**Expectation written before upload: 275.0–277.5.** If it scores above 279.1517, v44 is re-uploaded
+last.
+
+**Risks, stated before upload:**
+- **Coverage shift at EGLL:** 2025 Jul coverage was 12 % against 97 % in 2026 Jul, and the Sep–Oct
+  gain there is small.
+- **LEMD:** no Jan 2025 coverage, so it is trained on Jul, Nov and Dec.
+- **Different base bias in Nov–Dec:** the Nov–Dec training rows carry a +15 s base bias (a horizon
+  effect of the forward model), which is not present in v42.

@@ -1,0 +1,91 @@
+{
+  "sepoct_days": 61,
+  "Q1": {
+    "base": 259.3191499472347,
+    "R44": 251.0150803133832,
+    "R45": 250.7656983662231,
+    "R45_day_wins": 49,
+    "n_days": 61,
+    "R44_days_better_than_base": 61,
+    "ADOPT_R45": true,
+    "per_airport": {
+      "EDDF": [
+        162.88386054952687,
+        136.63480236143934,
+        135.77467966017798
+      ],
+      "EHAM": [
+        159.39681397110132,
+        124.41832938791633,
+        123.89961890661843
+      ],
+      "LEBL": [
+        230.0095825438114,
+        196.9590578284279,
+        195.9255707361702
+      ],
+      "EDDM": [
+        172.75157054862865,
+        137.07953566944408,
+        135.0186545118652
+      ]
+    }
+  },
+  "Q2": {
+    "LSZH": {
+      "base": 157.14958080913812,
+      "new": 126.22345444681719,
+      "days_better": 61,
+      "perm_best": 157.77843116777083,
+      "covered": 0.8944852941176471,
+      "n_train_covered": 39362,
+      "PASS": true
+    },
+    "LEMD": {
+      "base": 184.01039077278938,
+      "new": 161.30130026452545,
+      "days_better": 61,
+      "perm_best": 185.17495971203854,
+      "covered": 0.9084046713891092,
+      "n_train_covered": 38849,
+      "PASS": true
+    },
+    "EGLL": {
+      "base": 232.54140115976517,
+      "new": 229.60754248262592,
+      "days_better": 50,
+      "perm_best": 232.7375959937349,
+      "covered": 0.21823752910895944,
+      "n_train_covered": 33446,
+      "PASS": true
+    }
+  },
+  "combined": {
+    "airports": [
+      "EDDF",
+      "EHAM",
+      "LEBL",
+      "EDDM",
+      "LSZH",
+      "LEMD",
+      "EGLL"
+    ],
+    "train": "Jan+Jul+Nov+Dec",
+    "sepoct": 248.2344101161722,
+    "four_airport": 250.7656983662231,
+    "PASS": true
+  },
+  "v45": {
+    "airports": [
+      "EDDF",
+      "EHAM",
+      "LEBL",
+      "EDDM",
+      "LSZH",
+      "LEMD",
+      "EGLL"
+    ],
+    "train": "Jan+Jul+Nov+Dec",
+    "differs_from_v44": true
+  }
+}
