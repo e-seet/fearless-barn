@@ -1,0 +1,53 @@
+{
+  "aug_days": 31,
+  "Q1": {
+    "base": 271.97378361388866,
+    "R45": 263.46002517298683,
+    "R46": 263.20326251235656,
+    "R46_day_wins": 29,
+    "n_days": 31,
+    "R45_days_better_than_base": 31,
+    "ADOPT_R46": true
+  },
+  "Q2": {
+    "q1_winner": 263.20326251235656,
+    "C": 262.1147422964029,
+    "C_day_wins": 31,
+    "ADOPT_C": true
+  },
+  "Q3": {
+    "lirf_base": 654.0018826112891,
+    "lirf_new": 674.5054490178566,
+    "days_better": 12,
+    "perm_best": 655.5612689550744,
+    "drop5": [
+      632.959684657876,
+      658.4737981895013
+    ],
+    "covered": 0.8227569700498092,
+    "ADD": false
+  },
+  "v46": {
+    "airports": [
+      "EDDF",
+      "EHAM",
+      "LEBL",
+      "EDDM",
+      "LSZH",
+      "LEMD",
+      "EGLL"
+    ],
+    "train": "Jan+Jul+Sep+Oct+Nov+Dec",
+    "params": {
+      "objective": "l2",
+      "learning_rate": 0.03,
+      "n_estimators": 600,
+      "num_leaves": 31,
+      "min_data_in_leaf": 50,
+      "feature_fraction": 0.8,
+      "random_state": 42,
+      "verbose": -1
+    },
+    "differs_from_v45": true
+  }
+}

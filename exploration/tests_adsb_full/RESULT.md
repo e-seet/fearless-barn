@@ -131,3 +131,27 @@ last.
 - **LEMD:** no Jan 2025 coverage, so it is trained on Jul, Nov and Dec.
 - **Different base bias in Nov–Dec:** the Nov–Dec training rows carry a +15 s base bias (a horizon
   effect of the forward model), which is not present in v42.
+
+## Round 4 (`PREREGISTERED_v46.md`): Aug 2025 fresh surface
+
+Board: **v45 = 273.5977** (−5.55 vs v44; the written expectation was 275.0–277.5).
+
+**Surface:** Aug 2025, 31 days. The base is the forward_inner val predictions (models trained on
+Jan–Jun only), with 191,182 rows.
+
+**Q1, add Sep–Oct to training:** adopted.
+- base 271.97;
+- the saved v45 corrector: 263.46 (−8.51 s, 31/31 days better than base);
+- trained on Jan + Jul + Sep–Dec: 263.20, winning 29/31 days against the v45 corrector.
+
+**Q2, the capacity variant** (600 trees, 31 leaves): 262.11, winning 31/31 days, so **adopted**.
+
+**Q3, LIRF: rejected.** 654.0 → 674.5 (worse); 12/31 days better; still worse with the 5 best rows
+removed.
+
+**v46 candidate** (`model_v46/`):
+- same 7 airports and the same corrected rows as v45;
+- 187,750 rows differ from v42;
+- it rebuilds byte-identical, and v45 still rebuilds byte-identical;
+- **expectation written before upload: 271.8–273.2.** If it scores above 273.5977, v45 is
+  re-uploaded last.

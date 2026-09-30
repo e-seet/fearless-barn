@@ -54,22 +54,28 @@ tr["covered"] = tr.e_first.notna() & tr.ap.isin(SHIP)
 tr["apc"] = pd.Categorical(tr.ap.where(tr.ap.isin(SHIP)), categories=SHIP)
 tr["mon"] = tr.day.str[5:7]
 say(f"2025 training: {len(days25)} days, {len(tr)} rows, {int(tr.covered.sum())} covered at {SHIP}")
-# optional (PREREGISTERED_v45 Q1): add Nov + Dec 2025 with the held-out forward-test base (models trained Jan-Aug)
-EXTRA = len(sys.argv) > 3 and sys.argv[3] == "novdec"
-if EXTRA:
-    Xn, yn, mn = D.load_part("forward", "test", "with_aobt", filter_target=False)
-    bn = (np.load(CACHE / "tree_forward_test.npy") + np.load(CACHE / "mlp12_forward_test.npy")
-          + np.load(ROOT / "tests_ftt" / "preds_seed42_lr1e-3.npz")["pt"]) / 3
+# optional extra training months with held-out bases: novdec (forward test, PREREGISTERED_v45 Q1),
+# sepoct (forward val, PREREGISTERED_v46 Q1); optional 4th arg "big" = the v46 capacity variant
+EXTRAS = sys.argv[3].split(",") if len(sys.argv) > 3 else []
+if len(sys.argv) > 4 and sys.argv[4] == "big":
+    PARAMS = {**PARAMS, "n_estimators": 600, "num_leaves": 31}
+_z = np.load(ROOT / "tests_ftt" / "preds_seed42_lr1e-3.npz")
+for name, part, key, prefixes in (("novdec", "test", "pt", {"2025-11", "2025-12"}), ("sepoct", "val", "pv", {"2025-09", "2025-10"})):
+    if name not in EXTRAS:
+        continue
+    Xn, yn, mn = D.load_part("forward", part, "with_aobt", filter_target=False)
+    bn = (np.load(CACHE / f"tree_forward_{part}.npy") + np.load(CACHE / f"mlp12_forward_{part}.npy") + _z[key]) / 3
     tn = pd.to_datetime(raw.MVT_TIME_UTC_mvt.reindex(Xn.index), utc=True)
     trn = pd.DataFrame({"y": np.asarray(yn, float), "base": bn, "ap": np.asarray(mn["ADEP_mvt"]).astype(str),
                         "day": np.asarray(tn.dt.strftime("%Y-%m-%d")), "hour": np.asarray(tn.dt.hour)}, index=Xn.index)
-    en, daysn = load_estimates({"2025-11", "2025-12"})
+    en, daysn = load_estimates(prefixes)
     trn = trn[trn.day.isin(daysn) & np.isfinite(trn.y)].join(en[FEAT_ADSB])
     trn["covered"] = trn.e_first.notna() & trn.ap.isin(SHIP)
     trn["apc"] = pd.Categorical(trn.ap.where(trn.ap.isin(SHIP)), categories=SHIP)
     trn["mon"] = trn.day.str[5:7]
     tr = pd.concat([tr, trn]); days25 = days25 + daysn
-    say(f"+ Nov-Dec 2025: {len(daysn)} days, {len(trn)} rows, {int(trn.covered.sum())} covered")
+    say(f"+ {name}: {len(daysn)} days, {len(trn)} rows, {int(trn.covered.sum())} covered")
+say(f"corrector params: {PARAMS}")
 
 # cross-month on all fetched days: the per-corrected-row squared-error drop, for the board projection
 drops = {}
