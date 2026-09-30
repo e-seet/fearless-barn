@@ -56,10 +56,15 @@ class HTTPChain(io.RawIOBase):
     """Sequential reader over split archive parts; resumes with Range if the connection drops."""
     def __init__(self, urls):
         self.urls, self.i, self.off, self.resp, self.n = urls, 0, 0, None, 0
+        self.total = {}          # part index -> full size from Content-Range
+        self.resumes = 0
     def readable(self): return True
     def _open(self):
         req = urllib.request.Request(self.urls[self.i], headers={**UA, "Range": f"bytes={self.off}-"})
         self.resp = urllib.request.urlopen(req, timeout=120)
+        cr = self.resp.headers.get("Content-Range")
+        if cr and "/" in cr:
+            self.total[self.i] = int(cr.rsplit("/", 1)[1])
     def read(self, n=-1):
         n = (1 << 20) if n is None or n < 0 else n
         tries = 0
@@ -69,16 +74,25 @@ class HTTPChain(io.RawIOBase):
                     self._open()
                 except Exception:
                     tries += 1
-                    if tries > 20: raise
-                    time.sleep(5); continue
+                    if tries > 30: raise
+                    time.sleep(min(60, 5 * tries)); continue
             try:
                 b = self.resp.read(n)
             except Exception:
-                self.resp = None; time.sleep(3); continue
+                self.resp = None; self.resumes += 1; time.sleep(3); continue
             if b:
                 self.off += len(b); self.n += len(b); return b
+            # an empty read before the part's full size is a dropped connection, not the end: resume
+            full = self.total.get(self.i)
+            if full is None or self.off < full:
+                self.resp = None; self.resumes += 1; tries += 1
+                if tries > 30:
+                    raise IOError(f"part {self.i} stuck at {self.off} of {full}")
+                time.sleep(min(60, 5 * tries)); continue
             self.i, self.off, self.resp = self.i + 1, 0, None
         return b""
+    def complete(self):
+        return self.i >= len(self.urls) and len(self.total) == len(self.urls)
     def readinto(self, buf):
         b = self.read(len(buf)); buf[:len(b)] = b; return len(b)
 
@@ -153,6 +167,13 @@ def main(day: str) -> int:
                                  np.nan if alt == "ground" or alt is None else float(alt),
                                  np.nan if len(p) < 5 or p[4] is None else float(p[4]),
                                  np.nan if len(p) < 6 or p[5] is None else float(p[5])))
+    # the tar reader stops quietly on a corrupt header; make sure the whole archive was consumed
+    while chain.read(1 << 20):
+        pass
+    expected = sum(chain.total.values())
+    if not chain.complete() or chain.n < expected or nfile < 20000:
+        print(f"[{day}] INCOMPLETE: read {chain.n/1e9:.2f} of {expected/1e9:.2f} GB, {nfile} trace files; nothing written", flush=True)
+        return 2
     df = pd.DataFrame(rows, columns=["MVT_ID_mvt", "hex", "t_rel", "lat", "lon", "ground", "alt_ft", "gs_kt", "track"])
     df.to_parquet(out, index=False)
     stats = {"day": day, "departures": int(len(tg)), "departures_with_points": int(df.MVT_ID_mvt.nunique()),
