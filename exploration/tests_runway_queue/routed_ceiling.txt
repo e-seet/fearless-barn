@@ -1,0 +1,8 @@
+Jan+Jul 2025 held-out: 0.15% of rows have an unseen stand_runway pair, carrying 0.13% of squared error
+   EHAM: unseen    93 rows (0.2%), RMSE   311.3 vs seen   188.8
+   LFPG: unseen    91 rows (0.2%), RMSE   448.6 vs seen   571.3
+   LSZH: unseen    88 rows (0.4%), RMSE   328.9 vs seen   200.9
+   LTFM: unseen   126 rows (0.3%), RMSE   288.8 vs seen   263.7
+CEILING (perfect routed distance on unseen pairs): pooled 375.94 -> 375.80 (-0.14 s)
+2026 ranking rows with a stand_runway pair unseen in 2025: 0.72%; by airport: {'EDDF': 0.024, 'EDDM': 0.046, 'EGLL': 0.002, 'EHAM': 0.001, 'LEBL': 0.002, 'LEMD': 0.002, 'LFPG': 0.001, 'LIRF': 0.001, 'LSZH': 0.004, 'LTFM': 0.001}
+DECISION: CLOSE (ceiling < 0.5 s)
