@@ -1,0 +1,12 @@
+{
+  "arm": "v49_plus_july_convective_thunderstorm",
+  "base_file": "submissions/fearless_barn_v49.parquet",
+  "version": 50,
+  "team": "fearless_barn",
+  "n_rows": 344841,
+  "target_rows_adjusted": 428,
+  "adjustment_sec": 200.0,
+  "pred_median": 954.0,
+  "pred_mean": 1036.5613891619616,
+  "pre_registered_doc": "tests_weather_metar/PREREGISTERED_v50.md"
+}

@@ -2,11 +2,11 @@
 
 | | |
 |---|---|
-| **Final model (current)** | **v49 = 271.9440** on the public board, also the last upload (v48 + winter morning de-icing heuristic on 4,878 uncovered frost departures, §2c) |
+| **Final model (current)** | **v50 = 271.8748** on the public board, also the last upload (v49 + July convective thunderstorm offset on 428 uncovered TS departures, §2d) |
 | Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
-| Standing (2026-10-01) | **#46 of 214** teams by best score; leader 219.64, #10 233.8, #50 273.6, median 298.9 (was #70 before ADS-B) |
-| Reproduce / predict new data | `python predict_new.py ...` for the v42 base, `python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v48` (§3), and `python tests_weather_metar/build_v49.py` (§2c) |
+| Standing (2026-10-01) | **#46 of 214** teams by best score; leader 219.64, #10 233.8, #45 271.29, #50 273.56, median 298.9 |
+| Reproduce / predict new data | `python predict_new.py ...` for the v42 base, `python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v48` (§3), `tests_weather_metar/build_v49.py` (§2c), and `tests_weather_metar/build_v50.py` (§2d) |
 
 `README.md` and `SUBMISSION.md` are mid-build snapshots and point here. Detailed records:
 `plans/` (numbered decision history), `tests_*/RESULT.md` (one per experiment),
@@ -58,7 +58,7 @@ per-airport blend ──┼─ MLP:    entity-embedding MLP (256,128,64), mean o
   `lirf_w0.459_c3d6`. Rebuild: `python submit.py --arm tabnet_lirf_override --tag
   lirf_w0.459_c3d6 --split full --featureset with_aobt --outlier-policy keep_all --seed 42 --version N`.
 
-## 2b. The ADS-B corrector (v43 → v46)
+## 2b. The ADS-B corrector (v43 → v48)
 
 Source: **adsb.lol `globe_history`** daily archives (open data, ODbL; data © adsb.lol contributors),
 fetched for all of 2025 and Jan + Jul 2026 (427 days, ~1.2 TB streamed, never stored whole).
@@ -109,7 +109,20 @@ under-predicts non-ADS-B flights (+42.7 s at EDDF, +46.4 s at LFPG) due to unmod
 - **Target rows in January 2026:** exactly 4,878 departures matching non-ADS-B + METAR frost criteria
   (LFPG 2,223, EDDF 1,257, LSZH 377, EHAM 311, LTFM 286, EDDM 242, others 182).
 - **Modification:** $+30.0$ s de-icing adjustment, leaving all other 339,963 rows 100 % identical to `v48`.
-- **Result:** **v49 = 271.9440** (**−0.2274 s vs v48**, beating the pre-registered expectation of 272.09–272.14).
+
+## 2d. The July convective thunderstorm heuristic on uncovered flights (v50)
+
+In July, summer thunderstorms force ground stops and apron holding. Because the base model has no
+weather inputs, it predicts normal taxi times (~1130 s) for flights caught in storm cells. In 2025,
+departures at LTFM under thunderstorms averaged **1700.6 s (+648.9 s longer than normal)**, and
+across all 10 airports in held-out July 2025, thunderstorm departures without ADS-B were underpredicted
+by **+200 s to +350 s** across every major hub.
+
+- **Target rows in July 2026:** exactly 428 departures matching non-ADS-B + METAR thunderstorm (`TS`)
+  (LTFM 370, LSZH 21, LEMD 18, LIRF 10, EDDM 6, LFPG 2, LEBL 1).
+- **Modification:** $+200.0$ s convective hold adjustment (well below the empirical mean of 1700 s),
+  leaving all other 344,413 rows 100 % identical to `v49`.
+- **Result:** **v50 = 271.8748** (**−0.0692 s vs v49**, **−0.2966 s vs v48**).
 
 
 ## 3. Reproducing and predicting new data
@@ -190,6 +203,7 @@ Rules that paid for themselves:
 | **v46** | **+ Sep–Oct training, larger corrector** | **272.26** | **−1.34** |
 | **v48** | **corrector averaged over 5 seeds, + Aug training** | **272.17** | **−0.09 vs v46** |
 | **v49** | **+ winter morning de-icing heuristic on 4,878 uncovered frost flights** | **271.94** | **−0.23 vs v48** |
+| **v50** | **+ July convective thunderstorm offset (+200s) on 428 uncovered TS flights** | **271.87** | **−0.07 vs v49** |
 
 Probes that lost and were reverted: v33 (TabNet 11 seeds, +0.91), v34 (small FTT 7 seeds,
 +0.04), v37 (season-weighted MLPs, +2.07). Two early results settled the tail: **v18**

@@ -9,7 +9,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 
 | | |
 |---|---|
-| Final model | **v49 = 271.9440** on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
+| Final model | **v50 = 271.8748** on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
 | Standing | **#46 of 214** teams by best score (was #70 before ADS-B); leader 219.64, #10 233.8, #50 273.6, median 298.9 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus TabNet at LIRF, 5-seed ADS-B corrector, and winter morning de-icing offset |
 | Reproducibility | `predict_new.py` rebuilds v42 from saved models on 344,840 / 344,841 rows; `tests_adsb_full/predict_adsb.py` applies the ADS-B stage; `tests_weather_metar/build_v49.py` builds v49 |
@@ -26,7 +26,8 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 | + FT-Transformer as a third member | 289.78 |
 | FT-Transformer seed averaging and three architectures (small, large, deep) | 286.53 |
 | ADS-B (adsb.lol) corrector on top, 3 → 7 airports, more training months (v46/v48) | 272.17 |
-| **+ winter morning de-icing heuristic on uncovered frost flights (v49)** | **271.94** |
+| + winter morning de-icing heuristic on uncovered frost flights (v49) | 271.94 |
+| **+ July convective thunderstorm offset on uncovered TS flights (v50)** | **271.87** |
 
 
 Supporting infrastructure: time-ordered validation splits with a separate weight-fitting
