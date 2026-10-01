@@ -20,7 +20,12 @@ ap_.add_argument("--check", default=None)
 ap_.add_argument("--model-dir", default=str(HERE / "model"))
 a = ap_.parse_args()
 cfg = json.loads((Path(a.model_dir) / "config.json").read_text())
-booster = lgb.Booster(model_file=str(Path(a.model_dir) / "adsb_corrector.txt"))
+if "seeds" in cfg:
+    boosters = [lgb.Booster(model_file=str(Path(a.model_dir) / f"adsb_corrector_seed{sd}.txt")) for sd in cfg["seeds"]]
+    predict_fn = lambda X: np.mean([b.predict(X) for b in boosters], axis=0)
+else:
+    booster = lgb.Booster(model_file=str(Path(a.model_dir) / "adsb_corrector.txt"))
+    predict_fn = booster.predict
 SHIP, FEAT, FEAT_ADSB = cfg["airports"], cfg["features"], cfg["adsb_features"]
 
 base = pd.read_parquet(a.base)
@@ -37,7 +42,7 @@ te = te.join(e[FEAT_ADSB])
 te["covered"] = te.e_first.notna() & te.ap.isin(SHIP)
 te["apc"] = pd.Categorical(te.ap.where(te.ap.isin(SHIP)), categories=SHIP)
 c = te.covered.to_numpy()
-corr = np.zeros(len(te)); corr[c] = booster.predict(te.loc[c, FEAT])
+corr = np.zeros(len(te)); corr[c] = predict_fn(te.loc[c, FEAT])
 out = base.copy(); out["TAXITIME_SEC_mvt"] = np.clip(np.rint(te.base.to_numpy() + corr), 0, 86400).astype("int32")
 out.to_parquet(a.out, index=False)
 print(f"wrote {a.out}: {len(out)} rows, {int(c.sum())} corrected")

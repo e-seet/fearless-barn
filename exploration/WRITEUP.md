@@ -6,7 +6,7 @@
 | Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
 | Standing (2026-10-01) | **#46 of 213** teams by best score; leader 219.64, #10 233.8, #50 273.6, median 298.9 (was #70 before ADS-B) |
-| Reproduce / predict new data | `python predict_new.py ...` for the v42 base, then `python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v46` (§3) |
+| Reproduce / predict new data | `python predict_new.py ...` for the v42 base, then `python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v48` (§3) |
 
 `README.md` and `SUBMISSION.md` are mid-build snapshots and point here. Detailed records:
 `plans/` (numbered decision history), `tests_*/RESULT.md` (one per experiment),
