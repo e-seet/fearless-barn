@@ -1,0 +1,12 @@
+{
+  "version": 51,
+  "parent_version": 50,
+  "date": "2026-10-01",
+  "base_score": 271.8748,
+  "strategy": "weather_metar_multicomponent_refinement",
+  "description": "v50 + calibrated frost offsets by airport (LFPG +45s, LEMD +60s, EHAM +80s, EGLL/EDDM 0s) + Jan freezing precip boost (+80s) + Jan non-frost fog hold (+25s) + Jul non-TS rain hold (+35s)",
+  "n_rows_total": 344841,
+  "n_rows_modified": 5743,
+  "offline_validation_2025_delta": -0.0909,
+  "expected_board_score": "271.72 to 271.82"
+}
