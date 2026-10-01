@@ -43,6 +43,6 @@ version,board_name,score,date,status,note
 43,fearless-barn_v43,281.8629,2026-09-30,submitted,"v42 + adsb.lol corrector at EDDF/EHAM/LEBL; -4.663 vs v42 (expected -1.3 to -2.0, naive -3.97): beat the naive projection"
 44,fearless-barn_v44,279.1517,2026-09-30,submitted,"v43 + EDDM (corrector at EDDF/EHAM/LEBL/EDDM); -2.711 vs v43, -7.374 vs v42 (expected -1.8 to -2.7, naive -5.40)"
 45,fearless-barn_v45,273.5977,2026-10-01,submitted,"ADS-B corrector at 7 airports, trained Jan+Jul+Nov+Dec; -5.554 vs v44, -12.928 vs v42 (expected 275.0-277.5: beat it)"
-46,fearless-barn_v46,272.2619,2026-10-01,submitted,v45 recipe + Sep-Oct training + capacity variant -- BEST and LAST; -1.336 vs v45 (expected 271.8-273.2: inside)
-47,fearless-barn_v47,272.7321,2026-10-01,submitted,"corrector B (+56 tabular columns): +0.470 vs v46, OUTSIDE expectation 271.0-272.0 (LOMO -0.90 in 7/7 months did not transfer to 2026). v46 must be re-uploaded last"
-48,,,,"built, not uploaded","v46 corrector design averaged over 5 seeds, trained on 7 held-out months (adds Aug); EXPECTATION before upload: 271.9-272.4 (near-tie likely); if above 272.2619 re-upload v46 last"
+46,fearless-barn_v46,272.2619,2026-10-01,submitted,v45 recipe + Sep-Oct training + capacity variant; -1.336 vs v45 (expected 271.8-273.2: inside)
+47,fearless-barn_v47,272.7321,2026-10-01,submitted,"corrector B (+56 tabular columns): +0.470 vs v46, OUTSIDE expectation 271.0-272.0 (LOMO -0.90 in 7/7 months did not transfer to 2026). superseded: v48 uploaded after it"
+48,fearless-barn_v48,272.1714,2026-10-02,submitted,"v46 design, 5-seed average, + Aug training -- BEST and LAST; -0.091 vs v46 (expected 271.9-272.4: inside)"

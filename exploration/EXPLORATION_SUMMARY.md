@@ -9,7 +9,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 
 | | |
 |---|---|
-| Final model | **v46 = 272.26** on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
+| Final model | **v48 = 272.17** on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
 | Standing | **#46 of 213** teams by best score (was #70 before ADS-B); leader 219.64, #10 233.8, #50 273.6, median 298.9 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus a TabNet override at Rome (LIRF) |
 | Reproducibility | `predict_new.py` rebuilds v42 from saved models on 344,840 / 344,841 rows and can predict any new movements file |

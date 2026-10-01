@@ -251,3 +251,5 @@ gain is gone: the corrector already extracts the same information. This was the 
 - it reloads from the saved boosters byte-identical;
 - **expectation written before upload: 271.9–272.4, a near-tie with v46.** If it scores above
   272.2619, v46 is re-uploaded last.
+
+**Board: v48 = 272.1714** (−0.09 against v46, inside the written expectation of 271.9–272.4). It is the best score and the last upload.

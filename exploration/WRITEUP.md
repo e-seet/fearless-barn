@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Final model (current)** | **v46 = 272.2619** on the public board (v42 + an adsb.lol ADS-B corrector at 7 airports, §2b) |
+| **Final model (current)** | **v48 = 272.1714** on the public board, also the last upload (v42 + an adsb.lol ADS-B corrector at 7 airports, 5-seed average, §2b) |
 | Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
 | Standing (2026-10-01) | **#46 of 213** teams by best score; leader 219.64, #10 233.8, #50 273.6, median 298.9 (was #70 before ADS-B) |
@@ -170,7 +170,8 @@ Rules that paid for themselves:
 | v44 | + EDDM | 279.15 | −2.71 |
 | v45 | + LSZH/LEMD/EGLL, more training months | 273.60 | −5.55 |
 | **v46** | **+ Sep–Oct training, larger corrector** | **272.26** | **−1.34** |
-| v47 | + tabular columns in the corrector | 272.73 | +0.47 (lost; v46 re-uploaded) |
+| v47 | + tabular columns in the corrector | 272.73 | +0.47 (lost) |
+| **v48** | **corrector averaged over 5 seeds, + Aug training** | **272.17** | **−0.09 vs v46** |
 
 Probes that lost and were reverted: v33 (TabNet 11 seeds, +0.91), v34 (small FTT 7 seeds,
 +0.04), v37 (season-weighted MLPs, +2.07). Two early results settled the tail: **v18**
