@@ -6,7 +6,7 @@
 | Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
 | Standing (2026-10-01) | **#46 of 214** teams by best score; leader 219.64, #10 233.8, #45 271.29, #50 273.56, median 298.9 |
-| Reproduce / predict new data | `python predict_new.py ...` for the v42 base, `python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v48` (§3), `tests_weather_metar/build_v49.py` (§2c), and `tests_weather_metar/build_v50.py` (§2d) |
+| Reproduce / predict new data | **`python final_pipeline.py --out <file> --check submissions/fearless_barn_v50.parquet`**: base → ADS-B corrector → weather offsets in one command, verified **byte-identical to v50** (§3) |
 
 `README.md` and `SUBMISSION.md` are mid-build snapshots and point here. Detailed records:
 `plans/` (numbered decision history), `tests_*/RESULT.md` (one per experiment),
@@ -122,7 +122,18 @@ by **+200 s to +350 s** across every major hub.
   (LTFM 370, LSZH 21, LEMD 18, LIRF 10, EDDM 6, LFPG 2, LEBL 1).
 - **Modification:** $+200.0$ s convective hold adjustment (well below the empirical mean of 1700 s),
   leaving all other 344,413 rows 100 % identical to `v49`.
-- **Result:** **v50 = 271.8748** (**−0.0692 s vs v49**, **−0.2966 s vs v48**).
+- **Result:** **v50 = 271.8748** (**−0.0692 s vs v49**, **−0.2966 s vs v48**). The pre-registered
+  expectation was −0.30 to −0.50; the board gain fell well short of it.
+
+**How much to trust §2c–§2d.** Both offsets (+30 s, +200 s) were hand-chosen and first measured on
+the same Jan + Jul 2025 data, and at this size the local estimate did not even rank them correctly
+(local −0.04 / −0.17 vs board −0.23 / −0.07). A later out-of-sample check
+(`tests_weather_validated/RESULT.md`, offsets fitted on 6 months and scored on the 7th) supports
+them mildly: −0.07 s pooled (Jan −0.07, Jul −0.31). Offsets fitted out of sample per condition came
+to ts +199 s, freezing precipitation +203 s, frost +72 s, fog +40 s, rain +11 s (pooled −0.16, 6/7
+months, but **worse in January**); per-airport frost offsets, the basis of the unuploaded
+candidates v51–v54, were **not** supported. v51–v54 were never uploaded: uploading several
+offset variants and keeping the best would fit the hidden labels.
 
 
 ## 3. Reproducing and predicting new data
@@ -138,10 +149,12 @@ python predict_new.py --movements <file.parquet> --out <pred.parquet> [--ids <te
 python predict_new.py --selftest --selftest-version 42     # verify against the uploaded v42
 ```
 
-**ADS-B stage.** `tests_adsb_full/fetch.py <day>` streams one day's archive and keeps the matched
-points; `predict_adsb.py --model-dir tests_adsb_full/model_v46 --base <v42 file> --check
-submissions/fearless_barn_v46.parquet` applies the saved corrector and verifies byte identity
-(v43–v47 all rebuild byte-identical from their saved models).
+**Whole recipe in one command.** `final_pipeline.py` runs stage 1 (the v42 base: the saved file,
+or `--from-raw <movements>` to run `predict_new.py`), stage 2 (`tests_adsb_full/predict_adsb.py`
+with `model_v48`, 5 seeds) and stage 3 (the v49/v50 weather offsets, with the exact METAR join the
+uploads used). **Verified 2026-10-02: byte-identical to the uploaded v50 (344,841 / 344,841 rows).**
+The ADS-B stage needs the day files: `tests_adsb_full/fetch.py <day>` streams one day's adsb.lol
+archive and keeps the matched points. v43–v48 each rebuild byte-identical from their saved models.
 
 **Verified (2026-09-30):** from the raw `ranking.parquet` it reproduces v42 on **344,840 /
 344,841 rows**. The one exception is a LIRF row off by 1 s, a rounding boundary between
