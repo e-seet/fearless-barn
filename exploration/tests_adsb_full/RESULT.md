@@ -213,3 +213,12 @@ gain is gone: the corrector already extracts the same information. This was the 
 **Outcome:**
 - ADS-B stays in the corrector only; no v48;
 - the `--adsb` option stays in `train.py` (off by default) for reference.
+
+**Board: v47 = 272.7321, +0.47 against v46, outside the written expectation (271.0–272.0).**
+- Leave one month out had shown B better in 7/7 months of 2025, but that did not carry over to 2026.
+- Most likely reason: the 56 tabular columns let the corrector learn 2025-specific patterns (stands,
+  operators, fine categorical identities) that shift between years. A within-2025 holdout cannot
+  see that.
+- v46 is re-uploaded last.
+- Lesson: corrector inputs should stay at the movement-type ADS-B features plus base, airport and
+  hour (the GREKI point about features that transfer across years).
