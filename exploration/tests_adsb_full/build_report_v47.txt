@@ -1,0 +1,5 @@
+training: 215 days, 1233234 rows, 627042 covered at ['EDDF', 'EHAM', 'LEBL', 'EDDM', 'LSZH', 'LEMD', 'EGLL']; 66 inputs
+2026: 62 days; corrected rows 188635 of 344841 (54.7%); correction mean +23.8, mean |.| 82.8, 1-99% [-204, 468]
+rows changed vs v42 187712, vs v46 186726; mean |v47 - v46| on corrected rows 41.1 s
+reload-from-saved-model rebuild byte-identical: True
+EXPECTATION (written before upload): 271.0-272.0 vs v46 272.2619. Basis: leave-one-month-out pooled -0.90 (B vs A), 7/7 months; 2026 corrected share 54.7% vs 50.8% locally. If above 272.2619: re-upload v46 last as a byte copy.

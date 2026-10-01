@@ -155,3 +155,36 @@ removed.
 - it rebuilds byte-identical, and v45 still rebuilds byte-identical;
 - **expectation written before upload: 271.8–273.2.** If it scores above 273.5977, v45 is
   re-uploaded last.
+
+## Round 5 (`PREREGISTERED_interactions.md`): ADS-B × tabular interactions (the cheap stand-in for "ADS-B inside the tree")
+
+Board: **v46 = 272.2619** (−1.34 vs v45; inside its written expectation of 271.8–273.2).
+
+**Design:** leave one month out over Jan, Jul, Aug, Sep, Oct, Nov and Dec 2025, each with its
+held-out base.
+- **A** = the v46 corrector inputs.
+- **B** = A plus all 56 `with_aobt` tabular columns.
+- **B_perm** = B with only the ADS-B columns shuffled.
+
+| month | base | A | B | B_perm |
+|---|---:|---:|---:|---:|
+| Jan | 358.72 | 349.90 | 349.87 | 359.61 |
+| Jul | 389.26 | 382.19 | 381.44 | 389.93 |
+| Aug | 271.97 | 262.12 | 261.50 | 272.15 |
+| Sep | 285.96 | 274.66 | 273.29 | 286.02 |
+| Oct | 229.90 | 214.71 | 213.17 | 229.75 |
+| Nov | 286.87 | 271.06 | 269.94 | 285.88 |
+| Dec | 262.33 | 242.54 | 241.19 | 260.67 |
+| **pooled** | 301.94 | 290.29 | **289.39** | 301.91 |
+
+**PASS:** B is better in 7/7 months and −0.90 pooled. B_perm sits at the base level, so the gain
+comes from ADS-B interactions, not from refitting the tabular columns.
+
+**v47** (`build_v47.py`, `model_v47/`):
+- B trained on all 7 months (627,042 covered rows), at the same 7 airports and with v46's parameters;
+- 186,726 rows differ from v46; mean |v47 − v46| on corrected rows is 41 s;
+- it reloads from the saved model byte-identical;
+- the ~1.5 % of rows with no flight record are missing in both years and are treated identically.
+
+**Expectation written before upload: 271.0–272.0.** If it scores above 272.2619, v46 is re-uploaded
+last.
