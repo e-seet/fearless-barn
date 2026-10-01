@@ -1,0 +1,26 @@
+[Thu Oct  1 09:39:20 MPST 2026] waiting for the Feb-Jun fetch
+Feb-Jun days: 150 | suspect: []
+[Thu Oct  1 17:26:55 MPST 2026] train adsb tree: forward_inner
+  alpha (weight on per_airport) = 0.493  inner RMSE airport=357.87 operator=357.54 blend=351.57
+[airport_operator_blend] val RMSE (clipped) = 406.558   [per_airport alone 418.072 | per_operator alone 413.757]
+[Thu Oct  1 17:41:43 MPST 2026] train adsb tree: forward
+  alpha (weight on per_airport) = 0.680  inner RMSE airport=289.20 operator=299.95 blend=286.06
+[airport_operator_blend] val RMSE (clipped) = 258.420   [per_airport alone 264.552 | per_operator alone 263.184]
+[Thu Oct  1 17:50:22 MPST 2026] train adsb tree: seasonal_full
+  alpha (weight on per_airport) = 0.598  inner RMSE airport=301.42 operator=303.99 blend=299.29
+[airport_operator_blend] val RMSE (clipped) = 252.892   [per_airport alone 257.283 | per_operator alone 256.553]
+[Thu Oct  1 18:01:55 MPST 2026] dump adsb tree predictions
+[adsb] estimates from 427 days (2025-01-01 .. 2026-07-31), 1337173 matched departures
+adsb seasonal_full test: n=344419 tree RMSE 428.36
+adsb forward_inner val: n=381895 tree RMSE 406.56
+adsb forward val: n=369624 tree RMSE 258.42
+adsb forward test: n=328009 tree RMSE 268.74
+[Thu Oct  1 18:02:46 MPST 2026] decision
+control: regenerated old tree vs cache on seasonal_full test: max |diff| 0.0000
+control: regenerated old tree vs cache on forward test: max |diff| 0.0000
+corrector training Aug-Dec: 888815 rows (477732 covered); test Jan+Jul: 344419 rows
+pooled: tree old 435.24 new 428.36 | base X 375.94 Y(no corrector) 371.37 | X 368.07  Y 368.16 (+0.08)
+Jan   : tree old 383.99 new 373.92 | base X 358.72 Y(no corrector) 353.41 | X 350.42  Y 350.28 (-0.14)
+Jul   : tree old 472.53 new 467.64 | base X 389.26 Y(no corrector) 385.24 | X 381.70  Y 381.95 (+0.25)
+PRE-REGISTERED: Y < X pooled, Jan and Jul => FAIL
+[Thu Oct  1 18:04:06 MPST 2026] ALL DONE (nothing built or uploaded)

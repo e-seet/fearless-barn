@@ -1,0 +1,7 @@
+control: regenerated old tree vs cache on seasonal_full test: max |diff| 0.0000
+control: regenerated old tree vs cache on forward test: max |diff| 0.0000
+corrector training Aug-Dec: 888815 rows (477732 covered); test Jan+Jul: 344419 rows
+pooled: tree old 435.24 new 428.36 | base X 375.94 Y(no corrector) 371.37 | X 368.07  Y 368.16 (+0.08)
+Jan   : tree old 383.99 new 373.92 | base X 358.72 Y(no corrector) 353.41 | X 350.42  Y 350.28 (-0.14)
+Jul   : tree old 472.53 new 467.64 | base X 389.26 Y(no corrector) 385.24 | X 381.70  Y 381.95 (+0.25)
+PRE-REGISTERED: Y < X pooled, Jan and Jul => FAIL
