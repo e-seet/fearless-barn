@@ -9,10 +9,10 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 
 | | |
 |---|---|
-| Final model | **v48 = 272.17** on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
-| Standing | **#46 of 213** teams by best score (was #70 before ADS-B); leader 219.64, #10 233.8, #50 273.6, median 298.9 |
-| Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus a TabNet override at Rome (LIRF) |
-| Reproducibility | `predict_new.py` rebuilds v42 from saved models on 344,840 / 344,841 rows and can predict any new movements file |
+| Final model | **v49 = 271.9440** on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
+| Standing | **#46 of 214** teams by best score (was #70 before ADS-B); leader 219.64, #10 233.8, #50 273.6, median 298.9 |
+| Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus TabNet at LIRF, 5-seed ADS-B corrector, and winter morning de-icing offset |
+| Reproducibility | `predict_new.py` rebuilds v42 from saved models on 344,840 / 344,841 rows; `tests_adsb_full/predict_adsb.py` applies the ADS-B stage; `tests_weather_metar/build_v49.py` builds v49 |
 
 ## 2. What we built, in the order it paid
 
@@ -25,7 +25,9 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 | + TabNet override at LIRF | 293.67 |
 | + FT-Transformer as a third member | 289.78 |
 | FT-Transformer seed averaging and three architectures (small, large, deep) | 286.53 |
-| **ADS-B (adsb.lol) corrector on top, 3 → 7 airports, more training months** | **272.26** |
+| ADS-B (adsb.lol) corrector on top, 3 → 7 airports, more training months (v46/v48) | 272.17 |
+| **+ winter morning de-icing heuristic on uncovered frost flights (v49)** | **271.94** |
+
 
 Supporting infrastructure: time-ordered validation splits with a separate weight-fitting
 split; pre-registered pass bars for every experiment; a convergence audit; a board-score log;
@@ -88,7 +90,8 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 
 | source | outcome | evidence |
 |---|---|---|
-| METAR weather (all 10 airports), frost spread, wind on the runway | ❌ within noise | `tests_weather_metar`, §2r, §2w, `tests_wind_runway` |
+| METAR weather: generic multi-feature residual models | ❌ within noise / overfit | `tests_weather_metar`, §2r, §2w |
+| METAR frost flag: targeted de-icing offset (+30s) on uncovered January flights | ✅ **−0.23 on board (v49 = 271.94)** | `tests_weather_metar/RESULT_v49.md` |
 | OpenStreetMap stand-to-runway straight-line distance | ➖ real, negligible after the stand×runway ID | §2h |
 | Public holiday calendars | ❌ | `tests_holiday`, §2ab |
 | EUROCONTROL ATFM delay statistics | ❌ negative on the ceiling | `tests_atfm_delay`, §2ah |

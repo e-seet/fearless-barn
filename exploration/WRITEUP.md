@@ -2,11 +2,11 @@
 
 | | |
 |---|---|
-| **Final model (current)** | **v48 = 272.1714** on the public board, also the last upload (v42 + an adsb.lol ADS-B corrector at 7 airports, 5-seed average, §2b) |
+| **Final model (current)** | **v49 = 271.9440** on the public board, also the last upload (v48 + winter morning de-icing heuristic on 4,878 uncovered frost departures, §2c) |
 | Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
-| Standing (2026-10-01) | **#46 of 213** teams by best score; leader 219.64, #10 233.8, #50 273.6, median 298.9 (was #70 before ADS-B) |
-| Reproduce / predict new data | `python predict_new.py ...` for the v42 base, then `python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v48` (§3) |
+| Standing (2026-10-01) | **#46 of 214** teams by best score; leader 219.64, #10 233.8, #50 273.6, median 298.9 (was #70 before ADS-B) |
+| Reproduce / predict new data | `python predict_new.py ...` for the v42 base, `python tests_adsb_full/predict_adsb.py --model-dir tests_adsb_full/model_v48` (§3), and `python tests_weather_metar/build_v49.py` (§2c) |
 
 `README.md` and `SUBMISSION.md` are mid-build snapshots and point here. Detailed records:
 `plans/` (numbered decision history), `tests_*/RESULT.md` (one per experiment),
@@ -88,11 +88,29 @@ speed), not the off-block record itself, which is why it fails at LIRF (record a
 | v45 | Sep–Oct 2025; + LSZH, LEMD, EGLL; + Nov–Dec training | pass, 61/61 days | 273.60 (−5.55) |
 | v46 | Aug 2025; + Sep–Oct training; 600 trees | pass, 31/31 days | **272.26 (−1.34)** |
 | v47 | + 56 tabular columns in the corrector (leave-one-month-out, 7/7) | passed locally | 272.73 (**+0.47, lost**) |
+| v48 | v46 design + Aug training + 5-seed average (42-46) | passed locally | **272.17 (−0.09 vs v46)** |
 
 v43–v45 beat their written expectations, v46 landed inside its range, v47 lost: the tabular
 columns let the corrector learn 2025-specific identities that a within-2025 holdout cannot
 expose. Rejected along the way: LIRF (worse on Aug, 12/31 days), ADS-B inside the tree model
 (the tree improves by 7 s alone, but after correction Jan + Jul is +0.08).
+
+## 2c. The winter morning de-icing heuristic on uncovered flights (v49)
+
+While covered flights have their ground taxi delays (including de-icing pad wait) observed
+directly via transponder stops, **156,206 departures (45.3 % of the scored set) receive zero ADS-B
+correction** because LFPG and LTFM lack ground receiver coverage and some transponders are
+only received after liftoff.
+
+Held-out January 2025 diagnostics (`tests_weather_metar/PREREGISTERED_v49.md`) showed that in frost
+conditions ($T \le 34^\circ\text{F}$ and $T - T_d \le 3.0^\circ\text{F}$), the base model systematically
+under-predicts non-ADS-B flights (+42.7 s at EDDF, +46.4 s at LFPG) due to unmodelled de-icing holds.
+
+- **Target rows in January 2026:** exactly 4,878 departures matching non-ADS-B + METAR frost criteria
+  (LFPG 2,223, EDDF 1,257, LSZH 377, EHAM 311, LTFM 286, EDDM 242, others 182).
+- **Modification:** $+30.0$ s de-icing adjustment, leaving all other 339,963 rows 100 % identical to `v48`.
+- **Result:** **v49 = 271.9440** (**−0.2274 s vs v48**, beating the pre-registered expectation of 272.09–272.14).
+
 
 ## 3. Reproducing and predicting new data
 
@@ -170,8 +188,8 @@ Rules that paid for themselves:
 | v44 | + EDDM | 279.15 | −2.71 |
 | v45 | + LSZH/LEMD/EGLL, more training months | 273.60 | −5.55 |
 | **v46** | **+ Sep–Oct training, larger corrector** | **272.26** | **−1.34** |
-| v47 | + tabular columns in the corrector | 272.73 | +0.47 (lost) |
 | **v48** | **corrector averaged over 5 seeds, + Aug training** | **272.17** | **−0.09 vs v46** |
+| **v49** | **+ winter morning de-icing heuristic on 4,878 uncovered frost flights** | **271.94** | **−0.23 vs v48** |
 
 Probes that lost and were reverted: v33 (TabNet 11 seeds, +0.91), v34 (small FTT 7 seeds,
 +0.04), v37 (season-weighted MLPs, +2.07). Two early results settled the tail: **v18**

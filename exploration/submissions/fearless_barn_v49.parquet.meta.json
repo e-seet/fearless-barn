@@ -1,0 +1,12 @@
+{
+  "arm": "v48_plus_frost_deicing_heuristic",
+  "base_file": "submissions/fearless_barn_v48.parquet",
+  "version": 49,
+  "team": "fearless_barn",
+  "n_rows": 344841,
+  "target_rows_adjusted": 4878,
+  "adjustment_sec": 30.0,
+  "pred_median": 953.0,
+  "pred_mean": 1036.313158818122,
+  "pre_registered_doc": "tests_weather_metar/PREREGISTERED_v49.md"
+}
