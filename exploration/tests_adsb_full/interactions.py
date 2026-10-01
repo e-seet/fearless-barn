@@ -44,7 +44,7 @@ df["mon"] = df.day.str[5:7]
 df["has"] = df.e_first.notna() & df.ap.isin(A7)
 TAB = [c for c in frames[0].columns if c not in ("y", "base", "ap", "day", "hour") and c not in FEAT_ADSB]
 for c in TAB:
-    if df[c].dtype == object:
+    if not pd.api.types.is_numeric_dtype(df[c]) and not pd.api.types.is_bool_dtype(df[c]):
         df[c] = df[c].astype("category")
 df["apc"] = pd.Categorical(df.ap.where(df.ap.isin(A7)), categories=A7)
 FEAT_B = FEAT_A + [c for c in TAB if c not in FEAT_A]
