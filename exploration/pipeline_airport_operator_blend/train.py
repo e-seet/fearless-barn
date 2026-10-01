@@ -106,6 +106,9 @@ def main(argv=None) -> int:
                          "default so the tier-A arm's behaviour is unchanged "
                          "unless asked for. Recorded in model.json so evaluate "
                          "and predict reproduce the same feature frame.")
+    ap.add_argument("--adsb", action="store_true",
+                    help="attach the all_nd adsb.lol ADS-B columns (tests_adsb_full/attach.py; "
+                         "PREREGISTERED_tree.md). Off by default; recorded in model.pkl/json.")
     ap.add_argument("--freeze-from", default=None)
     ap.add_argument("--tag", default=None)
     ap.add_argument("--force", action="store_true")
@@ -124,6 +127,10 @@ def main(argv=None) -> int:
     if args.congest:
         from pipeline_per_airport_congest.extra import attach as attach_congest
         Xtr = attach_congest(Xtr, "train2025", args.featureset)
+    if args.adsb:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tests_adsb_full"))
+        from attach import attach as attach_adsb
+        Xtr = attach_adsb(Xtr)
     cats = [c for c in F.CATEGORICAL if c in Xtr.columns]
     ytr_a = np.asarray(ytr, dtype="float64")
 
@@ -142,6 +149,8 @@ def main(argv=None) -> int:
                                         filter_target=False)
         if args.congest:
             Xva = attach_congest(Xva, "train2025", args.featureset)
+        if args.adsb:
+            Xva = attach_adsb(Xva)
         Xva = D.align_columns(Xtr, Xva)
 
     params = dict(PARAMS)
@@ -256,12 +265,13 @@ def main(argv=None) -> int:
         value=alpha)
 
     with open(out / "model.pkl", "wb") as fh:
-        pickle.dump({"per_airport": seg_a, "per_operator": seg_b, "congest": args.congest,
+        pickle.dump({"per_airport": seg_a, "per_operator": seg_b, "congest": args.congest, "adsb": args.adsb,
         "alpha": alpha}, fh)
     write_json_guarded(out / "model.json", {
         "arm": ARM, "split": args.split, "featureset": args.featureset,
         "seed": args.seed, "params": params, "top_n": args.top_n,
         "congest": args.congest,
+        "adsb": args.adsb,
         "alpha": alpha,
         "alpha_note": ("1.0 = per_airport alone, 0.0 = per_operator alone; ONE "
                        "global weight (not per-airport -- see module docstring), "
