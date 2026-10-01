@@ -96,7 +96,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | ADS-B corrector at LIRF | ❌ Aug 2025 worse (654 → 675) | `tests_adsb_full/PREREGISTERED_v46.md` |
 | ADS-B features inside the tree model | ❌ tree −7 alone, +0.08 once corrected | `tests_adsb_full/PREREGISTERED_tree.md` |
 | Tabular columns inside the ADS-B corrector | ❌ 7/7 months locally, **board v47 +0.47** (year shift) | `tests_adsb_full/PREREGISTERED_interactions.md` |
-| Traffic features from other aircraft's ADS-B | ❌ drift gate: matched-traffic counts track receiver coverage (|SMD| up to 0.48) | `tests_adsb_full/PREREGISTERED_v48.md` |
+| Traffic features from other aircraft's ADS-B | ❌ drift gate: matched-traffic counts track receiver coverage (standardized shift up to 0.48) | `tests_adsb_full/PREREGISTERED_v48.md` |
 | Corrector seed averaging (5 seeds) | ✅ v48 = 272.17 (−0.09) | `tests_adsb_full/PREREGISTERED_v48.md` |
 | Looser ADS-B matching at EDDF/LEMD | ❌ failures have zero ground points | `tests_runway_queue/RESULT.md` |
 | Runway queue / runway mode features (records) | ❌ stable across years but pooled +2.11, LIRF +10 | `tests_runway_queue/RESULT.md` |
