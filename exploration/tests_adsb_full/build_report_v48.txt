@@ -1,0 +1,5 @@
+training: 215 days, 1233234 rows, 627042 covered at ['EDDF', 'EHAM', 'LEBL', 'EDDM', 'LSZH', 'LEMD', 'EGLL']; 10 inputs
+2026: 62 days; corrected rows 188635 of 344841 (54.7%); correction mean +16.4, mean |.| 79.7, 1-99% [-207, 481]
+rows changed vs v42 187725, vs v46 176574; mean |v48 - v46| on corrected rows 7.4 s
+reload-from-saved-model rebuild byte-identical: True
+EXPECTATION (written before upload): 271.9-272.4 vs v46 272.2619 (a near-tie is likely). Basis: LOMO pooled -0.05 (S vs A), 7/7 months; plus Aug 2025 added to training. If above 272.2619: re-upload v46 last as a byte copy.

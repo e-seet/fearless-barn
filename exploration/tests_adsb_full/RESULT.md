@@ -222,3 +222,32 @@ gain is gone: the corrector already extracts the same information. This was the 
 - v46 is re-uploaded last.
 - Lesson: corrector inputs should stay at the movement-type ADS-B features plus base, airport and
   hour (the GREKI point about features that transfer across years).
+
+## Round 7 (`PREREGISTERED_v48.md`): traffic features (T) and corrector seed averaging (S)
+
+**Leave one month out** over 7 months (pooled RMSE):
+
+| | value | vs A |
+|---|---:|---:|
+| base | 301.94 | |
+| A (the v46 design) | 290.29 | |
+| T (traffic features) | 290.15 | −0.14 (5/7 months) |
+| T_perm | 290.38 | |
+| S (5-seed average) | 290.24 | −0.05 (7/7 months) |
+
+**T, traffic features from other departures' tracks: FAIL on the drift gate.**
+- Five of the seven features shift between 2025 and 2026 (|SMD| 0.25–0.48): the counts of aircraft
+  on the ground (`tr_ground_T`, `tr_ground_T10`, `tr_n30`) and two of the averages.
+- The reason is receiver coverage: 2026 matches more aircraft at several airports (EGLL Jul 12 % →
+  97 %), so counts of *matched* traffic rise without any real change in traffic. These are
+  reception-type features, the same failure as `n_ground`.
+- The holdout gain was small anyway (−0.14). On flights without their own track it was ≈ 0 (e.g.
+  Jul 231.3 → 231.6).
+
+**S, seed averaging: PASS**, but tiny (−0.05 pooled, 7/7 months).
+
+**v48** = the v46 design averaged over seeds 42–46, trained on all 7 months (adds Aug):
+- 176,574 rows differ from v46; mean |v48 − v46| on corrected rows is 7.4 s;
+- it reloads from the saved boosters byte-identical;
+- **expectation written before upload: 271.9–272.4, a near-tie with v46.** If it scores above
+  272.2619, v46 is re-uploaded last.
