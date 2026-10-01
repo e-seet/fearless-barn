@@ -42,5 +42,5 @@ version,board_name,score,date,status,note
 42,fearless-barn_v42,286.5256,2026-09-30,submitted,"FTT slot 6 small + 9 large + 6 deep (1/3 each), TabNet w=0.459; -0.278 vs v41"
 43,fearless-barn_v43,281.8629,2026-09-30,submitted,"v42 + adsb.lol corrector at EDDF/EHAM/LEBL; -4.663 vs v42 (expected -1.3 to -2.0, naive -3.97): beat the naive projection"
 44,fearless-barn_v44,279.1517,2026-09-30,submitted,"v43 + EDDM (corrector at EDDF/EHAM/LEBL/EDDM); -2.711 vs v43, -7.374 vs v42 (expected -1.8 to -2.7, naive -5.40)"
-45,fearless-barn_v45,273.5977,2026-10-01,submitted,"ADS-B corrector at 7 airports, trained Jan+Jul+Nov+Dec -- BEST and LAST; -5.554 vs v44, -12.928 vs v42 (expected 275.0-277.5: beat it)"
-46,,,,"built, not uploaded","v45 recipe + Sep-Oct training + capacity variant (600 trees, 31 leaves); same 7 airports; EXPECTATION before upload: 271.8-273.2; if above 273.5977 re-upload v45 last"
+45,fearless-barn_v45,273.5977,2026-10-01,submitted,"ADS-B corrector at 7 airports, trained Jan+Jul+Nov+Dec; -5.554 vs v44, -12.928 vs v42 (expected 275.0-277.5: beat it)"
+46,fearless-barn_v46,272.2619,2026-10-01,submitted,v45 recipe + Sep-Oct training + capacity variant -- BEST and LAST; -1.336 vs v45 (expected 271.8-273.2: inside)
