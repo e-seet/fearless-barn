@@ -247,7 +247,16 @@ SPLITS["forward_inner"] = {
     "airport_filter": None,
 }
 
-SELECTION_FORBIDDEN_SPLITS = ("full", "seasonal", "seasonal_full", "forward_inner")
+# Held-out base predictions for Feb-Jun 2025, so the ADS-B corrector can train on those
+# months (tests_febjun/PREREGISTERED.md). Selection-forbidden: it only supplies residuals.
+SPLITS["holdout_febjun"] = {
+    "train": ["2025-01", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11"],
+    "val":   ["2025-12"],
+    "test":  ["2025-02", "2025-03", "2025-04", "2025-05", "2025-06"],
+    "airport_filter": None,
+}
+
+SELECTION_FORBIDDEN_SPLITS = ("full", "seasonal", "seasonal_full", "forward_inner", "holdout_febjun")
 
 # ---------------------------------------------------------------------------
 # Arms whose FREE PARAMETERS are fitted directly on the validation labels, so
