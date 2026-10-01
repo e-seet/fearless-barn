@@ -1,0 +1,10 @@
+{
+  "version": 53,
+  "parent_version": 50,
+  "strategy": "aggressive_convective_and_severe_storm",
+  "description": "v50 + calibrated frost + LTFM July TS (+320s total) + Jan FZ (+120s) + Jan Snow (+40s) + Fog (+25s) + Rain (+35s)",
+  "n_rows_total": 344841,
+  "n_rows_modified": 8047,
+  "offline_validation_2025_delta": -0.0845,
+  "expected_board_score": "271.70 to 271.80"
+}

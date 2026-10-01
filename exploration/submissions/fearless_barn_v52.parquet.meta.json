@@ -1,0 +1,10 @@
+{
+  "version": 52,
+  "parent_version": 50,
+  "strategy": "conservative_frost_deicing_specialist",
+  "description": "v50 + calibrated frost offsets (LFPG +45s, LEMD +60s, EHAM +80s, EGLL/EDDM 0s) + Jan FZ freezing precip (+80s). No fog or rain adjustments.",
+  "n_rows_total": 344841,
+  "n_rows_modified": 2951,
+  "offline_validation_2025_delta": -0.0632,
+  "expected_board_score": "271.78 to 271.84"
+}

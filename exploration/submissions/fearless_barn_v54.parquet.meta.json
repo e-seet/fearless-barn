@@ -1,0 +1,10 @@
+{
+  "version": 54,
+  "parent_version": 50,
+  "strategy": "peak_hour_lvp_congestion_interaction",
+  "description": "v50 + calibrated frost + morning peak fog hold (+50s) / off-peak fog (+25s) + Jan FZ (+80s) + Jul rain (+35s)",
+  "n_rows_total": 344841,
+  "n_rows_modified": 5743,
+  "offline_validation_2025_delta": -0.0784,
+  "expected_board_score": "271.72 to 271.82"
+}
