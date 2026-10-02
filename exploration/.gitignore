@@ -31,3 +31,6 @@ artifacts/features/
 
 # TabNet model archives (5 MB each): regenerable, bitwise, with train_tabnet_pred.py (2026-09-27 check); in the backup set.
 *.zip
+wx_cache/
+tests_newdata/points/
+tests_newdata/points_est/

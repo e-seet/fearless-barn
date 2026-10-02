@@ -142,7 +142,7 @@ def main():
     if have:
         est = pd.concat([features.load_day(d, None if a.points_dir is None else pdir) for d in have]).sort_values("liftoff_dt")
         est = est[~est.index.duplicated()]; est.index = est.index.astype("int64")
-        te = te.join(est[ADSB])
+        te = te.join(est[ADSB].astype(float))     # an empty day file yields untyped columns; keep them numeric
     else:
         for c in ADSB:
             te[c] = np.nan

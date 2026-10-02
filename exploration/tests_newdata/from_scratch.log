@@ -1,0 +1,18 @@
+features built from movements_3days.parquet: (15408, 57)
+C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytorch_tabnet\abstract_model.py:82: UserWarning: Device used : cuda
+  warnings.warn(f"Device used : {self.device}")
+C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytorch_tabnet\abstract_model.py:82: UserWarning: Device used : cuda
+  warnings.warn(f"Device used : {self.device}")
+C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytorch_tabnet\abstract_model.py:82: UserWarning: Device used : cuda
+  warnings.warn(f"Device used : {self.device}")
+C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytorch_tabnet\abstract_model.py:82: UserWarning: Device used : cuda
+  warnings.warn(f"Device used : {self.device}")
+C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytorch_tabnet\abstract_model.py:82: UserWarning: Device used : cuda
+  warnings.warn(f"Device used : {self.device}")
+wrote C:\Users\Admin\AppData\Local\Temp\tmp_i3pm_8r\base.parquet (15408 rows) []
+[adsb] 5 of 5 day files present in tests_newdata\points
+wrote tests_newdata\pred_from_scratch.parquet: 15408 rows | ADS-B corrected 6607 | frost +30 s 152 | thunderstorm +200 s 46 | LIRF 0 | LFPG 15
+RESULT from-scratch vs existing-points: identical rows 15408 / 15408
+RESULT base from scratch (predict_new) vs pipeline base file: same ids 15408
+RESULT (in-sample for the 2025-trained base; functional check only) RMSE base 188.9 -> pipeline 182.3
+ALL DONE
