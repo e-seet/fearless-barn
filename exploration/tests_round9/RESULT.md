@@ -25,3 +25,5 @@ design; pooled RMSE over all rows (A = 290.237).
 - **Risks:** the large positive mean shift, and January cannot be validated (no Jan 2025 LFPG
   coverage).
 - If it scores above 271.764, v55 is re-uploaded last.
+
+**Board: v56 = 271.5625** (−0.20 against v55; better than the written range of 271.62–271.81). It is the best score and the last upload.

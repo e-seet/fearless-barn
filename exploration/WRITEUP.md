@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Final model (current)** | **v55 = 271.764** on the public board, also the last upload: v50 (271.8748 = v48 ADS-B corrector + frost and thunderstorm offsets, §2c–2d) + an ADS-B corrector at LIRF for January flights with an NM record (`tests_lirf_adsb/`) |
+| **Final model (current)** | **v56 = 271.5625** on the public board, also the last upload: v50 (v48 ADS-B corrector at 7 airports + frost and thunderstorm offsets) + ADS-B correctors at LIRF (January, record rows; v55 = 271.764) and LFPG (track + record rows) |
 | Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
 | Standing (2026-10-01) | **#46 of 214** teams by best score; leader 219.64, #10 233.8, #45 271.29, #50 273.56, median 298.9 |

@@ -48,5 +48,5 @@ version,board_name,score,date,status,note
 48,fearless-barn_v48,272.1714,2026-10-01,submitted,"v46 design, 5-seed average, + Aug training; -0.091 vs v46 (expected 271.9-272.4: inside)"
 49,fearless-barn_v49,271.944,2026-10-01,submitted,"v48 + winter morning de-icing heuristic on 4878 uncovered frost departures (tmpf<=34, spread<=3); -0.2274 vs v48 (expected 272.09-272.14: beat it)"
 50,fearless-barn_v50,271.8748,2026-10-01,submitted,v49 + July convective thunderstorm offset (+200s) on 428 uncovered TS flights (370 at LTFM); -0.0692 vs v49
-55,fearless-barn_v55,271.764,2026-10-02,submitted,"v50 + LIRF ADS-B corrector (Jan LIRF rows with record + track) -- BEST and LAST; -0.111 vs v50 (expected 271.52-271.90, central ~271.80: inside)"
-56,,,,"built, not uploaded","v55 + LFPG ADS-B corrector (1,964 LFPG rows with track + record); EXPECTATION before upload: 271.62-271.81 (central ~271.70); if above 271.764 re-upload v55 last"
+55,fearless-barn_v55,271.764,2026-10-02,submitted,"v50 + LIRF ADS-B corrector (Jan LIRF rows with record + track); -0.111 vs v50 (expected 271.52-271.90, central ~271.80: inside)"
+56,fearless-barn_v56,271.5625,2026-10-03,submitted,"v55 + LFPG ADS-B corrector (1,964 rows) -- BEST and LAST; -0.2015 vs v55 (expected 271.62-271.81: beat it)"
