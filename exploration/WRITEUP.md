@@ -1,291 +1,339 @@
-# fearless-barn — PRC Data Challenge 2026, taxi-out time: method write-up
+# fearless-barn — PRC Data Challenge 2026: taxi-out time
 
 | | |
 |---|---|
-| **Final model (current)** | **v56 = 271.5625** on the public board, also the last upload: v50 (v48 ADS-B corrector at 7 airports + frost and thunderstorm offsets) + ADS-B correctors at LIRF (January, record rows; v55 = 271.764) and LFPG (track + record rows) |
-| Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
-| Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
-| Standing (2026-10-01) | **#46 of 214** teams by best score; leader 219.64, #10 233.8, #45 271.29, #50 273.56, median 298.9 |
-| Reproduce / predict new data | **`python final_pipeline.py --out <file> --check submissions/fearless_barn_v50.parquet`**: base → ADS-B corrector → weather offsets in one command, verified **byte-identical to v50** (§3) |
-
-`README.md` and `SUBMISSION.md` are mid-build snapshots and point here. Detailed records:
-`plans/` (numbered decision history), `tests_*/RESULT.md` (one per experiment),
-`submissions/board_scores.csv` (every board score), `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md`.
+| **Final submission** | **v56 = 271.5625** pooled RMSE on the public board (also the last upload) |
+| **Without post-pushback ADS-B** | **v42 = 286.5256**, the pure pre-departure model, kept as a byte-identical file (§9) |
+| **Standing** (2026-10-03) | #51 of 221 teams by best score; leader 219.64, #10 230.37, median 298.8 |
+| **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56, and verified on new data (§10) |
+| **Uploads** | 39 board submissions over the whole challenge; each one is a complete model, with its expected score written down before upload (§7) |
 
 ---
 
-## 1. Task and metric
+## 1. Task, data and metric
 
-Predict taxi-out time (seconds from off-block to takeoff) for every departure in the scored
-set: **January and July 2026** at ten European airports (EDDF, EDDM, EGLL, EHAM, LEBL, LEMD,
-LFPG, LIRF, LSZH, LTFM). Training data: all of 2025, 2,084,659 labelled departures. The
-metric is **pooled RMSE** over 344,841 scored rows.
+- **Task:** predict the taxi-out time (seconds from off-block to takeoff) of every departure in the
+  scored set: **January and July 2026** at ten European airports (EDDF, EDDM, EGLL, EHAM, LEBL,
+  LEMD, LFPG, LIRF, LSZH, LTFM).
+- **Training data:** all of 2025, 2,084,659 labelled departures with their movement and flight
+  records.
+- **Metric:** pooled RMSE over 344,841 rows.
 
-The metric shapes everything. About 0.02 % of rows (taxi-outs above 7,200 s) carry 15–44 %
-of the squared error, depending on the period. Under L2 the optimal prediction is the
-conditional *mean*, so anything that shrinks the tail (winsorizing, robust losses, prediction
-caps) loses (§6).
+**The metric shapes the whole design.** About 0.02 % of departures (taxi-outs over 2 hours) carry
+15–56 % of the squared error, depending on the period. Most of them are record artifacts at Rome:
+a missing NM flight record, and an off-block time copied from the schedule. Under squared error,
+the best prediction is the conditional **mean**, so every method that shrinks the tail
+(winsorizing, robust losses, prediction caps) loses (§8).
 
-## 2. The base model (v42)
-
-A per-airport blend of three model families, each refit on all twelve 2025 months, plus a
-Rome-specific override:
+## 2. Solution overview
 
 ```
-                    ┌─ trees:  per-airport + per-operator LightGBM (airport_operator_blend)
-per-airport blend ──┼─ MLP:    entity-embedding MLP (256,128,64), mean of 18 seeds
- (3 weights per     └─ FTT slot: FT-Transformers ("Feature Tokenizer + Transformer"),
-  airport)                        one third each of
-                                    small  d_token 64,  3 blocks   6 seeds
-                                    large  d_token 192, 3 blocks   9 seeds
-                                    deep   d_token 96,  6 blocks   6 seeds
-        │
+ movements file ──► 1. BASE MODEL  (v42; pre-departure information only)
+                       per-airport blend of trees + MLPs + FT-Transformers, TabNet override at LIRF
+                    │
+ adsb.lol archive ──► 2. ADS-B CORRECTOR  (7 airports: EDDF EHAM LEBL EDDM LSZH LEMD EGLL)
+                       LightGBM on the base's residual, from the departure's own ground track
+                    │
+ METAR ─────────────► 3. WEATHER OFFSETS  (departures without an ADS-B correction)
+                       frost in January +30 s; thunderstorm in July +200 s
+                    │
+ adsb.lol archive ──► 4. LIRF CORRECTOR  (January; departures with an NM record and a track)
+                    │
+ adsb.lol archive ──► 5. LFPG CORRECTOR  (departures with an NM record and a track)
+                    ▼
+                    prediction (v56)
+```
+
+**Board score after each stage:**
+
+| stage | board |
+|---|---:|
+| 1. base model | 286.53 |
+| + 2. ADS-B corrector | 272.17 |
+| + 3. weather offsets | 271.87 |
+| + 4. LIRF corrector | 271.76 |
+| + 5. LFPG corrector | **271.56** |
+
+## 3. Stage 1: the base model (v42)
+
+**Features** (57, the `with_aobt` featureset, built identically for training and scoring):
+- **Calendar and time of day:** hour, day of week, day of year, cyclic encodings.
+- **Timing from the flight plan and the NM flight record,** relative to takeoff: scheduled, EOBT,
+  IOBT, LOBT and NM actual off-block (AOBT), their differences, and flags for missing records.
+- **Categoricals:** airport, runway, stand, destination, aircraft type, operator, wake category,
+  market segment, flight type and rules, plus the interactions stand × runway, airport × stand and
+  airport × runway.
+- **Traffic from the movement records:** departures and arrivals in 15-, 30- and 60-min windows,
+  same-runway departures, recent taxi-in times, aircraft taxiing at pushback, and a surge ratio.
+
+**Model:**
+
+```
+                    ┌─ trees:  per-airport + per-operator LightGBM, one global blend weight
+per-airport blend ──┼─ MLP:    entity-embedding MLP (256-128-64), mean of 18 seeds
+ (3 weights per     └─ FT-Transformers, one third each of three shapes:
+  airport)               small d64×3 blocks (6 seeds), large d192×3 (9 seeds), deep d96×6 (6 seeds)
         └─ at LIRF only:  0.541 × blend + 0.459 × TabNet (mean of 5 seeds)
 ```
 
-- **Per-airport weights** are solved on `forward_inner` (train Jan–Jun 2025, holdout
-  Jul–Aug), a surface no scored model is fitted on, then frozen. The FTT slot's weight at
-  LIRF solves to exactly 0 in every solve, so LIRF is MLP + TabNet only.
-- **TabNet's LIRF weight 0.459** is the exact minimum of board error. LIRF's prediction is
-  linear in that weight, so board MSE is an exact parabola through three existing uploads
-  (v25, v29, v28); v35 landed 0.0001 s from the prediction. It is the one board-fitted
-  constant in the model.
-- **Training target:** `keep_all`. Every valid row is kept, tail included. Predictions are
+- **Per-airport blend weights:** solved on `forward_inner` (train Jan–Jun 2025, held out Jul–Aug),
+  a surface no scored model is fitted on, then frozen. At LIRF the FT-Transformer weight solves to
+  0 every time.
+- **Target and clipping:** every valid row is kept, tail included (`keep_all`); predictions are
   clipped to [60, 86,400] s.
-- **Refit:** hyperparameters and epoch counts are frozen from time-ordered splits; `full` has
-  no holdout, so nothing is selected on it.
-- Registered arms: `ftt_multimodel` tag `ftt_c3d6_mlp18` and `tabnet_lirf_override` tag
-  `lirf_w0.459_c3d6`. Rebuild: `python submit.py --arm tabnet_lirf_override --tag
-  lirf_w0.459_c3d6 --split full --featureset with_aobt --outlier-policy keep_all --seed 42 --version N`.
+- **Final refit:** all members are refit on the full year with the hyperparameters and epoch counts
+  frozen from time-ordered splits.
 
-## 2b. The ADS-B corrector (v43 → v48)
+**What built it, in order of board gain** (§6 has the full history):
+- blending a neural network with the trees: −62;
+- MLP seed averaging (1 → 18): −29;
+- architecturally different neural members (TabNet at LIRF, FT-Transformers elsewhere): −5.4;
+- FT-Transformer seeds and three FT-Transformer shapes: −2.9.
 
-Source: **adsb.lol `globe_history`** daily archives (open data, ODbL; data © adsb.lol contributors),
-fetched for all of 2025 and Jan + Jul 2026 (427 days, ~1.2 TB streamed, never stored whole).
-`tests_adsb_full/` holds everything; `RESULT.md` there is the full record.
+Inside the MLP family, no variant ever paid.
 
-1. **Matching.** For each departure, the aircraft that carried its callsign (`FLIGHT_mvt` or
-   `CALLSIGN_flt`) near the airport, kept only if its ground → air change falls within ±120 s of
-   the recorded takeoff. Strict matching covers 44–62 % of departures; LFPG, LTFM ≈ 0.
-2. **Features** (`features.py`, variant `all_nd`): seconds before takeoff of the first ground
-   sighting, first displacement from the stand and first movement; liftoff offset; total stopped
-   time; time from the last stop to liftoff; median taxi speed. Three further features (sightings
-   count, path length, number of stops) were **dropped by a pre-registered drift gate**: they
-   shift between 2025 and 2026 because the receiver network changed.
-3. **Corrector.** A LightGBM on the residual `y − base` of **held-out** base predictions,
-   applied only to covered rows at EDDF, EHAM, LEBL, EDDM, LSZH, LEMD, EGLL. v46: 600 trees,
-   31 leaves; trained on Jan, Jul, Sep–Dec 2025 (bases from models that never saw those months).
-4. **Applied on top of v42.** 187,750 rows (54.7 %) change.
+## 4. Stages 2, 4 and 5: ADS-B correctors
 
-What it does and does not see: receivers mostly cannot see aircraft at the stand, so the first
-sighting lags the recorded off-block by 4–11 min. It informs the *taxi* (stops, line-up wait,
-speed), not the off-block record itself, which is why it fails at LIRF (record artifacts, §7).
+**Data:**
+- **Source:** adsb.lol `globe_history` daily archives (open data, ODbL), for all of 2025 and
+  Jan + Jul 2026.
+- **Volume:** about 1.2 TB streamed; each archive is read once and only the matched points near the
+  airport are kept (`tests_adsb_full/fetch.py`).
+- **Integrity:** the fetcher resumes dropped connections and refuses to write a truncated day (ten
+  silently truncated days were found and refetched).
 
-| round | pre-registered test (fresh months) | result | board |
+**Matching and features** (`tests_adsb_full/features.py`):
+1. **Candidates:** an aircraft that carried the departure's callsign (`FLIGHT_mvt` or
+   `CALLSIGN_flt`) within 10 km of the airport, from 4 h before to 10 min after takeoff.
+2. **Strict match:** the aircraft is kept only if its ground → air transition falls within ±120 s
+   of the recorded takeoff. This rejects reused callsigns, inbound legs and wrong aircraft.
+   Coverage: 44–62 % of departures in 2025–26; LFPG ≈ 5 %, LTFM 0 %, LIRF Jan 2026 63 %, Jul 2026 0 %.
+3. **The 7 features (`all_nd`):**
+   - seconds before takeoff of the first ground sighting, first displacement from the stand and
+     first movement;
+   - the liftoff offset;
+   - total stopped time;
+   - time from the last stop to liftoff;
+   - median taxi speed.
+4. **Drift gate:** three more candidate features (sightings count, path length, number of stops)
+   shift between 2025 and 2026, because the receiver network changed, so they are excluded.
+   Features that describe *how* the aircraft moved carry over between years; features that
+   describe *how well it was heard* do not.
+
+**Correctors:** a LightGBM model on the residual `y − base` of **held-out** base predictions, that
+is, predictions from models that never saw the month in question. Seeds 42–46 are averaged.
+
+| stage | where | trained on | rows corrected (2026) |
 |---|---|---|---:|
-| v43 | Jan ↔ Jul cross-month + 44 fresh Jan/Jul days; 3 airports | 44/44 days better | 281.86 (−4.66) |
-| v44 | Nov–Dec 2025 (frozen corrector, 61/61 days); + EDDM | pass | 279.15 (−2.71) |
-| v45 | Sep–Oct 2025; + LSZH, LEMD, EGLL; + Nov–Dec training | pass, 61/61 days | 273.60 (−5.55) |
-| v46 | Aug 2025; + Sep–Oct training; 600 trees | pass, 31/31 days | **272.26 (−1.34)** |
-| v47 | + 56 tabular columns in the corrector (leave-one-month-out, 7/7) | passed locally | 272.73 (**+0.47, lost**) |
-| v48 | v46 design + Aug training + 5-seed average (42-46) | passed locally | **272.17 (−0.09 vs v46)** |
+| 2 | EDDF, EHAM, LEBL, EDDM, LSZH, LEMD, EGLL; departures with a track | Jan, Jul–Dec 2025; 600 trees, 31 leaves | 188,635 (54.7 %) |
+| 4 | LIRF, **January**; departures with an NM record and a track | Jul–Dec 2025 | 6,960 |
+| 5 | LFPG; departures with an NM record and a track | Jan, Jul–Dec 2025 | 1,973 |
 
-v43–v45 beat their written expectations, v46 landed inside its range, v47 lost: the tabular
-columns let the corrector learn 2025-specific identities that a within-2025 holdout cannot
-expose. Rejected along the way: LIRF (worse on Aug, 12/31 days), ADS-B inside the tree model
-(the tree improves by 7 s alone, but after correction Jan + Jul is +0.08).
+**What it can and cannot see:**
+- Receivers rarely see aircraft at the stand, so the first sighting lags the recorded off-block by
+  4–11 min. ADS-B therefore informs the **taxi** (stops, the wait for the runway, speed), not the
+  off-block record.
+- **This explains LIRF:** a corrector trained on all LIRF rows failed (Aug 2025: 654 → 675),
+  because the no-record rows are record artifacts. Restricted to departures with a record, it
+  passed (−4.2 RMSE on LIRF, 5 of 6 months).
 
-## 2c. The winter morning de-icing heuristic on uncovered flights (v49)
+**How each step was accepted.** Each was confirmed on a fresh 2025 season before its upload:
 
-While covered flights have their ground taxi delays (including de-icing pad wait) observed
-directly via transponder stops, **156,206 departures (45.3 % of the scored set) receive zero ADS-B
-correction** because LFPG and LTFM lack ground receiver coverage and some transponders are
-only received after liftoff.
+| version | change | local test | board |
+|---|---|---|---:|
+| v43 | 3 airports | Jan ↔ Jul plus 44 fresh days: 44/44 days better | 281.86 (−4.66) |
+| v44 | + EDDM | Nov–Dec 2025, frozen corrector: 61/61 days | 279.15 (−2.71) |
+| v45 | + LSZH, LEMD, EGLL; + Nov–Dec training | Sep–Oct 2025: 61/61 days | 273.60 (−5.55) |
+| v46 | + Sep–Oct training; 600 trees | Aug 2025: 31/31 days | 272.26 (−1.34) |
+| v48 | 5-seed average; + Aug training | leave one month out, 7/7 months | 272.17 (−0.09) |
+| v55 | LIRF corrector (record rows) | leave one month out, 5/6 months | 271.76 (−0.11) |
+| v56 | LFPG corrector (record rows) | leave one month out, 6/7 months | **271.56 (−0.20)** |
 
-Held-out January 2025 diagnostics (`tests_weather_metar/PREREGISTERED_v49.md`) showed that in frost
-conditions ($T \le 34^\circ\text{F}$ and $T - T_d \le 3.0^\circ\text{F}$), the base model systematically
-under-predicts non-ADS-B flights (+42.7 s at EDDF, +46.4 s at LFPG) due to unmodelled de-icing holds.
+## 5. Stage 3: weather offsets
 
-- **Target rows in January 2026:** exactly 4,878 departures matching non-ADS-B + METAR frost criteria
-  (LFPG 2,223, EDDF 1,257, LSZH 377, EHAM 311, LTFM 286, EDDM 242, others 182).
-- **Modification:** $+30.0$ s de-icing adjustment, leaving all other 339,963 rows 100 % identical to `v48`.
+The base model has no weather inputs. The ADS-B corrector sees weather delays only through the
+aircraft's own track, so departures **without** an ADS-B correction get two fixed offsets, using the
+last METAR within 90 min before takeoff:
 
-## 2d. The July convective thunderstorm heuristic on uncovered flights (v50)
+- **January frost** (tmpf ≤ 34 °F and tmpf − dwpf ≤ 3 °F): **+30 s** (4,878 departures; board
+  v49 −0.23);
+- **July thunderstorm** (`TS` in wxcodes): **+200 s** (428 departures, 370 of them at LTFM; board
+  v50 −0.07).
 
-In July, summer thunderstorms force ground stops and apron holding. Because the base model has no
-weather inputs, it predicts normal taxi times (~1130 s) for flights caught in storm cells. In 2025,
-departures at LTFM under thunderstorms averaged **1700.6 s (+648.9 s longer than normal)**, and
-across all 10 airports in held-out July 2025, thunderstorm departures without ADS-B were underpredicted
-by **+200 s to +350 s** across every major hub.
+**How much to trust them:**
+- **Chosen in-sample:** both values were hand-chosen on Jan + Jul 2025 and first measured on the
+  same data. At this size the local estimate did not even rank the two correctly.
+- **Mildly supported out of sample:** a later out-of-sample check (offsets fitted on 6 months,
+  scored on the 7th) supports them mildly: −0.07 pooled.
+- **The fitted alternative is not better on the scored months:** per-condition offsets fitted out
+  of sample are −0.16 pooled, but worse in January.
+- **Per-airport frost offsets were not supported.** The four candidates built on them (v51–v54)
+  were never uploaded.
 
-- **Target rows in July 2026:** exactly 428 departures matching non-ADS-B + METAR thunderstorm (`TS`)
-  (LTFM 370, LSZH 21, LEMD 18, LIRF 10, EDDM 6, LFPG 2, LEBL 1).
-- **Modification:** $+200.0$ s convective hold adjustment (well below the empirical mean of 1700 s),
-  leaving all other 344,413 rows 100 % identical to `v49`.
-- **Result:** **v50 = 271.8748** (**−0.0692 s vs v49**, **−0.2966 s vs v48**). The pre-registered
-  expectation was −0.30 to −0.50; the board gain fell well short of it.
+## 6. Results: board history
 
-**How much to trust §2c–§2d.** Both offsets (+30 s, +200 s) were hand-chosen and first measured on
-the same Jan + Jul 2025 data, and at this size the local estimate did not even rank them correctly
-(local −0.04 / −0.17 vs board −0.23 / −0.07). A later out-of-sample check
-(`tests_weather_validated/RESULT.md`, offsets fitted on 6 months and scored on the 7th) supports
-them mildly: −0.07 s pooled (Jan −0.07, Jul −0.31). Offsets fitted out of sample per condition came
-to ts +199 s, freezing precipitation +203 s, frost +72 s, fog +40 s, rain +11 s (pooled −0.16, 6/7
-months, but **worse in January**); per-airport frost offsets, the basis of the unuploaded
-candidates v51–v54, were **not** supported. v51–v54 were never uploaded: uploading several
-offset variants and keeping the best would fit the hidden labels.
-
-
-## 3. Reproducing and predicting new data
-
-**`predict_new.py`** predicts any movements parquet in `ranking.parquet`'s schema with the
-final recipe, **from saved models only**: features from the same builder, the tree and 18
-MLPs through `submit.py`'s code path, all 21 FT-Transformers from `.pt` checkpoints (bf16
-for the large and deep members, as trained), TabNet from its saved models and encoders,
-then the recorded weights and the LIRF override.
-
-```
-python predict_new.py --movements <file.parquet> --out <pred.parquet> [--ids <template.parquet>]
-python predict_new.py --selftest --selftest-version 42     # verify against the uploaded v42
-```
-
-**Whole recipe in one command.** `final_pipeline.py` runs stage 1 (the v42 base: the saved file,
-or `--from-raw <movements>` to run `predict_new.py`), stage 2 (`tests_adsb_full/predict_adsb.py`
-with `model_v48`, 5 seeds) and stage 3 (the v49/v50 weather offsets, with the exact METAR join the
-uploads used). **Verified 2026-10-03: byte-identical to the uploaded final v56 (344,841 / 344,841 rows)**, with stages 4–5 (LIRF and LFPG ADS-B correctors) added after v50.
-**Any new movements file** (same schema): `python final_pipeline.py --movements new.parquet --points-dir
-adsb_new --fetch --out pred.parquet` runs every stage from scratch. It streams the needed adsb.lol day
-archives (`tests_adsb_full/fetch.py`, only matched points kept) and fetches METAR reports outside the local
-weather file from the Iowa Environmental Mesonet (the same ASOS source). **Verified 2026-10-03** on three
-2025 days treated as new data (15,408 departures): the from-scratch run, with fresh ADS-B downloads, equals
-the run on the existing ADS-B files on all 15,408 rows; the IEM fetch was checked separately on dates after
-the local weather file ends.
-The ADS-B stage needs the day files: `tests_adsb_full/fetch.py <day>` streams one day's adsb.lol
-archive and keeps the matched points. v43–v48 each rebuild byte-identical from their saved models.
-
-**Verified (2026-09-30):** from the raw `ranking.parquet` it reproduces v42 on **344,840 /
-344,841 rows**. The one exception is a LIRF row off by 1 s, a rounding boundary between
-in-process and reloaded TabNet inference.
-
-- The five TabNet seeds were retrained with model saving; their predictions are **bitwise
-  identical** to the originals, so TabNet training here is deterministic.
-- `tests_repro/rebuild_check.py` rebuilds uploads through `submit.py` and records every file
-  opened. The untracked files it needs (trained runs, feature cache, FTT/TabNet
-  checkpoints) are listed with sha256 in `tests_repro/dependency_manifest.csv`. **They are
-  the backup set:** git holds the code and evidence, not the models.
-
-## 4. Validation protocol
-
-| split | train | holdout | used for |
-|---|---|---|---|
-| `forward` | Jan–Aug | val Sep–Oct, test Nov–Dec | early stopping, model comparison |
-| `forward_inner` | Jan–Jun | Jul–Aug | solving blend weights (out of sample) |
-| `seasonal_full` | Feb–Jun, Aug–Nov | val Dec, test **Jan + Jul** | the board's months; confirmation before any build |
-| `full` | all 12 months | none | the submission refit only; selection forbidden |
-
-Rules that paid for themselves:
-
-- **Pre-register the bar before the number exists** (`tests_*/PREREGISTERED*.md`, `PROBE*.md`).
-- **Multi-seed, paired by seed.** MLP single-seed val SD is ~3.5 s.
-- **A forward (Nov–Dec) pass needs a Jan + Jul replication.** Six leads passed forward and
-  failed on Jan + Jul (ensemble epochs, `deep` MLP, tree seeds, 9 FTT seeds, the large FTT
-  alone, season weighting); the one board-tested of them (season weighting, v37) lost 2.07.
-- **A capped run is unresolved, not failed.** Three verdicts in this build were first read
-  off truncated runs; FTT was nearly closed at cap 60 and later became v30.
-- **The local surfaces under-read seed averaging and model variety on the board.** MLP 1 → 3
-  seeds: −0.9 local, −18 board. FTT 3 → 6 seeds: −0.13 to −0.30 local, −1.79 board. The
-  large FTT mixed in: a local tie, −0.64 board. For these questions a board probe with a
-  fallback is the only instrument, and it was used as such, with the expectation written
-  down before each upload.
-- **Local → board mapping** across models: board ≈ −246 + 2.24 × local val, residual SD ~9.
-  Composition checks on disjoint rows are exact: v31 landed 0.0014 s from its prediction.
-
-## 5. Board history: what moved the score
-
-| version | change | board | Δ |
+| version | change | board | change |
 |---|---|---:|---:|
 | v2 | pooled LightGBM | 405.75 | |
-| v3 | per-airport stack (trees only) | 386.22 | −19.5 |
+| v3 | per-airport trees | 386.22 | −19.5 |
 | v13 | + 1-seed MLP in a per-airport blend | 324.28 | −61.9 |
-| v14 → v25 | MLP seeds 3 → 18 (and clean weight solves) | 306.32 → 295.21 | −29.1 |
-| v29 | + TabNet override at LIRF (w = 0.55) | 293.67 | −1.5 |
-| v30 | + FT-Transformer (small, 3 seeds) as a third member | 291.34 | −3.9 vs v25 |
-| v31 | v30 + v29's TabNet override (predicted to 0.0014 s) | 289.78 | −5.4 vs v25 |
-| v32 | small FTT 3 → 6 seeds | 287.99 | −1.79 |
-| v35 | TabNet LIRF weight → board-optimal 0.459 | 287.92 | −0.065 |
-| v36 | FTT slot + 3 large FTTs | 287.29 | −0.64 |
-| v39 | large FTT 3 → 6 seeds (share 1/3) | 287.04 | −0.25 |
-| v41 | + 3 deep FTTs, large 6 → 9; three FTT families at 1/3 each | 286.80 | −0.23 |
-| v42 | deep FTT 3 → 6 seeds | 286.53 | −0.28 |
-| v43 | + ADS-B corrector, EDDF/EHAM/LEBL | 281.86 | −4.66 |
-| v44 | + EDDM | 279.15 | −2.71 |
-| v45 | + LSZH/LEMD/EGLL, more training months | 273.60 | −5.55 |
-| **v46** | **+ Sep–Oct training, larger corrector** | **272.26** | **−1.34** |
-| **v48** | **corrector averaged over 5 seeds, + Aug training** | **272.17** | **−0.09 vs v46** |
-| **v49** | **+ winter morning de-icing heuristic on 4,878 uncovered frost flights** | **271.94** | **−0.23 vs v48** |
-| **v50** | **+ July convective thunderstorm offset (+200s) on 428 uncovered TS flights** | **271.87** | **−0.07 vs v49** |
+| v14 → v25 | MLP seeds 3 → 18 | 306.32 → 295.21 | −29.1 |
+| v29 | + TabNet override at LIRF | 293.67 | −1.5 |
+| v31 | + FT-Transformer (small) | 289.78 | −3.9 |
+| v32 → v42 | FT-Transformer seeds and three shapes; TabNet weight 0.459 | 287.99 → 286.53 | −3.3 |
+| v43 → v48 | ADS-B corrector, 7 airports | 281.86 → 272.17 | −14.36 |
+| v49, v50 | weather offsets | 271.94, 271.87 | −0.30 |
+| v55 | LIRF ADS-B corrector | 271.76 | −0.11 |
+| **v56** | **LFPG ADS-B corrector** | **271.56** | **−0.20** |
 
-Probes that lost and were reverted: v33 (TabNet 11 seeds, +0.91), v34 (small FTT 7 seeds,
-+0.04), v37 (season-weighted MLPs, +2.07). Two early results settled the tail: **v18**
-(predictions capped at 7,200 s) = 491.35, **v27** (target winsorized at 7,200 s) = 496.09.
+**Uploads that lost** (each reverted with a byte-identical re-upload):
 
-**What moved the score, in order:** blending a neural model with the trees (−62), averaging
-MLP seeds (−29), adding architecturally different neural members (TabNet at LIRF, FTT
-elsewhere, −5.4), then averaging and **diversifying the attention models** (FTT seeds and
-three FTT families, −2.9). Inside the MLP family nothing ever paid. Then **external
-observation data: the ADS-B corrector, −14.3**, the largest gain since the first neural model.
+| version | change | result |
+|---|---|---:|
+| v18 | prediction cap at 2 h | 491.35 |
+| v27 | target winsorized at 2 h | 496.09 |
+| v15, v17 | LIRF identity override | +0.86 twice |
+| v33 | TabNet 11 seeds | +0.91 |
+| v37 | season-weighted MLPs | +2.07 |
+| v47 | tabular columns inside the ADS-B corrector | +0.47 |
 
-## 6. What did not work (closed, with the evidence)
+## 7. Validation protocol and how the leaderboard was used
 
-| idea | result | where |
+**Splits.** All splits are time-ordered; nothing is selected on the full-year refit.
+
+| split | train | held out | used for |
+|---|---|---|---|
+| `forward` | Jan–Aug | Sep–Oct (val), Nov–Dec (test) | early stopping, comparison |
+| `forward_inner` | Jan–Jun | Jul–Aug | blend weights, solved out of sample |
+| `seasonal_full` | Feb–Jun, Aug–Nov | Dec (val), **Jan + Jul** (test) | the board's months; confirmation before any build |
+| `full` | all of 2025 | — | the final refit only |
+
+**Rules applied to every experiment:**
+- **The pass bar is written before the result exists.** Every test has a `PREREGISTERED*.md`,
+  committed before it ran, with its decision rule and the action for pass or fail.
+- **Confirmation on data the choice never saw.** ADS-B rounds were each confirmed on a fresh 2025
+  season; later rounds used leave-one-month-out.
+- **Controls:**
+  - permutation controls (the new inputs shuffled) must lose;
+  - the result must survive removing the 5 largest-gain rows, because the tail can fake a gain;
+  - several seeds, paired by seed.
+- **Drift gate for any external input:** 2025 against 2026 in the same months; a standardized
+  shift above 0.2 disqualifies the feature.
+- **A training run that hit its epoch cap is unresolved, not failed.** A convergence audit re-read
+  every early verdict.
+
+**Use of the public leaderboard:**
+- **39 uploads,** each a complete model, with its expected score and the fallback written down
+  before upload. No upload changed single rows to read their labels.
+- **One constant was fitted on the board:** the LIRF TabNet weight 0.459. LIRF's prediction is
+  linear in that weight, so board MSE is a parabola through three existing uploads; v35 landed
+  0.0001 s from the predicted optimum.
+- **The weather offsets** (§5) were hand-chosen, which §5 states openly.
+- **v51–v54 were not uploaded:** four weather-offset variants were built late, and uploading
+  several to keep the best would have tuned to the hidden labels. They sit in
+  `submissions/DO_NOT_UPLOAD/`.
+- **Local results under-read the board for averaging and model variety:**
+  - MLP 1 → 3 seeds: −0.9 locally, −18 on the board;
+  - FT-Transformer 3 → 6 seeds: −0.2 locally, −1.8 on the board.
+
+  For these questions a single upload with a fallback was the only usable measurement, and it was
+  used that way.
+
+## 8. What did not work (all tested, records in `tests_*/RESULT.md`)
+
+| idea | result |
+|---|---|
+| winsorize / cap / floor the target or the predictions | large losses (board 491–496) |
+| log target, Huber, Poisson, quantile ladder, hurdle model | all de-weight the tail and lose |
+| LIRF identity override (no record → scheduled delay) | right in 2025, +0.86 on the 2026 board twice |
+| sequence and neighbour models (GRU, queue attention, retrieval) | residuals 0.98 correlated with the MLP |
+| MLP variants, PLE embeddings, TabM, season weighting, transductive pretraining | all worse |
+| CatBoost and XGBoost as further members; tree-side seeds | no gain once blended |
+| METAR weather as model features; holidays; OSM stand distance | within noise |
+| runway queue / runway-mode features from the records | stable across years but +2.1 worse as a corrector |
+| routed taxi distance (apt.dat), measured as a ceiling | at most −0.14 s, not built |
+| ADS-B features inside the tree model | tree −7 alone, +0.08 once corrected |
+| traffic counts from other aircraft's ADS-B | fail the drift gate (they track receiver coverage) |
+| tabular columns inside the ADS-B corrector | 7/7 months locally, +0.47 on the board |
+| Feb–Jun as extra corrector training (new held-out base) | +0.07, 2/7 months |
+| looser ADS-B matching at EDDF/LEMD | the extra matches have no ground points |
+
+**Two lessons stand out:**
+- **An idea closed on a weak test may be wrong.** ADS-B was first "closed" on three days and one
+  crude feature, and later became the largest gain since the first neural model.
+- **A within-2025 holdout cannot see a 2025 → 2026 shift.** v47 passed locally and lost on the
+  board, and the drift gate exists because of it.
+
+## 9. Design trade-off: post-pushback ADS-B
+
+Stages 2, 4 and 5 use each departure's **own** ADS-B ground track after pushback: when it moved,
+how long it stopped, how fast it taxied. A real-time forecast made before off-block would not have
+this.
+
+- **What it gives:** −15.0 s on the board (286.53 → 271.56).
+- **What it costs:** it is not available before off-block. It relies on volunteer receiver
+  coverage, which varies by airport and changed between 2025 and 2026. It describes the physical
+  taxi, not the recorded off-block.
+- **Status:** adsb.lol is open data, and the organizers wrote that open data sources can be used.
+  A forum question asked whether post-pushback ADS-B counts as leakage, and no explicit answer is on
+  record.
+- **v42 is the pure pre-departure model.** It uses only the flight plan, the NM record and the
+  movement records, and it is kept as a byte-identical file. If post-pushback ADS-B is not accepted,
+  v42 is the submission.
+
+## 10. Reproducibility
+
+**One command, any movements file in `ranking.parquet`'s schema:**
+
+```bash
+python final_pipeline.py --movements new.parquet --points-dir adsb_new --fetch --out pred.parquet
+```
+
+**What the command does:**
+1. runs the base model from the saved models (`predict_new.py`);
+2. streams the adsb.lol archives for the departure days (`tests_adsb_full/fetch.py`);
+3. fetches any METAR reports the local weather file lacks, from the Iowa Environmental Mesonet;
+4. applies stages 2–5 with the saved correctors.
+
+**Verified:**
+- **The upload:** on the competition's ranking set, from the saved v42 base, the output equals the
+  uploaded **v56 byte for byte** (344,841 rows):
+  `python final_pipeline.py --base submissions/fearless_barn_v42.parquet --check submissions/fearless_barn_v56.parquet --out final.parquet`.
+- **New data:** three 2025 days treated as new data (15,408 departures), run from scratch with
+  fresh ADS-B downloads, give output identical to the run on the existing ADS-B files. The METAR
+  fetch was checked on dates after the local weather file ends.
+- **The base from raw data:** `predict_new.py` rebuilds the v42 base from raw `ranking.parquet` on
+  344,840 / 344,841 rows (one LIRF row off by 1 s, a TabNet reload rounding boundary).
+- **Every ADS-B candidate (v43–v56)** rebuilds byte-identical from its saved models.
+
+**What git does not hold:**
+- the trained runs (`artifacts/runs/`);
+- the feature cache;
+- the FT-Transformer and TabNet checkpoints;
+- the ADS-B day files (`tests_adsb_full/points/`).
+
+Their sha256 manifest is in `tests_repro/dependency_manifest.csv`. **They are the backup set.**
+
+## 11. Data sources and licences
+
+| data | use | source / licence |
 |---|---|---|
-| winsorize / drop the tail in training | `keep_all` wins; board v27 = 496 | `config.py`, `artifacts/clip/` |
-| cap predictions | board v18 = 491 | plan 07 |
-| prediction floor 60 → 240 s | worse on every surface | `tests_pred_floor` |
-| log1p target, Huber, Poisson, quantile ladder | all lose; they de-weight the tail | `tests_log_target`, `TAXI_OUT_DRIVERS.md` §2i, `tests_poisson_objective`, `tests_quantile_ladder` |
-| hurdle model (P(tail) × magnitude) | lost twice; 0.02 % base rate | plan 07 |
-| LIRF "identity" override (no flight record → scheduled delay) | 100 % right in 2025, **+0.86 on the 2026 board twice** | `tests_lirf_identity`, `tests_tail_study` |
-| neighbour / sequence models (GRU, queue attention, retrieval) | residual corr 0.98 with the MLP | `tests_seqrnn`, `tests_arch_diversity`, `tests_retrieval_screen` |
-| hyperparameter tuning | 6.5 s for a full sweep vs 27 s for one reasoned constant | `PIPELINE_REVIEW.md` |
-| MLP variants (wide, deep, regularized, big-batch) | fail at equal member count | `tests_hp_diversity` |
-| MLP backbones: PLE numeric embeddings, TabM, TabM + PLE | all fail on forward | `tests_backbone` |
-| season-matched per-month MLP weighting | Jan + Jul +1.70, LIRF +10.5; board v37 +2.07 | `tests_season_weight` |
-| transductive pretraining for FTT | +19.8 s worse on the same seed | `tests_ftt_pretrain` |
-| refit epoch count / longer training | flat on Jan + Jul, +19 s pooled | `tests_refit_epochs` |
-| tree-side seed averaging (1 → 6) | Jan + Jul +0.16 | `tests_tree_seeds` |
-| FTT at LIRF, downward-only guard | weight solves to 0 | `tests_ftt_lirf_guard` |
-| extra TabNet seeds (5 → 11) | board v33 +0.91 | `tests_tabnet/PROBE_v33.md` |
-| ADS-B: first crude test (3 days, one feature) | wrongly closed at "20 % coverage"; strict matching later gave 44–62 % and the corrector (§2b) | `tests_adsb_coverage` → `tests_adsb_full` |
-| ADS-B corrector at LIRF | Aug 2025 654 → 675, 12/31 days | `tests_adsb_full/PREREGISTERED_v46.md` |
-| ADS-B inside the tree model | tree −7 alone; after correction Jan + Jul +0.08 | `tests_adsb_full/PREREGISTERED_tree.md` |
-| tabular columns inside the ADS-B corrector | 7/7 months locally; board v47 +0.47 | `tests_adsb_full/PREREGISTERED_interactions.md` |
-| METAR weather; stand-to-runway distance (OSM) | inside the noise | `tests_weather_metar`, `TAXI_OUT_DRIVERS.md` §2h |
-| exact (tight-tolerance) blend-weight solve | not better out of sample; the default's early stop acts as shrinkage | solver docstring |
+| 2025 training movements and flights, 2026 ranking set | everything | PRC Data Challenge 2026 (EUROCONTROL / airports) |
+| METAR, 10 airports | stage 3 | `prc-2026-datasets-wx` (ASOS via the Iowa Environmental Mesonet); IEM for any gap |
+| ADS-B ground tracks | stages 2, 4, 5 | **adsb.lol** `globe_history`, © adsb.lol contributors, **ODbL** |
 
-A convergence audit (`CONVERGENCE_AUDIT.md` §9) re-checked every closed outlier verdict for
-truncated runs; all stand.
+The OpenSky historical database was not used.
 
-## 7. Where the remaining error is, and the leaderboard
+## 12. Where things are
 
-On the Jan + Jul 2025 analogue (`tests_tail_diagnosis`), 56 % of squared error is in-band
-(≤ 7,200 s) and 44 % in ~150 tail rows, almost all LIRF departures without a flight record
-(`tests_tail_study`). In 2025 those rows are structured (the true value equals the scheduled
-delay, or ≈ one day), but that pattern **did not transfer to the 2026 board**.
-
-The leader has ~40 % less squared error than v41. **We could not establish where that gap
-comes from.** It is not the tail alone: if our board in-band error matches the analogue's
-(~250), a perfect tail would reach ~250, not 221. Rank correlates with submission volume
-(Spearman −0.64), which points to board probing, something we ruled out. But several top-10
-teams reached 224–237 with 22–41 uploads, so there is also a genuine method difference we
-could not identify. Public ADS-B turned out to be part of it: done properly (§2b) it took
-14.3 s and 24 places. Weather and stand geometry were tested and ruled out.
-
-## 8. Open question: is post-pushback ADS-B allowed?
-
-Nothing here uses test labels or fits the board. adsb.lol is open data and the moderator wrote
-"open data sources can be usable"; another top team uses it openly. But the corrector's inputs
-come from each flight's own movement **after** pushback, which a real-time forecast would not
-have. A forum question asked whether this counts as leakage ("the earlier request to treat
-post-pushback ADS-B as leakage") and no explicit answer is on record; the organizers also
-stressed that the goal is the model, not the 2026 score. **If the answer is no, v42 (286.53,
-no ADS-B) is re-uploaded as the final submission.** Data credit: adsb.lol contributors, ODbL.
+| path | contents |
+|---|---|
+| `final_pipeline.py` | the whole recipe (§10) |
+| `predict_new.py` | stage 1 from saved models |
+| `tests_adsb_full/` | ADS-B fetch, matching and features; rounds 1–7 (`RESULT.md`, `PREREGISTERED*.md`) |
+| `tests_lirf_adsb/`, `tests_round9/` | the LIRF (v55) and LFPG (v56) correctors |
+| `tests_weather_metar/`, `tests_weather_validated/` | the weather offsets and their out-of-sample check |
+| `tests_*/` | every other experiment, each with its pre-registration and result |
+| `submissions/board_scores.csv` | every board score with its pre-written expectation |
+| `EXPLORATION_SUMMARY.md` | one-page list: done, explored, not explored |
+| `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` | decision history and early analyses |
