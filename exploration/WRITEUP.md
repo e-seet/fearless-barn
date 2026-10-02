@@ -3,10 +3,10 @@
 | | |
 |---|---|
 | **Final submission** | **v56 = 271.5625** pooled RMSE on the public board (also the last upload) |
-| **Without post-pushback ADS-B** | **v42 = 286.5256**, the pure pre-departure model, kept as a byte-identical file (§9) |
+| **Without ADS-B** | **v42 = 286.5256**, the base model alone (competition data only), kept as a byte-identical file (§9) |
 | **Standing** (2026-10-03) | #51 of 221 teams by best score; leader 219.64, #10 230.37, median 298.8 |
 | **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56, and verified on new data (§10) |
-| **Uploads** | 39 board submissions over the whole challenge; each one is a complete model, with its expected score written down before upload (§7) |
+| **Uploads** | 39 on the leaderboard record (from 2026-09-08); every upload a full 344,841-row file, its expected score written down before upload (§7) |
 
 ---
 
@@ -28,7 +28,7 @@ the best prediction is the conditional **mean**, so every method that shrinks th
 ## 2. Solution overview
 
 ```
- movements file ──► 1. BASE MODEL  (v42; pre-departure information only)
+ movements file ──► 1. BASE MODEL  (v42; the competition's data only)
                        per-airport blend of trees + MLPs + FT-Transformers, TabNet override at LIRF
                     │
  adsb.lol archive ──► 2. ADS-B CORRECTOR  (7 airports: EDDF EHAM LEBL EDDM LSZH LEMD EGLL)
@@ -56,7 +56,10 @@ the best prediction is the conditional **mean**, so every method that shrinks th
 
 ## 3. Stage 1: the base model (v42)
 
-**Features** (57, the `with_aobt` featureset, built identically for training and scoring):
+**Features** (57, the `with_aobt` featureset, built identically for training and scoring). Several use
+information the competition supplies for every scored row but that a forecast made at off-block would
+not have: all timings are measured **from the recorded takeoff**, the NM **actual** off-block (AOBT) is
+an input, and some traffic counts include departures **after** the flight's takeoff.
 - **Calendar and time of day:** hour, day of week, day of year, cyclic encodings.
 - **Timing from the flight plan and the NM flight record,** relative to takeoff: scheduled, EOBT,
   IOBT, LOBT and NM actual off-block (AOBT), their differences, and flags for missing records.
@@ -179,14 +182,15 @@ last METAR within 90 min before takeoff:
 | v13 | + 1-seed MLP in a per-airport blend | 324.28 | −61.9 |
 | v14 → v25 | MLP seeds 3 → 18 | 306.32 → 295.21 | −29.1 |
 | v29 | + TabNet override at LIRF | 293.67 | −1.5 |
-| v31 | + FT-Transformer (small) | 289.78 | −3.9 |
+| v30 | + FT-Transformer (small) as a third member | 291.34 | −3.9 vs v25 |
+| v31 | v30 + the TabNet override at LIRF | 289.78 | −1.6 |
 | v32 → v42 | FT-Transformer seeds and three shapes; TabNet weight 0.459 | 287.99 → 286.53 | −3.3 |
 | v43 → v48 | ADS-B corrector, 7 airports | 281.86 → 272.17 | −14.36 |
 | v49, v50 | weather offsets | 271.94, 271.87 | −0.30 |
 | v55 | LIRF ADS-B corrector | 271.76 | −0.11 |
 | **v56** | **LFPG ADS-B corrector** | **271.56** | **−0.20** |
 
-**Uploads that lost** (each reverted with a byte-identical re-upload):
+**Uploads that lost.** None was re-uploaded; each was followed by a later, better upload, and ranking uses the last one:
 
 | version | change | result |
 |---|---|---:|
@@ -223,8 +227,14 @@ last METAR within 90 min before takeoff:
   every early verdict.
 
 **Use of the public leaderboard:**
-- **39 uploads,** each a complete model, with its expected score and the fallback written down
-  before upload. No upload changed single rows to read their labels.
+- **39 uploads** on the leaderboard record (from 2026-09-08), all with distinct files. Each was a
+  full prediction file with its expected score and fallback written down beforehand. Most are new
+  models; v49, v50, v55 and v56 instead add corrections to defined subsets of departures (weather
+  conditions, LIRF and LFPG tracked flights). No upload altered single rows to read their labels.
+- **What a subset correction reveals, and why it was not used.** Adding a constant to a fixed subset
+  and reading the score change reveals that subset's mean error on the hidden labels. v49's result
+  implies the January frost subset is under-predicted by about 160 s on average, against the +30 s
+  applied. That number was deliberately **not** used to set any later value.
 - **One constant was fitted on the board:** the LIRF TabNet weight 0.459. LIRF's prediction is
   linear in that weight, so board MSE is a parabola through three existing uploads; v35 landed
   0.0001 s from the predicted optimum.
@@ -277,9 +287,12 @@ this.
 - **Status:** adsb.lol is open data, and the organizers wrote that open data sources can be used.
   A forum question asked whether post-pushback ADS-B counts as leakage, and no explicit answer is on
   record.
-- **v42 is the pure pre-departure model.** It uses only the flight plan, the NM record and the
-  movement records, and it is kept as a byte-identical file. If post-pushback ADS-B is not accepted,
-  v42 is the submission.
+- **What is new and what is not.** The competition's own inputs are already partly after the
+  event: the recorded takeoff time, the NM actual off-block, and later departures' times (§3). What
+  ADS-B adds is the aircraft's **own observed taxi**, which is the closest any input comes to the
+  quantity being predicted.
+- **v42 is the model without ADS-B.** It uses only the competition's data, and it is kept as a
+  byte-identical file. If post-pushback ADS-B is not accepted, v42 is the submission.
 
 ## 10. Reproducibility
 
@@ -306,20 +319,31 @@ python final_pipeline.py --movements new.parquet --points-dir adsb_new --fetch -
   344,840 / 344,841 rows (one LIRF row off by 1 s, a TabNet reload rounding boundary).
 - **Every ADS-B candidate (v43–v56)** rebuilds byte-identical from its saved models.
 
+**Scope of the rules.** The weather offsets apply only in January (frost) and July (thunderstorms),
+and the LIRF corrector only in January, as built for the scored months. On data from other months
+those stages change nothing; the ADS-B corrector at the 7 airports and the LFPG corrector apply in
+any month.
+
 **What git does not hold:**
 - the trained runs (`artifacts/runs/`);
 - the feature cache;
 - the FT-Transformer and TabNet checkpoints;
 - the ADS-B day files (`tests_adsb_full/points/`).
 
-Their sha256 manifest is in `tests_repro/dependency_manifest.csv`. **They are the backup set.**
+Two sha256 manifests list them:
+- `tests_repro/dependency_manifest.csv`: the base model's files (runs, feature cache, checkpoints);
+- `tests_repro/dependency_manifest_v56.csv`: what stages 2–5 add (the 2026 ADS-B day files and the
+  corrector models).
+
+The ADS-B day files (2.9 GB) can be re-fetched; the trained runs (about 37 GB) and checkpoints
+cannot. **They are the backup set.**
 
 ## 11. Data sources and licences
 
 | data | use | source / licence |
 |---|---|---|
 | 2025 training movements and flights, 2026 ranking set | everything | PRC Data Challenge 2026 (EUROCONTROL / airports) |
-| METAR, 10 airports | stage 3 | `prc-2026-datasets-wx` (ASOS via the Iowa Environmental Mesonet); IEM for any gap |
+| METAR, 10 airports | stage 3 | downloaded by us from the Iowa Environmental Mesonet ASOS archive (public) into `prc-2026-datasets-wx/`; IEM again for any gap |
 | ADS-B ground tracks | stages 2, 4, 5 | **adsb.lol** `globe_history`, © adsb.lol contributors, **ODbL** |
 
 The OpenSky historical database was not used.

@@ -1,7 +1,7 @@
 # fearless-barn — what we did, what we explored, what we did not
 
 PRC Data Challenge 2026: predict taxi-out time (off-block → takeoff) for January and July
-2026 departures at ten European airports, scored by pooled RMSE. Status on 2026-10-01.
+2026 departures at ten European airports, scored by pooled RMSE. Status on 2026-10-03.
 Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RESULT.md`,
 `TAXI_OUT_DRIVERS.md` section, or `plans/` file.
 
@@ -10,7 +10,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 | | |
 |---|---|
 | Final model | **v56 = 271.5625** (v55 + LFPG ADS-B corrector); v55 = 271.764 (v50 + LIRF ADS-B corrector); before them v50 = 271.8748 on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
-| Standing | **#46 of 214** teams by best score (was #70 before ADS-B); leader 219.64, #10 233.8, #50 273.6, median 298.9 |
+| Standing | **#51 of 221** teams by best score (2026-10-03; #70 before ADS-B); leader 219.64, #10 230.37, median 298.8 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus TabNet at LIRF, 5-seed ADS-B corrector, and winter morning de-icing offset |
 | Reproducibility | **`final_pipeline.py` rebuilds the final v50 byte-identical** (base → ADS-B corrector → weather offsets); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
 
@@ -27,7 +27,9 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 | FT-Transformer seed averaging and three architectures (small, large, deep) | 286.53 |
 | ADS-B (adsb.lol) corrector on top, 3 → 7 airports, more training months (v46/v48) | 272.17 |
 | + winter morning de-icing heuristic on uncovered frost flights (v49) | 271.94 |
-| **+ July convective thunderstorm offset on uncovered TS flights (v50)** | **271.87** |
+| + July convective thunderstorm offset on uncovered TS flights (v50) | 271.87 |
+| + ADS-B corrector at LIRF, January, record rows (v55) | 271.76 |
+| **+ ADS-B corrector at LFPG, record rows (v56)** | **271.56** |
 
 
 Supporting infrastructure: time-ordered validation splits with a separate weight-fitting

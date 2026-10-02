@@ -4,12 +4,16 @@ Predict `TAXITIME_SEC_mvt` (seconds from off-block to takeoff) for departures
 at ten major European airports. EUROCONTROL PRC Data Challenge 2026, team
 **fearless-barn**.
 
-**Final result: RMSE 295.21 on the live leaderboard** (submission v25), rank
-35/108 at the time it was scored. Model: a per-airport blend of a LightGBM
-tree family and an 18-seed-averaged MLP, refit on the full 12-month training
-period. Full writeup and evidence trail: **[`exploration/PIPELINE_REVIEW.md`](exploration/PIPELINE_REVIEW.md)**
-(what's trustworthy and why) and **[`exploration/plans/13_live_board_next_steps.md`](exploration/plans/13_live_board_next_steps.md)**
-(the actual submission-by-submission board history).
+**Final submission: v56, RMSE 271.5625 on the live leaderboard** (#51 of 221 teams, 2026-10-03).
+A per-airport blend of LightGBM trees, MLPs and FT-Transformers (TabNet at Rome), corrected with
+each departure's adsb.lol ADS-B ground track and small weather offsets. Without ADS-B the same
+base model scores 286.5256 (v42).
+
+- **Method write-up: [`exploration/WRITEUP.md`](exploration/WRITEUP.md)** (design, validation, use of the leaderboard, results, reproducibility, data licences)
+- One-page summary of everything tried: [`exploration/EXPLORATION_SUMMARY.md`](exploration/EXPLORATION_SUMMARY.md)
+- Reproduce or predict new data in one command: [`exploration/final_pipeline.py`](exploration/final_pipeline.py)
+
+The sections below describe the repository as it was mid-build; `WRITEUP.md` is the current reference.
 
 ## Where to start
 

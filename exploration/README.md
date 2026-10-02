@@ -1,6 +1,6 @@
 # PRC Data Challenge 2026 — taxi-out time prediction
 
-> **Current summary: [`WRITEUP.md`](WRITEUP.md)** — best board score v35 = 287.9247 (2026-09-25); ranking uses the LAST submission.
+> **Current reference: [`WRITEUP.md`](WRITEUP.md)**. Final submission v56 = 271.5625 (best and last, 2026-10-03); reproduce with `final_pipeline.py`. Everything below is a mid-build snapshot.
 
 
 Predict how long a departing aircraft spends between leaving the stand and
