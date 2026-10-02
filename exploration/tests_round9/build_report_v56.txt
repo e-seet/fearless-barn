@@ -1,0 +1,5 @@
+training: 7407 LFPG rows (track + record), months ['07', '08', '09', '10', '11', '12']
+2026 LFPG rows 39872; corrected 1973 (4.9%): Jan 1002, Jul 971
+correction mean +93.8 s, mean |.| 124.4, 1-99% [-154, 956]
+rows changed vs v55: 1964; all changed rows are LFPG: True
+reload-from-saved-model rebuild byte-identical: True

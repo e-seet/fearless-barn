@@ -1,0 +1,15 @@
+{
+  "arm": "v55_plus_lfpg_adsb_corrector",
+  "base_file": "submissions/fearless_barn_v55.parquet",
+  "version": 56,
+  "n_rows": 344841,
+  "rows_changed_vs_v55": 1964,
+  "pred_mean": 1036.9808549447428,
+  "pred_median": 953.0,
+  "expectation_written_before_upload": "board 271.62-271.81 vs v55 271.764 (central ~271.70). Basis: LOMO pooled -0.098 over 7 months (6/7) = ~9.5k s^2 per corrected row, 1,973 corrected 2026 rows -> naive -0.10 s; risks: mean correction +94 s (if misplaced ~+0.09 s), no Jan 2025 LFPG coverage to validate January. If above 271.764: re-upload v55 last as a byte copy.",
+  "provenance": {
+    "lfpg_corrector": "tests_round9/model_v56/ (5 seeds)",
+    "build": "python tests_round9/build_v56.py (reload check byte-identical)",
+    "evidence": "tests_round9/PREREGISTERED.md, round9.json"
+  }
+}
