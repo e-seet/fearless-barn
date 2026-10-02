@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Final model (current)** | **v50 = 271.8748** on the public board, also the last upload (v49 + July convective thunderstorm offset on 428 uncovered TS departures, §2d) |
+| **Final model (current)** | **v55 = 271.764** (v50 + an ADS-B corrector at LIRF for January flights with an NM record, `tests_lirf_adsb/`); previously **v50 = 271.8748** on the public board, also the last upload (v49 + July convective thunderstorm offset on 428 uncovered TS departures, §2d) |
 | Clean fallback (no ADS-B) | **v42 = 286.5256**, byte-identical file kept (§8: the rules question) |
 | Ranking rule | the **last** submission counts; deadline 2026-10-11, internal freeze 2026-10-09 |
 | Standing (2026-10-01) | **#46 of 214** teams by best score; leader 219.64, #10 233.8, #45 271.29, #50 273.56, median 298.9 |

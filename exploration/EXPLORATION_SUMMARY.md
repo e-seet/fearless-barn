@@ -9,7 +9,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 
 | | |
 |---|---|
-| Final model | **v50 = 271.8748** on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
+| Final model | **v55 = 271.764** (v50 + LIRF ADS-B corrector on record rows); before it v50 = 271.8748 on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
 | Standing | **#46 of 214** teams by best score (was #70 before ADS-B); leader 219.64, #10 233.8, #50 273.6, median 298.9 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus TabNet at LIRF, 5-seed ADS-B corrector, and winter morning de-icing offset |
 | Reproducibility | **`final_pipeline.py` rebuilds the final v50 byte-identical** (base → ADS-B corrector → weather offsets); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
@@ -96,6 +96,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | METAR thunderstorm offset (+200 s) on uncovered July flights | ✅ v50 = 271.87 (−0.07; expected −0.30 to −0.50) | `tests_weather_metar/RESULT_v50.md` |
 | Weather offsets checked out of sample (fit on 6 months, score the 7th) | v50's offsets mildly supported (−0.07); fitted per-condition offsets −0.16 but worse in Jan; **per-airport offsets (v51–v54) not supported**, never uploaded | `tests_weather_validated/RESULT.md` |
 | Feb–Jun as extra ADS-B corrector training (new held-out base) | ❌ +0.07 pooled, 2/7 months: residuals from a differently-built base | `tests_febjun/RESULT.md` |
+| ADS-B corrector at LIRF, flights with an NM record only (Jan 2026) | ✅ LIRF −4.2 locally (5/6 months); **board v55 = 271.764 (−0.11)** | `tests_lirf_adsb/RESULT.md` |
 | OpenStreetMap stand-to-runway straight-line distance | ➖ real, negligible after the stand×runway ID | §2h |
 | Public holiday calendars | ❌ | `tests_holiday`, §2ab |
 | EUROCONTROL ATFM delay statistics | ❌ negative on the ceiling | `tests_atfm_delay`, §2ah |

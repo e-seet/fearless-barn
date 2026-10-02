@@ -35,3 +35,5 @@ a flight record and a track. That leaves out the no-record artifact rows, which 
 - In Sep–Dec, the months nearest to January, it is 4–5× smaller per corrected row.
 - January itself cannot be validated, because Jan 2025 has no LIRF ADS-B.
 - If it scores above 271.8748, v50 is re-uploaded last.
+
+**Board: v55 = 271.764** (−0.111 against v50; inside the written expectation of 271.52–271.90). It is the best score and the last upload.
