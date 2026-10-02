@@ -1,0 +1,51 @@
+{
+ "airport": "LIRF",
+ "features": [
+  "e_first",
+  "e_disp",
+  "e_move",
+  "liftoff_dt",
+  "stop_s",
+  "lineup_s",
+  "med_gs",
+  "base",
+  "hour"
+ ],
+ "adsb_features": [
+  "e_first",
+  "e_disp",
+  "e_move",
+  "liftoff_dt",
+  "stop_s",
+  "lineup_s",
+  "med_gs"
+ ],
+ "params": {
+  "objective": "l2",
+  "learning_rate": 0.03,
+  "n_estimators": 600,
+  "num_leaves": 31,
+  "min_data_in_leaf": 50,
+  "feature_fraction": 0.8,
+  "random_state": 42,
+  "verbose": -1
+ },
+ "seeds": [
+  42,
+  43,
+  44,
+  45,
+  46
+ ],
+ "train_months": [
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12"
+ ],
+ "n_train": 45059,
+ "lirf_tabnet_weight": 0.459,
+ "applies_to": "Jan 2026 LIRF departures with FLIGHT_ID_mvt and a strict ADS-B track; added to v50"
+}

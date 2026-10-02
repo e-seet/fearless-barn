@@ -1,0 +1,5 @@
+training: 45059 eligible LIRF rows, months ['07', '08', '09', '10', '11', '12']
+Jan 2026 LIRF rows 11061; corrected 6960 (63%)
+correction mean -5.8 s, mean |.| 62.5, 1-99% [-167, 360]
+rows changed vs v50: 6913; all changed rows are Jan LIRF: True
+reload-from-saved-model rebuild byte-identical: True

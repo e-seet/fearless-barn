@@ -1,0 +1,15 @@
+{
+  "arm": "v50_plus_lirf_adsb_corrector",
+  "base_file": "submissions/fearless_barn_v50.parquet",
+  "version": 55,
+  "n_rows": 344841,
+  "rows_changed_vs_v50": 6913,
+  "pred_mean": 1036.444201820549,
+  "pred_median": 953.0,
+  "expectation_written_before_upload": "board 271.52-271.90 vs v50 271.8748; central about 271.80. Basis: LIRF LOMO -4.2 RMSE on LIRF (5/6 months) = ~9.3k s^2 per corrected row overall (naive board -0.35), but Sep-Dec, the months nearest to January, give only ~2-3.5k per row (board -0.05 to -0.10), and January itself has no 2025 LIRF coverage to validate on, so a small loss is possible. If above 271.8748: re-upload v50 last as a byte copy.",
+  "provenance": {
+    "lirf_corrector": "tests_lirf_adsb/model_v55/ (5 seeds)",
+    "build": "python tests_lirf_adsb/build_v55.py (reload check byte-identical)",
+    "evidence": "tests_lirf_adsb/PREREGISTERED.md, lirf_lomo.json"
+  }
+}
