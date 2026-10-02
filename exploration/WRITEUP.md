@@ -152,7 +152,7 @@ python predict_new.py --selftest --selftest-version 42     # verify against the 
 **Whole recipe in one command.** `final_pipeline.py` runs stage 1 (the v42 base: the saved file,
 or `--from-raw <movements>` to run `predict_new.py`), stage 2 (`tests_adsb_full/predict_adsb.py`
 with `model_v48`, 5 seeds) and stage 3 (the v49/v50 weather offsets, with the exact METAR join the
-uploads used). **Verified 2026-10-02: byte-identical to the uploaded v50 (344,841 / 344,841 rows).**
+uploads used). **Verified 2026-10-03: byte-identical to the uploaded final v56 (344,841 / 344,841 rows)**, with stages 4–5 (LIRF and LFPG ADS-B correctors) added after v50.
 Limitation: stages 2–3 currently read airport and takeoff time from `ranking.parquet`, so the one-command
 path is verified for the competition's ranking set only; scoring a different movements file needs those
 lookups pointed at that file (stage 1, `predict_new.py`, already handles any file).

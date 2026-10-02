@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""End-to-end recipe of the final submission (v50 = 271.8748):
+"""End-to-end recipe of the final submission (v56 = 271.5625; stages 1-3 alone give v50 = 271.8748):
 
   1. base     v42 ensemble (trees + 18 MLPs + 21 FT-Transformers + TabNet override at LIRF)
               -> `predict_new.py` from raw movements, or the saved v42 file (default)
@@ -12,18 +12,23 @@
               METAR = last report at or before takeoff within 90 min (prc-2026-datasets-wx). "No ADS-B correction"
               means the stage-2 output equals the stage-1 base, the rule the uploaded files used.
 
+  4. LIRF     v55: LIRF ADS-B corrector (tests_lirf_adsb/model_v55, 5 seeds) on January LIRF departures with an NM
+              record (FLIGHT_ID_mvt) and a strict track; corrector input `base` = stage-1 value; correction added
+  5. LFPG     v56: LFPG ADS-B corrector (tests_round9/model_v56, 5 seeds) on LFPG departures with a record and a
+              strict track; same convention
+
 The weather offsets were hand-chosen on Jan + Jul 2025 (tests_weather_metar/); an out-of-sample check
 (tests_weather_validated/RESULT.md) supports them mildly (-0.07 s pooled; Jan -0.07, Jul -0.31).
 
 usage:
-  python final_pipeline.py --out final.parquet --check submissions/fearless_barn_v50.parquet
+  python final_pipeline.py --out final.parquet --check submissions/fearless_barn_v56.parquet
   python final_pipeline.py --from-raw <movements.parquet> --out final.parquet     # stage 1 from raw data
 
 LIMITATION: stages 2 and 3 look rows up in ranking.parquet (airport, takeoff time via cio.load_ranking /
 D.load_ranking_features), and the METAR files end 2026-07-31. --from-raw therefore only works end to end for the
 competition's ranking set; a different movements file needs those lookups to read the given file instead.
 """
-import argparse, filecmp, subprocess, sys, tempfile
+import argparse, filecmp, json, subprocess, sys, tempfile
 from pathlib import Path
 import numpy as np, pandas as pd
 HERE = Path(__file__).resolve().parent; sys.path.insert(0, str(HERE))
@@ -86,7 +91,40 @@ def main():
     pred = np.clip(np.rint(pred), 60, 86400)          # v49 rounding/clipping, then v50 on top
     m50 = (mon == 7) & no_adsb & ts
     pred[m50] += 200.0
-    out = adsb.copy(); out[config.TARGET] = np.clip(np.rint(pred), 60, 86400).astype("int32")
+    pred = np.clip(np.rint(pred), 60, 86400)                              # = v50
+
+    # stages 4-5: single-airport ADS-B correctors (v55 LIRF in January, v56 LFPG), added to the running prediction
+    import lightgbm as lgb
+    from common import io as cio
+    sys.path.insert(0, str(HERE / "tests_adsb_full"))
+    import features
+    rk = cio.load_ranking(columns=["MVT_ID_mvt", "PHASE_mvt", "FLIGHT_ID_mvt"])
+    rk = rk[rk.PHASE_mvt.eq("DEP")].drop_duplicates("MVT_ID_mvt"); rk = rk.set_index(rk.MVT_ID_mvt.astype("int64"))
+    ids64 = adsb[config.ID].astype("int64").to_numpy()
+    te = pd.DataFrame({"base": base[config.TARGET].astype(float).to_numpy(), "hour": t.dt.hour.to_numpy(),
+                       "rec": rk.FLIGHT_ID_mvt.reindex(ids64).notna().to_numpy()}, index=ids64)
+    days = sorted(f.stem for f in (HERE / "tests_adsb_full" / "points").glob("2026-0[17]-*.parquet"))
+    e = pd.concat([features.load_day(d) for d in days]).sort_values("liftoff_dt"); e = e[~e.index.duplicated()]
+    e.index = e.index.astype("int64")
+    te = te.join(e[["e_first", "e_disp", "e_move", "liftoff_dt", "stop_s", "lineup_s", "med_gs"]])
+    jan_e = None
+    for stage, mdir, prefix, mask in (
+            ("LIRF", HERE / "tests_lirf_adsb" / "model_v55", "lirf_corrector", (aps == "LIRF") & (mon == 1)),
+            ("LFPG", HERE / "tests_round9" / "model_v56", "lfpg_corrector", aps == "LFPG")):
+        mc = json.loads((mdir / "config.json").read_text())
+        src = te
+        if stage == "LIRF":   # v55 was built from the January 2026 day files only
+            if jan_e is None:
+                jd = sorted(f.stem for f in (HERE / "tests_adsb_full" / "points").glob("2026-01-*.parquet"))
+                jan_e = pd.concat([features.load_day(d) for d in jd]).sort_values("liftoff_dt"); jan_e = jan_e[~jan_e.index.duplicated()]
+                jan_e.index = jan_e.index.astype("int64")
+            src = te.drop(columns=list(jan_e.columns.intersection(te.columns))).join(jan_e[["e_first", "e_disp", "e_move", "liftoff_dt", "stop_s", "lineup_s", "med_gs"]])
+        c = mask & src.rec.to_numpy() & src.e_first.notna().to_numpy()
+        bs = [lgb.Booster(model_file=str(mdir / f"{prefix}_seed{sd}.txt")) for sd in mc["seeds"]]
+        corr = np.mean([b.predict(src.loc[c, mc["features"]]) for b in bs], axis=0)
+        pred[c] = np.clip(np.rint(pred[c] + corr), 60, 86400)
+        print(f"stage {stage}: corrected {int(c.sum())}")
+    out = adsb.copy(); out[config.TARGET] = pred.astype("int32")
     out.to_parquet(a.out, index=False)
     print(f"wrote {a.out}: ADS-B corrected {int((~no_adsb).sum())}, frost +30 s {int(m49.sum())}, thunderstorm +200 s {int(m50.sum())}")
     if a.check:
