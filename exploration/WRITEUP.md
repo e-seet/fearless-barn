@@ -127,7 +127,7 @@ is, predictions from models that never saw the month in question. Seeds 42–46 
 |---|---|---|---:|
 | 2 | EDDF, EHAM, LEBL, EDDM, LSZH, LEMD, EGLL; departures with a track | Jan, Jul–Dec 2025; 600 trees, 31 leaves | 188,635 (54.7 %) |
 | 4 | LIRF, **January**; departures with an NM record and a track | Jul–Dec 2025 | 6,960 |
-| 5 | LFPG; departures with an NM record and a track | Jan, Jul–Dec 2025 | 1,973 |
+| 5 | LFPG; departures with an NM record and a track | Jul–Dec 2025 (Jan 2025 has no LFPG tracks) | 1,973 |
 
 **What it can and cannot see:**
 - Receivers rarely see aircraft at the stand, so the first sighting lags the recorded off-block by
