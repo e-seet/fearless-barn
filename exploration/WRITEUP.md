@@ -153,6 +153,9 @@ python predict_new.py --selftest --selftest-version 42     # verify against the 
 or `--from-raw <movements>` to run `predict_new.py`), stage 2 (`tests_adsb_full/predict_adsb.py`
 with `model_v48`, 5 seeds) and stage 3 (the v49/v50 weather offsets, with the exact METAR join the
 uploads used). **Verified 2026-10-02: byte-identical to the uploaded v50 (344,841 / 344,841 rows).**
+Limitation: stages 2–3 currently read airport and takeoff time from `ranking.parquet`, so the one-command
+path is verified for the competition's ranking set only; scoring a different movements file needs those
+lookups pointed at that file (stage 1, `predict_new.py`, already handles any file).
 The ADS-B stage needs the day files: `tests_adsb_full/fetch.py <day>` streams one day's adsb.lol
 archive and keeps the matched points. v43–v48 each rebuild byte-identical from their saved models.
 

@@ -18,6 +18,10 @@ The weather offsets were hand-chosen on Jan + Jul 2025 (tests_weather_metar/); a
 usage:
   python final_pipeline.py --out final.parquet --check submissions/fearless_barn_v50.parquet
   python final_pipeline.py --from-raw <movements.parquet> --out final.parquet     # stage 1 from raw data
+
+LIMITATION: stages 2 and 3 look rows up in ranking.parquet (airport, takeoff time via cio.load_ranking /
+D.load_ranking_features), and the METAR files end 2026-07-31. --from-raw therefore only works end to end for the
+competition's ranking set; a different movements file needs those lookups to read the given file instead.
 """
 import argparse, filecmp, subprocess, sys, tempfile
 from pathlib import Path
