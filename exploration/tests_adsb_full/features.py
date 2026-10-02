@@ -82,12 +82,14 @@ def estimates(points: pd.DataFrame) -> pd.DataFrame:
     return e.sort_values("liftoff_dt").drop_duplicates("MVT_ID_mvt").set_index("MVT_ID_mvt")
 
 
-def load_day(day: str) -> pd.DataFrame:
-    src = HERE / "points" / f"{day}.parquet"
-    cache = HERE / "est_cache" / f"{day}.parquet"
+def load_day(day: str, points_dir=None) -> pd.DataFrame:
+    """Strict-matched estimates for one day's points file, cached next to it (est_cache/ for the default folder)."""
+    pdir = Path(points_dir) if points_dir else HERE / "points"
+    src = pdir / f"{day}.parquet"
+    cache = (HERE / "est_cache" if points_dir is None else pdir.parent / (pdir.name + "_est")) / f"{day}.parquet"
     if cache.exists() and cache.stat().st_mtime >= max(src.stat().st_mtime, Path(__file__).stat().st_mtime):
         return pd.read_parquet(cache)
     e = estimates(pd.read_parquet(src))
-    cache.parent.mkdir(exist_ok=True)
+    cache.parent.mkdir(parents=True, exist_ok=True)
     e.to_parquet(cache)
     return e

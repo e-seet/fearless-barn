@@ -98,9 +98,14 @@ class HTTPChain(io.RawIOBase):
         b = self.read(len(buf)); buf[:len(b)] = b; return len(b)
 
 
-def targets(day: str) -> pd.DataFrame:
+def targets(day: str, movements=None) -> pd.DataFrame:
+    """Departures whose pre-takeoff ground points can be in `day`'s archive. From `movements` (a parquet in
+    ranking.parquet's schema) when given, else from the competition's training (2025) or ranking (2026) file."""
     cols = ["MVT_ID_mvt", "FLIGHT_mvt", "ADEP_mvt", "PHASE_mvt", "MVT_TIME_UTC_mvt", "CALLSIGN_flt"]
-    d = cio.load_training(columns=cols) if day.startswith("2025") else cio.load_ranking(columns=cols)
+    if movements is not None:
+        d = pd.read_parquet(movements, columns=cols)
+    else:
+        d = cio.load_training(columns=cols) if day.startswith("2025") else cio.load_ranking(columns=cols)
     d = d[d.PHASE_mvt.eq("DEP") & d.ADEP_mvt.isin(AIRPORTS)].copy()
     d["T"] = pd.to_datetime(d.MVT_TIME_UTC_mvt).dt.tz_localize(None).astype("datetime64[ns]").astype("int64") / 1e9
     d0 = pd.Timestamp(day).value / 1e9
@@ -111,11 +116,13 @@ def targets(day: str) -> pd.DataFrame:
     return d
 
 
-def main(day: str) -> int:
-    out = OUT / f"{day}.parquet"
+def main(day: str, movements=None, out_dir=None) -> int:
+    out_dir = Path(out_dir) if out_dir else OUT
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{day}.parquet"
     if out.exists():
         print(f"[{day}] exists, skip", flush=True); return 0
-    tg = targets(day)
+    tg = targets(day, movements)
     keys = {}
     for r in tg.itertuples():
         for k in {str(r.FLIGHT_mvt).strip().upper(), str(r.CALLSIGN_flt).strip().upper()}:
@@ -180,10 +187,16 @@ def main(day: str) -> int:
     stats = {"day": day, "departures": int(len(tg)), "departures_with_points": int(df.MVT_ID_mvt.nunique()),
              "points": int(len(df)), "files": nfile, "hits": nhit, "gb": chain.n / 1e9,
              "minutes": (time.time() - t0) / 60, "release": urls[0].split("/")[-2]}
-    (OUT / f"{day}.json").write_text(json.dumps(stats))
+    (out_dir / f"{day}.json").write_text(json.dumps(stats))
     print(f"[{day}] done: {stats}", flush=True)
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1]))
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("day")
+    ap.add_argument("--movements", default=None, help="movements parquet (ranking schema) to match; default: competition files")
+    ap.add_argument("--points-dir", default=None, help="output folder; default tests_adsb_full/points")
+    a = ap.parse_args()
+    raise SystemExit(main(a.day, a.movements, a.points_dir))
