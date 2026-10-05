@@ -44,3 +44,26 @@ the deep family's worst seed by more than 15 s is recorded and dropped from the 
 - **Fallback:** a byte copy of v56 (or of v57, if it is then the best) uploaded last.
 
 **Cut-off:** if v58 cannot be built by 2026-10-08 12:00, it is dropped.
+
+## Amendment 1 (2026-10-05, user decision, before any wide-FTT or CatBoost result): add CatBoost as a family
+
+Added following the audit of closed ideas (`tests_next/AUDIT_closures.md`): CatBoost had never been
+tried as a family in the current blend.
+
+**No new training is needed.** The existing `catboost_antigravity` runs (tag `cb1`) are used:
+- seeds 42–44 on **forward_inner**, all early-stopped at 626 / 1,371 / 1,430 rounds of 5,000, for
+  the weight solve;
+- seeds 42–44 on **full**, for the submission.
+
+The cap-8000 rerun (`cb2_recap`) converged but scored worse on forward (307.15 against 305.54), so
+`cb1` is the recipe.
+
+**Build:**
+- the v58 base gets CatBoost (mean of the 3 seeds) as an extra member in the per-airport blend,
+  next to trees, MLP and the FTT slot (four FTT families at 1/4 each);
+- weights are re-solved on forward_inner with the default solver;
+- TabNet LIRF w = 0.459.
+
+**Attribution:** a scratch solve with and without CatBoost is reported. If the solver gives CatBoost
+zero weight at every airport, it is left out, and v58 tests the wide FTT alone. Both changes go in
+one board probe, as in deep Amendment 1. The expectation and fallback rules are unchanged.
