@@ -22,3 +22,5 @@ pre-registered. KFM (−0.653) includes the failed M and was not eligible.
 
 **Expectation written before upload: 270.70–271.30 (central about 271.0)** against v56 = 271.5625.
 If it scores above 271.5625, v56 is re-uploaded last.
+
+**Board: v57 = 270.8809** (−0.68 against v56; inside the written expectation of 270.70–271.30). It is the best score and the last upload.
