@@ -5,7 +5,7 @@ Final board: v56 = 271.5625. Stages (each reads only the given movements file):
 
   1. base     v42 ensemble (trees + 18 MLPs + 21 FT-Transformers + TabNet override at LIRF), `predict_new.py`
               on the movements file (or a saved base file via --base)
-  2. ADS-B    corrector v48 (tests_adsb_full/model_v48, 5 seeds averaged) at EDDF, EHAM, LEBL, EDDM, LSZH, LEMD,
+  2. ADS-B    corrector (tests_adsb_full/model_v57: 1500 trees, 63 leaves; v56 used model_v48), 5 seeds averaged, at EDDF, EHAM, LEBL, EDDM, LSZH, LEMD,
               EGLL, on departures with a strict-matched adsb.lol ground track
   3. weather  v49: +30 s, January, no ADS-B correction, METAR frost (tmpf <= 34 F and tmpf - dwpf <= 3 F)
               v50: +200 s, July, no ADS-B correction, METAR thunderstorm (TS in wxcodes)
@@ -105,6 +105,8 @@ def main():
     ap.add_argument("--ids", type=Path, default=None, help="template whose IDs/order the output follows")
     ap.add_argument("--points-dir", type=Path, default=None, help="ADS-B day files; default tests_adsb_full/points")
     ap.add_argument("--fetch", action="store_true", help="download missing ADS-B days and METAR reports")
+    ap.add_argument("--stage2-model", type=Path, default=HERE / "tests_adsb_full" / "model_v57",
+                    help="7-airport ADS-B corrector; model_v57 (final, round 10 K) or model_v48 (as in v56)")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--check", type=Path, default=None)
     a = ap.parse_args()
@@ -148,7 +150,7 @@ def main():
             te[c] = np.nan
 
     # ---- stage 2: the 7-airport corrector (v48)
-    mc, bs = boosters(HERE / "tests_adsb_full" / "model_v48", "adsb_corrector")
+    mc, bs = boosters(a.stage2_model, "adsb_corrector")
     ship = mc["airports"]
     cov = (te.e_first.notna() & te.ap.isin(ship)).to_numpy()
     te["apc"] = pd.Categorical(te.ap.where(te.ap.isin(ship)), categories=ship)

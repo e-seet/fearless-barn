@@ -1,0 +1,14 @@
+{
+  "arm": "final_pipeline stage2=model_v57",
+  "version": 57,
+  "n_rows": 344841,
+  "rows_changed_vs_v56": 182380,
+  "rms_change_vs_v56": 13.760895508965302,
+  "pred_mean": 1036.2589744258948,
+  "expectation_written_before_upload": "board 270.70-271.30 vs v56 271.5625 (central ~271.0). Basis: round 10 LOMO K vs A pooled -0.599, 7/7 months, robust to the best 5 rows; the last capacity step (v46) gained more on the board than locally. If above 271.5625: re-upload v56 last as a byte copy.",
+  "provenance": {
+    "build": "python final_pipeline.py --base submissions/fearless_barn_v42.parquet (default --stage2-model model_v57)",
+    "stage2_model": "tests_adsb_full/model_v57 (build_v57_stage2.py)",
+    "evidence": "tests_round10/PREREGISTERED.md, round10.json"
+  }
+}
