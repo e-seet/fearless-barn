@@ -139,3 +139,7 @@ out and recorded.
   LEBL 0.35, LTFM 0.30); the FTT weight at LIRF is 0.
 
 **v59 vs v58:** 250,156 rows change, RMS 7.8 s. The pre-registered expectation stands (270.71–270.79).
+
+**Board: v59 = 270.81**, a tie with v58 (270.8103; 0.0003 lower, so it is the best and last upload). The pre-registered 270.71–270.79 was not reached.
+
+The FTT slot improved locally (413.6 → 407.7) but the board did not move: the base blend is saturated.

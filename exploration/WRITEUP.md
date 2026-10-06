@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Final submission** | **v58 = 270.8103** pooled RMSE on the public board (also the last upload) |
+| **Final submission** | **v59 = 270.81** pooled RMSE on the public board (also the last upload; v58 = 270.8103 is the same model with half the seeds of the two newest families) |
 | **Without ADS-B** | **v42 = 286.5256**, the base model alone (competition data only), kept as a byte-identical file (§9) |
 | **Standing** (2026-10-03) | #51 of 221 teams by best score; leader 219.64, #10 230.37, median 298.8 |
 | **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56, and verified on new data (§10) |
@@ -192,7 +192,8 @@ last METAR within 90 min before takeoff:
 | v55 | LIRF ADS-B corrector | 271.76 | −0.11 |
 | v56 | LFPG ADS-B corrector | 271.56 | −0.20 |
 | v57 | larger 7-airport corrector (round 10) | 270.88 | −0.68 |
-| **v58** | **base: + wide FT-Transformer, + CatBoost family** | **270.81** | **−0.07** |
+| v58 | base: + wide FT-Transformer, + CatBoost family | 270.8103 | −0.07 |
+| **v59** | **wide FT-Transformer and CatBoost 3 → 6 seeds** | **270.81** | **−0.0003 (tie)** |
 
 **Uploads that lost.** None was re-uploaded; each was followed by a later, better upload, and ranking uses the last one:
 
