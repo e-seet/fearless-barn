@@ -50,5 +50,5 @@ version,board_name,score,date,status,note
 50,fearless-barn_v50,271.8748,2026-10-01,submitted,v49 + July convective thunderstorm offset (+200s) on 428 uncovered TS flights (370 at LTFM); -0.0692 vs v49
 55,fearless-barn_v55,271.764,2026-10-02,submitted,"v50 + LIRF ADS-B corrector (Jan LIRF rows with record + track); -0.111 vs v50 (expected 271.52-271.90, central ~271.80: inside)"
 56,fearless-barn_v56,271.5625,2026-10-03,submitted,"v55 + LFPG ADS-B corrector (1,964 rows); -0.2015 vs v55 (expected 271.62-271.81: beat it)"
-57,fearless-barn_v57,270.8809,2026-10-06,submitted,v56 with the 7-airport ADS-B corrector at 1500 trees / 63 leaves (round 10 K) -- BEST and LAST; -0.6816 vs v56 (expected 270.70-271.30: inside)
-58,,,,"built, not uploaded","new base: + wide FTT (d256x2, 3 seeds) and CatBoost as a 4th blend member, with v57's stages 2-5; EXPECTATION before upload: 270.0-271.6 (central ~270.7, wide); if above 270.8809 re-upload v57 last"
+57,fearless-barn_v57,270.8809,2026-10-06,submitted,v56 with the 7-airport ADS-B corrector at 1500 trees / 63 leaves (round 10 K); -0.6816 vs v56 (expected 270.70-271.30: inside)
+58,fearless-barn_v58,270.8103,2026-10-06,submitted,"new base (+ wide FTT d256x2, + CatBoost 4th member) with v57's stages -- BEST and LAST; -0.0706 vs v57 (expected 270.0-271.6: inside)"

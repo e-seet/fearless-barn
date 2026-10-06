@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Final submission** | **v57 = 270.8809** pooled RMSE on the public board (also the last upload) |
+| **Final submission** | **v58 = 270.8103** pooled RMSE on the public board (also the last upload) |
 | **Without ADS-B** | **v42 = 286.5256**, the base model alone (competition data only), kept as a byte-identical file (§9) |
 | **Standing** (2026-10-03) | #51 of 221 teams by best score; leader 219.64, #10 230.37, median 298.8 |
 | **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56, and verified on new data (§10) |
@@ -53,7 +53,8 @@ the best prediction is the conditional **mean**, so every method that shrinks th
 | + 3. weather offsets | 271.87 |
 | + 4. LIRF corrector | 271.76 |
 | + 5. LFPG corrector | 271.56 |
-| larger stage-2 corrector (1,500 trees, 63 leaves; v57) | **270.88** |
+| larger stage-2 corrector (1,500 trees, 63 leaves; v57) | 270.88 |
+| base + wide FT-Transformer (d256×2) + CatBoost as a 4th member (v58) | **270.81** |
 
 ## 3. Stage 1: the base model (v42)
 
@@ -190,7 +191,8 @@ last METAR within 90 min before takeoff:
 | v49, v50 | weather offsets | 271.94, 271.87 | −0.30 |
 | v55 | LIRF ADS-B corrector | 271.76 | −0.11 |
 | v56 | LFPG ADS-B corrector | 271.56 | −0.20 |
-| **v57** | **larger 7-airport corrector (round 10)** | **270.88** | **−0.68** |
+| v57 | larger 7-airport corrector (round 10) | 270.88 | −0.68 |
+| **v58** | **base: + wide FT-Transformer, + CatBoost family** | **270.81** | **−0.07** |
 
 **Uploads that lost.** None was re-uploaded; each was followed by a later, better upload, and ranking uses the last one:
 

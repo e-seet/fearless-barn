@@ -89,3 +89,9 @@ FTT weight at LIRF is 0.
 
 **Expectation written before upload: 270.0–271.6 (central about 270.7, wide)** against v57 =
 270.8809. If it scores above 270.8809, v57 is re-uploaded last.
+
+## Result (2026-10-06)
+
+**v58 = 270.8103**: −0.07 against v57 (270.8809), inside the written range of 270.0–271.6. It is the best score and the last upload.
+
+Adding the wide FTT and CatBoost moved predictions by an RMS of 26 s, but the board gained only 0.07: the blend was already close to saturated.
