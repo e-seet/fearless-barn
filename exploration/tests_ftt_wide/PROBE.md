@@ -67,3 +67,25 @@ The cap-8000 rerun (`cb2_recap`) converged but scored worse on forward (307.15 a
 **Attribution:** a scratch solve with and without CatBoost is reported. If the solver gives CatBoost
 zero weight at every airport, it is left out, and v58 tests the wide FTT alone. Both changes go in
 one board probe, as in deep Amendment 1. The expectation and fallback rules are unchanged.
+
+## Build result (2026-10-06 05:00, before upload)
+
+**Wide FTT (d256b2):**
+- forward_inner best epochs 99 / 137 / 55, vals 429.6 / 398.1 / 474.9; none hit the cap, none was
+  dropped;
+- the `full` seeds were refit at 99 epochs.
+
+**Solve on forward_inner:**
+- the control reproduces c3d6 exactly;
+- FTT slot 414.36 → 413.60; wide alone 418.52; CatBoost alone 459.18.
+
+**CatBoost** gets weight at 9 of 10 airports (LFPG 0.51, EGLL 0.37, LEBL 0.34, EDDF 0.30, LTFM
+0.25, LEMD 0.25, EDDM 0.13, LSZH 0.12, EHAM 0.07; LIRF 0), so per Amendment 1 it stays in (S4). The
+FTT weight at LIRF is 0.
+
+**v58** = the S4 base plus `final_pipeline.py` stages 2–5 (`model_v57`):
+- 294,904 rows differ from v57, RMS 26.3 s;
+- the base moves by RMS 26.8 s against v42.
+
+**Expectation written before upload: 270.0–271.6 (central about 270.7, wide)** against v57 =
+270.8809. If it scores above 270.8809, v57 is re-uploaded last.

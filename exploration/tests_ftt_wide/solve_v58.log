@@ -1,0 +1,18 @@
+CONTROL: generalised solver vs final_weights_c3d6.json, max |weight diff| = 0.00e+00
+forward_inner val n=381895 | tree 412.83 | mlp18 311.59 | FTT slot v42 414.36 -> v58 413.60 | wide alone 418.52 | CatBoost 459.18
+
+per-airport weights  S3 [FTT, tree, MLP]  |  S4 [FTT, tree, MLP, CatBoost]
+  EDDF: 0.333 0.333 0.333  |  0.421 0.056 0.222 0.300
+  EDDM: 0.333 0.333 0.333  |  0.277 0.272 0.320 0.131
+  EGLL: 0.605 0.395 0.000  |  0.498 0.136 0.000 0.366
+  EHAM: 0.824 0.167 0.010  |  0.747 0.179 0.001 0.073
+  LEBL: 0.268 0.591 0.142  |  0.214 0.394 0.054 0.339
+  LEMD: 0.333 0.333 0.333  |  0.250 0.250 0.250 0.250
+  LFPG: 0.333 0.333 0.333  |  0.194 0.109 0.191 0.506
+  LIRF: 0.000 0.000 1.000  |  0.000 0.000 1.000 0.000
+  LSZH: 0.809 0.191 0.000  |  0.735 0.149 0.000 0.115
+  LTFM: 0.654 0.228 0.119  |  0.647 0.107 0.000 0.247
+
+CatBoost weight > 0.001 at: ['EDDF', 'EDDM', 'EGLL', 'EHAM', 'LEBL', 'LEMD', 'LFPG', 'LSZH', 'LTFM']
+LIRF FTT weight: S3 0.0000, S4 0.0000 (must be 0)
+wrote final_weights_v58_s3.json, final_weights_v58_s4.json

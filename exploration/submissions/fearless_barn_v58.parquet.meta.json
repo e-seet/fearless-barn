@@ -1,0 +1,15 @@
+{
+  "arm": "v58 base (FTT slot + wide d256b2, CatBoost cb1 as 4th member) + final_pipeline stages 2-5 (model_v57)",
+  "version": 58,
+  "n_rows": 344841,
+  "rows_changed_vs_v57": 294904,
+  "rms_change_vs_v57": 26.272308904796112,
+  "pred_mean": 1037.9511079019026,
+  "expectation_written_before_upload": "board 270.0-271.6 vs v57 270.8809 (central ~270.7; wide range). Basis: FTT-family additions paid -0.23 to -0.64 on the board each time; CatBoost gets large weights (LFPG 0.51, EGLL 0.37, LEBL 0.34, EDDF 0.30) although it was flat on the board in the older blend (v26); the change vs v57 is large (RMS 26 s on 294,904 rows), so a loss is plausible. If above 270.8809: re-upload v57 last as a byte copy.",
+  "provenance": {
+    "weights": "tests_ftt_wide/final_weights_v58_s4.json (solve_v58.py, forward_inner)",
+    "base": "tests_ftt_wide/build_v58_base.py --weights final_weights_v58_s4.json (builder reproduces v42 byte-identical)",
+    "final": "python final_pipeline.py --base tests_ftt_wide/v58_base.parquet",
+    "evidence": "tests_ftt_wide/PROBE.md (+ Amendment 1)"
+  }
+}
