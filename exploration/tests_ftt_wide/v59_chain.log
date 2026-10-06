@@ -1,0 +1,34 @@
+[Tue Oct  6 09:12:22 MPST 2026] wide FTT forward_inner seeds 45-47
+seed 45 best_epoch 132 hit_cap False val 404.7
+seed 46 best_epoch 151 hit_cap False val 384.6
+seed 47 best_epoch 147 hit_cap False val 397.1
+[Tue Oct  6 12:37:56 MPST 2026] wide seeds kept: 45,46,47
+[Tue Oct  6 12:37:56 MPST 2026] wide FTT full seeds 45,46,47 at 99 epochs
+[Tue Oct  6 16:48:04 MPST 2026] CatBoost full seed 45
+[Tue Oct  6 17:01:20 MPST 2026] CatBoost full seed 46
+[Tue Oct  6 17:17:21 MPST 2026] CatBoost full seed 47
+[Tue Oct  6 17:32:03 MPST 2026] solve
+CONTROL: generalised solver vs final_weights_c3d6.json, max |weight diff| = 0.00e+00
+forward_inner val n=381895 | tree 412.83 | mlp18 311.59 | FTT slot v42 414.36 -> v58 407.66 | wide alone 393.97 | CatBoost 456.24
+
+per-airport weights  S3 [FTT, tree, MLP]  |  S4 [FTT, tree, MLP, CatBoost]
+  EDDF: 0.333 0.333 0.333  |  0.396 0.042 0.203 0.358
+  EDDM: 0.333 0.333 0.333  |  0.290 0.267 0.323 0.121
+  EGLL: 0.594 0.398 0.008  |  0.471 0.132 0.000 0.397
+  EHAM: 0.828 0.164 0.008  |  0.757 0.149 0.000 0.094
+  LEBL: 0.290 0.583 0.127  |  0.232 0.393 0.023 0.353
+  LEMD: 0.333 0.333 0.333  |  0.250 0.250 0.250 0.250
+  LFPG: 0.333 0.333 0.333  |  0.196 0.087 0.165 0.552
+  LIRF: 0.000 0.000 1.000  |  0.000 0.000 1.000 0.000
+  LSZH: 0.822 0.178 0.000  |  0.760 0.137 0.000 0.104
+  LTFM: 0.653 0.220 0.127  |  0.635 0.066 0.000 0.299
+
+CatBoost weight > 0.001 at: ['EDDF', 'EDDM', 'EGLL', 'EHAM', 'LEBL', 'LEMD', 'LFPG', 'LSZH', 'LTFM']
+LIRF FTT weight: S3 0.0000, S4 0.0000 (must be 0)
+wrote final_weights_v58_s3.json, final_weights_v58_s4.json
+[Tue Oct  6 17:32:40 MPST 2026] build base
+4 members | LIRF override rows 26899 | validation PASS
+[adsb] 63 of 64 day files present in C:\Users\Admin\Desktop\eddie\fearless-barn\exploration\tests_adsb_full\points
+wrote tests_ftt_wide\v59_candidate.parquet: 344841 rows | ADS-B corrected 187729 | frost +30 s 4883 | thunderstorm +200 s 427 | LIRF 6960 | LFPG 1973
+v59 vs v58: rows changed 250156, RMS change 7.78 s
+[Tue Oct  6 17:34:40 MPST 2026] ALL DONE (not uploaded)

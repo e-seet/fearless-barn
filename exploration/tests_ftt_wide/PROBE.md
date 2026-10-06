@@ -123,3 +123,19 @@ out and recorded.
 - **Fallback:** if v59 scores above 270.8103, v58 is re-uploaded last.
 
 **Cut-off:** built by 2026-10-08 12:00.
+
+### v59 build result (2026-10-06 17:34, before upload)
+
+**Wide seeds 45–47:**
+- forward_inner best vals 404.7 / 384.6 / 397.1 (epochs 132 / 151 / 147); none hit the cap;
+- all three kept; `full` refit at 99 epochs.
+
+**CatBoost `full` seeds 45–47:** trained with `--freeze-from` their forward `cb1` runs.
+
+**Solve on forward_inner:**
+- the control reproduces c3d6 exactly;
+- the FTT slot improves 413.60 (v58) → 407.66; wide alone 418.5 (3 seeds) → 394.0 (6 seeds);
+- CatBoost (6 seeds) 456.2; it keeps weight at 9/10 airports (LFPG 0.55, EGLL 0.40, EDDF 0.36,
+  LEBL 0.35, LTFM 0.30); the FTT weight at LIRF is 0.
+
+**v59 vs v58:** 250,156 rows change, RMS 7.8 s. The pre-registered expectation stands (270.71–270.79).

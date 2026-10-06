@@ -52,3 +52,4 @@ version,board_name,score,date,status,note
 56,fearless-barn_v56,271.5625,2026-10-03,submitted,"v55 + LFPG ADS-B corrector (1,964 rows); -0.2015 vs v55 (expected 271.62-271.81: beat it)"
 57,fearless-barn_v57,270.8809,2026-10-06,submitted,v56 with the 7-airport ADS-B corrector at 1500 trees / 63 leaves (round 10 K); -0.6816 vs v56 (expected 270.70-271.30: inside)
 58,fearless-barn_v58,270.8103,2026-10-06,submitted,"new base (+ wide FTT d256x2, + CatBoost 4th member) with v57's stages -- BEST and LAST; -0.0706 vs v57 (expected 270.0-271.6: inside)"
+59,,,,"built, not uploaded",v58 with wide FTT 3->6 seeds and CatBoost 3->6 seeds; EXPECTATION (pre-registered before training): 270.71-270.79; if above 270.8103 re-upload v58 last

@@ -1,0 +1,14 @@
+{
+  "arm": "v59 base (FTT slot with wide d256b2 x6, CatBoost cb1 x6) + final_pipeline stages 2-5 (model_v57)",
+  "version": 59,
+  "n_rows": 344841,
+  "rows_changed_vs_v58": 250156,
+  "rms_change_vs_v58": 7.776242474297015,
+  "expectation_written_before_upload": "board 270.71-270.79 vs v58 270.8103 (written 2026-10-06 09:15 in tests_ftt_wide/PROBE.md, before training). If above 270.8103: re-upload v58 last.",
+  "provenance": {
+    "weights": "tests_ftt_wide/final_weights_v59_s4.json",
+    "base": "tests_ftt_wide/build_v58_base.py --weights final_weights_v59_s4.json",
+    "final": "python final_pipeline.py --base tests_ftt_wide/v59_base.parquet",
+    "log": "tests_ftt_wide/v59_chain.log"
+  }
+}

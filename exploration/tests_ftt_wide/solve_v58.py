@@ -81,7 +81,7 @@ def main():
     SUF = os.environ.get("OUT_SUFFIX", "v58")
     (HERE / f"final_weights_{SUF}_s3.json").write_text(json.dumps({"weights_per_airport": S3, **common}, indent=2))
     (HERE / f"final_weights_{SUF}_s4.json").write_text(json.dumps({"weights_per_airport": S4, "members": ["ftt", "tree", "mlp", "catboost_cb1"], "catboost_seeds": CAT, **common}, indent=2))
-    print("wrote final_weights_v58_s3.json, final_weights_v58_s4.json")
+    print(f"wrote final_weights_{SUF}_s3.json, final_weights_{SUF}_s4.json")
 
 
 if __name__ == "__main__":
