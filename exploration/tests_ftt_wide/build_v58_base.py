@@ -47,7 +47,9 @@ def main():
     p_ftt = np.average(ftt, axis=0, weights=wf.get("ftt_member_weights"))
     members = [p_ftt, tree, mlp]
     if len(next(iter(W.values()))) == 4:
-        members.append(cached("catboost_cb1", lambda: np.mean([submit.predict_ranking("catboost_antigravity", "full", FS, s, POL, tag="cb1")[0] for s in (42, 43, 44)], axis=0)))
+        cs = wf.get("catboost_seeds", [42, 43, 44])
+        name = "catboost_cb1" if cs == [42, 43, 44] else "catboost_cb1_" + "-".join(map(str, cs))
+        members.append(cached(name, lambda: np.mean([submit.predict_ranking("catboost_antigravity", "full", FS, s, POL, tag="cb1")[0] for s in cs], axis=0)))
     base = np.zeros(len(rank_ids))
     for k in np.unique(aps):
         m = aps == k

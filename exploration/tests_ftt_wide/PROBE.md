@@ -95,3 +95,31 @@ FTT weight at LIRF is 0.
 **v58 = 270.8103**: −0.07 against v57 (270.8809), inside the written range of 270.0–271.6. It is the best score and the last upload.
 
 Adding the wide FTT and CatBoost moved predictions by an RMS of 26 s, but the board gained only 0.07: the blend was already close to saturated.
+
+## v59 probe: seed doubling (written 2026-10-06 09:15, before any new seed is trained)
+
+User decision after v58. Base: **v58 = 270.8103** (best and last).
+
+**Change:**
+- **wide FTT 3 → 6 seeds:** seeds 45–47, same recipe; forward_inner cap 260, then `full` at the
+  same 99 epochs as seeds 42–44;
+- **CatBoost 3 → 6 seeds:** the existing forward_inner `cb1` seeds 45–47; `full` seeds 45–47
+  trained with `--freeze-from` each seed's forward `cb1` run, as seeds 42–44 were.
+
+**FTT slot:**
+- four families at 1/4 each: small 6×1, large 9×2/3, deep 6×1, wide 6×1;
+- CatBoost is the mean of 6 seeds;
+- weights are re-solved on forward_inner with the same solver; TabNet LIRF w = 0.459.
+
+**v59** = the new base plus `final_pipeline.py` stages 2–5 (`model_v57`), unchanged.
+
+**Seed rule:** a wide seed whose forward_inner best val exceeds 501 (the PROBE.md drop rule) is left
+out and recorded.
+
+**Expectation (written now): −0.02 to −0.10 against v58**, a board of 270.71–270.79.
+- **For:** seed doubling of earlier FTT shapes paid −0.25 / −0.28.
+- **Against:** the v58 step itself paid only −0.07, so the blend is close to saturated, and a
+  result inside the board's noise is likely.
+- **Fallback:** if v59 scores above 270.8103, v58 is re-uploaded last.
+
+**Cut-off:** built by 2026-10-08 12:00.

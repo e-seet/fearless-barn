@@ -7,7 +7,7 @@
 - S4: S3 + CatBoost (cb1 seeds 42-44 mean) as a fourth member
 Writes final_weights_v58_s3.json and final_weights_v58_s4.json (same format as tests_ftt/final_weights_*.json,
 with an extra "members" list for S4). No training."""
-import json, sys
+import json, os, sys
 from pathlib import Path
 import numpy as np, pandas as pd
 from scipy.optimize import minimize
@@ -55,13 +55,14 @@ def main():
     assert dmax < 1e-9, "generalised solver does not reproduce v42's weights"
 
     # v58 FTT slot: four families at 1/4 each (family totals equal)
-    wide = [(s, "d256b2") for s in (42, 43, 44)]
+    wide = [(s, "d256b2") for s in [int(x) for x in os.environ.get("WIDE_SEEDS", "42,43,44").split(",")]]
     members = [tuple(m) for m in c3["ftt_members"]] + wide
-    mw = list(c3["ftt_member_weights"]) + [2.0] * len(wide)        # small 6x1, large 9x2/3, deep 6x1, wide 3x2 -> 6 each
+    mw = list(c3["ftt_member_weights"]) + [6.0 / len(wide)] * len(wide)   # each family totals 6 (small 6x1, large 9x2/3, deep 6x1, wide)
     f58 = ftt_slot(members, mw)
-    cf = HERE / "cb1_forward_inner_val.npy"
+    CAT = [int(x) for x in os.environ.get("CAT_SEEDS", "42,43,44").split(",")]
+    cf = HERE / f"cb1_forward_inner_val_{'-'.join(map(str, CAT))}.npy"
     if not cf.exists():
-        np.save(cf, np.mean([predict_arm("catboost_antigravity", WS, "val", FS, s, POL, X=X, meta=meta, Xtr=Xtr, tag="cb1") for s in (42, 43, 44)], axis=0))
+        np.save(cf, np.mean([predict_arm("catboost_antigravity", WS, "val", FS, s, POL, X=X, meta=meta, Xtr=Xtr, tag="cb1") for s in CAT], axis=0))
     cat = np.load(cf)
     print(f"forward_inner val n={len(y)} | tree {rm(y, tree):.2f} | mlp18 {rm(y, mlp):.2f} | FTT slot v42 {rm(y, f42):.2f} -> v58 {rm(y, f58):.2f} | "
           f"wide alone {rm(y, ftt_slot(wide, None)):.2f} | CatBoost {rm(y, cat):.2f}")
@@ -77,8 +78,9 @@ def main():
               "ftt_member_weights": mw, "weight_split": WS, "featureset": FS, "outlier_policy": POL,
               "solver": "per-airport simplex, default SLSQP ftol (tests_ftt_wide/solve_v58.py; reproduces c3d6 exactly)",
               "feature_fingerprint": config.feature_code_fingerprint()}
-    (HERE / "final_weights_v58_s3.json").write_text(json.dumps({"weights_per_airport": S3, **common}, indent=2))
-    (HERE / "final_weights_v58_s4.json").write_text(json.dumps({"weights_per_airport": S4, "members": ["ftt", "tree", "mlp", "catboost_cb1_42-44"], **common}, indent=2))
+    SUF = os.environ.get("OUT_SUFFIX", "v58")
+    (HERE / f"final_weights_{SUF}_s3.json").write_text(json.dumps({"weights_per_airport": S3, **common}, indent=2))
+    (HERE / f"final_weights_{SUF}_s4.json").write_text(json.dumps({"weights_per_airport": S4, "members": ["ftt", "tree", "mlp", "catboost_cb1"], "catboost_seeds": CAT, **common}, indent=2))
     print("wrote final_weights_v58_s3.json, final_weights_v58_s4.json")
 
 
