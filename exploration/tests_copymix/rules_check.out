@@ -1,0 +1,30 @@
+== R1 nm-line >6h
+  01: rows 16 | rule-rows RMSE Fc 7434 -> 5724 | month 338.463 -> 334.984
+  07: rows 36 | rule-rows RMSE Fc 13465 -> 6446 | month 336.830 -> 295.083
+  08: rows 25 | rule-rows RMSE Fc 4647 -> 5093 | month 253.113 -> 254.232
+  09: rows 21 | rule-rows RMSE Fc 10015 -> 7575 | month 245.566 -> 235.378
+  10: rows 14 | rule-rows RMSE Fc 1212 -> 437 | month 213.876 -> 213.650
+  11: rows 12 | rule-rows RMSE Fc 15720 -> 10351 | month 235.778 -> 212.706
+  12: rows 23 | rule-rows RMSE Fc 4247 -> 2924 | month 204.715 -> 201.472
+  pooled 265.677 -> 253.015 (-12.663) | Jan+Jul 337.560 -> 313.518 (-24.042)
+== R2 Rome 15-30h
+  01: rows 2 | rule-rows RMSE Fc 20558 -> 20558 | month 338.463 -> 338.463
+  07: rows 5 | rule-rows RMSE Fc 35031 -> 35031 | month 336.830 -> 336.830
+  08: rows 0 | rule-rows RMSE Fc 0 -> 0 | month 253.113 -> 253.113
+  09: rows 2 | rule-rows RMSE Fc 1803 -> 1803 | month 245.566 -> 245.566
+  10: rows 0 | rule-rows RMSE Fc 0 -> 0 | month 213.876 -> 213.876
+  11: rows 2 | rule-rows RMSE Fc 37945 -> 37945 | month 235.778 -> 235.778
+  12: rows 1 | rule-rows RMSE Fc 17948 -> 17948 | month 204.715 -> 204.715
+  pooled 265.677 -> 265.677 (+0.000) | Jan+Jul 337.560 -> 337.560 (+0.000)
+ranking rows: R1 96 | R2 4
+== R1 robustness
+  drop best 0: 265.677 -> 253.015 (-12.663)
+  drop best 5: 252.836 -> 249.415 (-3.422)
+  drop best 10: 246.539 -> 245.895 (-0.644)
+  drop best 20: 245.246 -> 245.727 (+0.481)
+  rows changed 81 | rows better 49 | worse 32
+  gain by airport (share): {'EDDF': 0.0, 'EHAM': 0.0, 'LFPG': 0.0, 'LIRF': 1.0}
+  line EDDF: n 21 a 1201 b -0.001
+  line EHAM: n 25 a 975 b 0.001
+  line LFPG: n 24 a 940 b 0.000
+  line LIRF: n 49 a -5814 b 1.192
