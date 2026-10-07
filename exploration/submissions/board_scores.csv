@@ -53,3 +53,4 @@ version,board_name,score,date,status,note
 57,fearless-barn_v57,270.8809,2026-10-06,submitted,v56 with the 7-airport ADS-B corrector at 1500 trees / 63 leaves (round 10 K); -0.6816 vs v56 (expected 270.70-271.30: inside)
 58,fearless-barn_v58,270.8103,2026-10-06,submitted,"new base (+ wide FTT d256x2, + CatBoost 4th member) with v57's stages; -0.0706 vs v57 (expected 270.0-271.6: inside)"
 59,fearless-barn_v59,270.81,2026-10-06,submitted,v58 with wide FTT 3->6 and CatBoost 3->6 seeds -- BEST and LAST (by 0.0003); a tie with v58 (expected 270.71-270.79: fell short; blend saturated)
+60,,,,"built, not uploaded",v59 with the 7-airport corrector at 3000 trees / 127 leaves (round 11 K2); EXPECTATION before upload: 270.40-270.75 (central ~270.55); if above 270.81 re-upload v59 last

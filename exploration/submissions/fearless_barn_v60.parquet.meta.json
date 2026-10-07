@@ -1,0 +1,13 @@
+{
+  "arm": "v59 base + final_pipeline stages 2-5 with stage 2 = model_v60 (3000 trees, 127 leaves, lr 0.015)",
+  "version": 60,
+  "n_rows": 344841,
+  "rows_changed_vs_v59": 180824,
+  "rms_change_vs_v59": 11.45865078024622,
+  "expectation_written_before_upload": "board 270.40-270.75 vs v59 270.81 (central ~270.55). Basis: round 11 K2 vs K pooled -0.275 locally, 7/7 months, robust to the best 5 rows; the previous capacity step went -0.60 locally -> -0.68 on the board. If above 270.81: re-upload v59 last as a byte copy.",
+  "provenance": {
+    "build": "python final_pipeline.py --base tests_ftt_wide/v59_base.parquet --stage2-model tests_adsb_full/model_v60",
+    "stage2_model": "tests_adsb_full/model_v60 (build_v60_stage2.py)",
+    "evidence": "tests_round11/PREREGISTERED.md, round11.json"
+  }
+}

@@ -1,0 +1,27 @@
+  A month 01: K 349.570 | K2 349.508 | K3 349.572
+  A month 07: K 381.787 | K2 381.597 | K3 381.784
+  A month 08: K 261.517 | K2 261.196 | K3 261.518
+  A month 09: K 273.933 | K2 273.585 | K3 273.937
+  A month 10: K 213.758 | K2 213.284 | K3 213.760
+  A month 11: K 270.232 | K2 269.948 | K3 270.229
+  A month 12: K 241.441 | K2 241.038 | K3 241.442
+A K2 vs K: pooled 289.638 -> 289.363 (-0.275) | wins 7/7 | best-5 removed 289.592 -> 289.322 => PASS
+A K3 vs K: pooled 289.638 -> 289.638 (+0.000) | wins 2/7 | best-5 removed 289.574 -> 289.576 => FAIL
+LIRF rows by month: {'07': 15211, '08': 15459, '09': 14667, '10': 14142, '11': 11328, '12': 12068} | eligible share: {'07': 0.87, '08': 0.81, '09': 0.16, '10': 0.37, '11': 0.39, '12': 0.61}
+  LIRF month 07: old 853.38 | K 856.38
+  LIRF month 08: old 595.14 | K 598.14
+  LIRF month 09: old 582.02 | K 582.35
+  LIRF month 10: old 452.19 | K 453.69
+  LIRF month 11: old 569.28 | K 570.22
+  LIRF month 12: old 417.99 | K 420.26
+B LIRF K vs v55 setting: pooled 603.585 -> 605.517 (+1.932) | wins 0/6 | best-5 removed 602.859 -> 604.864 => FAIL
+  LFPG month 01: old 358.723 | K 358.723
+  LFPG month 07: old 389.231 | K 389.237
+  LFPG month 08: old 271.917 | K 271.920
+  LFPG month 09: old 285.959 | K 285.987
+  LFPG month 10: old 229.777 | K 229.861
+  LFPG month 11: old 286.459 | K 286.633
+  LFPG month 12: old 262.198 | K 262.255
+B LFPG K vs v56 setting: pooled 301.850 -> 301.894 (+0.044) | wins 0/6 | best-5 removed 301.835 -> 301.881 => FAIL
+ALL DONE
+EXIT 0
