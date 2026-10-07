@@ -25,3 +25,10 @@ MVT − SCHED directly, so this is the main transfer risk.
 Expectation written in `board_scores.csv` before any upload.
 
 Credit: two-stage copy idea and the LOBT window from team outgoing-boat (github.com/EnioAguiar/prc-taxiout-2026).
+
+## Board (2026-10-08)
+
+**v63 = 270.2**, +0.21 against v61 (269.9888). Inside the written expectation and close to the local Jan+Jul figure
+(+0.22 against the clipped recipe), so the decomposition, not the pre-registered all-month verdict, predicted the board.
+Lesson: the reference in a pre-registered test must include every fixed rule the candidate carries (here the LOBT
+clip); otherwise the rule's gain is credited to the new member. The copy member is closed; v61 is re-uploaded last.
