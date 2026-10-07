@@ -1,0 +1,13 @@
+held-out CatBoost predictions: 1233234
+base RMSE: equal 301.94 | r3 280.46 | r4 279.62
+  month 01: base 348.140 | B 338.491 | C 338.448 | L0 348.140 | L1 348.140
+  month 07: base 346.985 | B 338.463 | C 338.484 | L0 346.945 | L1 346.942
+  month 08: base 264.158 | B 253.232 | C 253.239 | L0 264.094 | L1 264.105
+  month 09: base 259.378 | B 245.624 | C 245.609 | L0 259.367 | L1 259.362
+  month 10: base 230.856 | B 214.078 | C 214.115 | L0 230.723 | L1 230.729
+  month 11: base 254.377 | B 235.797 | C 235.655 | L0 253.922 | L1 253.927
+  month 12: base 229.335 | B 204.729 | C 204.664 | L0 229.187 | L1 229.203
+stage 2: C vs B: pooled 266.056 -> 266.034 (-0.022) | wins 4/7 | best-5 removed 266.027 -> 266.014 => FAIL
+LFPG: L1 vs L0: pooled 279.510 -> 279.513 (+0.004) | wins 2/6 | best-5 removed 279.485 -> 279.491 => FAIL
+ALL DONE
+EXIT 0
