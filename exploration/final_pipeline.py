@@ -108,6 +108,7 @@ def main():
     ap.add_argument("--stage2-model", type=Path, default=HERE / "tests_adsb_full" / "model_v61",
                     help="7-airport ADS-B corrector; model_v61 (final, round 12), model_v60, model_v57 (v57-v59) or model_v48 (v56)")
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--s2-out", type=Path, default=None, help="optional: also save the stage-2 output (before stages 3-5)")
     ap.add_argument("--check", type=Path, default=None)
     a = ap.parse_args()
     tmp = Path(tempfile.mkdtemp())
@@ -159,6 +160,8 @@ def main():
         corr[cov] = np.mean([b.predict(te.loc[cov, mc["features"]]) for b in bs], axis=0)
     adsb = np.clip(np.rint(te.base.to_numpy() + corr), 0, 86400).astype("int32")
     no_adsb = base[config.TARGET].to_numpy() == adsb
+    if a.s2_out:
+        s2 = base[[config.ID]].copy(); s2[config.TARGET] = adsb; s2.to_parquet(a.s2_out, index=False)
 
     # ---- stage 3: weather offsets (v49 frost, v50 thunderstorm)
     raws = {st: metar_raw(st, t.min(), t.max(), a.fetch) for st in sorted(set(aps))}
