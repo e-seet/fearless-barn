@@ -30,3 +30,5 @@ January reproduced exactly.
 - The realistic training base uses v42's 3-member weights, while the v59 base also contains
   CatBoost and the wide FTT.
 - If it scores above 270.4667, v60 is re-uploaded last.
+
+**Board: v61 = 269.9888** (−0.48 against v60; better than the written range of 270.32–270.48). It is the best score and the last upload.

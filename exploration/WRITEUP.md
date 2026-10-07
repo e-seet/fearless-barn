@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Final submission** | **v60 = 270.4667** pooled RMSE on the public board (also the last upload) |
+| **Final submission** | **v61 = 269.9888** pooled RMSE on the public board (also the last upload) |
 | **Without ADS-B** | **v42 = 286.5256**, the base model alone (competition data only), kept as a byte-identical file (§9) |
 | **Standing** (2026-10-03) | #51 of 221 teams by best score; leader 219.64, #10 230.37, median 298.8 |
 | **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56, and verified on new data (§10) |
@@ -130,7 +130,7 @@ is, predictions from models that never saw the month in question. Seeds 42–46 
 
 | stage | where | trained on | rows corrected (2026) |
 |---|---|---|---:|
-| 2 | EDDF, EHAM, LEBL, EDDM, LSZH, LEMD, EGLL; departures with a track | Jan, Jul–Dec 2025; 3,000 trees, 127 leaves (v60; v57–v59 used 1,500 / 63, v56 600 / 31) | 188,635 (54.7 %) |
+| 2 | EDDF, EHAM, LEBL, EDDM, LSZH, LEMD, EGLL; departures with a track | Jan, Jul–Dec 2025; 3,000 trees, 127 leaves, trained on residuals of a base weighted per airport like the shipped blend (v61; v60 used an equal-weight training base; v57–v59 1,500 / 63, v56 600 / 31) | 188,635 (54.7 %) |
 | 4 | LIRF, **January**; departures with an NM record and a track | Jul–Dec 2025 | 6,960 |
 | 5 | LFPG; departures with an NM record and a track | Jul–Dec 2025 (Jan 2025 has no LFPG tracks) | 1,973 |
 
@@ -194,7 +194,8 @@ last METAR within 90 min before takeoff:
 | v57 | larger 7-airport corrector (round 10) | 270.88 | −0.68 |
 | v58 | base: + wide FT-Transformer, + CatBoost family | 270.8103 | −0.07 |
 | v59 | wide FT-Transformer and CatBoost 3 → 6 seeds | 270.81 | −0.0003 (tie) |
-| **v60** | **7-airport corrector at 3,000 trees / 127 leaves (round 11)** | **270.47** | **−0.34** |
+| v60 | 7-airport corrector at 3,000 trees / 127 leaves (round 11) | 270.47 | −0.34 |
+| **v61** | **7-airport corrector trained on the realistic (per-airport weighted) base (round 12)** | **269.99** | **−0.48** |
 
 **Uploads that lost.** None was re-uploaded; each was followed by a later, better upload, and ranking uses the last one:
 
