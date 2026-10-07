@@ -1,0 +1,12 @@
+1233234 rows | equal-base RMSE 301.94 | realistic-base RMSE 280.46 | mean |real - equal| on covered rows 9.0 s
+  month 01: realistic base 348.452 | A 339.042 | B 338.808 (-0.234)
+  month 07: realistic base 347.443 | A 338.794 | B 338.796 (+0.001)
+  month 08: realistic base 265.315 | A 254.299 | B 254.265 (-0.034)
+  month 09: realistic base 260.125 | A 246.189 | B 246.197 (+0.008)
+  month 10: realistic base 231.562 | A 214.691 | B 214.585 (-0.106)
+  month 11: realistic base 255.464 | A 236.752 | B 236.677 (-0.075)
+  month 12: realistic base 231.264 | A 206.741 | B 206.576 (-0.165)
+
+POOLED: realistic base 280.456 | A 266.838 | B 266.759 (-0.079) | 5/7 months | best-5 removed 266.809 -> 266.739 => PASS
+ALL DONE
+EXIT 0

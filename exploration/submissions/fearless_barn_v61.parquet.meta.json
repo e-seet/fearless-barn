@@ -1,0 +1,13 @@
+{
+  "arm": "v59 base + final_pipeline stages 2-5 with stage 2 = model_v61 (K2 trained on the realistic base)",
+  "version": 61,
+  "n_rows": 344841,
+  "rows_changed_vs_v60": 174952,
+  "rms_change_vs_v60": 13.360005626821847,
+  "expectation_written_before_upload": "board 270.32-270.48 vs v60 270.4667 (central ~270.40; a near-tie is plausible). Basis: round 12 B vs A pooled -0.079 locally, 5/7 months, robust to the best 5 rows; the previous corrector change went -0.275 locally -> -0.34 on the board. Caveat: the realistic training base uses v42's 3-member weights while v59's base also has CatBoost and the wide FTT. If above 270.4667: re-upload v60 last as a byte copy.",
+  "provenance": {
+    "build": "python final_pipeline.py --base tests_ftt_wide/v59_base.parquet --stage2-model tests_adsb_full/model_v61",
+    "stage2_model": "tests_adsb_full/model_v61 (tests_round12/build_v61_stage2.py)",
+    "evidence": "tests_round12/PREREGISTERED.md, round12.json"
+  }
+}
