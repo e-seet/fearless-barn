@@ -28,3 +28,5 @@ v55 / v56 settings.
 
 **Expectation written before upload: 270.40–270.75 (central about 270.55)** against v59 = 270.81. If
 it scores above 270.81, v59 is re-uploaded last.
+
+**Board: v60 = 270.4667** (−0.34 against v59; inside the written expectation of 270.40–270.75). It is the best score and the last upload.

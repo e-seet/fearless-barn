@@ -105,8 +105,8 @@ def main():
     ap.add_argument("--ids", type=Path, default=None, help="template whose IDs/order the output follows")
     ap.add_argument("--points-dir", type=Path, default=None, help="ADS-B day files; default tests_adsb_full/points")
     ap.add_argument("--fetch", action="store_true", help="download missing ADS-B days and METAR reports")
-    ap.add_argument("--stage2-model", type=Path, default=HERE / "tests_adsb_full" / "model_v57",
-                    help="7-airport ADS-B corrector; model_v57 (final, round 10 K) or model_v48 (as in v56)")
+    ap.add_argument("--stage2-model", type=Path, default=HERE / "tests_adsb_full" / "model_v60",
+                    help="7-airport ADS-B corrector; model_v60 (final, round 11 K2), model_v57 (v57-v59) or model_v48 (v56)")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--check", type=Path, default=None)
     a = ap.parse_args()
