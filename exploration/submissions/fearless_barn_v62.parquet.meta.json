@@ -1,0 +1,8 @@
+{
+  "arm": "v61 clipped to the LOBT window [MVT-LOBT-3606, MVT-LOBT+3606]",
+  "version": 62,
+  "rows_changed_vs_v61": 45,
+  "rule": "|BLOCK - LOBT| <= 3606 s held for 100% of 2025 departures with a LOBT (max exactly 3606); window idea credited to team outgoing-boat (github.com/EnioAguiar/prc-taxiout-2026), implemented independently",
+  "expectation_written_before_upload": "board <= 269.9888 if the window holds in 2026 (expected about -0.03 s; 45 rows moved by ~357 s). If above 269.9888: re-upload v61 last.",
+  "upload_note": "not to be uploaded alone if a fuller candidate (v63) is built; folded into it to avoid a 45-row-only board difference"
+}
