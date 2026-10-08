@@ -82,7 +82,7 @@ def ftt_member(seed, tag, X, Xtr):
                            ck["scaler"], ck["medians"])
     # members trained with run_ftt.py --amp were also predicted under bf16 autocast (d192 large, d96b6 deep);
     # the checkpoint does not record it, so it is keyed on the tag. A new --amp tag must be added here.
-    amp = any(k in tag for k in ("d192", "d96b6"))
+    amp = any(k in tag for k in ("d192", "d96b6", "d256b2"))
     out = []
     with torch.no_grad():
         for i in range(0, len(num), 4096):
@@ -108,10 +108,14 @@ def tabnet_member(seed, X, Xtr):
     return np.clip(p, config.PREDICTION_CLIP_MIN_SEC, config.PREDICTION_CLIP_MAX_SEC)
 
 
-def predict(X, meta, recipe=DEFAULT_RECIPE, tabnet="models"):
+def predict(X, meta, recipe=DEFAULT_RECIPE, tabnet="models", weights=None):
+    """weights: optional blend file (e.g. tests_ftt_wide/final_weights_v59_s4.json, the v59-v61 base) that replaces
+    the recipe's members and per-airport weights; a 4th member (CatBoost cb1) is added when the file lists one."""
     ov = run_json("tabnet_lirf_override", recipe)
     base = run_json(ov["base_arm"], ov["base_tag"])
     assert ov["base_arm"] == "ftt_multimodel", "only the ftt_multimodel base is supported"
+    if weights is not None:
+        base = json.loads(Path(weights).read_text())
     # feed the new frames through submit.py's own tree/MLP code path
     D.load_ranking_features = lambda fs: (X.copy(), meta.copy())
     tree, _ = submit.predict_ranking("airport_operator_blend", SPLIT, FS, SEED, POL)
@@ -122,7 +126,19 @@ def predict(X, meta, recipe=DEFAULT_RECIPE, tabnet="models"):
     mw = base.get("ftt_member_weights")
     ftt = np.average(fp, axis=0, weights=mw) if mw else np.mean(fp, axis=0)
     ap = meta["ADEP_mvt"].astype(str).to_numpy()
-    blend = blend_per_airport(ftt, tree, mlp, ap, base["weights_per_airport"])
+    W = base["weights_per_airport"]
+    if len(next(iter(W.values()))) == 4:            # v58+ base: [FTT, tree, MLP, CatBoost cb1]
+        cat = np.mean([submit.predict_ranking("catboost_antigravity", SPLIT, FS, s, POL, tag="cb1")[0]
+                       for s in base.get("catboost_seeds", [42, 43, 44])], axis=0)
+        members = [ftt, tree, mlp, cat]
+        blend = np.zeros(len(ap))
+        for k in np.unique(ap):
+            m = ap == k
+            w = W.get(str(k), [0.25] * 4)
+            blend[m] = sum(wi * p[m] for wi, p in zip(w, members))
+    else:
+        cat = None
+        blend = blend_per_airport(ftt, tree, mlp, ap, W)
     if tabnet == "models":
         tab = np.mean([tabnet_member(int(s), X, Xtr) for s in ov["tabnet_seeds"]], axis=0)
     else:
@@ -132,7 +148,7 @@ def predict(X, meta, recipe=DEFAULT_RECIPE, tabnet="models"):
         tab = np.mean([z["pr"] for z in zs], axis=0)
     pred, _ = apply_override(blend, tab, ap, float(ov["w"]))
     return pd.DataFrame({config.ID: X.index.to_numpy(), config.TARGET: np.rint(pred).astype("int32")}), \
-        {"ftt": ftt, "tree": tree, "mlp": mlp, "tabnet": tab}
+        {"ftt": ftt, "tree": tree, "mlp": mlp, "catboost": cat, "tabnet": tab}
 
 
 def main() -> int:
@@ -142,6 +158,9 @@ def main() -> int:
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--recipe", default=DEFAULT_RECIPE)
     ap.add_argument("--tabnet", choices=["models", "npz"], default="models")
+    ap.add_argument("--weights", type=Path, default=None,
+                    help="blend file replacing the recipe's members/weights; tests_ftt_wide/final_weights_v59_s4.json = the v59-v61 base")
+    ap.add_argument("--check", type=Path, default=None, help="compare the output with a saved base (e.g. tests_ftt_wide/v59_base.parquet)")
     ap.add_argument("--selftest", action="store_true",
                     help="predict current ranking.parquet from scratch and compare with the uploaded file")
     ap.add_argument("--selftest-version", type=int, default=36)
@@ -151,7 +170,11 @@ def main() -> int:
         ids = pd.read_parquet(config.SUBMITTING_PARQUET)[config.ID].to_numpy()
     X, meta = build_features(a.movements, ids)
     print(f"features built from {a.movements.name}: {X.shape}", flush=True)
-    sub, parts = predict(X, meta, a.recipe, a.tabnet)
+    sub, parts = predict(X, meta, a.recipe, a.tabnet, a.weights)
+    if a.check:
+        ref = pd.read_parquet(a.check).set_index(config.ID).reindex(sub[config.ID].to_numpy())[config.TARGET].to_numpy()
+        d = sub[config.TARGET].to_numpy() - ref
+        print(f"CHECK vs {a.check.name}: identical {(d == 0).sum()} / {len(d)} | |diff| <= 1 s {(np.abs(d) <= 1).sum()} | max |diff| {np.abs(d).max()}")
     if a.selftest:
         up = pd.read_parquet(ROOT / "submissions" / f"fearless_barn_v{a.selftest_version}.parquet")
         m = sub.merge(up, on=config.ID, suffixes=("_new", "_up"))

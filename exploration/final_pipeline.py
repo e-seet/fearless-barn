@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
 """End-to-end recipe of the final submission, for ANY movements file in ranking.parquet's schema.
 
-Final board: v56 = 271.5625. Stages (each reads only the given movements file):
+Best board score: v61 = 269.9888. Final design (`--design final`, the default) = v61's stages plus two changes
+re-checked on held-out Feb-Jun 2025 for the final round (tests_final/RESULT.md): the LIRF corrector runs in every
+month, and the result is clipped to the LOBT window. `--design v61` reproduces v61 byte-identical.
+Stages (each reads only the given movements file):
 
-  1. base     v42 ensemble (trees + 18 MLPs + 21 FT-Transformers + TabNet override at LIRF), `predict_new.py`
+  1. base     v59 ensemble (trees + 18 MLPs + 27 FT-Transformers in four shapes + 6 CatBoost, per-airport weights
+              tests_ftt_wide/final_weights_v59_s4.json, TabNet override at LIRF), `predict_new.py --weights ...`
               on the movements file (or a saved base file via --base)
-  2. ADS-B    corrector (tests_adsb_full/model_v57: 1500 trees, 63 leaves; v56 used model_v48), 5 seeds averaged, at EDDF, EHAM, LEBL, EDDM, LSZH, LEMD,
+  2. ADS-B    corrector (tests_adsb_full/model_v61: 3000 trees, 127 leaves, trained on a per-airport weighted base),
+              5 seeds averaged, at EDDF, EHAM, LEBL, EDDM, LSZH, LEMD,
               EGLL, on departures with a strict-matched adsb.lol ground track
   3. weather  v49: +30 s, January, no ADS-B correction, METAR frost (tmpf <= 34 F and tmpf - dwpf <= 3 F)
               v50: +200 s, July, no ADS-B correction, METAR thunderstorm (TS in wxcodes)
               METAR = last report at or before takeoff within 90 min; "no ADS-B correction" = stage-2 output equals
               the stage-1 base (the rule the uploaded files used)
-  4. LIRF     v55: LIRF corrector (tests_lirf_adsb/model_v55) on January LIRF departures with an NM record
-              (FLIGHT_ID_mvt) and a strict track; corrector input `base` = stage-1 value; correction added
+  4. LIRF     v55: LIRF corrector (tests_lirf_adsb/model_v55) on LIRF departures with an NM record
+              (FLIGHT_ID_mvt) and a strict track; corrector input `base` = stage-1 value; correction added.
+              v55-v61 applied it in January only (LIRF had no ADS-B in July 2026); the final design applies it in
+              every month (held-out Feb-Jun 2025: -0.30, 2/2 months, -0.19 with the best 20 rows removed)
   5. LFPG     v56: LFPG corrector (tests_round9/model_v56) on LFPG departures with a record and a strict track
+  6. LOBT     final design: clip to [MVT - LOBT - 3606 s, MVT - LOBT + 3606 s] (and >= 0); |BLOCK - LOBT| <= 3606 s
+              held for every 2025 departure with a LOBT (idea: team outgoing-boat)
 
 Data it needs, fetched automatically with --fetch when missing:
   ADS-B    one adsb.lol archive per UTC day of the departures (+ the day before, for takeoffs in the first hours),
@@ -25,7 +34,9 @@ Only stage 1 needs the competition's saved base models; stages 2-5 need the save
 
 usage:
   # the competition's ranking set, from the saved base, verified against the upload:
-  python final_pipeline.py --base submissions/fearless_barn_v42.parquet --check submissions/fearless_barn_v56.parquet --out final.parquet
+  python final_pipeline.py --design v61 --base tests_ftt_wide/v59_base.parquet --check submissions/fearless_barn_v61.parquet --out v61.parquet
+  # the final round (Jan, Feb, Jun, Jul 2026), everything from scratch:
+  python final_pipeline.py --movements ../prc-2026-datasets/final_ranking.parquet --ids ../prc-2026-datasets/final_submitting.parquet --fetch --out fearless-barn_final.parquet
   # any new movements file, everything from scratch (downloads ADS-B and METAR as needed):
   python final_pipeline.py --movements new.parquet --points-dir adsb_new --fetch --out pred.parquet
 """
@@ -107,6 +118,8 @@ def main():
     ap.add_argument("--fetch", action="store_true", help="download missing ADS-B days and METAR reports")
     ap.add_argument("--stage2-model", type=Path, default=HERE / "tests_adsb_full" / "model_v61",
                     help="7-airport ADS-B corrector; model_v61 (final, round 12), model_v60, model_v57 (v57-v59) or model_v48 (v56)")
+    ap.add_argument("--design", choices=["final", "v61"], default="final",
+                    help="final: LIRF corrector in every month + LOBT clip; v61: LIRF in January only, no clip (reproduces v61)")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--s2-out", type=Path, default=None, help="optional: also save the stage-2 output (before stages 3-5)")
     ap.add_argument("--check", type=Path, default=None)
@@ -116,14 +129,15 @@ def main():
     # ---- stage 1: base
     if a.base is None:
         a.base = tmp / "base.parquet"
-        cmd = [sys.executable, str(HERE / "predict_new.py"), "--movements", str(a.movements), "--out", str(a.base)]
+        cmd = [sys.executable, str(HERE / "predict_new.py"), "--movements", str(a.movements), "--out", str(a.base),
+               "--weights", str(HERE / "tests_ftt_wide" / "final_weights_v59_s4.json")]
         if a.ids: cmd += ["--ids", str(a.ids)]
         subprocess.run(cmd, check=True)
     base = pd.read_parquet(a.base)
     ids = base[config.ID].to_numpy(); ids64 = base[config.ID].astype("int64").to_numpy()
 
     # ---- row facts from the movements file only
-    mv = pd.read_parquet(a.movements, columns=["MVT_ID_mvt", "PHASE_mvt", "ADEP_mvt", "MVT_TIME_UTC_mvt", "FLIGHT_ID_mvt"])
+    mv = pd.read_parquet(a.movements, columns=["MVT_ID_mvt", "PHASE_mvt", "ADEP_mvt", "MVT_TIME_UTC_mvt", "FLIGHT_ID_mvt", "LOBT_flt"])
     mv = mv[mv.PHASE_mvt.eq("DEP")].drop_duplicates("MVT_ID_mvt")
     mv = mv.set_index(mv.MVT_ID_mvt.astype("int64")).reindex(ids64)
     assert mv.ADEP_mvt.notna().all(), "base IDs missing from the movements file"
@@ -179,7 +193,8 @@ def main():
 
     # ---- stages 4-5: single-airport correctors, added to the running prediction
     n45 = {}
-    for stage, mdir, prefix, mask in (("LIRF", HERE / "tests_lirf_adsb" / "model_v55", "lirf_corrector", (aps == "LIRF") & (mon == 1)),
+    for stage, mdir, prefix, mask in (("LIRF", HERE / "tests_lirf_adsb" / "model_v55", "lirf_corrector",
+                                       (aps == "LIRF") & ((mon == 1) if a.design == "v61" else True)),
                                       ("LFPG", HERE / "tests_round9" / "model_v56", "lfpg_corrector", aps == "LFPG")):
         mc, bs = boosters(mdir, prefix)
         c = mask & rec & te.e_first.notna().to_numpy()
@@ -188,10 +203,19 @@ def main():
             pred[c] = np.clip(np.rint(pred[c] + cc), 60, 86400)
         n45[stage] = int(c.sum())
 
+    # ---- stage 6 (final design): LOBT window
+    n_lobt = 0
+    if a.design == "final":
+        lw = (t - pd.to_datetime(mv.LOBT_flt, utc=True)).dt.total_seconds().to_numpy()
+        ok = np.isfinite(lw)
+        lo = np.where(ok, np.maximum(lw - 3606, 0), 0); hi = np.where(ok, lw + 3606, np.inf)
+        clipped = np.clip(pred, lo, hi); clipped = np.clip(np.rint(clipped), 0, 86400)
+        n_lobt = int((clipped != pred).sum()); pred = clipped
+
     out = base[[config.ID]].copy(); out[config.TARGET] = pred.astype("int32")
     out.to_parquet(a.out, index=False)
     print(f"wrote {a.out}: {len(out)} rows | ADS-B corrected {int((~no_adsb).sum())} | frost +30 s {int(m49.sum())} | "
-          f"thunderstorm +200 s {int(m50.sum())} | LIRF {n45['LIRF']} | LFPG {n45['LFPG']}")
+          f"thunderstorm +200 s {int(m50.sum())} | LIRF {n45['LIRF']} | LFPG {n45['LFPG']} | LOBT clip {n_lobt} ({a.design} design)")
     if a.check:
         ref = pd.read_parquet(a.check)
         same = int((ref[config.TARGET].to_numpy() == out[config.TARGET].to_numpy()).sum())
