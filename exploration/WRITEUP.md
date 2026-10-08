@@ -374,7 +374,10 @@ cannot. **They are the backup set.**
 | METAR, 10 airports | stage 3 | downloaded by us from the Iowa Environmental Mesonet ASOS archive (public) into `prc-2026-datasets-wx/`; IEM again for any gap |
 | ADS-B ground tracks | stages 2, 4, 5 | **adsb.lol** `globe_history`, © adsb.lol contributors, **ODbL** |
 
-The OpenSky historical database was not used.
+The OpenSky historical database was not used. OPDI (opdi.aero) was confirmed as open data by the
+organizers on the forum (2026-10-08), but it was deliberately not used: its ground coverage is
+weakest at the airports where our ADS-B is also missing (LFPG, EGLL, LIRF, EDDM, LTFM), and it
+arrived too late to test before the freeze.
 
 ## 12. Comparison with a published solution (outgoing-boat)
 
