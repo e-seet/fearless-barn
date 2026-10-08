@@ -37,7 +37,7 @@ days = sorted(f.stem for f in (ROOT / "tests_adsb_full" / "points").glob("*.parq
 e = pd.concat([features.load_day(d) for d in days]).sort_values("liftoff_dt"); e = e[~e.index.duplicated()]
 df = df.join(e[FP.ADSB].astype(float))
 df["rec"] = raw.FLIGHT_ID_mvt.reindex(df.index).notna().to_numpy()
-mv, sc, lb = times(df.index, raw); df["mv"], df["lb"] = mv, lb
+mv, sc, lb = times(df.index, raw); df["mv"], df["lb"] = mv, lb; df["g"] = np.maximum(mv - sc, 0)
 print(f"Feb-Jun rows {len(df)} | ADS-B day files {len(days)} | base RMSE {rm(df.y - df.base):.2f}", flush=True)
 
 # ---- stage 2: model_v61 on the 7 airports with a track
@@ -80,6 +80,7 @@ for m in FJ:
         r = fit_predict(Xs[tr], ys[tr] - gs[tr], Xs[te], cats)
         S[Xs.index[te]] = np.minimum(np.maximum(gs[te] + r, 30), np.maximum(gs[te], 88500))
         print(f"  specialist month {m}: {te.sum()} rows", flush=True)
+S.to_frame("S").to_parquet(HERE / "S_febjun.parquet")
 Sx = S.reindex(df.index).to_numpy()
 
 # ---- arms (each a full prediction over Feb-Jun)
@@ -91,6 +92,7 @@ arms["+frost_any_month"] = np.clip(np.rint(shipped + 30.0 * (no_adsb & frost)), 
 arms["+ts_any_month"] = np.clip(np.rint(shipped + 200.0 * (no_adsb & ts)), 60, 86400)
 arms["+lirf_corr_any_month"] = np.clip(np.rint(shipped + dL), 60, 86400)
 arms["+lirf_specialist"] = np.where(np.isfinite(Sx), Sx, shipped)
+arms["+lirf_hybrid_6h"] = np.where(np.isfinite(Sx) & (df.g.to_numpy() > 21600), Sx, shipped)
 arms["+lobt_clip"] = lobt_clip(shipped, df.mv.to_numpy(), df.lb.to_numpy())
 res = {}
 yv = df.y.to_numpy()
