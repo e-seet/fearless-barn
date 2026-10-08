@@ -1,7 +1,7 @@
 # fearless-barn — what we did, what we explored, what we did not
 
 PRC Data Challenge 2026: predict taxi-out time (off-block → takeoff) for January and July
-2026 departures at ten European airports, scored by pooled RMSE. Status on 2026-10-03.
+2026 departures at ten European airports, scored by pooled RMSE. Status on 2026-10-08.
 Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RESULT.md`,
 `TAXI_OUT_DRIVERS.md` section, or `plans/` file.
 
@@ -9,10 +9,10 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 
 | | |
 |---|---|
-| Final model | **v56 = 271.5625** (v55 + LFPG ADS-B corrector); v55 = 271.764 (v50 + LIRF ADS-B corrector); before them v50 = 271.8748 on the public board (from 405.75 with the first submission); clean no-ADS-B fallback v42 = 286.53 |
+| Final model | **v61 = 269.9888** on the public board (from 405.75 with the first submission), re-uploaded as the last file after v63 (270.2) lost; clean no-ADS-B fallback v42 = 286.53 |
 | Standing | **#51 of 221** teams by best score (2026-10-03; #70 before ADS-B); leader 219.64, #10 230.37, median 298.8 |
-| Model | per-airport blend of LightGBM trees + 18 MLPs + 21 FT-Transformers (three architectures), plus TabNet at LIRF, 5-seed ADS-B corrector, and winter morning de-icing offset |
-| Reproducibility | **`final_pipeline.py` rebuilds the final v50 byte-identical** (base → ADS-B corrector → weather offsets); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
+| Model | per-airport blend of LightGBM trees + 18 MLPs + 27 FT-Transformers (four architectures) + 6 CatBoost, TabNet at LIRF; 5-seed ADS-B corrector at 7 airports (3,000 trees, trained on a realistic base); January frost and July thunderstorm offsets; LIRF and LFPG ADS-B correctors |
+| Reproducibility | **`final_pipeline.py` rebuilds the final v61 byte-identical** (base → ADS-B corrector → weather offsets → LIRF and LFPG correctors); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
 
 ## 2. What we built, in the order it paid
 
@@ -29,7 +29,11 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 | + winter morning de-icing heuristic on uncovered frost flights (v49) | 271.94 |
 | + July convective thunderstorm offset on uncovered TS flights (v50) | 271.87 |
 | + ADS-B corrector at LIRF, January, record rows (v55) | 271.76 |
-| **+ ADS-B corrector at LFPG, record rows (v56)** | **271.56** |
+| + ADS-B corrector at LFPG, record rows (v56) | 271.56 |
+| larger 7-airport corrector, 1,500 trees (v57) | 270.88 |
+| base: + wide FT-Transformer, + CatBoost as a 4th member (v58, v59) | 270.81 |
+| 7-airport corrector at 3,000 trees / 127 leaves (v60) | 270.47 |
+| **7-airport corrector trained on residuals of a realistic, per-airport weighted base (v61)** | **269.99** |
 
 
 Supporting infrastructure: time-ordered validation splits with a separate weight-fitting
@@ -63,6 +67,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | Learned stacker, stage-2 residual boosting, month-fold residual corrector (forum idea) | ❌ overfit / Jan + Jul +0.37 | §2v, plan 04, `tests_corrector` |
 | Tree-side seed averaging | ❌ Jan + Jul +0.16 | `tests_tree_seeds` |
 | Finer blend-weight bucketing (by WTC, runway, cluster) | ❌ over-tuned, quarantined | `overtuned/README.md` |
+| Wide FT-Transformer (d256×2) + CatBoost as a 4th blend member | ✅ v58 −0.07; more seeds (v59) a tie: the base is saturated | `tests_ftt_wide/PROBE.md` |
 
 ### 3.2 Target, loss and outliers
 
@@ -111,6 +116,9 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | Traffic features from other aircraft's ADS-B | ❌ drift gate: matched-traffic counts track receiver coverage (standardized shift up to 0.48) | `tests_adsb_full/PREREGISTERED_v48.md` |
 | Corrector seed averaging (5 seeds) | ✅ v48 = 272.17 (−0.09) | `tests_adsb_full/PREREGISTERED_v48.md` |
 | Looser ADS-B matching at EDDF/LEMD | ❌ failures have zero ground points | `tests_runway_queue/RESULT.md` |
+| 7-airport corrector capacity (600 → 1,500 → 3,000 trees) | ✅ board v57 −0.68, v60 −0.34 | `tests_round10/`, `tests_round11/` |
+| Corrector trained on residuals of a base weighted like the shipped blend | ✅ board v61 −0.48 | `tests_round12/` |
+| Corrector and LFPG corrector trained on the 4-member base | ❌ 4/7 months; LFPG fail | `tests_round13/RESULT.md` |
 | Runway queue / runway mode features (records) | ❌ stable across years but pooled +2.11, LIRF +10 | `tests_runway_queue/RESULT.md` |
 | Routed taxi distance (apt.dat) | ❌ ceiling −0.14 s (unseen stand-runway pairs only) | `tests_runway_queue/routed_ceiling.txt` |
 
@@ -122,6 +130,9 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | 2025 structure: true value = scheduled delay, or ≈ one day | found, but did **not** transfer to 2026 | `tests_tail_study` |
 | LIRF identity override built on that structure | ❌ board +0.86, twice | `tests_lirf_identity` |
 | Carrier-level echo hedge for LIRF no-record rows (forum idea) | ❌ carrier predicts the echo, but the hedge is far worse than the model (Jan + Jul +60) | `tests_carrier_echo` |
+| Copy-mixture member (copy classifier + normal regressor; idea from outgoing-boat) | ❌ pre-registered pass (−1.01) but Jan + Jul +0.22 against the clipped reference; **board v63 270.2 (+0.21)** | `tests_copymix/RESULT.md` |
+| LOBT window clip (|BLOCK − LOBT| ≤ 3,606 s, idea from outgoing-boat) | ➖ holds for 100 % of 2025; 45 ranking rows; v62 built, not uploaded (subset upload) | `tests_copymix/RESULT.md` |
+| Per-airport line on scheduled delay for no-record rows > 6 h (outgoing-boat's rule) | ❌ −12.7 locally from ~10 LIRF rows; loses once the 20 best rows are removed | `tests_copymix/rules_check.out` |
 
 ### 3.6 Training and validation mechanics
 
@@ -148,7 +159,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | **More FT-Transformer variants** (deep and wide, other learning rates) and a tuned FTT/TabNet search | Only three FTT shapes tried; the variety gains were shrinking (−0.64, −0.25, −0.23). The deep 3 → 6 seed run is in progress. |
 | **Explicitly modelling the "one-day" label artifact for 2026** | Studied, not shipped: the 2025 rule regressed on the 2026 board, and the 2026 behaviour can't be seen locally. |
 | **Data beyond 2025** (earlier years, network-manager B2B flow data) | Not provided; licensing unclear. |
-| **Why the leaders are still ~50 s ahead** | Partly ADS-B (it closed 14 s of it). The rest is not identified: not the tail alone, not weather or stand geometry. |
+| **Why the leaders are still ahead** | Partly answered by outgoing-boat's published solution (243.95; `WRITEUP.md` §12): their base is ~45 s worse than ours, but their corrector runs on every row and reads the airport's state (arrivals, runway configuration, gate retention, EUROCONTROL and OPDI series, map distances). Ours covers ~55 % of rows from the departure's own track. Not feasible to rebuild before the deadline. |
 
 ## 5. Lessons worth keeping
 
@@ -159,3 +170,4 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 3. **Validate on the board's months.** Six ideas passed on Sep–Dec and failed on Jan + Jul, and the one tested on the board lost.
 4. **Local checks under-read averaging and variety.** For those questions a pre-registered board probe with a fallback was the only honest instrument.
 5. **Write the pass bar before the result, and treat a capped run as unresolved.** Both prevented false closures and false passes.
+6. **The reference must carry every fixed rule the candidate carries, and judge gains on Jan + Jul and the body.** v63 passed against an unclipped reference; the clip's gain was credited to the new member, and the board disagreed.

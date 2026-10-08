@@ -2,11 +2,11 @@
 
 | | |
 |---|---|
-| **Final submission** | **v61 = 269.9888** pooled RMSE on the public board (also the last upload) |
+| **Final submission** | **v61 = 269.9888** pooled RMSE on the public board; re-uploaded as the last file after v63 (270.2) lost |
 | **Without ADS-B** | **v42 = 286.5256**, the base model alone (competition data only), kept as a byte-identical file (§9) |
 | **Standing** (2026-10-03) | #51 of 221 teams by best score; leader 219.64, #10 230.37, median 298.8 |
-| **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56, and verified on new data (§10) |
-| **Uploads** | 39 on the leaderboard record (from 2026-09-08); every upload a full 344,841-row file, its expected score written down before upload (§7) |
+| **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56 and v61, and verified on new data (§10) |
+| **Uploads** | 46 on the leaderboard record (from 2026-09-08; 45 distinct files, v61 twice); every upload a full 344,841-row file, its expected score written down before upload (§7) |
 
 ---
 
@@ -41,7 +41,7 @@ the best prediction is the conditional **mean**, so every method that shrinks th
                     │
  adsb.lol archive ──► 5. LFPG CORRECTOR  (departures with an NM record and a track)
                     ▼
-                    prediction (v56)
+                    prediction (v61)
 ```
 
 **Board score after each stage:**
@@ -54,7 +54,9 @@ the best prediction is the conditional **mean**, so every method that shrinks th
 | + 4. LIRF corrector | 271.76 |
 | + 5. LFPG corrector | 271.56 |
 | larger stage-2 corrector (1,500 trees, 63 leaves; v57) | 270.88 |
-| base + wide FT-Transformer (d256×2) + CatBoost as a 4th member (v58) | **270.81** |
+| base + wide FT-Transformer (d256×2) + CatBoost as a 4th member (v58) | 270.81 |
+| stage-2 corrector at 3,000 trees / 127 leaves (v60) | 270.47 |
+| stage-2 corrector trained on residuals of a realistic, per-airport weighted base (v61) | **269.99** |
 
 ## 3. Stage 1: the base model (v42)
 
@@ -197,7 +199,7 @@ last METAR within 90 min before takeoff:
 | v60 | 7-airport corrector at 3,000 trees / 127 leaves (round 11) | 270.47 | −0.34 |
 | **v61** | **7-airport corrector trained on the realistic (per-airport weighted) base (round 12)** | **269.99** | **−0.48** |
 
-**Uploads that lost.** None was re-uploaded; each was followed by a later, better upload, and ranking uses the last one:
+**Uploads that lost.** Ranking uses the last upload. Each loss before v63 was followed by a later, better upload; after v63 the previous best (v61) was re-uploaded unchanged:
 
 | version | change | result |
 |---|---|---:|
@@ -207,6 +209,7 @@ last METAR within 90 min before takeoff:
 | v33 | TabNet 11 seeds | +0.91 |
 | v37 | season-weighted MLPs | +2.07 |
 | v47 | tabular columns inside the ADS-B corrector | +0.47 |
+| v63 | copy-mixture member (two-stage idea from outgoing-boat, §12) + LOBT-window clip | 270.2 (+0.21) |
 
 ## 7. Validation protocol and how the leaderboard was used
 
@@ -234,7 +237,8 @@ last METAR within 90 min before takeoff:
   every early verdict.
 
 **Use of the public leaderboard:**
-- **39 uploads** on the leaderboard record (from 2026-09-08), all with distinct files. Each was a
+- **46 uploads** on the leaderboard record (from 2026-09-08): 45 distinct files, plus v61 uploaded a
+  second time as the final file. Each was a
   full prediction file with its expected score and fallback written down beforehand. Most are new
   models; v49, v50, v55 and v56 instead add corrections to defined subsets of departures (weather
   conditions, LIRF and LFPG tracked flights). No upload altered single rows to read their labels.
@@ -255,6 +259,15 @@ last METAR within 90 min before takeoff:
 
   For these questions a single upload with a fallback was the only usable measurement, and it was
   used that way.
+- **Local results over-read the board for tail gains (v63).** The copy-mixture test passed its
+  pre-registered bar (−1.01 pooled, 6/7 months), but the reference it was compared against lacked
+  the LOBT-window clip that the candidate carried, so the clip's gain was credited to the new member.
+  Against the clipped reference the member was +0.22 worse on January + July, and the board gave
+  +0.21. Two rules follow:
+  - the reference in a test must carry every fixed rule the candidate carries;
+  - a gain is judged on the board's months and on the body (y ≤ 1 h), not on the tail. outgoing-boat
+    report the same finding from six submissions (body share predicts the board change with
+    correlation 0.985; the tail share is anti-correlated).
 
 ## 8. What did not work (all tested, records in `tests_*/RESULT.md`)
 
@@ -274,6 +287,11 @@ last METAR within 90 min before takeoff:
 | tabular columns inside the ADS-B corrector | 7/7 months locally, +0.47 on the board |
 | Feb–Jun as extra corrector training (new held-out base) | +0.07, 2/7 months |
 | looser ADS-B matching at EDDF/LEMD | the extra matches have no ground points |
+| stage-2 corrector trained on a 4-member (v59-weighted) base (round 13) | 4/7 months, FAIL |
+| LFPG corrector retrained on the 4-member base (round 13) | FAIL |
+| copy-mixture member: copy classifier + normal regressor, blended per airport (v63) | Jan + Jul +0.22 against the clipped recipe; board +0.21 |
+| per-airport line on delay-to-schedule for no-record rows over 6 h (outgoing-boat's rule) | −12.7 locally, but all from ~10 LIRF tail rows; worse once the 20 best rows are removed; not shipped |
+| LOBT-window clip alone (v62: 45 ranking rows) | true for 100 % of 2025 departures; built, not uploaded (a 45-row upload is too close to probing) |
 
 **Two lessons stand out:**
 - **An idea closed on a weak test may be wrong.** ADS-B was first "closed" on three days and one
@@ -318,13 +336,16 @@ python final_pipeline.py --movements new.parquet --points-dir adsb_new --fetch -
 **Verified:**
 - **The upload:** on the competition's ranking set, from the saved v42 base, the output equals the
   uploaded **v56 byte for byte** (344,841 rows):
-  `python final_pipeline.py --base submissions/fearless_barn_v42.parquet --check submissions/fearless_barn_v56.parquet --out final.parquet`.
+  `python final_pipeline.py --base submissions/fearless_barn_v42.parquet --check submissions/fearless_barn_v56.parquet --stage2-model tests_adsb_full/model_v48 --out final.parquet`;
+  and the final **v61 byte for byte** from the v59 base:
+  `python final_pipeline.py --base tests_ftt_wide/v59_base.parquet --check submissions/fearless_barn_v61.parquet --out final.parquet`
+  (`--s2-out` also writes the stage-2 output before stages 3–5).
 - **New data:** three 2025 days treated as new data (15,408 departures), run from scratch with
   fresh ADS-B downloads, give output identical to the run on the existing ADS-B files. The METAR
   fetch was checked on dates after the local weather file ends.
 - **The base from raw data:** `predict_new.py` rebuilds the v42 base from raw `ranking.parquet` on
   344,840 / 344,841 rows (one LIRF row off by 1 s, a TabNet reload rounding boundary).
-- **Every ADS-B candidate (v43–v56)** rebuilds byte-identical from its saved models.
+- **Every ADS-B candidate (v43–v61)** rebuilds byte-identical from its saved models.
 
 **Scope of the rules.** The weather offsets apply only in January (frost) and July (thunderstorms),
 and the LIRF corrector only in January, as built for the scored months. On data from other months
@@ -355,7 +376,52 @@ cannot. **They are the backup set.**
 
 The OpenSky historical database was not used.
 
-## 12. Where things are
+## 12. Comparison with a published solution (outgoing-boat)
+
+Team outgoing-boat published their solution (github.com/EnioAguiar/prc-taxiout-2026, GPL-3.0; best
+board 243.95). We read it after our model was built, for ideas; none of their code is used. Two of
+their ideas were re-implemented and tested by us (v63, §8) and are credited to them: the copy
+classifier with an expectation mixture, and the LOBT window (|BLOCK − LOBT| ≤ 3,606 s for every 2025
+departure).
+
+**Where the 26 s gap comes from, by each team's board history:**
+
+| | outgoing-boat | fearless-barn |
+|---|---:|---:|
+| model without ADS-B | 331 | **286.5** (v42) |
+| + ADS-B, cross-fitted corrector, LOBT window | 276 (−55) | 272.2 (−14.4) |
+| + context and external data in the corrector | 248 (−28) | 271.6 (−0.6: weather offsets, Rome/Paris correctors) |
+| + more correctors, rebuilt base | 244 (−4) | 270.0 (−1.6: corrector capacity, realistic training base) |
+
+**Our base model is about 45 s better than theirs; they lead because of what their corrector sees
+and which rows it reaches.**
+- **Coverage.** Their corrector runs on every row at all ten airports, with ADS-B fields as inputs
+  that may be empty. Ours runs only on departures with a matched ground track at seven airports,
+  plus LIRF and LFPG models: about 55 % of rows.
+- **Inputs.** Their corrector reads the airport's state at the time:
+  - arrivals' taxi-in per runway and the last arrival at the stand;
+  - runway configuration and its changes, and the same-runway queue weighted by wake category;
+  - gate retention (departures past EOBT not yet pushed);
+  - EUROCONTROL daily delay and regulation series, OPDI ground time since the last landing;
+  - per-airline copy rates;
+  - X-Plane stand-to-runway distances.
+
+  Ours reads the departure's own track and the base prediction. We tested several of these as
+  base-model features (runway mode, queue, routed distance, ATFM delay) and they did not pay there
+  (§8). In their design they enter the corrector, trained against an out-of-block base.
+- **Design around the label.** Their base splits "off-block copied from the schedule" (about 9 % of
+  departures) from real taxi times. Ours learns both in one model. Bolted on at the end (v63), the
+  split did not pay, because our corrector already covers part of the same signal.
+- **Validation.** They decide on January + July 2025 and on the body of the distribution. That is
+  the rule our v63 result argues for (§7).
+
+**What we would do with more time:**
+1. run the corrector on every row with all-row inputs (arrivals, runway state, gate retention);
+2. keep our stronger base under it.
+
+Neither was feasible in the days left.
+
+## 13. Where things are
 
 | path | contents |
 |---|---|
@@ -365,6 +431,8 @@ The OpenSky historical database was not used.
 | `tests_lirf_adsb/`, `tests_round9/` | the LIRF (v55) and LFPG (v56) correctors |
 | `tests_weather_metar/`, `tests_weather_validated/` | the weather offsets and their out-of-sample check |
 | `tests_*/` | every other experiment, each with its pre-registration and result |
+| `tests_round10/`–`tests_round13/` | stage-2 corrector capacity (v57, v60), realistic training base (v61), 4-member base (failed) |
+| `tests_copymix/` | copy-mixture member (v63), the v63 build, the outgoing-boat rule check |
 | `submissions/board_scores.csv` | every board score with its pre-written expectation |
 | `EXPLORATION_SUMMARY.md` | one-page list: done, explored, not explored |
 | `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` | decision history and early analyses |
