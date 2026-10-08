@@ -431,7 +431,7 @@ robustness bar. We kept to the bar and left it out.
 
 Result:
 - 670,790 rows, same IDs and order as the template;
-- ADS-B corrected 359,979; frost 4,878 + 5; thunderstorm 430; LIRF corrector 12,551; LFPG 3,663;
+- ADS-B corrected 359,979; frost 4,883; thunderstorm 430; LIRF corrector 12,551; LFPG 3,663;
   LOBT clip 65.
 
 **The final file's January and July rows are not the first ranking set's rows.** In `final_ranking.parquet`:
