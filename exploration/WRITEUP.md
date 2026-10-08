@@ -2,11 +2,12 @@
 
 | | |
 |---|---|
-| **Final submission** | **v61 = 269.9888** pooled RMSE on the public board; re-uploaded as the last file after v63 (270.2) lost |
+| **Final round** | `fearless-barn_final.parquet`: 670,790 departures (Jan, Feb, Jun, Jul 2026), built by `final_pipeline.py` with the final design (§12) |
+| **Best board score** | **v61 = 269.9888** pooled RMSE on the public board (ranking uses each team's best submission) |
 | **Without ADS-B** | **v42 = 286.5256**, the base model alone (competition data only), kept as a byte-identical file (§9) |
 | **Standing** (2026-10-08) | #59 of 120 on the public board (on 2026-10-03: #51 of 221 by best score; leader then 219.64, #10 230.37, median 298.8) |
-| **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56 and v61, and verified on new data (§10) |
-| **Uploads** | 46 on the leaderboard record (from 2026-09-08; 45 distinct files, v61 twice); every upload a full 344,841-row file, its expected score written down before upload (§7) |
+| **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56 and v61 (`--design v61`), and verified on new data (§10, §12) |
+| **Uploads** | 45 on the leaderboard record (from 2026-09-08), all distinct files; every upload a full 344,841-row file, its expected score written down before upload (§7) |
 
 ---
 
@@ -40,8 +41,10 @@ the best prediction is the conditional **mean**, so every method that shrinks th
  adsb.lol archive ──► 4. LIRF CORRECTOR  (January; departures with an NM record and a track)
                     │
  adsb.lol archive ──► 5. LFPG CORRECTOR  (departures with an NM record and a track)
+                    │
+ flight plan (LOBT) ► 6. LOBT WINDOW  (final design only, §12)
                     ▼
-                    prediction (v61)
+                    prediction (v61 on the board; the final design for the final round)
 ```
 
 **Board score after each stage:**
@@ -199,7 +202,7 @@ last METAR within 90 min before takeoff:
 | v60 | 7-airport corrector at 3,000 trees / 127 leaves (round 11) | 270.47 | −0.34 |
 | **v61** | **7-airport corrector trained on the realistic (per-airport weighted) base (round 12)** | **269.99** | **−0.48** |
 
-**Uploads that lost.** Ranking uses the last upload. Each loss before v63 was followed by a later, better upload; after v63 the previous best (v61) was re-uploaded unchanged:
+**Uploads that lost.** The ranking page ranks each team on its best submission, so a losing upload costs only a daily slot:
 
 | version | change | result |
 |---|---|---:|
@@ -209,7 +212,7 @@ last METAR within 90 min before takeoff:
 | v33 | TabNet 11 seeds | +0.91 |
 | v37 | season-weighted MLPs | +2.07 |
 | v47 | tabular columns inside the ADS-B corrector | +0.47 |
-| v63 | copy-mixture member (two-stage idea from outgoing-boat, §12) + LOBT-window clip | 270.2 (+0.21) |
+| v63 | copy-mixture member (two-stage idea from outgoing-boat, §13) + LOBT-window clip | 270.2 (+0.21) |
 
 ## 7. Validation protocol and how the leaderboard was used
 
@@ -237,8 +240,7 @@ last METAR within 90 min before takeoff:
   every early verdict.
 
 **Use of the public leaderboard:**
-- **46 uploads** on the leaderboard record (from 2026-09-08): 45 distinct files, plus v61 uploaded a
-  second time as the final file. Each was a
+- **45 uploads** on the leaderboard record (from 2026-09-08), all distinct files. Each was a
   full prediction file with its expected score and fallback written down beforehand. Most are new
   models; v49, v50, v55 and v56 instead add corrections to defined subsets of departures (weather
   conditions, LIRF and LFPG tracked flights). No upload altered single rows to read their labels.
@@ -379,11 +381,67 @@ organizers on the forum (2026-10-08), but it was deliberately not used: its grou
 weakest at the airports where our ADS-B is also missing (LFPG, EGLL, LIRF, EDDM, LTFM), and it
 arrived too late to test before the freeze.
 
-## 12. Comparison with a published solution (outgoing-boat)
+## 12. The final round (blind; Jan, Feb, Jun, Jul 2026)
+
+On 2026-10-08 the organizers added a blind final ranking: one file for `final_submitting.parquet`
+(670,790 departures: January, February, June and July 2026), scored on the first two months, the two
+new months and all four, with no leaderboard feedback. The design freezes with the documentation
+(2026-10-11); the file is due 2026-10-14 12:00 CEST.
+
+**Re-checking the design on the new months.** Several stages were scoped to the first ranking set's
+months (frost: January; thunderstorm: July; LIRF corrector: January, because LIRF had no ADS-B in July
+2026). Each was re-checked on **held-out Feb–Jun 2025**, with the saved correctors (none trained on those
+months) and a pre-registered bar (`tests_final/PREREGISTERED.md`):
+
+| | Feb–Jun 2025 | Feb + Jun 2025 |
+|---|---:|---:|
+| base | 285.11 | 327.74 |
+| shipped design (stage 2 + LFPG corrector) | 274.13 | 317.39 |
+
+The ADS-B corrector transfers to the new months (−11.0, 5/5 months, −11.4 with the best 20 rows removed).
+
+| change against the shipped design | rows | Feb–Jun | Feb + Jun | months | best 20 removed | decision |
+|---|---:|---:|---:|---:|---:|---|
+| LIRF corrector in every month | 13,009 | −0.30 | −0.47 | 2/2 | −0.19 | **adopted** |
+| LOBT-window clip | 86 | −0.11 | −0.11 | 5/5 | −0.005 | **adopted** |
+| frost +30 s in every month | 3,305 | −0.14 | −0.31 | 1/3 | −0.12 | rejected |
+| thunderstorm +200 s in every month | 827 | −0.06 | −0.15 | 3/5 | −0.005 | rejected |
+| LIRF no-record specialist (quirky-honey's idea) | 470 | −15.8 | −32.0 | 4/5 | +3.29 | rejected |
+| the same, only > 6 h behind schedule | 14 | −14.3 | −24.5 | 4/5 | +0.009 | rejected |
+
+**The specialist was a judgement call, disclosed here.** It also failed on the seven scored months
+(`tests_lirf_spec/RESULT.md`): −14.0 pooled, but +2.5 with the best 20 rows removed. Its hybrid form
+improved 11 of the 12 months of 2025, yet its whole gain sits in about 20–30 LIRF departures a year
+with no flight record and a takeoff many hours behind schedule. That is the kind of gain that has failed
+to transfer before (our LIRF identity override, outgoing-boat's v37), and it failed our pre-registered
+robustness bar. We kept to the bar and left it out.
+
+**The final design** = v61's stages, with the LIRF corrector in every month and the LOBT clip:
+- `final_pipeline.py` (default `--design final`);
+- the base is rebuilt from saved models by `predict_new.py --weights tests_ftt_wide/final_weights_v59_s4.json`,
+  which reproduces the v59 base on the ranking set on 344,840 / 344,841 rows (one LIRF row off by 1 s);
+- the ADS-B day files for February and June 2026 (59 days) were fetched with the same `fetch.py`.
+  Coverage of departures with track points: Jan 81 %, Feb 84 %, Jun 77 %, Jul 83 %.
+
+**Build** (`python final_pipeline.py --movements ../prc-2026-datasets/final_ranking.parquet
+--ids ../prc-2026-datasets/final_submitting.parquet --out submissions/fearless-barn_final.parquet`):
+- 670,790 rows, same IDs and order as the template;
+- ADS-B corrected 360,011; frost 4,878; thunderstorm 430; LIRF corrector 12,551; LFPG 3,664;
+  LOBT clip 66.
+
+**The final file's January and July rows are not the first ranking set's rows.** In `final_ranking.parquet`:
+- takeoff times differ from `ranking.parquet` on 92 % of rows (median 4 s, at most 12 s);
+- about 1 % of flight-record fields differ;
+- scheduled times are unchanged.
+
+Time-of-day, delay and traffic-window features move accordingly, so the final file's January and July
+predictions differ from v61's. They are predicted from the final file's own data, as the task requires.
+
+## 13. Comparison with a published solution (outgoing-boat)
 
 Team outgoing-boat published their solution (github.com/EnioAguiar/prc-taxiout-2026, GPL-3.0; best
 board 243.95). We read it after our model was built, for ideas; none of their code is used. Two of
-their ideas were re-implemented and tested by us (v63, §8) and are credited to them: the copy
+their ideas were re-implemented and tested by us (v63, §8; the LOBT clip is in the final design, §12) and are credited to them: the copy
 classifier with an expectation mixture, and the LOBT window (|BLOCK − LOBT| ≤ 3,606 s for every 2025
 departure).
 
@@ -424,7 +482,7 @@ and which rows it reaches.**
 
 Neither was feasible in the days left.
 
-## 13. Where things are
+## 14. Where things are
 
 | path | contents |
 |---|---|
@@ -436,6 +494,8 @@ Neither was feasible in the days left.
 | `tests_*/` | every other experiment, each with its pre-registration and result |
 | `tests_round10/`–`tests_round13/` | stage-2 corrector capacity (v57, v60), realistic training base (v61), 4-member base (failed) |
 | `tests_copymix/` | copy-mixture member (v63), the v63 build, the outgoing-boat rule check |
+| `tests_lirf_spec/` | LIRF no-record specialist and its hybrid (rejected) |
+| `tests_final/` | the final round: Feb–Jun re-check, ADS-B fetch for Feb and Jun 2026, the final build logs |
 | `submissions/board_scores.csv` | every board score with its pre-written expectation |
 | `EXPLORATION_SUMMARY.md` | one-page list: done, explored, not explored |
 | `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` | decision history and early analyses |

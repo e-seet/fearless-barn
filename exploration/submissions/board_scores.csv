@@ -57,3 +57,4 @@ version,board_name,score,date,status,note
 61,fearless-barn_v61,269.9888,2026-10-07,submitted,v60 with the stage-2 corrector trained on the realistic base (round 12) -- BEST and LAST; -0.4779 vs v60 (expected 270.32-270.48: beat it)
 62,,,,"built, not uploaded",v61 clipped to the LOBT window (45 rows); EXPECTATION: <= 269.9888 (~-0.03); fold into v63 if the copy mixture passes
 63,fearless-barn_v63,270.2,2026-10-08,submitted,v61 + copy-mixture member blended per airport on the stage-2 output + LOBT clip; +0.21 vs v61 (expected 269.6-270.3: inside; matches the Jan+Jul local +0.22) -- LOST; v61 to be re-uploaded last
+"final",fearless-barn_final,,2026-10-09,"built, not uploaded",final round (Jan+Feb+Jun+Jul 2026, 670790 rows): final design = v61 + LIRF corrector all months + LOBT clip; no board score (blind); local held-out Feb-Jun 2025 274.0 with this design

@@ -9,7 +9,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 
 | | |
 |---|---|
-| Final model | **v61 = 269.9888** on the public board (from 405.75 with the first submission), re-uploaded as the last file after v63 (270.2) lost; clean no-ADS-B fallback v42 = 286.53 |
+| Final model | **v61 = 269.9888**, best on the public board (from 405.75 with the first submission). Final round: `fearless-barn_final.parquet` (Jan, Feb, Jun, Jul 2026) from the final design = v61 + LIRF corrector in every month + LOBT clip (`WRITEUP.md` §12); clean no-ADS-B fallback v42 = 286.53 |
 | Standing | **#59 of 120** on the public board (2026-10-08); on 2026-10-03 #51 of 221 by best score (#70 before ADS-B), leader 219.64, #10 230.37, median 298.8 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 27 FT-Transformers (four architectures) + 6 CatBoost, TabNet at LIRF; 5-seed ADS-B corrector at 7 airports (3,000 trees, trained on a realistic base); January frost and July thunderstorm offsets; LIRF and LFPG ADS-B correctors |
 | Reproducibility | **`final_pipeline.py` rebuilds the final v61 byte-identical** (base → ADS-B corrector → weather offsets → LIRF and LFPG correctors); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
@@ -171,3 +171,4 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 4. **Local checks under-read averaging and variety.** For those questions a pre-registered board probe with a fallback was the only honest instrument.
 5. **Write the pass bar before the result, and treat a capped run as unresolved.** Both prevented false closures and false passes.
 6. **The reference must carry every fixed rule the candidate carries, and judge gains on Jan + Jul and the body.** v63 passed against an unclipped reference; the clip's gain was credited to the new member, and the board disagreed.
+7. **A new surface catches what the old one can't.** The final round's held-out Feb–Jun 2025 check confirmed the corrector (−11.0) and two small changes, and rejected three month-scope extensions and a large but tail-only specialist.

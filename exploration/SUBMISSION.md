@@ -1,6 +1,6 @@
 # SUBMISSION — which model to upload
 
-> **Current reference: [`WRITEUP.md`](WRITEUP.md)**. Final submission v61 = 269.9888 (best; re-uploaded last after v63 lost, 2026-10-08); reproduce with `final_pipeline.py`. Everything below is a mid-build snapshot.
+> **Current reference: [`WRITEUP.md`](WRITEUP.md)**. Best board score v61 = 269.9888; final round file `submissions/fearless-barn_final.parquet` (WRITEUP §12); reproduce with `final_pipeline.py`. Everything below is a mid-build snapshot.
 
 
 > **SUPERSEDED — this records only v1-v3 from the first round.** The build

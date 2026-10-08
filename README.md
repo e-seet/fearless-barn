@@ -4,7 +4,7 @@ Predict `TAXITIME_SEC_mvt` (seconds from off-block to takeoff) for departures
 at ten major European airports. EUROCONTROL PRC Data Challenge 2026, team
 **fearless-barn**.
 
-**Final submission: v61, RMSE 269.9888 on the live leaderboard** (2026-10-07; re-uploaded last on 2026-10-08).
+**Best leaderboard score: v61, RMSE 269.9888** (2026-10-07). **Final round:** `exploration/submissions/fearless-barn_final.parquet` (Jan, Feb, Jun, Jul 2026), built with the final design (write-up §12).
 A per-airport blend of LightGBM trees, MLPs, FT-Transformers and CatBoost (TabNet at Rome), corrected with
 each departure's adsb.lol ADS-B ground track and small weather offsets. Without ADS-B the same
 base model scores 286.5256 (v42).
