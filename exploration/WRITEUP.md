@@ -423,11 +423,16 @@ robustness bar. We kept to the bar and left it out.
 - the ADS-B day files for February and June 2026 (59 days) were fetched with the same `fetch.py`.
   Coverage of departures with track points: Jan 81 %, Feb 84 %, Jun 77 %, Jul 83 %.
 
-**Build** (`python final_pipeline.py --movements ../prc-2026-datasets/final_ranking.parquet
---ids ../prc-2026-datasets/final_submitting.parquet --out submissions/fearless-barn_final.parquet`):
+**Build:**
+1. `python tests_final/rebase_points.py` writes `tests_final/points_final/` (see below);
+2. `python final_pipeline.py --movements ../prc-2026-datasets/final_ranking.parquet --base tests_final/final_base.parquet
+   --points-dir tests_final/points_final --out submissions/fearless-barn_final.parquet`, where `final_base.parquet` is
+   `predict_new.py --weights tests_ftt_wide/final_weights_v59_s4.json` on the same movements file.
+
+Result:
 - 670,790 rows, same IDs and order as the template;
-- ADS-B corrected 360,011; frost 4,878; thunderstorm 430; LIRF corrector 12,551; LFPG 3,664;
-  LOBT clip 66.
+- ADS-B corrected 359,979; frost 4,878 + 5; thunderstorm 430; LIRF corrector 12,551; LFPG 3,663;
+  LOBT clip 65.
 
 **The final file's January and July rows are not the first ranking set's rows.** In `final_ranking.parquet`:
 - takeoff times differ from `ranking.parquet` on 92 % of rows (median 4 s, at most 12 s);
@@ -435,7 +440,21 @@ robustness bar. We kept to the bar and left it out.
 - scheduled times are unchanged.
 
 Time-of-day, delay and traffic-window features move accordingly, so the final file's January and July
-predictions differ from v61's. They are predicted from the final file's own data, as the task requires.
+predictions differ from v61's (RMS 9.9 s). They are predicted from the final file's own data, as the task
+requires.
+
+**ADS-B times re-based for the same reason.** Each stored ADS-B point carries its time relative to the
+movement's takeoff time in the file it was matched against.
+- The January and July day files were matched against `ranking.parquet`, so `tests_final/rebase_points.py`
+  re-bases them on `final_ranking.parquet`'s takeoff times (316,809 movements shifted, by up to 12 s).
+- 2025-12-31 and 2026-01-31 were re-fetched against `final_ranking.parquet`. They hold the pre-midnight ground
+  points of early takeoffs on 1 January and 1 February.
+- February and June were fetched against `final_ranking.parquet` from the start.
+- Effect on the final file: January rows RMS 11.7 s, July 8.1 s, mean 0.0.
+
+**Limitation of the Feb–Jun check.** At LIRF the check used the 3-member held-out base. The shipped LIRF
+base adds the TabNet override, which has no held-out Feb–Jun predictions. The LIRF corrector decision was
+therefore made on a slightly different base than the one it is applied to.
 
 ## 13. Comparison with a published solution (outgoing-boat)
 
