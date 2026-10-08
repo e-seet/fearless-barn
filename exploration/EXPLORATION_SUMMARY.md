@@ -10,7 +10,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 | | |
 |---|---|
 | Final model | **v61 = 269.9888** on the public board (from 405.75 with the first submission), re-uploaded as the last file after v63 (270.2) lost; clean no-ADS-B fallback v42 = 286.53 |
-| Standing | **#51 of 221** teams by best score (2026-10-03; #70 before ADS-B); leader 219.64, #10 230.37, median 298.8 |
+| Standing | **#59 of 120** on the public board (2026-10-08); on 2026-10-03 #51 of 221 by best score (#70 before ADS-B), leader 219.64, #10 230.37, median 298.8 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 27 FT-Transformers (four architectures) + 6 CatBoost, TabNet at LIRF; 5-seed ADS-B corrector at 7 airports (3,000 trees, trained on a realistic base); January frost and July thunderstorm offsets; LIRF and LFPG ADS-B correctors |
 | Reproducibility | **`final_pipeline.py` rebuilds the final v61 byte-identical** (base → ADS-B corrector → weather offsets → LIRF and LFPG correctors); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
 

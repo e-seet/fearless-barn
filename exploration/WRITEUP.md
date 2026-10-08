@@ -4,7 +4,7 @@
 |---|---|
 | **Final submission** | **v61 = 269.9888** pooled RMSE on the public board; re-uploaded as the last file after v63 (270.2) lost |
 | **Without ADS-B** | **v42 = 286.5256**, the base model alone (competition data only), kept as a byte-identical file (§9) |
-| **Standing** (2026-10-03) | #51 of 221 teams by best score; leader 219.64, #10 230.37, median 298.8 |
+| **Standing** (2026-10-08) | #59 of 120 on the public board (on 2026-10-03: #51 of 221 by best score; leader then 219.64, #10 230.37, median 298.8) |
 | **Reproduce / predict** | `python final_pipeline.py ...`, verified byte-identical to the uploaded v56 and v61, and verified on new data (§10) |
 | **Uploads** | 46 on the leaderboard record (from 2026-09-08; 45 distinct files, v61 twice); every upload a full 344,841-row file, its expected score written down before upload (§7) |
 
