@@ -25,3 +25,4 @@ __pycache__/
 # S3 credentials (any variant) - never commit
 credentials*.json
 **/credentials*.json
+conversation.md
