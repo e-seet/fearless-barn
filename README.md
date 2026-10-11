@@ -42,3 +42,7 @@ Whether any timestamp field (`AOBT_3_flt`, `EOBT_1_flt`, `IOBT_flt`,
 (present in both `solution/` and `exploration/` — the check predates the split
 and was carried forward unchanged), not in the EDA notebook — kept separate so
 the notebook stays a plain look at the data.
+
+## Licence
+
+This repository is released under the **GNU General Public License v3.0**; see [`LICENSE`](LICENSE). External data sources and their licences are listed in the write-up (§11). The competition data is not redistributed here.
