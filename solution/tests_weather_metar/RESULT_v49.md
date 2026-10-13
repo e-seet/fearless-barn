@@ -9,7 +9,7 @@
 
 ## 1. What was built and tested
 
-Following [PREREGISTERED_v49.md](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/tests_weather_metar/PREREGISTERED_v49.md):
+Following [PREREGISTERED_v49.md](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/tests_weather_metar/PREREGISTERED_v49.md):
 - **Base Submission:** `fearless_barn_v48.parquet` (score 272.1714).
 - **Target Population:** Exactly 4,878 January 2026 departures meeting two physical criteria:
   1. No ADS-B ground trajectory was available in `v48` (`v48.TAXITIME_SEC_mvt == v42.TAXITIME_SEC_mvt`, i.e., zero empirical stop/lineup observations).

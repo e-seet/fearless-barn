@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary & Breakthrough Results
 
-Following the discovery of Rome Fiumicino's (`LIRF`) 24-hour telemetry delay mechanics in [**Plan 07**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/plans/07_plan_extreme_outlier_forensics_and_tail_dynamics.md) and the debiased multi-model architecture in [**Plan 08**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/plans/08_plan_debiased_outlier_and_seasonal_architecture.md), we developed **Stage 9: Gated Tail Alignment**.
+Following the discovery of Rome Fiumicino's (`LIRF`) 24-hour telemetry delay mechanics in [**Plan 07**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/plans/07_plan_extreme_outlier_forensics_and_tail_dynamics.md) and the debiased multi-model architecture in [**Plan 08**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/plans/08_plan_debiased_outlier_and_seasonal_architecture.md), we developed **Stage 9: Gated Tail Alignment**.
 
 By conditioning the alignment strictly on movements exceeding an out-of-sample solved scheduled delay threshold ($T = 10,800$ s / 3 hours), we isolate the true overnight rescheduled delays from normal short flights. This prevents perturbing normal operational taxi distributions while fully aligning the heavy tail.
 
@@ -65,10 +65,10 @@ $$\hat{y}_i = \hat{y}_{\text{base}, i}$$
 
 ## 4. Competition Artifacts & Submission v8
 
-- **Submission Binary**: [**`exploration/submissions/PLACEHOLDER_TEAM_v8.parquet`**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/submissions/PLACEHOLDER_TEAM_v8.parquet)
-- **Submission Metadata**: [**`exploration/submissions/PLACEHOLDER_TEAM_v8.parquet.meta.json`**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/submissions/PLACEHOLDER_TEAM_v8.parquet.meta.json)
+- **Submission Binary**: [**`solution/submissions/PLACEHOLDER_TEAM_v8.parquet`**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/submissions/PLACEHOLDER_TEAM_v8.parquet)
+- **Submission Metadata**: [**`solution/submissions/PLACEHOLDER_TEAM_v8.parquet.meta.json`**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/submissions/PLACEHOLDER_TEAM_v8.parquet.meta.json)
   - Scored Movements: 215,876 rows
   - Schema: `['MVT_ID_mvt', 'TAXITIME_SEC_mvt']`
   - Range: $[61, 58550]$ s, median 975 s, mean 1049.1 s
   - Validation: 100% PASS (uniqueness, finiteness, positive bounds)
-- **Tournament Leaderboard**: [`exploration/compare_summary__forward-with_aobt-keep_all__seed42.json`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/compare_summary__forward-with_aobt-keep_all__seed42.json)
+- **Tournament Leaderboard**: [`solution/compare_summary__forward-with_aobt-keep_all__seed42.json`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/compare_summary__forward-with_aobt-keep_all__seed42.json)

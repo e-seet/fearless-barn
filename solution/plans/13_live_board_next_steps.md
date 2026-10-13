@@ -404,7 +404,7 @@ the tree side is where the gap localises.
 
 ### Probe (done): v18 (cap)
 
-- `exploration/submissions/fearless_barn_v18_cap7200.parquet` = **v14's exact
+- `solution/submissions/fearless_barn_v18_cap7200.parquet` = **v14's exact
   predictions**, every value > 7200 s clamped to 7200 (62 of 344,841 rows
   changed). Board name: `fearless-barn_v18.parquet`.
 - Siblings built, not uploaded: `..._v18_cap10800.parquet`,
@@ -466,7 +466,7 @@ thing that matters, and it directly targets a 2025→2026 shift.
 - **Upload:** `mc cp "submissions\fearless_barn_vN.parquet"
   "dc26/prc-2026-fearless-barn/fearless-barn_vN.parquet"`
   (alias: `mc alias set dc26 https://s3.opensky-network.org/ <accessKey>
-  <secretKey>`; keys in `exploration/credentials2.json`).
+  <secretKey>`; keys in `solution/credentials2.json`).
 - **Score:** `mc cat
   "dc26/prc-2026-fearless-barn/fearless-barn_vN.parquet_result.json"` — appears
   asynchronously after upload.

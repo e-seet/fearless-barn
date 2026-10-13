@@ -19,7 +19,7 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path("c:/Users/Admin/Desktop/eddie/fearless-barn")
-EXP = ROOT / "exploration"
+EXP = ROOT / "solution"
 WX = ROOT / "prc-2026-datasets-wx"
 SUB = EXP / "submissions"
 sys.path.insert(0, str(EXP))

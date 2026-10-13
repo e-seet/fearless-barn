@@ -197,14 +197,14 @@ SPLITS["forward_inner"] = {
 
 SELECTION_FORBIDDEN_SPLITS = ("full", "seasonal", "forward_inner")
 
-# The candidate arms this concise build actually has. solution/ grew this list
+# The candidate arms this concise build actually has. early_baseline/ grew this list
 # to 18+ pipelines (ridge, xgboost_antigravity, cross_blend, per_airport_*, ...)
 # as it iterated past the two floor arms; none of those pipeline_*/ dirs exist
 # here, so this list is scoped to match rather than copied verbatim.
 ARMS = ("naive_offblock", "lightgbm")
 
 # No arm here fits free parameters on the validation labels (that only applies
-# to solution/'s ensemble_antigravity and cross_blend, neither present in this
+# to early_baseline/'s ensemble_antigravity and cross_blend, neither present in this
 # build), so there is nothing to flag as val-fitted.
 VAL_FITTED_ARMS = ()
 

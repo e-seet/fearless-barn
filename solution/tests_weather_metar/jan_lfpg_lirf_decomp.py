@@ -20,7 +20,7 @@ import pandas as pd
 
 DATA = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/prc-2026-datasets")
 WX = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/prc-2026-datasets-wx")
-EXP = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/exploration")
+EXP = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/solution")
 
 FOCUS = ["LFPG", "LIRF"]
 CONTROL = ["EDDF", "EHAM"]

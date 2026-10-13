@@ -145,7 +145,7 @@ base's optimism**. Re-point it at `airport_operator_multimodel` (or
 **STALE, SUPERSEDED BY A BOARD RESULT (2026-09-16):** `idband` was submitted
 live twice (v15, v17) and **regressed both times** (+0.86s, +0.87s vs. its
 `airport_operator_multimodel` baseline) — annotated "idband is consistently
-harmful, closed" (see `exploration/TAXI_OUT_DRIVERS.md` §2x and
+harmful, closed" (see `solution/TAXI_OUT_DRIVERS.md` §2x and
 `submissions/submissions.csv`). v25 (295.21, the current best) ships with no
 LIRF identity override at all. Do not act on the "free add-on" recommendation
 below — it predates that board evidence.

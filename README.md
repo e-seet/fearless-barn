@@ -5,8 +5,9 @@ at ten European airports, for the EUROCONTROL PRC Data Challenge 2026.
 
 | | |
 |---|---|
-| **Final round file** | [`exploration/submissions/fearless-barn_final.parquet`](exploration/submissions/fearless-barn_final.parquet): 670,790 departures (Jan, Feb, Jun, Jul 2026) |
-| **Best public board score** | **269.9888** pooled RMSE (January + July 2026) |
+| **Final round file** | [`solution/submissions/fearless-barn_final.parquet`](solution/submissions/fearless-barn_final.parquet): 670,790 departures (Jan, Feb, Jun, Jul 2026) |
+| **Public leaderboard score** | **269.9888** RMSE. The leaderboard scores January + July 2026 only (344,841 departures, all airports pooled) |
+| **Final round score** | none yet: the final ranking is blind |
 | **Same base model without ADS-B** | 286.5256 |
 | **Licence** | GNU GPLv3, see [`LICENSE`](LICENSE) |
 
@@ -14,9 +15,9 @@ at ten European airports, for the EUROCONTROL PRC Data Challenge 2026.
 
 | Document | What it covers |
 |---|---|
-| **[`exploration/WRITEUP.md`](exploration/WRITEUP.md)** | **The method.** The model stage by stage, how each decision was made, use of the leaderboard, the final round, results, what did not work, reproducibility, data licences, credits |
-| [`exploration/EXPLORATION_SUMMARY.md`](exploration/EXPLORATION_SUMMARY.md) | One page: everything tried, with its outcome |
-| [`exploration/final_pipeline.py`](exploration/final_pipeline.py) | The whole recipe in one script |
+| **[`solution/WRITEUP.md`](solution/WRITEUP.md)** | **The method.** The model stage by stage, how each decision was made, use of the leaderboard, the final round, results, what did not work, reproducibility, data licences, credits |
+| [`solution/EXPLORATION_SUMMARY.md`](solution/EXPLORATION_SUMMARY.md) | One page: everything tried, with its outcome |
+| [`solution/final_pipeline.py`](solution/final_pipeline.py) | The whole recipe in one script |
 
 ## The model in brief
 
@@ -34,7 +35,7 @@ write-up lists what was adopted, what was rejected, and why.
 ## Run it
 
 ```bash
-cd exploration
+cd solution
 pip install -r requirements.txt
 python final_pipeline.py --movements <movements.parquet> --points-dir <adsb_dir> --fetch --out <pred.parquet>
 ```
@@ -47,9 +48,9 @@ git; see write-up §8 for what is in the repository and how the uploaded files w
 
 | Path | Contents |
 |---|---|
-| [`exploration/`](exploration/) | The solution: pipeline, training code, every experiment (`tests_*/`, each with its pre-registration and result), submissions. Indexed in [`exploration/README.md`](exploration/README.md) |
+| [`solution/`](solution/) | The solution: pipeline, training code, every experiment (`tests_*/`, each with its pre-registration and result), submissions. Indexed in [`solution/README.md`](solution/README.md) |
 | [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb) | Exploratory analysis of the data |
-| [`solution/`](solution/) | An early baseline, superseded by `exploration/` and kept for its leakage and split audit |
+| [`early_baseline/`](early_baseline/) | The first-week baseline (two simple models), superseded by `solution/` and kept for its leakage and split audit |
 | `tools/ml_common/` | Shared checks the training code imports (seeding, split disjointness, leak controls) |
 
 ## Data

@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary & Breakthrough Results
 
-Building directly upon Stage 11 ([**Plan 11**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/plans/11_plan_post_alignment_shrinkage_blending.md)), deep forensic audits across the 328,009 test rows revealed two fundamental physical bottlenecks in the residual error distribution:
+Building directly upon Stage 11 ([**Plan 11**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/plans/11_plan_post_alignment_shrinkage_blending.md)), deep forensic audits across the 328,009 test rows revealed two fundamental physical bottlenecks in the residual error distribution:
 
 ### A. Intermediate Schedule-Identity Gating Truncation
 In Stages 10 and 11, the intermediate daytime identity threshold was set to `DEFAULT_THRESHOLD_MID_SEC = 25200.0` s (7 hours delay). An exhaustive bin audit revealed that between 14,400 s and 25,200 s (4 to 7 hours delay), **84.2% of Rome Fiumicino (`LIRF`) flights without radar tracks are exact schedule-identity delays** ($y \equiv ds$). The physical Eurocontrol telemetry identity sets:
@@ -63,5 +63,5 @@ ranked on val RMSE (lower is better; never ranked on test):
   - Feature fingerprint: `aeade7fee3099c1a` (100% frozen, 0 features added or modified).
   - Pool equality: `d16701419a0d1c8703890a73c854ce9c` ($n=1,387,105$).
 - **Official Submission Parquet**:
-  - File: [`exploration/submissions/PLACEHOLDER_TEAM_v11.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/submissions/PLACEHOLDER_TEAM_v11.parquet)
+  - File: [`solution/submissions/PLACEHOLDER_TEAM_v11.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/submissions/PLACEHOLDER_TEAM_v11.parquet)
   - Rows: $n=215,876$, 0 nulls, strictly positive and bounded within $[60, 86400]$ s.

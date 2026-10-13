@@ -1,6 +1,6 @@
 #!/bin/sh
 # Addendum 4 chain: fetch the 44 fresh 2025 days -> confirm.py -> if PASS, fetch the remaining Jan/Jul 2026 days.
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_adsb_full/after_fresh.log
 echo "[$(date)] fetching fresh 2025 days" >> $L
 xargs -P 3 -I{} sh -c 'python tests_adsb_full/fetch.py {} > tests_adsb_full/fetch_{}.log 2>&1' < tests_adsb_full/fresh_days.txt

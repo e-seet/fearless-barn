@@ -1,4 +1,4 @@
-# `exploration/` — the solution and every experiment behind it
+# `solution/` — the solution and every experiment behind it
 
 **Read [`WRITEUP.md`](WRITEUP.md) first.** It describes the model, the decisions, the results and how
 to reproduce them. This page is only a map of the folder.

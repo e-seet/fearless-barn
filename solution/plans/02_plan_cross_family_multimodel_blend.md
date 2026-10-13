@@ -1,6 +1,6 @@
 # Plan 02: Cross-Family Multi-Model Blending Architecture
 
-**File:** `exploration/plans/02_plan_cross_family_multimodel_blend.md`  
+**File:** `solution/plans/02_plan_cross_family_multimodel_blend.md`  
 **Phase:** Stage 2 Cross-Model Integration  
 **Objective:** Break the single-family tree limit by pairing complementary inductive biases (Gradient Boosted Trees + Deep Tabular Neural Networks).
 

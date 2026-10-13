@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary & Breakthrough Results
 
-Building directly on Stage 9 ([**Plan 09**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/plans/09_plan_gated_tail_alignment_and_sub_235s_record.md)), deep forensic audits of residual errors across all 10 competition airports revealed a fundamental physical duality in Eurocontrol telemetry delays at Rome Fiumicino (`LIRF`):
+Building directly on Stage 9 ([**Plan 09**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/plans/09_plan_gated_tail_alignment_and_sub_235s_record.md)), deep forensic audits of residual errors across all 10 competition airports revealed a fundamental physical duality in Eurocontrol telemetry delays at Rome Fiumicino (`LIRF`):
 1. **Extreme Overnight Delays ($ds > 50,000$ s / ~14 to 24 hours)**:
    Flights delayed across midnight into the next calendar day. In this subpopulation, Eurocontrol records $y \approx 87,500$ s (24 hours + actual taxi time).
 2. **Intermediate Daytime Delays ($25,200\text{s} < ds \le 50,000$ s / ~7 to 14 hours)**:

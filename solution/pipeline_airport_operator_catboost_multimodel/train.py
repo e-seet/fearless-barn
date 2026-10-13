@@ -8,7 +8,7 @@ pipeline_airport_catboost_multimodel (catboost_antigravity + mlp_antigravity,
 per-airport convex weight, swapping OUT airport_operator_blend entirely) beat
 the MLP alone robustly (-7.70s, SD 1.11 over 3 seeds) but only tied our
 existing best blend airport_operator_multimodel (-0.47s, SD 1.16, direction
-inconsistent across seeds -- see exploration/TAXI_OUT_DRIVERS.md SS2l). That
+inconsistent across seeds -- see solution/TAXI_OUT_DRIVERS.md SS2l). That
 swap discarded airport_operator_blend's own internal tree-ensemble structure
 (per_airport + per_operator) entirely. This arm tests the fairer question:
 does CatBoost's diversity ADD to the existing blend, not substitute for it.

@@ -2,7 +2,7 @@
 """Experiment: does reformulating the TARGET (not just having it as a feature)
 as a delta/residual on top of `delta_aobt_sec` help the tree side?
 
-Context (see exploration/TAXI_OUT_DRIVERS.md SS2j, SS2q): `delta_aobt_sec` =
+Context (see solution/TAXI_OUT_DRIVERS.md SS2j, SS2q): `delta_aobt_sec` =
 `MVT_TIME_UTC_mvt - AOBT_3_flt` is already the #1-importance input feature in
 every model checked this session. A community note in conversation.md (S4,
 "Piyush Patil") claims a top team's single biggest lever was "anchoring the

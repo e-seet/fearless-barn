@@ -1,6 +1,6 @@
 #!/bin/sh
 # After round 10 finishes: wide-shallow FTT, forward_inner then full (tests_ftt_wide/PROBE.md).
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_ftt_wide/queue.log
 echo "[$(date)] waiting for round 10" >> $L
 until grep -q "ALL DONE" tests_round10/round10.log 2>/dev/null; do sleep 60; done

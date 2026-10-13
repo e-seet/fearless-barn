@@ -1,6 +1,6 @@
 # Plan 01: Initial Challenge Baseline & Audit Protocol
 
-**File:** `exploration/plans/01_plan_initial_challenge_baseline.md`  
+**File:** `solution/plans/01_plan_initial_challenge_baseline.md`  
 **Phase:** Stage 1 Foundation  
 **Objective:** Establish competition baseline floors, label audit, time-ordered data splits, and protocol gates.
 

@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary & Breakthrough Results
 
-Building directly on Stage 10 ([**Plan 10**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/plans/10_plan_dual_regime_piecewise_tail_alignment.md)), a fundamental architectural flaw was uncovered in how multi-family model ensembles were constructed in Stages 4 through 10:
+Building directly on Stage 10 ([**Plan 10**](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/plans/10_plan_dual_regime_piecewise_tail_alignment.md)), a fundamental architectural flaw was uncovered in how multi-family model ensembles were constructed in Stages 4 through 10:
 
 ### The "Inversion Order" Error in Earlier Stages:
 In Stages 4–10, the pipeline executed:
@@ -95,5 +95,5 @@ Notice that on almost all airports (EDDF, EGLL, EHAM, LEMD, LTFM), GBDT is award
   - Feature fingerprint: `aeade7fee3099c1a` (100% frozen, 0 features added or modified).
   - Pool equality: `d16701419a0d1c8703890a73c854ce9c` ($n=1,387,105$).
 - **Submission Parquet**:
-  - Target: [`exploration/submissions/PLACEHOLDER_TEAM_v10.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/submissions/PLACEHOLDER_TEAM_v10.parquet)
+  - Target: [`solution/submissions/PLACEHOLDER_TEAM_v10.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/submissions/PLACEHOLDER_TEAM_v10.parquet)
   - Rows: $n=215,876$, 0 nulls, strictly bounded within $[60, 86400]$ s.

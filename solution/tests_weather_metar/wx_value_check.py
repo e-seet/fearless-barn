@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-EXP = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/exploration")
+EXP = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/solution")
 WX = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/prc-2026-datasets-wx")
 DATA = Path("C:/Users/Admin/Desktop/eddie/fearless-barn/prc-2026-datasets")
 sys.path.insert(0, str(EXP))

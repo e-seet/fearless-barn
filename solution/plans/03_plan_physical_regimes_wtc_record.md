@@ -1,6 +1,6 @@
 # Plan 03: Physical Regimes Segmentation (WTC & Flight Plan Record)
 
-**File:** `exploration/plans/03_plan_physical_regimes_wtc_record.md`  
+**File:** `solution/plans/03_plan_physical_regimes_wtc_record.md`  
 **Phase:** Stage 3 Domain-Physical Conditioning  
 **Objective:** Condition the multi-model blending weights on physical aircraft categories and radar record states to isolate extreme tail outliers.
 

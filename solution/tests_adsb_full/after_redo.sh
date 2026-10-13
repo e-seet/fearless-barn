@@ -1,7 +1,7 @@
 #!/bin/sh
 # After the re-download + re-confirmation: drift on the complete 2026 set, then the final build.
 # Stops before any upload (user decision). Log: after_redo.log
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_adsb_full/after_redo.log
 echo "[$(date)] waiting for re-download and re-confirmation" >> $L
 python - <<'PY'

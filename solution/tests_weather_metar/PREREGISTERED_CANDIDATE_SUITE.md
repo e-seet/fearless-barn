@@ -3,7 +3,7 @@
 **Date:** 2026-10-01  
 **Baseline on Live Board:** `fearless-barn_v50.parquet` — **`271.8748`** (Rank #46 / 214 teams)  
 **Parent Model:** `fearless_barn_v50.parquet`  
-**All Candidates:** Pre-registered, built, validated through `submit.validate()`, and staged in `exploration/submissions/`.  
+**All Candidates:** Pre-registered, built, validated through `submit.validate()`, and staged in `solution/submissions/`.  
 
 ---
 

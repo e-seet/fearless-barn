@@ -1,6 +1,6 @@
 #!/bin/sh
 # Smoke-test evaluate_v46.py once 2 Aug days exist, then the real run once all 61 exist (or 9 h).
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_adsb_full/after_aug.log
 python -c "
 import time; from pathlib import Path

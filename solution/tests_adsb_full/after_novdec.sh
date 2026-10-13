@@ -1,6 +1,6 @@
 #!/bin/sh
 # Waits for the Nov-Dec 2025 fetch (all 61 days, or 9 h), then runs the preregistered extension test.
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_adsb_full/after_novdec.log
 echo "[$(date)] waiting for Nov-Dec fetch" >> $L
 python - <<'PY'

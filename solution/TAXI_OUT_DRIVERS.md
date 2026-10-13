@@ -966,7 +966,7 @@ The current feature set has only categorical `STAND_mvt`/`RUNWAY_mvt`/
 taxi-out time (UTOT) consistently ranks stand-to-runway distance as a top
 physical driver. External data is explicitly allowed by the competition
 rules (same basis established for the earlier, closed weather investigation;
-`exploration/plans/13_live_board_next_steps.md:265`).
+`solution/plans/13_live_board_next_steps.md:265`).
 
 **Data.** Queried OpenStreetMap's Overpass API for `aeroway=parking_position`
 (stands) and `aeroway=runway` at all 10 airports. 9 succeeded (EDDF, EDDM,
@@ -1032,7 +1032,7 @@ caps the upside regardless of measurement precision — even a perfect
 distance signal on the rare-pair subset tops out at 0.026s. Single-seed
 (seed42) measurement; not multi-seed-confirmed, though the ceiling's
 magnitude makes that unlikely to change the conclusion. OSM fetch script and
-the 9 per-airport JSON files kept in `exploration/artifacts/` for
+the 9 per-airport JSON files kept in `solution/artifacts/` for
 reproducibility (a competition eligibility requirement for external data).
 `features.py` untouched, no submission made.
 

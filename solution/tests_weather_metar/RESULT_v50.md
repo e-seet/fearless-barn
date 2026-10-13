@@ -9,7 +9,7 @@
 
 ## 1. What was built and tested
 
-Following [PREREGISTERED_v50.md](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/tests_weather_metar/PREREGISTERED_v50.md):
+Following [PREREGISTERED_v50.md](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/tests_weather_metar/PREREGISTERED_v50.md):
 - **Base Submission:** `fearless_barn_v49.parquet` (score 271.9440), which already contains the validated +30s January morning de-icing adjustment.
 - **Target Population:** Exactly 428 July 2026 departures meeting two physical criteria:
   1. No ADS-B ground trajectory was available in July 2026 (`v49 == v42` on July rows).

@@ -1,6 +1,6 @@
 #!/bin/sh
 # Wait for train_chain.sh to finish (ALL DONE or a FAILED line), then run the preregistered test.
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 python -c "
 import time; from pathlib import Path
 f = Path('tests_febjun/train_chain.log'); t0 = time.time()

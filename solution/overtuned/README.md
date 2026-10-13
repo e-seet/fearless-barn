@@ -82,7 +82,7 @@ optimism**. To read it as a clean tier-A add-on it should be re-pointed at
 ## Re-running one of these
 
 They are still runnable — the folder move only takes them out of the automated
-sweep. From `exploration/`:
+sweep. From `solution/`:
 
 ```bash
 python overtuned/pipeline_airport_unsup_multimodel/train.py --split forward --featureset with_aobt --outlier-policy keep_all --seed 42

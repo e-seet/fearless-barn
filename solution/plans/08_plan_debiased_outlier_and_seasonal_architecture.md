@@ -81,7 +81,7 @@ Evaluating all 30 pipeline arms under the canonical protocol (`forward / with_ao
 ---
 
 ## 4. Official Competition Submission `v7`
-- **File:** [`submissions/PLACEHOLDER_TEAM_v7.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/submissions/PLACEHOLDER_TEAM_v7.parquet)
-- **Metadata:** [`submissions/PLACEHOLDER_TEAM_v7.parquet.meta.json`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/submissions/PLACEHOLDER_TEAM_v7.parquet.meta.json)
+- **File:** [`submissions/PLACEHOLDER_TEAM_v7.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/submissions/PLACEHOLDER_TEAM_v7.parquet)
+- **Metadata:** [`submissions/PLACEHOLDER_TEAM_v7.parquet.meta.json`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/submissions/PLACEHOLDER_TEAM_v7.parquet.meta.json)
 - **Scored Movements:** 215,876 departures (January and July 2026).
 - **Validation:** 100% finite, strict schema conformance (`[MVT_ID_mvt, TAXITIME_SEC_mvt]`), zero missing IDs, domain clamped $[60, 86400]$ s.

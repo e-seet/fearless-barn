@@ -1,6 +1,6 @@
 # Plan 04: Unsupervised Congestion Discovery & Hierarchical Shrinkage Gating
 
-**File:** `exploration/plans/04_plan_unsupervised_congestion_multistage.md`  
+**File:** `solution/plans/04_plan_unsupervised_congestion_multistage.md`  
 **Phase:** Stage 4 Unsupervised & Multi-Stage Architecture  
 **Objective:** Discover latent airfield congestion regimes with zero labels using unsupervised K-Means and combine them with physical regimes via Empirical-Bayes hierarchical shrinkage gating.
 

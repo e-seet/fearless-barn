@@ -1,6 +1,6 @@
 #!/bin/sh
 # v59 (PROBE.md "v59 probe"): wide FTT seeds 45-47 + CatBoost full seeds 45-47, then solve/build/pipeline. Log: v59_chain.log
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_ftt_wide/v59_chain.log
 echo "[$(date)] wide FTT forward_inner seeds 45-47" >> $L
 python -u tests_ftt/run_ftt.py 45 46 47 --lr 5e-4 --d-token 256 --n-blocks 2 --amp --tag d256b2 --split forward_inner --epochs 260 > tests_ftt_wide/run_fwdinner_v59.log 2>&1 || { echo "[$(date)] FTT FORWARD_INNER FAILED" >> $L; exit 1; }

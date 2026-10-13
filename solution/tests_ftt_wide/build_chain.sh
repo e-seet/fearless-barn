@@ -1,6 +1,6 @@
 #!/bin/sh
 # After the wide-FTT queue: solve v58 weights, pick S3/S4 (Amendment 1), build the base, run final_pipeline -> v58 candidate.
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_ftt_wide/build_chain.log
 until grep -qE "ALL DONE|FAILED" tests_ftt_wide/queue.log; do sleep 60; done
 grep -q "ALL DONE" tests_ftt_wide/queue.log || { echo "[$(date)] training failed; no build" >> $L; exit 1; }

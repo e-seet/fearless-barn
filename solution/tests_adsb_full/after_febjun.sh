@@ -1,7 +1,7 @@
 #!/bin/sh
 # PREREGISTERED_tree.md chain: wait for Feb-Jun fetch -> retry missing days once -> 3 adsb tree runs ->
 # dump predictions -> decision -> (PASS) full refit. Log: after_febjun.log. STOP file aborts between steps.
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_adsb_full/after_febjun.log
 echo "[$(date)] waiting for the Feb-Jun fetch" >> $L
 python - <<'PY'

@@ -6,7 +6,8 @@ made, the results, and how to reproduce them.
 | | |
 |---|---|
 | **Final round file** | `submissions/fearless-barn_final.parquet`: 670,790 departures (Jan, Feb, Jun, Jul 2026) |
-| **Best public board score** | **269.9888** pooled RMSE (v61, January + July 2026) |
+| **Public leaderboard score** | **269.9888** RMSE (v61). The leaderboard scores January + July 2026 only (344,841 departures, all airports pooled) |
+| **Final round score** | none yet: the final ranking is blind |
 | **Same base model without ADS-B** | 286.5256 (v42, the competition's data only) |
 | **One command** | `python final_pipeline.py --movements <file> --fetch --out <pred>` (§8) |
 | **Licence** | GNU GPLv3 (`LICENSE` at the repository root) |
@@ -587,7 +588,7 @@ stage with their wider inputs, under our stronger base.
 
 ## 12. Repository map
 
-Paths are relative to `exploration/`. The folder is flat, because the pipeline reads several of these
+Paths are relative to `solution/`. The folder is flat, because the pipeline reads several of these
 paths directly. [`README.md`](README.md) in this folder is the full index: every `pipeline_*/` and
 `tests_*/` folder, grouped by topic.
 

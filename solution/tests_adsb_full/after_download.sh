@@ -2,7 +2,7 @@
 # Runs once the 2025 staged fetch has finished (all 18 Jan/Jul 2025 parquet files present and no
 # fetch.py running): the pre-registered evaluation (3 variants), then the 2026 days the drift gate
 # needs, then the drift report. Everything logs to after_download.log. STOP file aborts between steps.
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
 L=tests_adsb_full/after_download.log
 DAYS25="2025-01-06 2025-01-09 2025-01-13 2025-01-15 2025-01-18 2025-01-21 2025-01-24 2025-01-28 2025-01-31 2025-07-03 2025-07-07 2025-07-10 2025-07-15 2025-07-17 2025-07-20 2025-07-23 2025-07-26 2025-07-30"
 echo "[$(date)] waiting for the 2025 fetch" >> $L

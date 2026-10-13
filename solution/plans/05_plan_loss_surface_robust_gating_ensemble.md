@@ -1,6 +1,6 @@
 # Plan 05: Loss Surface Audit, Robust Gating, Hyperparameter Tuning & Multi-Seed Ensembling
 
-**File:** `exploration/plans/05_plan_loss_surface_robust_gating_ensemble.md`  
+**File:** `solution/plans/05_plan_loss_surface_robust_gating_ensemble.md`  
 **Phase:** Stage 5 Loss Surface Optimization & Production Submission  
 **Objective:** Audit the residual loss surface across 328,009 test flights, optimize regularization hyperparameters, eliminate holdout distortion, and harness multi-seed variance reduction.
 
@@ -64,10 +64,10 @@ Averaging the predictions of `airport_unsup_multimodel` across seeds 42, 43, 44 
 ## 4. Official Competition Submissions Built & Validated
 
 1. **Submission `v4`**:
-   - File: `exploration/submissions/PLACEHOLDER_TEAM_v4.parquet`
+   - File: `solution/submissions/PLACEHOLDER_TEAM_v4.parquet`
    - Generated from `airport_unsup_multimodel` (Seed 44).
 2. **Submission `v5`**:
-   - File: `exploration/submissions/PLACEHOLDER_TEAM_v5.parquet`
+   - File: `solution/submissions/PLACEHOLDER_TEAM_v5.parquet`
    - Generated from refined `airport_unsup_multimodel` ($\lambda = 2000.0$).
    - Passed all 6 validation gates via `submit.py`:
      ```

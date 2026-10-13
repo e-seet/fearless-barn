@@ -4,8 +4,8 @@
 **Status:** Pre-registered, built, validated, and staged for upload when submission quota resets at 00:00 UTC.  
 **Baseline on Public Board:** `fearless-barn_v50.parquet` — **`271.8748`** (Rank #46 / 214 teams)  
 **Parent Submission:** `fearless_barn_v50.parquet`  
-**Built File:** [`fearless_barn_v51.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/submissions/fearless_barn_v51.parquet) (2.22 MB, 344,841 rows)  
-**Build Script:** [`build_v51.py`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/exploration/tests_weather_metar/build_v51.py)  
+**Built File:** [`fearless_barn_v51.parquet`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/submissions/fearless_barn_v51.parquet) (2.22 MB, 344,841 rows)  
+**Build Script:** [`build_v51.py`](file:///c:/Users/Admin/Desktop/eddie/fearless-barn/solution/tests_weather_metar/build_v51.py)  
 
 ---
 
