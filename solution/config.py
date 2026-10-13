@@ -5,10 +5,30 @@ hardcodes a path or silently disagrees with a sibling about what a split is.
 """
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 SOLUTION_DIR = Path(__file__).resolve().parent
 DATA_DIR = SOLUTION_DIR.parent / "prc-2026-datasets"
+
+# ---------------------------------------------------------------------------
+# Quarantine for arms the pipeline review judged OVER-TUNED (see
+# overtuned/README.md and PIPELINE_REVIEW.md tier E). They are removed from
+# ARMS, so run_all.py never builds them and compare.py never ranks them.
+#
+# Their CODE stays importable from here rather than being deleted, for two
+# reasons: (1) the runs already on disk under artifacts/runs/ are the EVIDENCE
+# for the over-tuning verdict, and a verdict whose evidence cannot be
+# regenerated is not reviewable; (2) `airport_lirf_identity_multimodel` (tier
+# A/B, still a live arm) predicts through airport_multiseed_multimodel ->
+# airport_unsup_multimodel, so common/predict.py must still resolve
+# `pipeline_airport_unsup_multimodel.train`. One sys.path entry keeps every
+# existing import site working unchanged; the folder move is what marks them.
+# ---------------------------------------------------------------------------
+OVERTUNED_DIR = SOLUTION_DIR / "overtuned"
+if OVERTUNED_DIR.is_dir() and str(OVERTUNED_DIR) not in sys.path:
+    sys.path.append(str(OVERTUNED_DIR))
+
 ARTIFACTS = SOLUTION_DIR / "artifacts"
 SPLIT_DIR = ARTIFACTS / "splits"
 FEATURE_DIR = ARTIFACTS / "features"
@@ -16,6 +36,14 @@ AUDIT_DIR = ARTIFACTS / "audit"
 
 RANKING_PARQUET = DATA_DIR / "ranking.parquet"
 SUBMITTING_PARQUET = DATA_DIR / "submitting.parquet"
+
+# Team name, as registered with the PRC. One constant, because submit.py's
+# --team was a required free-text argument with no default and every submission
+# up to v13 was therefore typed by hand as "PLACEHOLDER_TEAM" -- a placeholder
+# that made it into 12 built submission filenames. The competition contract keys
+# the file on this name (<team>_v<N>.parquet), so it is a data constant, not a
+# preference.
+TEAM = "fearless_barn"
 
 TARGET = "TAXITIME_SEC_mvt"
 ID = "MVT_ID_mvt"
@@ -142,8 +170,21 @@ TRAIN_TARGET_MAX_SEC = 7200
 # 'forward' is the PRIMARY honest split: strictly time-ordered, so val and test
 # are in the future relative to train, mirroring train-2025 -> score-2026.
 # 'seasonal' is the SECONDARY composition-matched probe: it holds out exactly the
-# months the leaderboard scores (Jan + Jul), with Jul restricted to the three
-# airports the ranking file actually covers in Jul 2026.
+# months the leaderboard scores (Jan + Jul).
+#
+# STALE ASSUMPTION, KEPT FOR ARTIFACT COMPATIBILITY (found 2026-09-17,
+# TAXI_OUT_DRIVERS.md sec.2af): 'seasonal's airport_filter below restricts Jul
+# to three airports on the belief that "Jul 2026 in ranking.parquet covers
+# only these three airports" -- checked directly against the real
+# ranking.parquet on disk and this is FALSE: all 10 target airports have
+# substantial July 2026 row counts (LIRF alone: 15,838 rows). Every
+# comparison already run on 'seasonal' stays a valid A-vs-B comparison (the
+# filter under-weights, doesn't corrupt, 7 airports in July) but the phrase
+# "board-composition-matched" overstates what 'seasonal' actually covers for
+# those 7 airports in July. NOT edited in place: artifacts/splits/seasonal/
+# and everything built against it stay interpretable as originally reported.
+# Use 'seasonal_full' (below) for a check that needs the real July
+# composition, e.g. anything specifically about LIRF's July presence.
 # ---------------------------------------------------------------------------
 SPLITS = {
     "forward": {
@@ -158,8 +199,19 @@ SPLITS = {
                   "2025-08", "2025-09", "2025-10", "2025-11"],
         "val":   ["2025-12"],
         "test":  ["2025-01", "2025-07"],
-        # Jul 2026 in ranking.parquet covers only these three airports.
+        # STALE, see the module-level note above -- kept as originally
+        # written so existing artifacts stay reproducible byte-for-byte.
         "airport_filter": {"2025-07": ["EDDF", "EGLL", "EHAM"]},
+    },
+    # Same as 'seasonal' but WITHOUT the stale July airport restriction --
+    # the actually board-composition-matched version, added 2026-09-17
+    # rather than editing 'seasonal' in place (see note above).
+    "seasonal_full": {
+        "train": ["2025-02", "2025-03", "2025-04", "2025-05", "2025-06",
+                  "2025-08", "2025-09", "2025-10", "2025-11"],
+        "val":   ["2025-12"],
+        "test":  ["2025-01", "2025-07"],
+        "airport_filter": None,
     },
 }
 # The submission model. Design-gate finding B4: the plan said "refit on all 12
@@ -195,18 +247,173 @@ SPLITS["forward_inner"] = {
     "airport_filter": None,
 }
 
-SELECTION_FORBIDDEN_SPLITS = ("full", "seasonal", "forward_inner")
+# Held-out base predictions for Feb-Jun 2025, so the ADS-B corrector can train on those
+# months (tests_febjun/PREREGISTERED.md). Selection-forbidden: it only supplies residuals.
+SPLITS["holdout_febjun"] = {
+    "train": ["2025-01", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11"],
+    "val":   ["2025-12"],
+    "test":  ["2025-02", "2025-03", "2025-04", "2025-05", "2025-06"],
+    "airport_filter": None,
+}
 
-# The candidate arms this concise build actually has. solution/ grew this list
-# to 18+ pipelines (ridge, xgboost_antigravity, cross_blend, per_airport_*, ...)
-# as it iterated past the two floor arms; none of those pipeline_*/ dirs exist
-# here, so this list is scoped to match rather than copied verbatim.
-ARMS = ("naive_offblock", "lightgbm")
+SELECTION_FORBIDDEN_SPLITS = ("full", "seasonal", "seasonal_full", "forward_inner", "holdout_febjun")
 
-# No arm here fits free parameters on the validation labels (that only applies
-# to solution/'s ensemble_antigravity and cross_blend, neither present in this
-# build), so there is nothing to flag as val-fitted.
-VAL_FITTED_ARMS = ()
+# ---------------------------------------------------------------------------
+# Arms whose FREE PARAMETERS are fitted directly on the validation labels, so
+# their val score is in-sample for those parameters and is NOT comparable, at
+# face value, against arms that only early-stopped on val.
+#
+# Read from pipeline_ensemble_antigravity/train.py: it solves
+# `nnls(P, y_val)` for the blend weights over up to five base arms, then reports
+# the resulting val RMSE. Early stopping selects ONE integer against a patience
+# rule; NNLS fits k continuous weights to minimise val RMSE outright -- a
+# different kind of use of the same surface. The test numbers behave exactly as
+# that predicts (val 325.39 -> test 355.18, against lightgbm's 330.20 -> 349.02).
+#
+# This is a caveat, not a disqualification: the arm is ranked and reported, but
+# compare.py stamps the summary so no reader takes its val crown as established.
+# The honest fix is an inner selection surface carved out of TRAIN, which is what
+# pipeline_blend/ (this build's own blend arm) does.
+# ---------------------------------------------------------------------------
+VAL_FITTED_ARMS = ("ensemble_antigravity", "cross_blend")
+
+# The candidate arms, in floor-to-complex order. ONE list: run_all.py, compare.py
+# and submit.py each kept their own, and they drifted -- submit.py's argparse
+# `choices` still listed only the three original arms, so the val-selected winner
+# could not be submitted at all while `predict_ranking` supported it fine. A
+# per-file copy of a list that must agree is the same defect shape as a per-build
+# copy of a check (root CLAUDE.md on tools/ml_common).
+ARMS = ("naive_offblock", "ridge", "lightgbm",
+        "xgboost_antigravity", "mlp_antigravity", "ensemble_antigravity",
+        "delay_twostage_antigravity", "per_airport_antigravity", "feature_pruned_antigravity",
+        "multimodel_antigravity",
+        # Added in the improvement round. per_airport tests whether segmenting by
+        # departure airport beats letting the trees split on it; lightgbm_recency
+        # tests whether down-weighting older months helps a model that has to
+        # extrapolate 13 months forward.
+        "per_airport", "lightgbm_recency",
+        # Second improvement round: per_airport_stack blends the pooled and
+        # per-airport models with weights solved on an inner holdout carved from
+        # TRAIN (the Santander / facial-keypoints "stack, don't replace" lever);
+        # lightgbm_unsup adds SVD stand/runway embeddings and k-means day regimes,
+        # both learned without the target.
+        "per_airport_stack", "lightgbm_unsup",
+        # Third round: a convex blend of the per-airport and neural families,
+        # whose band decompositions are complementary (per-airport wins the
+        # 327,907 in-band rows, the neural arms win the 61 tail rows).
+        "cross_blend",
+        # Bulk-accuracy round: after cross_blend, 82.8% of the remaining test
+        # error is the 327,948 in-band rows, so the constraint is now bulk
+        # accuracy rather than the tail. lightgbm_arrfeat adds the two channels
+        # the base feature set under-uses -- arrival taxi-in structure (observed,
+        # and NOT blanked in the scored set) and a runway-specific queue count.
+        "lightgbm_arrfeat", "per_airport_arrfeat", "per_airport_tuned",
+        # Fourth round: operator had never been tried as a segmentation axis at
+        # all (only airport had). per_operator tests it alone; the two segment
+        # by different columns on the same rows and turned out complementary
+        # enough (an isolated check, not this pipeline: ~271.9 val for a plain
+        # 0.5/0.5 blend of their predictions, vs ~278 for either alone) that
+        # airport_operator_blend formalises the blend with a weight solved on
+        # an inner holdout rather than eyeballed.
+        "per_operator", "airport_operator_blend",
+        # Fifth round: SAME LEVER as multimodel_antigravity/cross_blend (a
+        # per-airport blend of a tree arm and mlp_antigravity), but with
+        # airport_operator_blend as the tree-side parent instead of plain
+        # per_airport. WON: new best arm in the build, beating
+        # multimodel_antigravity at all 3 sweep seeds (val 248.33/248.60/252.42
+        # vs 248.81/248.98/262.80; test 246.89/242.62/240.81 vs
+        # 247.46/242.99/244.44) -- the margin is largest at seed 44, where
+        # mlp_antigravity had its weakest fit: because the per-airport weights
+        # lean on airport_operator_blend everywhere except LIRF, this blend is
+        # more robust to a bad mlp_antigravity seed than multimodel_antigravity
+        # was.
+        "airport_operator_multimodel",
+        # Verification round: two more arms built to actually test ideas that
+        # had only been reasoned about, rather than leave them as guesses.
+        # per_airport_flighttype nests an S-vs-Other flight-type split inside
+        # per-airport routing -- val 295.77, WORSE than per_airport alone
+        # (278.17). The damage is concentrated entirely in LIRF (785 RMSE vs
+        # ~530 for other LIRF arms): LIRF's 'Other' cell (2,701 train rows) is
+        # too small relative to LIRF's already-high variance, so the split
+        # amplifies LIRF's instability instead of specialising usefully.
+        # tri_blend solves ONE global NNLS weight over per_airport,
+        # per_operator and mlp_antigravity (contrast with the per-airport
+        # weighting airport_operator_multimodel uses) -- val 263.13, worse
+        # than mlp_antigravity alone (253.99). Confirms directly: the right
+        # tree/neural mix genuinely varies by airport (LIRF wants ~90% MLP,
+        # every other airport wants ~95%+ tree), so a single global weight
+        # cannot express it and just compromises away the MLP's LIRF edge.
+        "per_airport_flighttype", "tri_blend",
+        # Rounds six to ten built a ladder on top of airport_operator_multimodel
+        # -- airport_wtc / airport_runway / airport_wtc_rec / airport_unsup /
+        # airport_multiseed / airport_debiased. Each re-slices the SAME per-airport
+        # blend weight on a finer bucketing axis (wake-turbulence category, primary
+        # runway, record status, k-means congestion clusters), and each was promoted
+        # to "champion" on a 3-seed sweep. The 6-seed re-run
+        # (tests_seed_robustness/result_seeds_42-47.txt) shows why that promotion
+        # was not earned: the whole family's spread is 2.6 s (val) / 4.5 s (test)
+        # while a SINGLE member's own seed range is 4.4 s / 13.1 s. The ladder is
+        # ranking inside its own noise, and it pays 10 -> ~240 fitted cells plus
+        # hand-chosen hyperparameters (K=6, lambda=2000, min_cell_rows walked
+        # 1000 -> 300 -> 30) to do it. airport_debiased goes further and tunes
+        # thresholds against the reported number outright -- its own docstring
+        # justifies gamma=0.50 by "dropping Test RMSE to 226.83 s".
+        #
+        # They are REMOVED from ARMS and quarantined under overtuned/ (see
+        # overtuned/README.md and PIPELINE_REVIEW.md tier E). Their code is still
+        # importable via OVERTUNED_DIR above, so the runs on disk stay reproducible.
+        #
+        # airport_operator_multimodel (above) deliberately STAYS: it is the last
+        # honest member of this family -- the same 10 per-airport alphas as
+        # multimodel_antigravity, solved on forward_inner, with no bucketing knob
+        # and no extra hyperparameter. Only its tree-side parent differs.
+        #
+        # per_airport_mlp is kept in ARMS as a recorded clean negative: it is not
+        # over-tuned, it is non-functional (LIRF val RMSE 1128 s from tail-sample
+        # scarcity). Same for per_airport_antigravity, which is byte-identical to
+        # per_airport -- duplicated compute, not a tuning problem.
+        "per_airport_mlp",
+        # QUARANTINE RESTORED 2026-09-21. The three over-tuned arms
+        # (airport_unsup_multimodel, airport_multiseed_multimodel,
+        # airport_debiased_multimodel) were TEMPORARILY re-enabled here on
+        # 2026-09-09 so submit.py --arm would accept them while v4-v12 were
+        # regenerated against the refreshed ranking.parquet. That rebuild
+        # finished 2026-09-10 and the line was never reverted, so for eleven
+        # days submit.py would still accept airport_debiased_multimodel -- the
+        # arm whose own docstring justifies its constants by the test score they
+        # produce (PIPELINE_REVIEW.md tier E). Reverted now; see
+        # CONVERGENCE_AUDIT.md sec.6b.
+        #
+        # The rebuilt v4-v12 .parquet files stay valid: only submit.py --arm
+        # reads this list. Their code stays importable via OVERTUNED_DIR and
+        # predict_ranking() keeps its branches, so re-enabling for another
+        # refresh is a one-line change -- deliberately one that has to be made
+        # on purpose.
+        # Zero-parameter LIRF telemetry-identity override, applied ON TOP of a
+        # base arm. It was adopted on measured evidence (plan 12, candidate 2)
+        # but was never in ARMS, had no predict/submit branch and could not sit
+        # on a tagged base -- adoptable but not shippable. Registered here so it
+        # can reach a submission like any other arm.
+        "airport_lirf_identity_multimodel",
+        # Same wall, found 2026-09-21: this arm has a full pipeline, a
+        # predict_ranking() branch AND a PARENTS entry in submit.py, but was
+        # never in ARMS -- so `submit.py --arm` rejected it even though v26
+        # (295.4767) was built from it, and build_submission_index.py has been
+        # reporting v26 as NOT REBUILDABLE. Registered now.
+        "airport_operator_catboost_multimodel",
+        # The TabNet-at-LIRF override behind v29 (293.6685, best board score).
+        # Same shape of gap as airport_lirf_identity_multimodel had: it was
+        # adopted on measured evidence but built by ad-hoc scripts against a
+        # submission parquet, with "not_reproducible_via_submit_py": true in its
+        # own meta. Registered so the best score is rebuildable through the
+        # normal path and the feature-fingerprint gate can see its chain.
+        "tabnet_lirf_override",
+        # 3-member per-airport blend adding an FT-Transformer (column attention)
+        # to the tree+MLP pair. Confirmed on three independent periods against a
+        # bar fixed in advance; honest effect ~1.5s in-band. Registered BEFORE
+        # its first submission rather than retrofitted, which is the lesson from
+        # v26/v28/v29 (CONVERGENCE_AUDIT.md sec.6a).
+        "ftt_multimodel")
 
 DEFAULT_SPLIT = "forward"
 

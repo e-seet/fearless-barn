@@ -93,13 +93,11 @@ def _targets() -> "pd.Series":
 def apply_outlier_policy(y: "pd.Series", policy: str):
     """Return (keep_mask, y_adjusted, info) for a TRAINING target under `policy`.
 
-    Design-gate finding B1. Four shapes, one entry point:
+    Design-gate finding B1. Three shapes, one entry point:
       * impossible values (y <= 0) are dropped under EVERY policy -- corrupt, not tail
       * "drop"      : additionally remove y outside [TRAIN_TARGET_MIN_SEC, bound]
       * "winsorize" : keep every row, clamp the target down to `bound`. Preserves
                       the row (and its features) while bounding its leverage on L2
-      * "drop_ids"  : remove specific MVT_IDs (`bound` is a tuple of them) --
-                      a named, documented data bug, not a tail-shape bet
       * "keep"      : impossible-value removal only
     """
     if policy not in config.OUTLIER_POLICIES:
@@ -109,10 +107,9 @@ def apply_outlier_policy(y: "pd.Series", policy: str):
     y = pd.Series(np.asarray(y, dtype="float64"), index=y.index)
 
     keep = y > config.TARGET_IMPOSSIBLE_MAX_SEC
-    info = {"policy": policy, "mode": mode,
-            "bound": bound if mode != "drop_ids" else list(bound),
+    info = {"policy": policy, "mode": mode, "bound": bound,
             "n_in": int(len(y)), "n_impossible_dropped": int((~keep).sum()),
-            "n_tail_dropped": 0, "n_winsorized": 0, "n_ids_dropped": 0}
+            "n_tail_dropped": 0, "n_winsorized": 0}
 
     if mode == "drop":
         tail = keep & ((y < config.TRAIN_TARGET_MIN_SEC) | (y > bound))
@@ -121,10 +118,6 @@ def apply_outlier_policy(y: "pd.Series", policy: str):
     elif mode == "winsorize":
         info["n_winsorized"] = int((keep & (y > bound)).sum())
         y = y.clip(upper=bound)
-    elif mode == "drop_ids":
-        excl = keep & y.index.isin(pd.Index(bound, dtype=y.index.dtype))
-        info["n_ids_dropped"] = int(excl.sum())
-        keep = keep & ~excl
     info["n_out"] = int(keep.sum())
     return keep, y, info
 

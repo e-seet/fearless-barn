@@ -17,7 +17,7 @@ credentials.json
 # CatBoost writes this training-log scratch dir wherever it runs from
 catboost_info/
 # mc (MinIO client) local cache
-exploration/dc26/
+solution/dc26/
 
 # Python bytecode caches -- regenerated on any run, never a result
 __pycache__/
