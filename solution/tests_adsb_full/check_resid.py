@@ -4,7 +4,7 @@ trained without Jan/Jul) on the fetched 2025 days? Corr of residual y-pred with 
 import sys
 from pathlib import Path
 import numpy as np, pandas as pd
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(HERE)); sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(HERE)); sys.path.insert(0, str(ROOT))
 import fetch
 from common import dataset as D
 from tests_tail_diagnosis.diagnose import CACHE

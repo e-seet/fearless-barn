@@ -3,7 +3,7 @@
 import sys
 from pathlib import Path
 import numpy as np, pandas as pd
-ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
+ROOT = Path(__file__).resolve().parents[1]; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 import config
 from common import dataset as D
 pd.set_option("display.width", 220, "display.max_columns", 30)

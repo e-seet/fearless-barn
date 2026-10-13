@@ -4,7 +4,7 @@ carrier predict whether the recorded off-block copies the scheduled time ("echo"
 import sys, re
 from pathlib import Path
 import numpy as np, pandas as pd
-ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
+ROOT = Path(__file__).resolve().parents[1]; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 from common import io as cio
 pd.set_option("display.width", 220, "display.max_columns", 30, "display.max_rows", 80)
 r = cio.load_training()

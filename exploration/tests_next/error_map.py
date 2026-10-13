@@ -4,7 +4,7 @@ leave-one-month-out) on Jan + Jul 2025? By airport, ADS-B covered or not, and ta
 import json, sys
 from pathlib import Path
 import numpy as np, pandas as pd
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / "tests_weather_validated")); sys.path.insert(0, str(ROOT / "tests_adsb_full"))
 import weather_lomo as W   # reuses its frame + per-fold A+ code path
 import lightgbm as lgb

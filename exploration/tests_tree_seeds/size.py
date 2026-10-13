@@ -9,7 +9,7 @@ board) is computed on the same surface as a yardstick.
 import os, sys, json
 from pathlib import Path
 import numpy as np
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT))
 from common import dataset as D
 from common.predict import predict_arm

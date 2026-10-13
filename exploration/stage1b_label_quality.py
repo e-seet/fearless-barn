@@ -17,6 +17,7 @@ Output: artifacts/audit/label_quality.json
 """
 from __future__ import annotations
 
+import sys as _s, pathlib as _p; _r = _p.Path(__file__).resolve().parents[1]; exec(open(_r / "tools" / "repo_layout.py").read()); dual(_r / "exploration")
 import argparse
 import sys
 from pathlib import Path

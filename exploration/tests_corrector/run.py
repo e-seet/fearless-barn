@@ -3,7 +3,7 @@
 import json, sys
 from pathlib import Path
 import numpy as np, pandas as pd, lightgbm as lgb
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 from common import dataset as D
 from pipeline_airport_operator_catboost_multimodel.train import solve_weights_per_airport_simplex
 from tests_ftt.solve_vs_strong_mlp import surface

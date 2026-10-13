@@ -4,7 +4,7 @@ and 2026 departure. Only movements strictly before the departure's takeoff are u
 import sys
 from pathlib import Path
 import numpy as np, pandas as pd
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 from common import io as cio
 
 QF = ["rq_dep15", "rq_dep30", "rq_gap_prev", "rq_arr15", "rm_dep_rw", "rm_arr_rw", "rm_mixed"]

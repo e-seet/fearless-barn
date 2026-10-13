@@ -40,7 +40,7 @@ from common import dataset as D
 from common.bootstrap import run_dir, write_json_guarded
 from stage6_clip_sweep import BANDS, band_sse
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 ARMS = list(config.ARMS)   # one list, in config (see config.ARMS)
 
 

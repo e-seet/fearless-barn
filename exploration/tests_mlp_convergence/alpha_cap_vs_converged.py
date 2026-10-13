@@ -11,7 +11,7 @@ import sys, json
 from pathlib import Path
 import numpy as np, pandas as pd
 
-ROOT = Path(r"C:\Users\Admin\Desktop\eddie\fearless-barn\exploration")
+ROOT = Path(r"C:\Users\Admin\Desktop\eddie\fearless-barn\exploration"); exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT))
 import os
 os.chdir(ROOT)

@@ -16,7 +16,7 @@ at ten European airports, for the EUROCONTROL PRC Data Challenge 2026.
 | Document | What it covers |
 |---|---|
 | **[`solution/WRITEUP.md`](solution/WRITEUP.md)** | **The method.** The model stage by stage, how each decision was made, use of the leaderboard, the final round, results, what did not work, reproducibility, data licences, credits |
-| [`solution/EXPLORATION_SUMMARY.md`](solution/EXPLORATION_SUMMARY.md) | One page: everything tried, with its outcome |
+| [`exploration/EXPLORATION_SUMMARY.md`](exploration/EXPLORATION_SUMMARY.md) | One page: everything tried, with its outcome |
 | [`solution/final_pipeline.py`](solution/final_pipeline.py) | The whole recipe in one script |
 
 ## The model in brief
@@ -48,10 +48,10 @@ git; see write-up §8 for what is in the repository and how the uploaded files w
 
 | Path | Contents |
 |---|---|
-| [`solution/`](solution/) | The solution: pipeline, training code, every experiment (`tests_*/`, each with its pre-registration and result), submissions. Indexed in [`solution/README.md`](solution/README.md) |
+| [`solution/`](solution/) | **The final solution:** the pipeline, the code that trains its models, the saved models and files it reads, the submissions. Mapped in [`solution/README.md`](solution/README.md) |
+| [`exploration/`](exploration/) | **The experiments behind it:** 58 experiments (each with its pre-registration and result), early analysis scripts, decision history. Indexed in [`exploration/README.md`](exploration/README.md) |
 | [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb) | Exploratory analysis of the data |
-| [`early_baseline/`](early_baseline/) | The first-week baseline (two simple models), superseded by `solution/` and kept for its leakage and split audit |
-| `tools/ml_common/` | Shared checks the training code imports (seeding, split disjointness, leak controls) |
+| `tools/` | Shared checks the training code imports (`ml_common/`), and the path helper the experiment scripts use (`repo_layout.py`) |
 
 ## Data
 

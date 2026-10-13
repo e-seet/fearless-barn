@@ -5,7 +5,7 @@ usage: dump_tree_preds.py old|adsb"""
 import pickle, sys
 from pathlib import Path
 import numpy as np
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(HERE)); sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(HERE)); sys.path.insert(0, str(ROOT))
 import config
 from common import dataset as D
 from pipeline_airport_operator_blend.evaluate import blend

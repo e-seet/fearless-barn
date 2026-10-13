@@ -61,7 +61,7 @@ import config
 from common import dataset as D
 from common.bootstrap import write_json_guarded
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 OUT_DIR = config.ARTIFACTS / "audit"
 
 AIRPORT_COL = "ADEP_mvt"

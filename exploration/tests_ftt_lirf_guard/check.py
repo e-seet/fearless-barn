@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent
+ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT))
 C = Path(os.environ.get("FTT_CACHE",
     r"C:\Users\Admin\AppData\Local\Temp\claude\C--Users-Admin-Desktop-eddie-fearless-barn"

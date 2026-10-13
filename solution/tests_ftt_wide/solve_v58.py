@@ -11,7 +11,7 @@ import json, os, sys
 from pathlib import Path
 import numpy as np, pandas as pd
 from scipy.optimize import minimize
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 import config
 from common import dataset as D
 from common.predict import predict_arm

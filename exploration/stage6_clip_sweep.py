@@ -40,7 +40,7 @@ from common import dataset as D
 from common.bootstrap import declare_selection_set, run_dir, write_json_guarded
 from common.metrics import rmse
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 
 # Cap grid, seconds. `None` means "no upper cap at all", which is a real
 # candidate: nothing forces a cap to exist, and its absence is the only setting

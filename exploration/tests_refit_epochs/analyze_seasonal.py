@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent
+ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT))
 from tests_refit_epochs.analyze import chosen_epoch, rm
 

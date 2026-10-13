@@ -4,7 +4,7 @@ the stage 3-5 deltas of v61 (weather offsets, LIRF and LFPG correctors) are adde
 import json, sys
 from pathlib import Path
 import numpy as np, pandas as pd
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(HERE))
 import config
 from copymix import lobt_clip

@@ -7,7 +7,7 @@ import json, sys, filecmp
 from pathlib import Path
 import numpy as np, pandas as pd
 import lightgbm as lgb
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / "tests_adsb_full"))
 src = (HERE / "lirf_lomo.py").read_text(encoding="utf-8").split("def shuffled")[0]
 exec(compile(src, "lirf_lomo_frame", "exec"))          # builds `df` (Jul-Dec 2025 LIRF rows), FEAT, PARAMS, SEEDS, features

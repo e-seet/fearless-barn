@@ -4,7 +4,7 @@ from non-echo, stably across months? Leave-one-month-out carrier rates (honest).
 import sys
 from pathlib import Path
 import numpy as np, pandas as pd
-ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
+ROOT = Path(__file__).resolve().parents[1]; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 from common import io as cio
 pd.set_option("display.width", 220, "display.max_columns", 30, "display.max_rows", 80)
 r = cio.load_training(); d = r[r.PHASE_mvt.eq("DEP") & r.ADEP_mvt.eq("LIRF") & r.FLIGHT_ID_mvt.isna()].copy()

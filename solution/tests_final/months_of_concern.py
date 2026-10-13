@@ -6,7 +6,7 @@ Stages use the exact saved models (model_v61, model_v55, model_v56): none of the
 import json, sys
 from pathlib import Path
 import numpy as np, pandas as pd
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 for p in (ROOT, ROOT / "tests_adsb_full", ROOT / "tests_copymix", ROOT / "tests_lirf_spec"):
     sys.path.insert(0, str(p))
 import features

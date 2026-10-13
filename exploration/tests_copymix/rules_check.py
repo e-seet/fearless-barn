@@ -1,6 +1,7 @@
 """Quick look (not a pre-registered test): outgoing-boat's two fixed rules on our held-out F.
 R1 nm-line: rows without an NM record (FLIGHT_ID missing) with MVT-SCHED > 6 h -> per-airport y = a + b*ms (fit on other months).
 R2 Rome: LIRF, no NM record, 15 h < MVT-SCHED <= 30 h -> y = a + b*ms (fit on other months)."""
+import sys as _s, pathlib as _p; _r = _p.Path(__file__).resolve().parents[2]; exec(open(_r / "tools" / "repo_layout.py").read()); dual(_r / "exploration")
 import sys; sys.path.insert(0, '.'); sys.path.insert(0, 'tests_copymix')
 import numpy as np, pandas as pd
 from common import dataset as D

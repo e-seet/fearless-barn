@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path("c:/Users/Admin/Desktop/eddie/fearless-barn")
-EXP = ROOT / "solution"
+EXP = ROOT / "solution"; exec(open(ROOT / "tools" / "repo_layout.py").read()); EXP = dual(EXP)
 WX = ROOT / "prc-2026-datasets-wx"
 sys.path.insert(0, str(EXP))
 sys.path.insert(0, str(EXP / "tests_adsb_full"))

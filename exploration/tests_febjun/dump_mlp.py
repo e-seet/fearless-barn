@@ -5,7 +5,7 @@ import json, pickle, sys
 from pathlib import Path
 import numpy as np, torch
 from torch.utils.data import DataLoader
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 import config
 from common import dataset as D
 from common.bootstrap import run_dir

@@ -2,14 +2,14 @@
 
 PRC Data Challenge 2026: predict taxi-out time (off-block → takeoff) for January and July
 2026 departures at ten European airports, scored by pooled RMSE. Status on 2026-10-08.
-Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RESULT.md`,
+Full method: `../solution/WRITEUP.md`. Folder names below are in this folder or in `../solution/`. Evidence for every line below: the named `tests_*/RESULT.md`,
 `TAXI_OUT_DRIVERS.md` section, or `plans/` file.
 
 ## 1. Where we ended up
 
 | | |
 |---|---|
-| Final model | **v61 = 269.9888**, best on the public board (from 405.75 with the first submission). Final round: `fearless-barn_final.parquet` (Jan, Feb, Jun, Jul 2026) from the final design = v61 + LIRF corrector in every month + LOBT clip (`WRITEUP.md` §5); clean no-ADS-B fallback v42 = 286.53 |
+| Final model | **v61 = 269.9888**, best on the public board (from 405.75 with the first submission). Final round: `fearless-barn_final.parquet` (Jan, Feb, Jun, Jul 2026) from the final design = v61 + LIRF corrector in every month + LOBT clip (`../solution/WRITEUP.md` §5); clean no-ADS-B fallback v42 = 286.53 |
 | Standing | **#59 of 120** on the public board (2026-10-08); on 2026-10-03 #51 of 221 by best score (#70 before ADS-B), leader 219.64, #10 230.37, median 298.8 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 27 FT-Transformers (four architectures) + 6 CatBoost, TabNet at LIRF; 5-seed ADS-B corrector at 7 airports (3,000 trees, trained on a realistic base); January frost and July thunderstorm offsets; LIRF and LFPG ADS-B correctors |
 | Reproducibility | **`final_pipeline.py` rebuilds the final v61 byte-identical** (base → ADS-B corrector → weather offsets → LIRF and LFPG correctors); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
@@ -161,7 +161,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | **More FT-Transformer variants** (deep and wide, other learning rates) and a tuned FTT/TabNet search | Only three FTT shapes tried; the variety gains were shrinking (−0.64, −0.25, −0.23). The deep 3 → 6 seed run is in progress. |
 | **Explicitly modelling the "one-day" label artifact for 2026** | Studied, not shipped: the 2025 rule regressed on the 2026 board, and the 2026 behaviour can't be seen locally. |
 | **Data beyond 2025** (earlier years, network-manager B2B flow data) | Not provided; licensing unclear. |
-| **Why the leaders are still ahead** | Partly answered by outgoing-boat's published solution (243.95; `WRITEUP.md` §11): their base is ~45 s worse than ours, but their corrector runs on every row and reads the airport's state (arrivals, runway configuration, gate retention, EUROCONTROL and OPDI series, map distances). Ours covers ~55 % of rows from the departure's own track. Not feasible to rebuild before the deadline. |
+| **Why the leaders are still ahead** | Partly answered by outgoing-boat's published solution (243.95; `../solution/WRITEUP.md` §11): their base is ~45 s worse than ours, but their corrector runs on every row and reads the airport's state (arrivals, runway configuration, gate retention, EUROCONTROL and OPDI series, map distances). Ours covers ~55 % of rows from the departure's own track. Not feasible to rebuild before the deadline. |
 
 ## 5. Lessons worth keeping
 

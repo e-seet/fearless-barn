@@ -2,7 +2,7 @@
 import math, subprocess, sys
 from pathlib import Path
 import numpy as np
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1]; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 # Amendment 2: forward stage skipped; use the forward_inner best epochs.
 b = [int(np.load(ROOT / "tests_ftt" / f"preds_seed{s}_forward_inner_d96b6.npz")["best_epoch"]) for s in (42, 43, 44)]
 E = math.ceil(float(np.median(b)))

@@ -1,6 +1,6 @@
 #!/bin/sh
 # tests_febjun/PREREGISTERED.md: held-out base for Feb-Jun 2025 on split holdout_febjun (sequential on one GPU).
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
 L=tests_febjun/train_chain.log
 S=holdout_febjun
 echo "[$(date)] tree" >> $L

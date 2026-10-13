@@ -11,7 +11,7 @@ from tests_ftt/preds_seed{s}_full_{tag}.npz["pr"], TabNet LIRF override with v42
 import argparse, filecmp, json, sys
 from pathlib import Path
 import numpy as np, pandas as pd
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT); sys.path.insert(0, str(ROOT))
 import config
 import submit
 from pipeline_tabnet_lirf_override.train import apply_override, seed_preds_path

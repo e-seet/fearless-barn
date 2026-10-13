@@ -24,7 +24,7 @@ import numpy as np, pandas as pd, torch, torch.nn as nn
 from sklearn.preprocessing import StandardScaler
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent
+ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 sys.path.insert(0, str(ROOT))
 import config
 from common import dataset as D

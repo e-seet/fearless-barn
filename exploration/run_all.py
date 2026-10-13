@@ -20,7 +20,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 ARMS = list(config.ARMS)   # one list, in config (see config.ARMS)
 
 

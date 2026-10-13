@@ -15,7 +15,7 @@ import json
 import statistics as st
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1]; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 RUNS = ROOT / "artifacts" / "runs"
 PROTO = "forward-with_aobt-keep_all"
 

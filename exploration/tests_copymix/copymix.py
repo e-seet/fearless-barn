@@ -5,7 +5,7 @@ import json, sys
 from pathlib import Path
 import numpy as np, pandas as pd
 import lightgbm as lgb
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 for p in (ROOT, ROOT / "tests_adsb_full", ROOT / "tests_round10", ROOT / "tests_round13"):
     sys.path.insert(0, str(p))
 from common import dataset as D

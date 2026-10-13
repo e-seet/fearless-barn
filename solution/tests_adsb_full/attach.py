@@ -5,6 +5,7 @@ where no strict-matched track exists. Estimates come from every fetched day (poi
 est_cache), so the same function serves 2025 training rows and 2026 ranking rows.
 """
 from __future__ import annotations
+import sys as _s, pathlib as _p; _r = _p.Path(__file__).resolve().parents[2]; exec(open(_r / "tools" / "repo_layout.py").read()); dual(_r / "solution")
 import sys
 from pathlib import Path
 import numpy as np

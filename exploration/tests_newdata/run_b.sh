@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /c/Users/Admin/Desktop/eddie/fearless-barn/solution || exit 1
+cd /c/Users/Admin/Desktop/eddie/fearless-barn/exploration || exit 1
 python final_pipeline.py --movements tests_newdata/movements_3days.parquet --points-dir tests_newdata/points --fetch --out tests_newdata/pred_from_scratch.parquet > tests_newdata/from_scratch.log 2>&1
 python - >> tests_newdata/from_scratch.log 2>&1 <<'PY'
 import pandas as pd, numpy as np, sys

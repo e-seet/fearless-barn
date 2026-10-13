@@ -30,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config
 from common.bootstrap import declare_selection_set, run_dir, write_json_guarded
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent; exec(open(ROOT.parent / "tools" / "repo_layout.py").read()); ROOT = dual(ROOT)
 
 # name -> flags. The baseline is included deliberately: a sweep that does not
 # re-measure its own starting point cannot tell a real gain from a changed

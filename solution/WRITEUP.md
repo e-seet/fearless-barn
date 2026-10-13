@@ -176,7 +176,7 @@ from the last METAR within 90 min before takeoff:
 **How much to trust them:**
 - **Chosen in-sample.** Both values were hand-chosen on January + July 2025.
 - **Mildly supported out of sample.** Fitted on 6 months and scored on the 7th, they give −0.07
-  pooled (`tests_weather_validated/`).
+  pooled (`../exploration/tests_weather_validated/`).
 - **Scoped to their months.** Extending them to every month was tested for the final round and
   rejected (§5), so February and June get no weather offset.
 
@@ -325,7 +325,7 @@ Stage 2 is worth −11.0 there (5/5 months; −11.4 with the best 20 rows remove
   hours behind schedule. It fails the best-20 bar on both surfaces, and that kind of gain has failed
   to transfer before (our LIRF identity override, §7). We kept to the bar.
 - **The context corrector** (neighbouring departures' recent taxi time and lateness, on every row;
-  `tests_ctx/`) passed on Feb–Jun but was +0.44 worse on January + July 2025, with almost all of its
+  `../exploration/tests_ctx/`) passed on Feb–Jun but was +0.44 worse on January + July 2025, with almost all of its
   gain in the tail. Its Feb–Jun gain is also likely overstated, because the base it was measured
   against there is weaker than the shipped one. The pre-registration required both surfaces.
 
@@ -426,7 +426,7 @@ a daily slot.
 
 ## 7. What did not work
 
-Every row was tested; records are in the named `tests_*/RESULT.md`.
+Every row was tested; each has a `RESULT.md` in its `tests_*` folder (most are in `../exploration/`).
 
 **Target and loss**
 
@@ -588,41 +588,49 @@ stage with their wider inputs, under our stronger base.
 
 ## 12. Repository map
 
-Paths are relative to `solution/`. The folder is flat, because the pipeline reads several of these
-paths directly. [`README.md`](README.md) in this folder is the full index: every `pipeline_*/` and
-`tests_*/` folder, grouped by topic.
+The repository has two folders:
+- **`solution/`** (this folder): the final pipeline, the code that trains its models, and the saved
+  models and files it reads.
+- **`../exploration/`**: every other experiment, the early analysis scripts and the decision history.
 
-**The solution**
+Paths in this document are relative to `solution/`.
+
+**`solution/`**
 
 | path | contents |
 |---|---|
 | `final_pipeline.py` | the whole recipe, stages 1–6 |
 | `predict_new.py` | stage 1 from saved models, for any movements file |
+| `submit.py` | assembles base-model predictions for the ranking set; validates a submission file |
 | `common/`, `config.py` | data loading, features, splits |
+| `pipeline_*/`, `overtuned/` | training code of the base-model members, and of the candidate models they were selected from |
+| `artifacts/` | metadata of every trained run (parameters, metrics, splits); the model files are not in git (§8) |
 | `submissions/` | the final round file, key board files, `board_scores.csv` (every score with its pre-written expectation) |
 | `requirements.txt` | Python dependencies |
 
-**Where each stage lives**
+**Where each stage lives.** The `tests_*` folders kept in `solution/` hold a stage's code and saved
+model together with the experiments that selected it.
 
-| stage | training code and tests | saved model or weights |
+| stage | code and tests | saved model or weights |
 |---|---|---|
-| 1. base model | `pipeline_airport_operator_blend/`, `pipeline_mlp_antigravity/`, `pipeline_ftt_multimodel/`, `pipeline_catboost_antigravity/`, `pipeline_tabnet_lirf_override/`; `tests_ftt*/`, `tests_tabnet/` | `tests_ftt_wide/final_weights_v59_s4.json`; trained models not in git (§8) |
-| 2. ADS-B corrector | `tests_adsb_full/`, `tests_round10/` – `tests_round13/` | `tests_adsb_full/model_v61/` |
-| 3. weather offsets | `tests_weather_metar/`, `tests_weather_validated/` | two constants in `final_pipeline.py` |
+| 1. base model | `pipeline_airport_operator_blend/`, `pipeline_mlp_antigravity/`, `pipeline_ftt_multimodel/`, `pipeline_catboost_antigravity/`, `pipeline_tabnet_lirf_override/`; `tests_ftt/`, `tests_ftt_wide/`, `tests_tabnet/` | `tests_ftt_wide/final_weights_v59_s4.json`; trained models not in git (§8) |
+| 2. ADS-B corrector | `tests_adsb_full/` (fetch, matching, features, rounds 1–7); size and training base in `../exploration/tests_round10/` – `tests_round13/` | `tests_adsb_full/model_v61/` |
+| 3. weather offsets | `../exploration/tests_weather_metar/`, `../exploration/tests_weather_validated/` | two constants in `final_pipeline.py` |
 | 4. LIRF corrector | `tests_lirf_adsb/` | `tests_lirf_adsb/model_v55/` |
 | 5. LFPG corrector | `tests_round9/` | `tests_round9/model_v56/` |
 | 6. LOBT window | `tests_final/` | a rule in `final_pipeline.py` |
+| final round build, reproducibility | `tests_final/`, `tests_repro/` | `tests_final/final_base.parquet` |
 
-**Everything else**
+**`../exploration/`** (indexed in `../exploration/README.md`)
 
 | path | contents |
 |---|---|
-| `tests_final/` | the final round: Feb–Jun re-check, ADS-B fetch and re-basing, the build |
-| `tests_copymix/`, `tests_lirf_spec/`, `tests_ctx/` | ideas from other teams, tested and rejected |
-| other `tests_*/` | every other experiment, each with its pre-registration and result |
-| other `pipeline_*/`, `overtuned/` | candidate base models that were not selected |
-| `artifacts/` | metadata of every trained run (parameters, metrics, splits) |
-| `tests_repro/` | sha256 manifests of the files git does not hold |
 | `EXPLORATION_SUMMARY.md` | one-page list of everything tried |
-| `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` and the other top-level `.md` files | decision history and early analyses, not maintained |
-| `stage*.py`, `scratch_*.py`, `compare*`, `run_*`, `logs/` | early analysis scripts and their outputs, not part of the pipeline |
+| `tests_*/` | 58 experiments, each with its pre-registration and result; among them `tests_copymix/`, `tests_lirf_spec/` and `tests_ctx/` (ideas from other teams, tested and rejected) and `tests_febjun/` (the Feb–Jun held-out base) |
+| `stage*.py`, `scratch_*.py`, `compare*`, `run_*`, `logs/` | early analysis scripts and their outputs |
+| `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` and the other `.md` files | decision history and early analyses, not maintained |
+
+**A note on the experiment scripts.** They were written when both folders were one. After the split,
+a small helper (`tools/repo_layout.py`) lets a script in either folder find files in the other. The
+final pipeline was re-verified after the split (§8). The experiment scripts were updated mechanically;
+a sample was re-run and reproduced its earlier numbers, but not all of them were re-run.
