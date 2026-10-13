@@ -587,25 +587,41 @@ stage with their wider inputs, under our stronger base.
 
 ## 12. Repository map
 
-Paths are relative to `exploration/`.
+Paths are relative to `exploration/`. The folder is flat, because the pipeline reads several of these
+paths directly. [`README.md`](README.md) in this folder is the full index: every `pipeline_*/` and
+`tests_*/` folder, grouped by topic.
+
+**The solution**
 
 | path | contents |
 |---|---|
-| `WRITEUP.md` | this document |
-| `EXPLORATION_SUMMARY.md` | one-page list of everything tried |
 | `final_pipeline.py` | the whole recipe, stages 1–6 |
 | `predict_new.py` | stage 1 from saved models, for any movements file |
 | `common/`, `config.py` | data loading, features, splits |
-| `pipeline_*/` | training code of each base-model member |
-| `tests_ftt/`, `tests_ftt_large/`, `tests_ftt_deep/`, `tests_ftt_wide/` | FT-Transformer members; the v59 base and its weights |
-| `tests_tabnet/` | the TabNet members at LIRF |
-| `tests_adsb_full/` | ADS-B fetch, matching, features; the stage-2 models |
-| `tests_weather_metar/`, `tests_weather_validated/` | stage 3 and its out-of-sample check |
-| `tests_lirf_adsb/`, `tests_round9/` | stages 4 and 5 |
-| `tests_round10/` – `tests_round13/` | stage-2 size and training base |
+| `submissions/` | the final round file, key board files, `board_scores.csv` (every score with its pre-written expectation) |
+| `requirements.txt` | Python dependencies |
+
+**Where each stage lives**
+
+| stage | training code and tests | saved model or weights |
+|---|---|---|
+| 1. base model | `pipeline_airport_operator_blend/`, `pipeline_mlp_antigravity/`, `pipeline_ftt_multimodel/`, `pipeline_catboost_antigravity/`, `pipeline_tabnet_lirf_override/`; `tests_ftt*/`, `tests_tabnet/` | `tests_ftt_wide/final_weights_v59_s4.json`; trained models not in git (§8) |
+| 2. ADS-B corrector | `tests_adsb_full/`, `tests_round10/` – `tests_round13/` | `tests_adsb_full/model_v61/` |
+| 3. weather offsets | `tests_weather_metar/`, `tests_weather_validated/` | two constants in `final_pipeline.py` |
+| 4. LIRF corrector | `tests_lirf_adsb/` | `tests_lirf_adsb/model_v55/` |
+| 5. LFPG corrector | `tests_round9/` | `tests_round9/model_v56/` |
+| 6. LOBT window | `tests_final/` | a rule in `final_pipeline.py` |
+
+**Everything else**
+
+| path | contents |
+|---|---|
 | `tests_final/` | the final round: Feb–Jun re-check, ADS-B fetch and re-basing, the build |
 | `tests_copymix/`, `tests_lirf_spec/`, `tests_ctx/` | ideas from other teams, tested and rejected |
-| `tests_*/` (others) | every other experiment, each with its pre-registration and result |
-| `submissions/` | key prediction files, `board_scores.csv` (every score with its pre-written expectation) |
+| other `tests_*/` | every other experiment, each with its pre-registration and result |
+| other `pipeline_*/`, `overtuned/` | candidate base models that were not selected |
+| `artifacts/` | metadata of every trained run (parameters, metrics, splits) |
 | `tests_repro/` | sha256 manifests of the files git does not hold |
-| `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` | decision history and early analyses (not maintained) |
+| `EXPLORATION_SUMMARY.md` | one-page list of everything tried |
+| `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` and the other top-level `.md` files | decision history and early analyses, not maintained |
+| `stage*.py`, `scratch_*.py`, `compare*`, `run_*`, `logs/` | early analysis scripts and their outputs, not part of the pipeline |

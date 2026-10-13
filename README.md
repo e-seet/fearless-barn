@@ -47,7 +47,7 @@ git; see write-up §8 for what is in the repository and how the uploaded files w
 
 | Path | Contents |
 |---|---|
-| [`exploration/`](exploration/) | The solution: pipeline, training code, every experiment (`tests_*/`, each with its pre-registration and result), submissions. Mapped in write-up §12 |
+| [`exploration/`](exploration/) | The solution: pipeline, training code, every experiment (`tests_*/`, each with its pre-registration and result), submissions. Indexed in [`exploration/README.md`](exploration/README.md) |
 | [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb) | Exploratory analysis of the data |
 | [`solution/`](solution/) | An early baseline, superseded by `exploration/` and kept for its leakage and split audit |
 | `tools/ml_common/` | Shared checks the training code imports (seeding, split disjointness, leak controls) |
