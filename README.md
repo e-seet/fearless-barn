@@ -50,7 +50,6 @@ git; see write-up §8 for what is in the repository and how the uploaded files w
 |---|---|
 | [`solution/`](solution/) | **The final solution:** the pipeline, the code that trains its models, the saved models and files it reads, the submissions. Mapped in [`solution/README.md`](solution/README.md) |
 | [`exploration/`](exploration/) | **The experiments behind it:** 58 experiments (each with its pre-registration and result), the candidate models that were not selected, early analysis scripts, decision history. Indexed in [`exploration/README.md`](exploration/README.md) |
-| [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb) | Exploratory analysis of the data |
 | `tools/` | Shared checks the training code imports (`ml_common/`), and the path helper the experiment scripts use (`repo_layout.py`) |
 
 ## Data

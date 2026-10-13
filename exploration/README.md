@@ -95,6 +95,7 @@ early ones). `overtuned/` holds candidates that were quarantined as over-tuned.
 | [`EXPLORATION_SUMMARY.md`](EXPLORATION_SUMMARY.md) | one page: everything tried, with its outcome (current) |
 | `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md`, `RETROSPECTIVE.md` | review of the early candidate pipelines; the full catalogue of features and drivers tried; a retrospective. Written mid-build, not maintained |
 | `CONVERGENCE_AUDIT.md`, `DATA_QUALITY_AUDIT.md` | audits of training convergence and of the data |
+| [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb) | the first look at the data: taxi-time distribution, odd values, missing data, months, airports, runways, aircraft types |
 | `PLAN.md`, `plans/`, `EXTERNAL_PLAN_CROSSCHECK*.md`, `result.md` | plans and decision history |
 
 Paths inside these older documents are written as they were when everything was one folder.
