@@ -134,9 +134,9 @@ what a blend can use.
 | family | what it is | key settings | seeds |
 |---|---|---|---:|
 | **Trees** | LightGBM, one model per airport (10) and one per operator group (the 20 largest operators and "other"), blended with one global weight (0.68 on the per-airport model) | squared-error loss; learning rate 0.05; 255 leaves; at least 100 rows per leaf; 80 % feature and row sampling; 98–185 rounds per airport, frozen from early stopping | 1 |
-| **MLP** | a feed-forward network on entity embeddings: each categorical gets an embedding of size √(number of levels), between 4 and 48; numerics are batch-normalized | layers 256-128-64, each Linear → BatchNorm → GELU → Dropout 0.1; AdamW, learning rate 1e-3, batch 2,048; squared-error loss; about 10 epochs | 18 |
+| **MLP** | a feed-forward network on entity embeddings: each categorical gets an embedding of size √(number of levels), between 4 and 48; numerics are batch-normalized | layers 256-128-64, each Linear → BatchNorm → GELU → Dropout 0.1; AdamW, learning rate 1e-3, batch 2,048; squared-error loss; 10–19 epochs depending on the seed (14 for most) | 18 |
 | **FT-Transformer** | a transformer over feature tokens: every feature becomes a token and attention lets features interact | four shapes: small (token width 64, 3 blocks), large (192, 3), deep (96, 6), wide (256, 2); 8 heads; AdamW; batch 1,024 | 6 / 9 / 6 / 6 |
-| **CatBoost** | gradient boosting with ordered target statistics for categoricals | depth 8; learning rate 0.05; L2 3; Bayesian bootstrap; about 7,400 trees | 6 |
+| **CatBoost** | gradient boosting with ordered target statistics for categoricals | depth 8; learning rate 0.05; L2 3; Bayesian bootstrap; 2,500–7,400 trees depending on the seed | 6 |
 
 - **Why trees per airport and per operator.** Taxi-out is first a property of the airport's layout,
   then of how an operator works there. On the inner holdout (August 2025) the per-airport model scored
