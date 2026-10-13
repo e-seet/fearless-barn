@@ -1,0 +1,36 @@
+# Mode 2 build -- commit the code, docs and small result artifacts; shed the
+# large, reproducible outputs (workspace RETENTION.md: "is this the only copy of
+# a *result*, or is it *reproducible*?").
+#
+# KEPT (the evidence): every eval_val.json / eval_test.json / model.json,
+# compare_summary__*.json, artifacts/{audit,splits/*/split_report.json,triage,
+# controls,ablations,clip,tuning}, all pipeline_*/ code, all stage*.py, the docs,
+# results.csv / pipelines_overview.csv / pipeline_catalog.csv, logs/*.sh.
+#
+# SHED (regenerable from the code + config): trained model binaries and the
+# feature/split caches. The repo-root .gitignore already drops *.parquet, *.txt,
+# *.pt and *.log; these lines add the formats it does not catch.
+*.ubj
+*.pkl
+*.bin
+*.joblib
+artifacts/features/
+
+# --- KEEP despite the repo-root .gitignore ----------------------------------
+# It blanket-ignores *.csv and README.md; these three CSVs and this folder's
+# README are build deliverables, not dataset files.
+!results.csv
+!pipelines_overview.csv
+!pipeline_catalog.csv
+!README.md
+
+# Saved prediction arrays (tests_*/ and tests_tabnet/build/): regenerable from
+# the recorded seeds, and up to 176 MB each. Their sha256 is pinned in the
+# model.json of any arm that replays them.
+*.npz
+
+# TabNet model archives (5 MB each): regenerable, bitwise, with train_tabnet_pred.py (2026-09-27 check); in the backup set.
+*.zip
+wx_cache/
+tests_newdata/points/
+tests_newdata/points_est/
