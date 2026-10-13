@@ -9,7 +9,7 @@ Full method: `WRITEUP.md`. Evidence for every line below: the named `tests_*/RES
 
 | | |
 |---|---|
-| Final model | **v61 = 269.9888**, best on the public board (from 405.75 with the first submission). Final round: `fearless-barn_final.parquet` (Jan, Feb, Jun, Jul 2026) from the final design = v61 + LIRF corrector in every month + LOBT clip (`WRITEUP.md` §12); clean no-ADS-B fallback v42 = 286.53 |
+| Final model | **v61 = 269.9888**, best on the public board (from 405.75 with the first submission). Final round: `fearless-barn_final.parquet` (Jan, Feb, Jun, Jul 2026) from the final design = v61 + LIRF corrector in every month + LOBT clip (`WRITEUP.md` §5); clean no-ADS-B fallback v42 = 286.53 |
 | Standing | **#59 of 120** on the public board (2026-10-08); on 2026-10-03 #51 of 221 by best score (#70 before ADS-B), leader 219.64, #10 230.37, median 298.8 |
 | Model | per-airport blend of LightGBM trees + 18 MLPs + 27 FT-Transformers (four architectures) + 6 CatBoost, TabNet at LIRF; 5-seed ADS-B corrector at 7 airports (3,000 trees, trained on a realistic base); January frost and July thunderstorm offsets; LIRF and LFPG ADS-B correctors |
 | Reproducibility | **`final_pipeline.py` rebuilds the final v61 byte-identical** (base → ADS-B corrector → weather offsets → LIRF and LFPG correctors); `predict_new.py` rebuilds the v42 base from raw data on 344,840 / 344,841 rows |
@@ -133,6 +133,8 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | Copy-mixture member (copy classifier + normal regressor; idea from outgoing-boat) | ❌ pre-registered pass (−1.01) but Jan + Jul +0.22 against the clipped reference; **board v63 270.2 (+0.21)** | `tests_copymix/RESULT.md` |
 | LOBT window clip (|BLOCK − LOBT| ≤ 3,606 s, idea from outgoing-boat) | ➖ holds for 100 % of 2025; 45 ranking rows; v62 built, not uploaded (subset upload) | `tests_copymix/RESULT.md` |
 | Per-airport line on scheduled delay for no-record rows > 6 h (outgoing-boat's rule) | ❌ −12.7 locally from ~10 LIRF rows; loses once the 20 best rows are removed | `tests_copymix/rules_check.out` |
+| LIRF no-record specialist and its > 6 h form (idea from quirky-honey / zestful-fountain) | ❌ −14.0 on 7 months and −15.8 on Feb–Jun, but all in a few dozen tail rows; fails the best-20 bar on both | `tests_lirf_spec/RESULT.md`, `tests_final/RESULT.md` |
+| Context corrector on every row (neighbours' recent taxi time and lateness) | ❌ Feb–Jun −4.25, but Jan + Jul +0.44 and the gain is almost all tail | `tests_ctx/RESULT.md` |
 
 ### 3.6 Training and validation mechanics
 
@@ -159,7 +161,7 @@ a reproducibility check that rebuilds uploads row by row; an end-to-end predicti
 | **More FT-Transformer variants** (deep and wide, other learning rates) and a tuned FTT/TabNet search | Only three FTT shapes tried; the variety gains were shrinking (−0.64, −0.25, −0.23). The deep 3 → 6 seed run is in progress. |
 | **Explicitly modelling the "one-day" label artifact for 2026** | Studied, not shipped: the 2025 rule regressed on the 2026 board, and the 2026 behaviour can't be seen locally. |
 | **Data beyond 2025** (earlier years, network-manager B2B flow data) | Not provided; licensing unclear. |
-| **Why the leaders are still ahead** | Partly answered by outgoing-boat's published solution (243.95; `WRITEUP.md` §12): their base is ~45 s worse than ours, but their corrector runs on every row and reads the airport's state (arrivals, runway configuration, gate retention, EUROCONTROL and OPDI series, map distances). Ours covers ~55 % of rows from the departure's own track. Not feasible to rebuild before the deadline. |
+| **Why the leaders are still ahead** | Partly answered by outgoing-boat's published solution (243.95; `WRITEUP.md` §11): their base is ~45 s worse than ours, but their corrector runs on every row and reads the airport's state (arrivals, runway configuration, gate retention, EUROCONTROL and OPDI series, map distances). Ours covers ~55 % of rows from the departure's own track. Not feasible to rebuild before the deadline. |
 
 ## 5. Lessons worth keeping
 

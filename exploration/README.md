@@ -1,6 +1,6 @@
 # PRC Data Challenge 2026 — taxi-out time prediction
 
-> **Current reference: [`WRITEUP.md`](WRITEUP.md)**. Best board score v61 = 269.9888; final round file `submissions/fearless-barn_final.parquet` (WRITEUP §12); reproduce with `final_pipeline.py`. Everything below is a mid-build snapshot.
+> **Current reference: [`WRITEUP.md`](WRITEUP.md)**. Best board score v61 = 269.9888; final round file `submissions/fearless-barn_final.parquet` (WRITEUP §5); reproduce with `final_pipeline.py`. Everything below is a mid-build snapshot.
 
 
 Predict how long a departing aircraft spends between leaving the stand and
