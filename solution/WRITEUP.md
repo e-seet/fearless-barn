@@ -603,7 +603,7 @@ Paths in this document are relative to `solution/`.
 | `predict_new.py` | stage 1 from saved models, for any movements file |
 | `submit.py` | assembles base-model predictions for the ranking set; validates a submission file |
 | `common/`, `config.py` | data loading, features, splits |
-| `pipeline_*/`, `overtuned/` | training code of the base-model members, and of the candidate models they were selected from |
+| `pipeline_*/` | training code of the base-model members (8 folders) |
 | `artifacts/` | metadata of every trained run (parameters, metrics, splits); the model files are not in git (§8) |
 | `submissions/` | the final round file, key board files, `board_scores.csv` (every score with its pre-written expectation) |
 | `requirements.txt` | Python dependencies |
@@ -613,7 +613,7 @@ model together with the experiments that selected it.
 
 | stage | code and tests | saved model or weights |
 |---|---|---|
-| 1. base model | `pipeline_airport_operator_blend/`, `pipeline_mlp_antigravity/`, `pipeline_ftt_multimodel/`, `pipeline_catboost_antigravity/`, `pipeline_tabnet_lirf_override/`; `tests_ftt/`, `tests_ftt_wide/`, `tests_tabnet/` | `tests_ftt_wide/final_weights_v59_s4.json`; trained models not in git (§8) |
+| 1. base model | `pipeline_per_airport/`, `pipeline_per_operator/`, `pipeline_airport_operator_blend/`, `pipeline_mlp_antigravity/`, `pipeline_ftt_multimodel/`, `pipeline_catboost_antigravity/`, `pipeline_tabnet_lirf_override/`; `tests_ftt/`, `tests_ftt_wide/`, `tests_tabnet/` | `tests_ftt_wide/final_weights_v59_s4.json`; trained models not in git (§8) |
 | 2. ADS-B corrector | `tests_adsb_full/` (fetch, matching, features, rounds 1–7); size and training base in `../exploration/tests_round10/` – `tests_round13/` | `tests_adsb_full/model_v61/` |
 | 3. weather offsets | `../exploration/tests_weather_metar/`, `../exploration/tests_weather_validated/` | two constants in `final_pipeline.py` |
 | 4. LIRF corrector | `tests_lirf_adsb/` | `tests_lirf_adsb/model_v55/` |
@@ -627,6 +627,7 @@ model together with the experiments that selected it.
 |---|---|
 | `EXPLORATION_SUMMARY.md` | one-page list of everything tried |
 | `tests_*/` | 58 experiments, each with its pre-registration and result; among them `tests_copymix/`, `tests_lirf_spec/` and `tests_ctx/` (ideas from other teams, tested and rejected) and `tests_febjun/` (the Feb–Jun held-out base) |
+| `pipeline_*/`, `overtuned/` | 26 candidate base models that were not selected, and the ones quarantined as over-tuned |
 | `stage*.py`, `scratch_*.py`, `compare*`, `run_*`, `logs/` | early analysis scripts and their outputs |
 | `plans/`, `PIPELINE_REVIEW.md`, `TAXI_OUT_DRIVERS.md` and the other `.md` files | decision history and early analyses, not maintained |
 

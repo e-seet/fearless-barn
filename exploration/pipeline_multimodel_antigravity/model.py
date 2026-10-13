@@ -1,6 +1,7 @@
 """MultiModelStackAntigravity: Hybrid stacking model combining per-airport specialist trees with tabular MLP."""
 from __future__ import annotations
 
+import sys as _s, pathlib as _p; _r = _p.Path(__file__).resolve().parents[2]; exec(open(_r / "tools" / "repo_layout.py").read()); dual(_r / "exploration")
 import sys
 from pathlib import Path
 import numpy as np

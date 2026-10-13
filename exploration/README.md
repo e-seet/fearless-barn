@@ -2,7 +2,8 @@
 
 The submitted solution is in [`../solution/`](../solution/); its method is described in
 [`../solution/WRITEUP.md`](../solution/WRITEUP.md). This folder holds everything that was tried on the
-way: 58 experiments, the early analysis scripts and the decision history.
+way: 58 experiments, the candidate models that were not selected, the early analysis scripts and the
+decision history.
 
 **Start with [`EXPLORATION_SUMMARY.md`](EXPLORATION_SUMMARY.md):** one page listing everything tried,
 with its outcome.
@@ -81,7 +82,13 @@ Each folder is one question. Most have a `PREREGISTERED.md` (the pass bar, writt
 | `tests_newdata/` | the pipeline on new data |
 | `tests_next/`, `tests_local_vs_board/` | audit of early closures; local scores against board scores |
 
-## 2. Documents
+## 2. Candidate base models (`pipeline_*/`, `overtuned/`)
+
+Each `pipeline_*/` folder is one candidate model with its `train.py`. The eight folders the final model
+uses are in `../solution/`; the 26 here were tried and not selected (`PIPELINE_REVIEW.md` reviews the
+early ones). `overtuned/` holds candidates that were quarantined as over-tuned.
+
+## 3. Documents
 
 | path | what it is |
 |---|---|
@@ -92,7 +99,7 @@ Each folder is one question. Most have a `PREREGISTERED.md` (the pass bar, writt
 
 Paths inside these older documents are written as they were when everything was one folder.
 
-## 3. Early analysis scripts and their outputs
+## 4. Early analysis scripts and their outputs
 
 Kept as the record of the first weeks; not part of the final pipeline.
 

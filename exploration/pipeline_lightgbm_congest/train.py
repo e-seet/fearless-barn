@@ -24,6 +24,7 @@ provably read the same cache, keyed on the same code hash.
 """
 from __future__ import annotations
 
+import sys as _s, pathlib as _p; _r = _p.Path(__file__).resolve().parents[2]; exec(open(_r / "tools" / "repo_layout.py").read()); dual(_r / "exploration")
 import argparse
 import json
 import sys

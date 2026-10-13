@@ -19,6 +19,7 @@ Blend weights are solved strictly out-of-sample on forward_inner with zero valid
 """
 from __future__ import annotations
 
+import sys as _s, pathlib as _p; _r = _p.Path(__file__).resolve().parents[3]; exec(open(_r / "tools" / "repo_layout.py").read()); dual(_r / "exploration")
 import argparse
 import json
 import pickle
