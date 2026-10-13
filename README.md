@@ -21,16 +21,24 @@ at ten European airports, for the EUROCONTROL PRC Data Challenge 2026.
 
 ## The model in brief
 
-1. **Base model**, from the competition's data only: a per-airport blend of LightGBM trees, MLPs,
-   FT-Transformers and CatBoost, with TabNet at Rome.
-2. **ADS-B corrector** at seven airports: a LightGBM model on the base's error, fed by each
-   departure's own ground track from the open adsb.lol archive.
-3. **Weather offsets** from METAR: frost in January, thunderstorms in July.
-4. **Rome and Paris CDG correctors**, also from ADS-B ground tracks.
-5. **LOBT window**: predictions are clipped to the range the flight plan allows.
+A base model predicts every departure from the competition's own records. It can't see what happened
+on the apron, so for the departures whose aircraft appears in an open ADS-B archive, a second model
+reads the aircraft's own ground track and corrects the prediction. A few narrow rules cover what
+neither model sees.
 
-Every design decision was tested against a pass bar written down before the result existed. The
-write-up lists what was adopted, what was rejected, and why.
+| Stage | What it does | Public leaderboard after adding it |
+|---|---|---:|
+| 1. Base model | Per-airport blend of LightGBM trees, MLPs, FT-Transformers and CatBoost, with TabNet at Rome. Competition data only | 286.53 |
+| 2. ADS-B corrector | A LightGBM model on the base model's error, at seven airports, from each departure's own ground track (adsb.lol) | 272.17 |
+| 3. Weather offsets | Frost in January, thunderstorms in July, from METAR | 271.87 |
+| 4–5. Rome and Paris CDG correctors | The same idea, one airport each | 271.56 |
+| Later refinements | A larger corrector, a wider base blend, a better training base | **269.99** |
+| 6. LOBT window | Predictions clipped to the range the flight plan allows; added for the final round | not scored |
+
+**How decisions were made.** Every change was tested on held-out months of 2025 against a pass bar
+written down before the result existed. Changes that looked good but rested on a handful of extreme
+flights were rejected, including some that would probably have scored better. The write-up lists what
+was adopted, what was rejected, and why, and states exactly how the public leaderboard was used.
 
 ## Run it
 
