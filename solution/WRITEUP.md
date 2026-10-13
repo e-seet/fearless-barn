@@ -51,8 +51,16 @@ tail (winsorizing, robust losses, prediction caps) loses (§7).
 
 ### 2.1 Overview
 
-Six stages. Stage 1 predicts every departure from the competition's data. Stages 2–6 correct that
-prediction where extra evidence exists.
+**The idea in one paragraph.** A base model predicts the taxi-out time of every departure from the
+competition's own records. It is good on ordinary flights, but it cannot see what happened on the
+apron: how long the aircraft waited after pushback, or how long it queued for the runway. For about half
+of the departures an open archive of aircraft positions (ADS-B) shows exactly that. So a second, small
+model looks at each departure's own ground track and corrects the base prediction. A few narrow rules
+then cover cases neither model sees: weather, two airports with their own correctors, and a hard limit
+from the flight plan.
+
+Six stages. Stage 1 predicts every departure. Stages 2–6 correct that prediction where extra evidence
+exists.
 
 ```
  movements file ──► 1. BASE MODEL   (the competition's data only)
@@ -73,6 +81,17 @@ prediction where extra evidence exists.
                     prediction
 ```
 
+**How much each stage touches** (the final round file, 670,790 departures):
+
+| stage | departures changed | typical size of the change |
+|---|---:|---|
+| 1. base model | all | the prediction itself; mean 1,006 s |
+| 2. ADS-B corrector | 359,979 (53.7 %) | mean absolute change 85 s; 10th / 50th / 90th percentile −106 / −5 / +145 s |
+| 3. weather offsets | 5,313 (0.8 %) | +30 s or +200 s |
+| 4. LIRF corrector | 12,551 (1.9 %) | mean absolute change about 60 s |
+| 5. LFPG corrector | 3,663 (0.5 %) | small |
+| 6. LOBT window | 65 | large, on a handful of extreme rows |
+
 **Two designs are named in this document:**
 - **v61** is the best public board file. It has stages 1–5, with stage 4 in January only.
 - **The final design** is what produced the final round file: v61's stages, with stage 4 in every
@@ -82,41 +101,85 @@ prediction where extra evidence exists.
 
 ### 2.2 Stage 1: the base model
 
-**Features** (57, the `with_aobt` featureset, built identically for training and scoring):
-- **Calendar and time of day:** hour, day of week, day of year, cyclic encodings.
-- **Timing from the flight plan and the NM flight record,** relative to takeoff: scheduled, EOBT,
-  IOBT, LOBT and NM actual off-block (AOBT), their differences, and flags for missing records.
-- **Categoricals:** airport, runway, stand, destination, aircraft type, operator, wake category,
-  market segment, flight type and rules, plus the interactions stand × runway, airport × stand and
-  airport × runway.
-- **Traffic from the movement records:** departures and arrivals in 15-, 30- and 60-min windows,
-  same-runway departures, recent taxi-in times, aircraft taxiing at pushback, and a surge ratio.
+#### Inputs: 57 features
 
-Several features use information the competition supplies for every scored row but that a forecast
-made at off-block would not have: all timings are measured **from the recorded takeoff**, the NM
+All features are built by `common/features.py`, identically for training and scoring. 42 are numeric and
+15 are categorical.
+
+| group | features | what they tell the model |
+|---|---|---|
+| calendar (10) | hour, minute of day, day of week, month, day of year, weekend flag, cyclic encodings of time of day and day of year | daily and seasonal rhythm of each airport |
+| timing against the plan (12) | takeoff minus scheduled time, minus EOBT, minus IOBT, minus LOBT, and minus the NM actual off-block (AOBT); their absolute values and mutual differences | how late the flight was against each plan, and the NM's own view of when it left the stand |
+| record flags (4) | has an NM flight record, has an AOBT, diverted plan, movement and flight type disagree | which rows are well documented and which are not |
+| traffic (16) | departures in the previous and next 15 / 30 / 60 min; arrivals in the previous 15 / 30 / 60 min; same-runway departures before and after; mean taxi-in of recent arrivals; aircraft taxiing at pushback; a surge ratio | how busy the airport and the runway were around the takeoff |
+| categoricals (15) | airport, runway, stand, destination and its region, aircraft type, operator, wake category, market segment, flight type, flight rule; the pairs stand × runway, airport × runway, airport × stand, airport × record flag | the fixed part of a taxi: where the aircraft starts, where it goes, who flies it |
+
+**The single strongest input is takeoff minus the NM actual off-block.** The NM's off-block time is not
+the airport's, and the two often differ by minutes, but it anchors the prediction. The model learns
+the deviation from it.
+
+**Not a forecast made at the gate.** All timings are measured **from the recorded takeoff**, the NM
 **actual** off-block is an input, and some traffic counts include departures **after** the flight's
-takeoff (§9).
+takeoff. The competition supplies these for every scored row (§9).
 
-**Members and blend:**
+**Missing values.** Trees and CatBoost take them as they are. For the neural members, numeric gaps are
+filled with the training median and all numerics are standardized; an unseen category maps to a
+reserved "unknown" index.
 
-```
-                    ┌─ trees:     per-airport + per-operator LightGBM, one global blend weight
-per-airport blend ──┼─ MLP:       entity-embedding MLP (256-128-64), mean of 18 seeds
- (4 weights per     ├─ FT-Transformers, one quarter each of four shapes:
-  airport)          │     small d64×3 blocks (6 seeds), large d192×3 (9), deep d96×6 (6), wide d256×2 (6)
-                    └─ CatBoost:  mean of 6 seeds
-        └─ at LIRF only:  0.541 × MLP + 0.459 × TabNet (mean of 5 seeds)
-```
+#### The four model families
 
-- **Per-airport blend weights** are solved on `forward_inner` (train Jan–Jun 2025, held out
-  Jul–Aug), a surface no scored model is fitted on, then frozen
-  (`tests_ftt_wide/final_weights_v59_s4.json`). CatBoost takes 0.30–0.55 at LFPG, EGLL, EDDF, LEBL
-  and LTFM; the FT-Transformers carry most of EHAM, LSZH and LTFM. At LIRF the solver puts all
-  weight on the MLP.
-- **Target and clipping:** every valid row is kept, tail included; predictions are clipped to
-  [60, 86,400] s.
-- **Final refit:** all members are refit on the full year, with hyperparameters and epoch counts
-  frozen from time-ordered splits.
+The families are deliberately different in kind. Their errors are only partly shared, and that is
+what a blend can use.
+
+| family | what it is | key settings | seeds |
+|---|---|---|---:|
+| **Trees** | LightGBM, one model per airport (10) and one per operator group (the 20 largest operators and "other"), blended with one global weight (0.68 on the per-airport model) | squared-error loss; learning rate 0.05; 255 leaves; at least 100 rows per leaf; 80 % feature and row sampling; 98–185 rounds per airport, frozen from early stopping | 1 |
+| **MLP** | a feed-forward network on entity embeddings: each categorical gets an embedding of size √(number of levels), between 4 and 48; numerics are batch-normalized | layers 256-128-64, each Linear → BatchNorm → GELU → Dropout 0.1; AdamW, learning rate 1e-3, batch 2,048; squared-error loss; about 10 epochs | 18 |
+| **FT-Transformer** | a transformer over feature tokens: every feature becomes a token and attention lets features interact | four shapes: small (token width 64, 3 blocks), large (192, 3), deep (96, 6), wide (256, 2); 8 heads; AdamW; batch 1,024 | 6 / 9 / 6 / 6 |
+| **CatBoost** | gradient boosting with ordered target statistics for categoricals | depth 8; learning rate 0.05; L2 3; Bayesian bootstrap; about 7,400 trees | 6 |
+
+- **Why trees per airport and per operator.** Taxi-out is first a property of the airport's layout,
+  then of how an operator works there. On the inner holdout (August 2025) the per-airport model scored
+  298.7, the per-operator model 308.3 and their blend 295.8.
+- **Why many seeds.** A neural network trained twice gives two slightly different models. Averaging
+  them removes that noise. Going from 1 to 18 MLP seeds was worth −29 on the board, the second largest
+  gain of the project.
+- **Why four FT-Transformer shapes.** Each shape is one quarter of the FT-Transformer slot. Different
+  shapes disagree in useful ways; more seeds of one shape stopped paying.
+
+#### The blend
+
+Each airport has its own four weights (FT-Transformer, trees, MLP, CatBoost), summing to one:
+
+| airport | FT-Transformer | trees | MLP | CatBoost |
+|---|---:|---:|---:|---:|
+| EDDF | 0.40 | 0.04 | 0.20 | 0.36 |
+| EDDM | 0.29 | 0.27 | 0.32 | 0.12 |
+| EGLL | 0.47 | 0.13 | 0.00 | 0.40 |
+| EHAM | 0.76 | 0.15 | 0.00 | 0.09 |
+| LEBL | 0.23 | 0.39 | 0.02 | 0.35 |
+| LEMD | 0.25 | 0.25 | 0.25 | 0.25 |
+| LFPG | 0.20 | 0.09 | 0.17 | 0.55 |
+| LIRF | 0.00 | 0.00 | 1.00 | 0.00 |
+| LSZH | 0.76 | 0.14 | 0.00 | 0.10 |
+| LTFM | 0.64 | 0.07 | 0.00 | 0.30 |
+
+- **How the weights are found.** For each airport, the weights that minimize squared error on
+  `forward_inner` (models trained on January–June 2025, weights solved on July–August), constrained to
+  be non-negative and sum to one. No scored model is fitted on that surface. The weights are then
+  frozen (`tests_ftt_wide/final_weights_v59_s4.json`). At LEMD the solve stayed at equal weights.
+- **LIRF is different.** The solver puts all of LIRF's weight on the MLP. LIRF then gets a second
+  blend: 0.541 × MLP + 0.459 × TabNet (attentive feature selection; 5 seeds). LIRF holds most of the
+  record artifacts (§1), and these two models handle them best. The 0.459 is the one constant fitted on
+  the public board (§4).
+
+**Target, clipping and refit:**
+- **Target:** every valid row is kept, tail included. Dropping or capping the long taxi-outs made the
+  board score far worse (§7).
+- **Clipping:** predictions are clipped to [60, 86,400] s.
+- **Final refit:** each member's number of rounds or epochs is first found by early stopping on a
+  time-ordered split. The member is then retrained on all of 2025 for that fixed number, with no
+  validation set to peek at.
 
 **Two versions of this base appear in the results:**
 - **v42:** three families (trees, MLP, three FT-Transformer shapes). Board 286.53. Versions v43–v57
@@ -126,40 +189,67 @@ per-airport blend ──┼─ MLP:       entity-embedding MLP (256-128-64), mea
 
 ### 2.3 Stage 2: the ADS-B corrector
 
-**Data.** adsb.lol `globe_history` daily archives (open data, ODbL): all of 2025, and January,
-February, June and July 2026. About 1.2 TB were streamed for the first ranking set alone. Each
-archive is read once, and only the matched points near the airports are kept
-(`tests_adsb_full/fetch.py`). The fetcher resumes dropped connections and refuses to write a
-truncated day.
+**What ADS-B adds.** Aircraft broadcast their position, speed and whether they are on the ground.
+Volunteers' receivers record it, and adsb.lol publishes every day's recordings as open data. For a
+departure whose aircraft was heard on the ground, the track shows when it started to move, where it
+stood still, and when it lifted off. The base model has none of this.
 
-**Matching** (`tests_adsb_full/features.py`):
+**Data.** adsb.lol `globe_history` daily archives (ODbL): all of 2025, and January, February, June and
+July 2026. About 1.2 TB were streamed for the first ranking set alone. Each archive is read once, and
+only the matched points near the airports are kept (`tests_adsb_full/fetch.py`). The fetcher resumes
+dropped connections and refuses to write a truncated day.
+
+**Step 1: find the departure's aircraft** (`tests_adsb_full/features.py`).
 1. **Candidates:** an aircraft that carried the departure's callsign (`FLIGHT_mvt` or
    `CALLSIGN_flt`) within 10 km of the airport, from 4 h before to 10 min after takeoff.
 2. **Strict match:** the aircraft is kept only if its ground → air transition falls within ±120 s
    of the recorded takeoff. This rejects reused callsigns, inbound legs and wrong aircraft.
-3. **Coverage:** 44–62 % of departures in 2025–26. LFPG is about 5 % and LTFM 0 %. LIRF is 63 % in
-   January 2026 and almost none in July 2026.
 
-**The 7 features:**
-- seconds before takeoff of the first ground sighting, the first displacement from the stand and
-  the first movement;
-- the liftoff offset;
-- total stopped time;
-- time from the last stop to liftoff;
-- median taxi speed.
+**Step 2: describe its taxi with 7 numbers.**
 
-Three more candidates (sightings count, path length, number of stops) shift between 2025 and 2026,
+| feature | meaning |
+|---|---|
+| first sighting | seconds before takeoff of the first ground point |
+| first displacement | seconds before takeoff when it had moved away from where it was first seen |
+| first movement | seconds before takeoff of the first point moving at 3 knots or more |
+| liftoff offset | observed liftoff against the recorded takeoff |
+| stopped time | total seconds standing still during the taxi |
+| last stop to liftoff | seconds from the end of the last stop to liftoff (the runway wait) |
+| taxi speed | median ground speed while moving |
+
+Three more candidates (number of sightings, path length, number of stops) shift between 2025 and 2026,
 because the receiver network changed, so they are excluded. Features that describe *how* the aircraft
 moved carry over between years; features that describe *how well it was heard* do not.
 
-**Model.** LightGBM on the residual `y − base`, with the 7 features, the base prediction, the
-airport and the hour as inputs.
+**Step 3: learn the base model's error from them.** A LightGBM model predicts `y − base`: how far the
+base prediction was from the truth. Its inputs are the 7 features, the base prediction itself, the
+airport and the hour.
+- **Why the residual, not the taxi time.** The track covers only part of the taxi (see below), so it
+  cannot replace the base model. It can say "this flight stood still for four minutes that the base
+  model did not expect".
+- **Held-out base predictions.** The corrector must learn the error the base model makes on flights
+  it has **not** seen. A model's error on its own training rows is much smaller and would teach the
+  corrector the wrong thing. So for every training month, the base prediction comes from base models
+  trained without that month.
 - **Training rows:** departures with a track at the seven airports, January and July–December 2025.
-- **Training target:** the residual of **held-out** base predictions (from models that never saw
-  the month in question), weighted per airport like the shipped blend.
 - **Size:** 3,000 trees, 127 leaves, learning rate 0.015; seeds 42–46 averaged
   (`tests_adsb_full/model_v61`).
-- **Rows corrected:** 188,635 of the first ranking set (54.7 %); 359,979 of the final set.
+
+**Coverage of the final set, by airport:**
+
+| airport | departures corrected | mean absolute correction |
+|---|---:|---:|
+| EDDM | 94 % | 91 s |
+| EHAM | 92 % | 85 s |
+| LEBL | 91 % | 79 s |
+| LSZH | 91 % | 81 s |
+| EGLL | 83 % | 103 s |
+| LEMD | 78 % | 75 s |
+| EDDF | 38 % | 68 s |
+| LFPG, LIRF | stages 5 and 4 | |
+| LTFM | none | no usable ground coverage |
+
+Departures without a track keep the base prediction.
 
 **What it can and cannot see.** Receivers rarely see aircraft at the stand, so the first sighting
 lags the recorded off-block by 4–11 min. ADS-B therefore informs the **taxi** (stops, the wait for
@@ -170,8 +260,9 @@ the runway, speed), not the off-block record.
 The base model has no weather inputs, and the ADS-B corrector sees weather delays only through the
 aircraft's own track. Departures **without** an ADS-B correction therefore get two fixed offsets,
 from the last METAR within 90 min before takeoff:
-- **January frost** (temperature ≤ 34 °F and temperature − dew point ≤ 3 °F): **+30 s**;
-- **July thunderstorm** (`TS` in the weather codes): **+200 s**.
+- **January frost** (temperature ≤ 34 °F and temperature − dew point ≤ 3 °F): **+30 s**. Frost
+  conditions mean de-icing, which adds time before the runway.
+- **July thunderstorm** (`TS` in the weather codes): **+200 s**. Most of these rows are at LTFM.
 
 **How much to trust them:**
 - **Chosen in-sample.** Both values were hand-chosen on January + July 2025.
@@ -181,6 +272,9 @@ from the last METAR within 90 min before takeoff:
   rejected (§5), so February and June get no weather offset.
 
 ### 2.5 Stages 4 and 5: single-airport ADS-B correctors
+
+LIRF and LFPG are not in stage 2: LIRF's errors are dominated by record artifacts, and LFPG has very
+few tracks. Each gets its own small corrector, built like stage 2 but for one airport.
 
 | stage | airport | rows | trained on | model |
 |---|---|---|---|---|
@@ -197,10 +291,13 @@ Both are LightGBM residual models (600 trees, 31 leaves, 5 seeds) on the same 7 
 
 ### 2.6 Stage 6: the LOBT window
 
-In 2025, every departure with a LOBT has |off-block − LOBT| ≤ 3,606 s. So the taxi-out time must lie
-within 3,606 s of (takeoff − LOBT). Predictions are clipped to that window. The idea is from team
-outgoing-boat (§11); it was re-derived on our data and tested for the final round (§5). It moves 65
-of the 670,790 final rows.
+The LOBT is the last off-block time filed in the flight plan. In 2025, every departure with a LOBT has
+|off-block − LOBT| ≤ 3,606 s. Since taxi-out = takeoff − off-block, the taxi-out time must lie within
+3,606 s of (takeoff − LOBT). Predictions are clipped to that window.
+
+It is a property of the data, not a fitted model, and it only matters for a few extreme predictions:
+it moves 65 of the 670,790 final rows. The idea is from team outgoing-boat (§11); it was re-derived on
+our data and tested for the final round (§5).
 
 ### 2.7 What each stage is worth
 
@@ -219,6 +316,17 @@ Public board (January + July 2026), in the order the stages were added:
 | stage 2 trained on a per-airport weighted base (**v61**) | **269.99** | −0.48 |
 
 Stage 6 and the every-month stage 4 have no board score: they were added for the blind final round.
+
+**How stage 1 itself was built** (board, before any ADS-B):
+
+| step | board | change |
+|---|---:|---:|
+| one pooled LightGBM | 405.75 | |
+| trees per airport | 386.22 | −19.5 |
+| + one MLP, blended per airport | 324.28 | −61.9 |
+| MLP seeds 1 → 18 | 295.21 | −29.1 |
+| + TabNet at LIRF, + FT-Transformer | 289.78 | −5.4 |
+| FT-Transformer seeds and three shapes | 286.53 | −3.3 |
 
 ## 3. How decisions were made
 
