@@ -1,0 +1,103 @@
+{
+  "split": "holdout_febjun",
+  "spec": {
+    "train": [
+      "2025-01",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11"
+    ],
+    "val": [
+      "2025-12"
+    ],
+    "test": [
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06"
+    ],
+    "airport_filter": null
+  },
+  "sizes": {
+    "train": 1067557,
+    "val": 165677,
+    "test": 851813
+  },
+  "months": {
+    "train": [
+      "2025-01",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11"
+    ],
+    "val": [
+      "2025-12"
+    ],
+    "test": [
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06"
+    ]
+  },
+  "airports": {
+    "train": [
+      "EDDF",
+      "EDDM",
+      "EGLL",
+      "EHAM",
+      "LEBL",
+      "LEMD",
+      "LFPG",
+      "LIRF",
+      "LSZH",
+      "LTFM"
+    ],
+    "val": [
+      "EDDF",
+      "EDDM",
+      "EGLL",
+      "EHAM",
+      "LEBL",
+      "LEMD",
+      "LFPG",
+      "LIRF",
+      "LSZH",
+      "LTFM"
+    ],
+    "test": [
+      "EDDF",
+      "EDDM",
+      "EGLL",
+      "EHAM",
+      "LEBL",
+      "LEMD",
+      "LFPG",
+      "LIRF",
+      "LSZH",
+      "LTFM"
+    ]
+  },
+  "disjointness": {
+    "gate": "split_disjointness",
+    "splits": {
+      "train": 1067557,
+      "val": 165677,
+      "test": 851813
+    },
+    "pairs_checked": [
+      "train/val",
+      "train/test",
+      "val/test"
+    ],
+    "group_level_checked": false
+  },
+  "gates_failed": [],
+  "passed": true
+}
